@@ -5,17 +5,17 @@ if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
     cmake_minimum_required(VERSION 3.18)
 endif()
 
-# canon way of using sf_native_helpers from another repo is below. It assumes the using repo has placed sf-native-helpers in "deps"
+# canon way of using sf_c_util from another repo is below. It assumes the using repo has placed sf-c-util in "deps"
 
-#if ((NOT TARGET sf_native_helpers) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/sf-native-helpers/CMakeLists.txt))
-#    add_subdirectory(deps/sf-native-helpers)
+#if ((NOT TARGET sf_c_util) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/sf-c-util/CMakeLists.txt))
+#    add_subdirectory(deps/sf-c-util)
 #endif() 
 
-if (TARGET sf_native_helpers)
+if (TARGET sf_c_util)
     RETURN()
 endif()
 
-project(sf_native_helpers)
+project(sf_c_util)
 
 #the following variables are project-wide and can be used with cmake-gui
 option(run_unittests "set run_unittests to ON to run unittests (default is OFF)" OFF)
@@ -84,7 +84,7 @@ set(run_perf_tests ${original_run_perf_tests})
 set(run_unittests ${original_run_unittests})
 set(run_traceability ${original_run_traceability})
 
-set(fabric_helpers_h_files
+set(sf_c_util_h_files
     inc/configuration_reader.h
     inc/fabric_async_op_cb.h
     inc/fabric_async_op_cb_com.h
@@ -96,7 +96,7 @@ set(fabric_helpers_h_files
     inc/fabric_string_result_com.h
 )
 
-set(fabric_helpers_c_files
+set(sf_c_util_c_files
     src/configuration_reader.c
     src/fabric_async_op_cb.c
     src/fabric_async_op_cb_com.c
@@ -109,11 +109,11 @@ set(fabric_helpers_c_files
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
 include_directories(../deps/servicefabric/inc)
 
-FILE(GLOB fabric_helpers_md_files "devdoc/*.md")
-SOURCE_GROUP(devdoc FILES ${fabric_helpers_md_files})
+FILE(GLOB sf_c_util_md_files "devdoc/*.md")
+SOURCE_GROUP(devdoc FILES ${sf_c_util_md_files})
 
-add_library(fabric_helpers ${fabric_helpers_h_files} ${fabric_helpers_c_files} ${fabric_helpers_md_files})
-target_include_directories(fabric_helpers PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inc)
-target_link_libraries(fabric_helpers c_logging c_pal com_wrapper bs_utils)
+add_library(sf_c_util ${sf_c_util_h_files} ${sf_c_util_c_files} ${sf_c_util_md_files})
+target_include_directories(sf_c_util PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inc)
+target_link_libraries(sf_c_util c_logging c_pal com_wrapper)
 
 add_subdirectory(tests)
