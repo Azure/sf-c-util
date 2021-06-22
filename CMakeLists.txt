@@ -84,6 +84,8 @@ set(run_perf_tests ${original_run_perf_tests})
 set(run_unittests ${original_run_unittests})
 set(run_traceability ${original_run_traceability})
 
+add_subdirectory(deps/servicefabric)
+
 set(sf_c_util_h_files
     inc/configuration_reader.h
     inc/fabric_async_op_cb.h
