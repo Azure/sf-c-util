@@ -1,5 +1,4 @@
 #Copyright (C) Microsoft Corporation. All rights reserved.
-# for reals
 
 # unit tests
 if(${run_unittests})
