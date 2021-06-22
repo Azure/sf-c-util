@@ -16,3 +16,6 @@
 [submodule "deps/umock-c"]
 	path = deps/umock-c
 	url = https://github.com/Azure/umock-c
+[submodule "deps/com-wrapper"]
+	path = deps/com-wrapper
+	url = https://github.com/Azure/com-wrapper
