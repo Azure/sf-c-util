@@ -4,8 +4,7 @@
 
 #include "windows.h"
 
-
-ror#include "fabriccommon.h"
+#include "fabriccommon.h"
 
 #include "macro_utils/macro_utils.h"
 
