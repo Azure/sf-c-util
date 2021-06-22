@@ -1,4 +1,5 @@
 // Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #ifndef TEST_FABRIC_ASYNC_OPERATION_CALL_H
 #define TEST_FABRIC_ASYNC_OPERATION_CALL_H

@@ -1,4 +1,5 @@
 #Copyright (c) Microsoft. All rights reserved.
+#Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 compileAsC11()
 set(theseTestsName fabric_op_completed_sync_ctx_ut)

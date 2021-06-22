@@ -1,4 +1,5 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #ifndef FABRIC_STRING_RESULT_H
 #define FABRIC_STRING_RESULT_H

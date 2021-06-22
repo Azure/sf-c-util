@@ -1,4 +1,5 @@
 // Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #ifndef TEST_WRAPPER_NO_BEGIN_ARGS_H
 #define TEST_WRAPPER_NO_BEGIN_ARGS_H

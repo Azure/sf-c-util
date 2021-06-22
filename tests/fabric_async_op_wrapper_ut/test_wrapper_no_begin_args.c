@@ -1,4 +1,5 @@
 // Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "test_wrapper_no_begin_args.h"
 #include "fabric_async_op_wrapper.h"
