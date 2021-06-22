@@ -1,6 +1,10 @@
-# com-wrapper
+# sf-c-util
 
-This project is a C code COM wrapper. It allows binding a COM interface to the functions of a C pseudo-object (handle).
+This project is collection of native code helpers for interacting with Service Fabric.
+It contains:
+- A module that can read configuration for an SF code package.
+- An implementation of the `IFabricAsyncOperationCallback` interface
+- An implementation of the `IFabricStringResult` interface
 
 ## Contributing
 
