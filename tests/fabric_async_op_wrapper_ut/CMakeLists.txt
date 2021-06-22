@@ -1,0 +1,35 @@
+#Copyright (c) Microsoft. All rights reserved.
+
+compileAsC11()
+set(theseTestsName fabric_async_op_wrapper_ut)
+
+set(${theseTestsName}_test_files
+${theseTestsName}.c
+)
+
+set(${theseTestsName}_c_files
+test_fabric_async_operation.c
+test_fabric_async_operation_wrapper.c
+test_wrapper_no_begin_args.c
+test_wrapper_no_end_args.c
+test_wrapper_no_args.c
+testasyncoperation_i.c
+test_async_operation_context.c
+)
+
+set(${theseTestsName}_h_files
+../../inc/fabric_async_op_wrapper.h
+test_fabric_async_operation.h
+test_fabric_async_operation_com.h
+test_fabric_async_operation_wrapper.h
+test_wrapper_no_begin_args.h
+test_wrapper_no_end_args.h
+test_wrapper_no_args.h
+test_async_operation_context.h
+test_async_operation_context_com.h
+testasyncoperation.h
+)
+
+include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
+
+build_test_artifacts(${theseTestsName} "tests/block_storage_2_sf" ADDITIONAL_LIBS c_util debug FabricUUIDD optimized FabricUUID com_wrapper bs_utils c_pal_reals)
