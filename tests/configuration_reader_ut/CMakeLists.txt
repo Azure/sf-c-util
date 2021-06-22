@@ -17,4 +17,4 @@ set(${theseTestsName}_h_files
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
-build_test_artifacts(${theseTestsName} "tests/fabric_helpers" ADDITIONAL_LIBS debug FabricUUIDD optimized FabricUUID bs_utils test_helpers c_pal_reals c_util_reals)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS debug FabricUUIDD optimized FabricUUID test_helpers c_pal_reals c_util_reals)

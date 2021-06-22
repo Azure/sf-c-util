@@ -8,4 +8,10 @@ if(${run_unittests})
     build_test_folder(fabric_string_result_ut)
     build_test_folder(fabric_async_op_wrapper_ut)
     build_test_folder(fabric_async_op_sync_wrapper_ut)
+    build_test_folder(hresult_to_string_ut)
+endif()
+
+# int tests
+if(${run_int_tests})
+    build_test_folder(hresult_to_string_int)
 endif()

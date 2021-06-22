@@ -74,6 +74,11 @@ if ((NOT TARGET c_pal) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/c-pal/CMakeLis
     include_directories(${C_PAL_INC_FOLDER})
 endif()
 
+if ((NOT TARGET c_util) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/c-util/CMakeLists.txt))
+    add_subdirectory(deps/c-util)
+    include_directories(${C_UTIL_INC_FOLDER})
+endif()
+
 if ((NOT TARGET com_wrapper) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/com-wrapper/CMakeLists.txt))
     add_subdirectory(deps/com-wrapper)
 endif()
@@ -116,6 +121,6 @@ SOURCE_GROUP(devdoc FILES ${sf_c_util_md_files})
 
 add_library(sf_c_util ${sf_c_util_h_files} ${sf_c_util_c_files} ${sf_c_util_md_files})
 target_include_directories(sf_c_util PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inc)
-target_link_libraries(sf_c_util c_logging c_pal com_wrapper)
+target_link_libraries(sf_c_util c_logging c_pal com_wrapper c_util)
 
 add_subdirectory(tests)

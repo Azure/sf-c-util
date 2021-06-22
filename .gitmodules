@@ -19,3 +19,9 @@
 [submodule "deps/com-wrapper"]
 	path = deps/com-wrapper
 	url = https://github.com/Azure/com-wrapper
+[submodule "deps/c-pal"]
+	path = deps/c-pal
+	url = https://github.com/Azure/c-pal
+[submodule "deps/c-util"]
+	path = deps/c-util
+	url = https://github.com/Azure/c-util

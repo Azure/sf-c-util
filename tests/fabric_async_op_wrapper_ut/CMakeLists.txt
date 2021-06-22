@@ -32,4 +32,4 @@ testasyncoperation.h
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
-build_test_artifacts(${theseTestsName} "tests/block_storage_2_sf" ADDITIONAL_LIBS c_util debug FabricUUIDD optimized FabricUUID com_wrapper bs_utils c_pal_reals)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util debug FabricUUIDD optimized FabricUUID com_wrapper c_pal_reals)
