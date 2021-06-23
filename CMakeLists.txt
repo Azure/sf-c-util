@@ -101,6 +101,8 @@ set(sf_c_util_h_files
     inc/fabric_op_completed_sync_ctx_com.h
     inc/fabric_string_result.h
     inc/fabric_string_result_com.h
+    inc/hresult_to_string.h
+    inc/servicefabric_enums_to_strings.h
 )
 
 set(sf_c_util_c_files
@@ -111,6 +113,8 @@ set(sf_c_util_c_files
     src/fabric_op_completed_sync_ctx_com.c
     src/fabric_string_result.c
     src/fabric_string_result_com.c
+    src/hresult_to_string.c
+    src/servicefabric_enums_to_strings.c
 )
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
