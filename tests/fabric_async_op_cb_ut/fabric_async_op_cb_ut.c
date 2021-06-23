@@ -37,7 +37,7 @@ static void my_gballoc_free(void* ptr)
 #include "real_gballoc_hl.h"
 
 
-#include "fabric_async_op_cb.h"
+#include "sf_c_util/fabric_async_op_cb.h"
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 // use a fake object as we do not expect any acting on that object by this layer

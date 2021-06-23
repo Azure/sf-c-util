@@ -83,7 +83,7 @@ MOCKABLE_FUNCTION(, DWORD, mocked_GetModuleFileNameA,
 }
 #endif
 
-#include "hresult_to_string.h"
+#include "sf_c_util/hresult_to_string.h"
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 
