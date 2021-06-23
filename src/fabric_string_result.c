@@ -12,7 +12,7 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
-#include "fabric_string_result.h"
+#include "sf_c_util/fabric_string_result.h"
 
 typedef struct FABRIC_STRING_RESULT_TAG
 {

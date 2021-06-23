@@ -24,9 +24,9 @@
 #include "c_pal/gballoc_hl_redirect.h"
 
 #include "com_wrapper/com_wrapper.h"
-#include "fabric_async_op_cb.h"
-#include "fabric_async_op_cb_com.h"
-#include "hresult_to_string.h"
+#include "sf_c_util/fabric_async_op_cb.h"
+#include "sf_c_util/fabric_async_op_cb_com.h"
+#include "sf_c_util/hresult_to_string.h"
 
 #include "umock_c/umock_c_prod.h"
 #ifdef __cplusplus

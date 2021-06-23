@@ -10,13 +10,14 @@ ${theseTestsName}.c
 
 set(${theseTestsName}_c_files
 hresult_to_string_mocked.c
+../../src/servicefabric_enums_to_strings.c
 )
 
 set(${theseTestsName}_h_files
-../../inc/hresult_to_string.h
+../../inc/sf_c_util/hresult_to_string.h
 )
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util sfwrapper c_pal_reals)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util c_pal_reals)
 
 if("${building}" STREQUAL "exe")
 #   /ignore:4217 is: "warning LNK4217: symbol 'symbol' defined in 'filename_1.obj' is imported by 'filename_2.obj' in function 'function'"

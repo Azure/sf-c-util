@@ -9,7 +9,7 @@
 #include "macro_utils/macro_utils.h"
 #include "fabrictypes.h"
 
-#include "servicefabric_enums_to_strings.h"
+#include "sf_c_util/servicefabric_enums_to_strings.h"
 
 typedef struct SF_ENUM_AND_STRING_TAG
 {

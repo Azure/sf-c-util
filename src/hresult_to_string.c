@@ -23,9 +23,9 @@ void same_as_free(void* ptr)
 #include "macro_utils/macro_utils.h"
 #include "c_logging/xlogging.h"
 
-#include "servicefabric_enums_to_strings.h"
+#include "sf_c_util/servicefabric_enums_to_strings.h"
 
-#include "hresult_to_string.h"
+#include "sf_c_util/hresult_to_string.h"
 
 #define N_MAX_MODULES 100
 #define N_MAX_CHARACTERS 1000

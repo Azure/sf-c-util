@@ -14,7 +14,7 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
-#include "fabric_async_op_cb.h"
+#include "sf_c_util/fabric_async_op_cb.h"
 
 typedef struct FABRIC_ASYNC_OP_CB_TAG
 {

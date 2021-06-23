@@ -52,7 +52,7 @@ DEFINE_COM_WRAPPER_OBJECT(TEST_CALLBACK_HANDLE, TEST_CALLBACK_HANDLE_INTERFACES)
 #include "real_gballoc_hl.h"
 
 
-#include "fabric_op_completed_sync_ctx.h"
+#include "sf_c_util/fabric_op_completed_sync_ctx.h"
 
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;

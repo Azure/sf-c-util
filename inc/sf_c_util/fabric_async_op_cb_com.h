@@ -9,7 +9,7 @@
 #include "fabriccommon.h"
 #include "unknwn.h"
 #include "com_wrapper/com_wrapper.h"
-#include "fabric_async_op_cb.h"
+#include "sf_c_util/fabric_async_op_cb.h"
 
 #ifdef __cplusplus
 extern "C" {

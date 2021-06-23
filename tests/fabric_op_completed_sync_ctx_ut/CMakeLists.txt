@@ -14,7 +14,7 @@ test_callback.c
 )
 
 set(${theseTestsName}_h_files
-../../inc/fabric_op_completed_sync_ctx.h
+../../inc/sf_c_util/fabric_op_completed_sync_ctx.h
 test_callback.h
 test_callback_com.h
 )

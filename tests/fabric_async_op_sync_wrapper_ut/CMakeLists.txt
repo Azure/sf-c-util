@@ -19,7 +19,7 @@ test_async_operation_context.c
 )
 
 set(${theseTestsName}_h_files
-../../inc/fabric_async_op_sync_wrapper.h
+../../inc/sf_c_util/fabric_async_op_sync_wrapper.h
 test_fabric_async_operation.h
 test_fabric_async_operation_com.h
 test_fabric_async_operation_sync_wrapper.h
@@ -33,4 +33,4 @@ testasyncoperation.h
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util debug FabricUUIDD optimized FabricUUID com_wrapper synchronization c_pal_reals)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util debug FabricUUIDD optimized FabricUUID com_wrapper synchronization c_pal_reals sf_c_util)

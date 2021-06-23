@@ -51,7 +51,7 @@ static void my_gballoc_free(void* ptr)
 #include "real_gballoc_hl.h"
 #include "real_rc_string.h"
 
-#include "rc_string_test_type.h"
+#include "c_util_test_helpers/rc_string_test_type.h"
 
 /*following function cannot be mocked because of variable number of arguments:( so it is copy&pasted here*/
 char* sprintf_char_function(const char* format, ...)

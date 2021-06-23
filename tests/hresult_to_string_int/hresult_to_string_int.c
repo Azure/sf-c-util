@@ -15,7 +15,7 @@
 #include "macro_utils/macro_utils.h"
 #include "testrunnerswitcher.h"
 
-#include "hresult_to_string.h"
+#include "sf_c_util/hresult_to_string.h"
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 

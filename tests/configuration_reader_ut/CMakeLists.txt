@@ -10,12 +10,14 @@ ${theseTestsName}.c
 
 set(${theseTestsName}_c_files
 ../../src/configuration_reader.c
+../../src/hresult_to_string.c
+../../src/servicefabric_enums_to_strings.c
 )
 
 set(${theseTestsName}_h_files
-../../inc/configuration_reader.h
+../../inc/sf_c_util/configuration_reader.h
 )
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS debug FabricUUIDD optimized FabricUUID test_helpers c_pal_reals c_util_reals)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS debug FabricUUIDD optimized FabricUUID c_pal_reals c_util_reals c_util_test_helpers)

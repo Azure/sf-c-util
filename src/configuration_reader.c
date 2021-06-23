@@ -16,9 +16,9 @@
 #include "c_pal/gballoc_hl_redirect.h"
 #include "c_pal/string_utils.h"
 
-#include "hresult_to_string.h"
+#include "sf_c_util/hresult_to_string.h"
 
-#include "configuration_reader.h"
+#include "sf_c_util/configuration_reader.h"
 
 #define TRUEString "True"
 #define FALSEString "False"

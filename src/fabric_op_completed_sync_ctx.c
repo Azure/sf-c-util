@@ -11,7 +11,7 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
-#include "fabric_op_completed_sync_ctx.h"
+#include "sf_c_util/fabric_op_completed_sync_ctx.h"
 
 typedef struct FABRIC_OP_COMPLETED_SYNC_CTX_TAG
 {

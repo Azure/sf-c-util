@@ -13,7 +13,7 @@ set(${theseTestsName}_c_files
 )
 
 set(${theseTestsName}_h_files
-../../inc/fabric_string_result.h
+../../inc/sf_c_util/fabric_string_result.h
 )
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)

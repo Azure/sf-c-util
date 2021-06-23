@@ -4,7 +4,7 @@
 #ifndef TEST_WRAPPER_NO_ARGS_H
 #define TEST_WRAPPER_NO_ARGS_H
 
-#include "fabric_async_op_wrapper.h"
+#include "sf_c_util/fabric_async_op_wrapper.h"
 #include "testasyncoperation.h"
 
 #ifdef __cplusplus

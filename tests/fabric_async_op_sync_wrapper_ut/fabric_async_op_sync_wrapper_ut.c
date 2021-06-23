@@ -43,9 +43,9 @@ static void my_gballoc_free(void* ptr)
 #include "c_util/log_critical_and_terminate.h"
 
 #define GBALLOC_HL_REDIRECT_H
-#include "fabric_async_op_cb.h"
+#include "sf_c_util/fabric_async_op_cb.h"
 #include "com_wrapper/com_wrapper.h"
-#include "fabric_async_op_cb_com.h"
+#include "sf_c_util/fabric_async_op_cb_com.h"
 #include "../../src/fabric_async_op_cb_com.c"
 #include "test_fabric_async_operation.h"
 #include "test_fabric_async_operation_com.h"
