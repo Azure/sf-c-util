@@ -77,7 +77,7 @@ wchar_t* sprintf_wchar_function(const wchar_t* format, ...)
 
 #include "real_string_utils.h"
 
-#include "configuration_reader.h"
+#include "sf_c_util/configuration_reader.h"
 
 CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );
