@@ -209,7 +209,7 @@ jobs:
   - task: BatchScript@1
     displayName: 'Setup VS Vars'
     inputs:
-      filename: '"c:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat"'
+      filename: '"c:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
       modifyEnvironment: true
 
   - task: CMake@1
