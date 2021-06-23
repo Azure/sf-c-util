@@ -7,9 +7,13 @@
 #else
 #include <stdlib.h>
 #include <stdint.h>
-#include<stdbool.h>
+#include <stdbool.h>
 #include <wchar.h>
 #endif
+
+#define CINTERFACE
+
+#include "windows.h"
 
 #include "fabricruntime.h"
 #include "fabrictypes.h"
