@@ -1,4 +1,5 @@
 #Copyright (C) Microsoft Corporation. All rights reserved.
+#Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 set(sf_c_utils_reals_c_files
     real_hresult_to_string.c
