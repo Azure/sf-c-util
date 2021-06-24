@@ -12,6 +12,7 @@ if(${run_unittests})
     build_test_folder(fabric_async_op_wrapper_ut)
     build_test_folder(fabric_async_op_sync_wrapper_ut)
     build_test_folder(hresult_to_string_ut)
+    build_test_folder(sf_c_util_reals_ut)
 endif()
 
 # int tests

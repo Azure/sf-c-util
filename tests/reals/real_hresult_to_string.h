@@ -24,6 +24,8 @@
         same_as_malloc \
 )
 
+#include "sf_c_util/hresult_to_string.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
