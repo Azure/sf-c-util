@@ -13,6 +13,6 @@ set(sf_c_util_reals_h_files
 #self include this folder
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-add_library(sf_c_util_reals ${sf_c_utils_reals_c_files} ${sf_c_utils_reals_h_files})
+add_library(sf_c_util_reals ${sf_c_util_reals_c_files} ${sf_c_util_reals_h_files})
 target_link_libraries(sf_c_util_reals sf_c_util)
 target_include_directories(sf_c_util_reals PUBLIC ${CMAKE_CURRENT_LIST_DIR})
