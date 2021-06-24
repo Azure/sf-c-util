@@ -1,6 +1,8 @@
 #Copyright (C) Microsoft Corporation. All rights reserved.
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+add_subdirectory(reals)
+
 # unit tests
 if(${run_unittests})
     build_test_folder(configuration_reader_ut)
