@@ -164,8 +164,6 @@ static void setup_expectation_read_wstring_values(void)
 static void setup_expectation_read_bool_values(void)
 {
     setup_expectation_read_values();
-    //STRICT_EXPECTED_CALL(vsprintf_char("%ls", IGNORED_ARG));
-    //STRICT_EXPECTED_CALL(free(IGNORED_ARG));
     STRICT_EXPECTED_CALL(test_Release(&test_configuration_package))
         .CallCannotFail();
 }
