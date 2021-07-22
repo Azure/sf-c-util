@@ -20,8 +20,8 @@
 
 #include "sf_c_util/configuration_reader.h"
 
-#define TRUEString "True"
-#define FALSEString "False"
+#define TRUEString L"True"
+#define FALSEString L"False"
 
 static int get_string_value_from_package(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, IFabricConfigurationPackage** fabric_configuration_package, const wchar_t** wchar_value)
 {
@@ -177,44 +177,33 @@ int configuration_reader_get_bool(IFabricCodePackageActivationContext* activatio
         }
         else
         {
-            /*Codes_SRS_CONFIGURATION_READER_03_008: [ configuration_reader_get_bool shall convert the value from a wide-character string to narrow-character string. ]*/
-            char* temp = sprintf_char("%ls", wchar_value);
-            if (temp == NULL)
+            // Codes_SRS_CONFIGURATION_READER_11_001: [ configuration_reader_get_bool shall do a case insensitive comparison of the string. ]
+            /*Codes_SRS_CONFIGURATION_READER_03_009: [ If the string is False, configuration_reader_get_bool shall set value to false and return 0. ]*/
+            /*Codes_SRS_CONFIGURATION_READER_03_012: [ configuration_reader_get_bool shall succeed and return 0. ]*/
+            if (_wcsicmp(wchar_value, FALSEString) == 0)
             {
-                LogError("failed to copy string %ls for const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls",
-                    wchar_value, config_package_name, section_name, parameter_name);
-                result = MU_FAILURE;
+                *value = false;
+                result = 0;
+            }
+            /*Codes_SRS_CONFIGURATION_READER_03_010: [ If the string is True, configuration_reader_get_bool shall set value to true and return 0. ]*/
+            /*Codes_SRS_CONFIGURATION_READER_03_012: [ configuration_reader_get_bool shall succeed and return 0. ]*/
+            else if (_wcsicmp(wchar_value, TRUEString) == 0)
+            {
+                *value = true;
+                result = 0;
+            }
+            /*Codes_SRS_CONFIGURATION_READER_03_014: [ If the string is an empty string, configuration_reader_get_bool shall set value to false and return 0. ]*/
+            else if (wcscmp(wchar_value, L"") == 0)
+            {
+                *value = false;
+                result = 0;
             }
             else
             {
-                /*Codes_SRS_CONFIGURATION_READER_03_009: [ If the string is False, configuration_reader_get_bool shall set value to false and return 0. ]*/
-                /*Codes_SRS_CONFIGURATION_READER_03_012: [ configuration_reader_get_bool shall succeed and return 0. ]*/
-                if (strcmp(temp, FALSEString) == 0)
-                {
-                    *value = false;
-                    result = 0;
-                }
-                /*Codes_SRS_CONFIGURATION_READER_03_010: [ If the string is True, configuration_reader_get_bool shall set value to true and return 0. ]*/
-                /*Codes_SRS_CONFIGURATION_READER_03_012: [ configuration_reader_get_bool shall succeed and return 0. ]*/
-                else if (strcmp(temp, TRUEString) == 0)
-                {
-                    *value = true;
-                    result = 0;
-                }
-                /*Codes_SRS_CONFIGURATION_READER_03_014: [ If the string is an empty string, configuration_reader_get_bool shall set value to false and return 0. ]*/
-                else if (strcmp(temp, "") == 0)
-                {
-                    *value = false;
-                    result = 0;
-                }
-                else
-                {
-                    /*Codes_SRS_CONFIGURATION_READER_03_013: [ If the string is anything other than the above, configuration_reader_get_bool shall fail and return a non-zero value. ]*/
-                    LogError("Invalid boolean value %s for const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls",
-                        temp, config_package_name, section_name, parameter_name);
-                    result = MU_FAILURE;
-                }
-                free(temp);
+                /*Codes_SRS_CONFIGURATION_READER_03_013: [ If the string is anything other than the above, configuration_reader_get_bool shall fail and return a non-zero value. ]*/
+                LogError("Invalid boolean value %ls for const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls",
+                    wchar_value, config_package_name, section_name, parameter_name);
+                result = MU_FAILURE;
             }
             (void)fabric_configuration_package->lpVtbl->Release(fabric_configuration_package);
         }

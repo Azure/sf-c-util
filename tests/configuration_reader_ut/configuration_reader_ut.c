@@ -164,8 +164,8 @@ static void setup_expectation_read_wstring_values(void)
 static void setup_expectation_read_bool_values(void)
 {
     setup_expectation_read_values();
-    STRICT_EXPECTED_CALL(vsprintf_char("%ls", IGNORED_ARG));
-    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
+    //STRICT_EXPECTED_CALL(vsprintf_char("%ls", IGNORED_ARG));
+    //STRICT_EXPECTED_CALL(free(IGNORED_ARG));
     STRICT_EXPECTED_CALL(test_Release(&test_configuration_package))
         .CallCannotFail();
 }
@@ -1402,10 +1402,28 @@ TEST_FUNCTION(configuration_reader_get_bool_succeeds_returns_true)
     ASSERT_IS_TRUE(value);
 }
 
+// Tests_SRS_CONFIGURATION_READER_11_001: [ configuration_reader_get_bool shall do a case insensitive comparison of the string. ]
+TEST_FUNCTION(configuration_reader_get_bool_succeeds_returns_true_on_mix_case)
+{
+    /// arrange
+    bool value;
+
+    test_value_to_return = L"trUE";
+
+    setup_expectation_read_bool_values();
+
+    ///act
+    int result = configuration_reader_get_bool(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_IS_TRUE(value);
+}
+
 
 /*Tests_SRS_CONFIGURATION_READER_03_006: [ configuration_reader_get_bool shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
 /*Tests_SRS_CONFIGURATION_READER_03_007: [ configuration_reader_get_bool shall call GetValue on the configuration package with section_name and parameter_name. ]*/
-/*Tests_SRS_CONFIGURATION_READER_03_008: [ configuration_reader_get_bool shall convert the value from a wide-character string to narrow-character string. ]*/
 /*Tests_SRS_CONFIGURATION_READER_03_009: [ If the string is False, configuration_reader_get_bool shall set value to false and return 0. ]*/
 /*Tests_SRS_CONFIGURATION_READER_03_012: [ configuration_reader_get_bool shall succeed and return 0. ]*/
 TEST_FUNCTION(configuration_reader_get_bool_succeeds_returns_false)
@@ -1414,6 +1432,25 @@ TEST_FUNCTION(configuration_reader_get_bool_succeeds_returns_false)
     bool value;
 
     test_value_to_return = L"False";
+
+    setup_expectation_read_bool_values();
+
+    ///act
+    int result = configuration_reader_get_bool(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_IS_FALSE(value);
+}
+
+// Tests_SRS_CONFIGURATION_READER_11_001: [ configuration_reader_get_bool shall do a case insensitive comparison of the string. ]
+TEST_FUNCTION(configuration_reader_get_bool_succeeds_returns_false_on_mix_case)
+{
+    /// arrange
+    bool value;
+
+    test_value_to_return = L"falSE";
 
     setup_expectation_read_bool_values();
 

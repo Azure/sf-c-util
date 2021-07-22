@@ -1,5 +1,4 @@
-﻿`configuration_reader` requirements
-================
+﻿# `configuration_reader` requirements
 
 ## Overview
 
@@ -189,7 +188,7 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_bool, IFabricCode
 
 **SRS_CONFIGURATION_READER_03_007: [** `configuration_reader_get_bool` shall call `GetValue` on the configuration package with `section_name` and `parameter_name`. **]**
 
-**SRS_CONFIGURATION_READER_03_008: [** `configuration_reader_get_bool` shall convert the value from a wide-character string to narrow-character string. **]**
+**SRS_CONFIGURATION_READER_11_001: [** `configuration_reader_get_bool` shall do a case insensitive comparison of the string. **]**
 
 **SRS_CONFIGURATION_READER_03_009: [** If the string is `False`, `configuration_reader_get_bool` shall set `value` to `false` and return 0. **]**
 
