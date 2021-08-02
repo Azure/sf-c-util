@@ -127,4 +127,5 @@ add_library(sf_c_util ${sf_c_util_h_files} ${sf_c_util_c_files} ${sf_c_util_md_f
 target_include_directories(sf_c_util PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inc)
 target_link_libraries(sf_c_util c_logging c_pal com_wrapper c_util)
 
+add_subdirectory(sfwrapper)
 add_subdirectory(tests)
