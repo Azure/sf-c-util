@@ -135,5 +135,5 @@ add_subdirectory(sfwrapper)
 add_subdirectory(tests)
 
 if(${run_reals_check})
-    add_reals_check_target(c_util)
+    add_reals_check_target()
 endif()
