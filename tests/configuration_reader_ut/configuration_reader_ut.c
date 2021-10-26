@@ -1012,8 +1012,8 @@ TEST_FUNCTION(configuration_reader_get_thandle_rc_string_succeeds)
     ASSERT_ARE_EQUAL(TEST_THANDLE_RC_STRING, expected_result, value);
 
     ///cleanup
-    THANDLE_DEC_REF(RC_STRING)(value);
-    THANDLE_DEC_REF(real_RC_STRING)(expected_result);
+    THANDLE_ASSIGN(RC_STRING)(&value, NULL);
+    THANDLE_ASSIGN(real_RC_STRING)(&expected_result, NULL);
 }
 
 /*Tests_SRS_CONFIGURATION_READER_42_048: [ configuration_reader_get_thandle_rc_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
@@ -1040,8 +1040,8 @@ TEST_FUNCTION(configuration_reader_get_thandle_rc_string_with_empty_string_succe
     ASSERT_ARE_EQUAL(TEST_THANDLE_RC_STRING, expected_result, value);
 
     ///cleanup
-    THANDLE_DEC_REF(RC_STRING)(value);
-    THANDLE_DEC_REF(real_RC_STRING)(expected_result);
+    THANDLE_ASSIGN(RC_STRING)(&value, NULL);
+    THANDLE_ASSIGN(real_RC_STRING)(&expected_result, NULL);
 }
 
 /*Tests_SRS_CONFIGURATION_READER_42_052: [ If there are any other failures then configuration_reader_get_thandle_rc_string shall fail and return a non-zero value. ]*/
