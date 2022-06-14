@@ -58,12 +58,12 @@ extern "C" {
 
 // Should be called in test suite setup
 #define TEST_CONFIGURATION_WRAPPER_HOOK_CONFIGURATION_READER(config_name) \
-    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_uint64_t, MU_C3(hook_, config_name, configuration_reader_get_uint64_t)); \
-    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_uint32_t, MU_C3(hook_, config_name, configuration_reader_get_uint32_t)); \
-    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_char_string, MU_C3(hook_, config_name, configuration_reader_get_char_ptr)); \
-    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_thandle_rc_string, MU_C3(hook_, config_name, configuration_reader_get_thandle_rc_string)); \
-    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_wchar_string, MU_C3(hook_, config_name, configuration_reader_get_wchar_ptr)); \
-    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_bool, MU_C3(hook_, config_name, configuration_reader_get_bool)); \
+    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_uint64_t, MU_C3(hook_, config_name, _configuration_reader_get_uint64_t)); \
+    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_uint32_t, MU_C3(hook_, config_name, _configuration_reader_get_uint32_t)); \
+    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_char_string, MU_C3(hook_, config_name, _configuration_reader_get_char_ptr)); \
+    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_thandle_rc_string, MU_C3(hook_, config_name, _configuration_reader_get_thandle_rc_string)); \
+    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_wchar_string, MU_C3(hook_, config_name, _configuration_reader_get_wchar_ptr)); \
+    REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_bool, MU_C3(hook_, config_name, _configuration_reader_get__Bool)); \
 
 // Should be called in test method setup
 #define TEST_CONFIGURATION_WRAPPER_RESET(...) \
@@ -83,7 +83,7 @@ extern "C" {
 #define TEST_CONFIGURATION_WRAPPER_EXPECT_ALL_READ(name) MU_C3(expect_, name, _read)
 
 // Helper to expect the setup of the config, which should read all params up to an index then fail
-#define TEST_CONFIGURATION_WRAPPER_EXPECT_READ_UP_TO(name) MU_C3(expect_, name, _read)
+#define TEST_CONFIGURATION_WRAPPER_EXPECT_READ_UP_TO(name) MU_C3(expect_, name, _read_up_to)
 
 // Helper to expect the cleanup of the config, which should free all the strings
 #define TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_STRINGS(name) MU_C3(expect_, name, _free_strings)
@@ -93,8 +93,8 @@ extern "C" {
     static IFabricCodePackageActivationContext* TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name) = (IFabricCodePackageActivationContext*)0x1000; \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, uint64_t) \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, uint32_t) \
-    TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, wchar_string) \
-    TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, char_string) \
+    TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, wchar_ptr) \
+    TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, char_ptr) \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, bool) \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ_THANDLE_RC_STRING(name, sf_config_name, sf_parameters_section_name) \
     static void TEST_CONFIGURATION_WRAPPER_EXPECT_ALL_READ(name)(void) \
@@ -107,7 +107,7 @@ extern "C" {
         STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); \
         /* Counter for the up_to_index check */ \
         uint32_t expectation_counter = 0; \
-        CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2_KEEP_1(TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION_IF_LESS,  CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
+        CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2_KEEP_1(TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION_IF_LESS, name, CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
         /* Every string that was successful will need to be freed */ \
         expectation_counter = 0; \
         CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2(TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION_FREE_IF_LESS, CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
@@ -122,7 +122,7 @@ extern "C" {
 // The following are internal helpers for the above defines
 
 #define TEST_CONFIGURATION_WRAPPER_DEFINE_CONFIGURATION_READER_HOOK(type, config_name, ...) \
-    static int MU_C4(hook_, config_name, configuration_reader_get_, type)(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, type * value) \
+    static int MU_C4(hook_, config_name, _configuration_reader_get_, type)(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, type * value) \
     { \
         int result; \
         (void)activation_context; \
@@ -186,7 +186,7 @@ extern "C" {
 #define TEST_CONFIGURATION_WRAPPER_TYPE_IS_bool_bool 0
 #define TEST_CONFIGURATION_WRAPPER_TYPE_IS_bool__Bool 0
 #define TEST_CONFIGURATION_WRAPPER_TYPE_IS_bool(type) MU_IF(MU_C2(TEST_CONFIGURATION_WRAPPER_TYPE_IS_bool_,type), 0, 1)
-#define TEST_CONFIGURATION_WRAPPER_DO_ASSIGN_IF_MATCH_bool(type, name) MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_bool(type), TEST_CONFIGURATION_WRAPPER_DO_ASSIGN_IF_MATCH(name), )
+#define TEST_CONFIGURATION_WRAPPER_DO_ASSIGN_IF_MATCH__Bool(type, name) MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_bool(type), TEST_CONFIGURATION_WRAPPER_DO_ASSIGN_IF_MATCH(name), )
 
 #define TEST_CONFIGURATION_WRAPPER_TYPE_IS_UINT32_uint32_t 0
 #define TEST_CONFIGURATION_WRAPPER_TYPE_IS_UINT32(type) MU_IF(MU_C2(TEST_CONFIGURATION_WRAPPER_TYPE_IS_UINT32_,type), 0, 1)
@@ -240,16 +240,13 @@ extern "C" {
 
 #define TEST_CONFIGURATION_WRAPPER_VALUE_TO_RETURN_DEFINE(type, name) MU_C2A(TEST_CONFIGURATION_WRAPPER_VALUE_TO_RETURN_DEFINE_, type)(type, name)
 
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_DEFAULT(type, name) static type TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name);
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_THANDLE(type, name) TEST_CONFIGURATION_WRAPPER_THANDLE_STATIC(type, TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name), x)
-
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE__Bool static const bool TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = true;
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_bool static const bool TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = true;
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_uint32_t static const uint32_t TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = 42;
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_uint64_t static const uint64_t TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = 4242;
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_char_ptr static const char* TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = MU_TOSTRING(name);
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_wchar_ptr static const wchar_t* TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = L MU_TOSTRING(name);
-#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_thandle_rc_string static const char* TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = MU_TOSTRING(name);
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE__Bool(type, name) static const bool TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = true;
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_bool(type, name) static const bool TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = true;
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_uint32_t(type, name) static const uint32_t TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = 42;
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_uint64_t(type, name) static const uint64_t TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = 4242;
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_char_ptr(type, name) static const char* TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = MU_TOSTRING(name);
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_wchar_ptr(type, name) static const wchar_t* TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = MU_C2(L, MU_TOSTRING(name));
+#define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_thandle_rc_string(type, name) static const char* TEST_CONFIGURATION_WRAPPER_DEFAULT_VALUE(name) = MU_TOSTRING(name);
 
 #define TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE(type, name) MU_C2A(TEST_CONFIGURATION_WRAPPER_DEFAULT_DEFINE_, type)(type, name)
 
@@ -361,22 +358,31 @@ extern "C" {
 
 #define TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION(name, field_type, field_name) \
     MU_C3(name, _expect_read_, field_type)(CONFIGURATION_WRAPPER_PARAMETER_NAME(field_name)); \
-    MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_CHAR_PTR(field_type), TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_IF_EMPTY_STRING(name), ) \
-    MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_WCHAR_PTR(field_type), TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_IF_EMPTY_WSTRING(name), ) \
-    MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_THANDLE(field_type), TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_IF_EMPTY_THANDLE_RC_STRING(name), )
+    MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_CHAR_PTR(field_type), TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_IF_EMPTY_STRING(field_name), ) \
+    MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_WCHAR_PTR(field_type), TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_IF_EMPTY_WSTRING(field_name), ) \
+    MU_IF(TEST_CONFIGURATION_WRAPPER_TYPE_IS_THANDLE(field_type), TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_IF_EMPTY_THANDLE_RC_STRING(field_name), )
 
+
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION_uint32_t configuration_reader_get_uint32_t
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION_uint64_t configuration_reader_get_uint64_t
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION__Bool configuration_reader_get_bool
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION_char_ptr configuration_reader_get_char_string
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION_wchar_ptr configuration_reader_get_wchar_string
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION_thandle_rc_string configuration_reader_get_thandle_rc_string
+
+#define TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION(type) MU_C2(TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION_, type)
 
 #define TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, type) \
     static void MU_C3(name, _expect_read_, type)(const wchar_t* parameter) \
     { \
-        STRICT_EXPECTED_CALL(MU_C2(configuration_reader_get_, type)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), sf_config_name, sf_parameters_section_name, parameter, IGNORED_ARG)); \
+        STRICT_EXPECTED_CALL(TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION(type)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), sf_config_name, sf_parameters_section_name, parameter, IGNORED_ARG)); \
     }
 
 #define TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ_THANDLE_RC_STRING(name, sf_config_name, sf_parameters_section_name) \
     static void MU_C2(name, _expect_read_thandle_rc_string)(const wchar_t* parameter) \
     { \
         STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); \
-        STRICT_EXPECTED_CALL(configuration_reader_get_thandle_rc_string(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), sf_config_name, sf_parameters_section_name, parameter, IGNORED_ARG)); \
+        STRICT_EXPECTED_CALL(TEST_CONFIGURATION_WRAPPER_CONFIGURATION_READER_GET_FUNCTION(thandle_rc_string)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), sf_config_name, sf_parameters_section_name, parameter, IGNORED_ARG)); \
     }
 
 #define TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION_IF_LESS(name, field_type, field_name) \
