@@ -16,6 +16,8 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_char_string, IFab
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_thandle_rc_string, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, THANDLE(RC_STRING)*, value)(0, MU_FAILURE);
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_wchar_string, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, wchar_t**, value)(0, MU_FAILURE);
+
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_bool, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, bool*, value)(0, MU_FAILURE);
 ```
 
 ### configuration_reader_get_uint64_t

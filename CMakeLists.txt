@@ -9,7 +9,7 @@ endif()
 
 #if ((NOT TARGET sf_c_util) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/sf-c-util/CMakeLists.txt))
 #    add_subdirectory(deps/sf-c-util)
-#endif() 
+#endif()
 
 if (TARGET sf_c_util)
     RETURN()
@@ -97,6 +97,7 @@ add_subdirectory(deps/servicefabric)
 
 set(sf_c_util_h_files
     inc/sf_c_util/configuration_reader.h
+    inc/sf_c_util/configuration_wrapper.h
     inc/sf_c_util/fabric_async_op_cb.h
     inc/sf_c_util/fabric_async_op_cb_com.h
     inc/sf_c_util/fabric_async_op_wrapper.h
