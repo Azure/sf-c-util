@@ -51,7 +51,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 /*Codes_SRS_CONFIGURATION_WRAPPER_42_007: [ CONFIGURATION_WRAPPER shall expand to the name of the configuration module by appending the suffix _CONFIGURATION. ]*/
 #define CONFIGURATION_WRAPPER(name) MU_C2(name, _CONFIGURATION)
-/*Codes_SRS_CONFIGURATION_WRAPPER_42_008: [ CONFIGURATION_WRAPPER shall expand to the name of the create function for the configuration module by appending the suffix _configuration_create. ]*/
+/*Codes_SRS_CONFIGURATION_WRAPPER_42_008: [ CONFIGURATION_WRAPPER_CREATE shall expand to the name of the create function for the configuration module by appending the suffix _configuration_create. ]*/
 #define CONFIGURATION_WRAPPER_CREATE(name) MU_C2(name, _configuration_create)
 /*Codes_SRS_CONFIGURATION_WRAPPER_42_043: [ CONFIGURATION_WRAPPER_GETTER shall expand to the name of the getter function for the configuration module and the given param by concatenating the name, the string _configuration_get, and the param. ]*/
 #define CONFIGURATION_WRAPPER_GETTER(name, param) MU_C3(name, _configuration_get_, param)
@@ -90,6 +90,10 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define CONFIGURATION_WRAPPER_EXPAND_PARAM_CONFIG_OPTIONAL(field_type, field_name) field_type, field_name
 #define CONFIGURATION_WRAPPER_EXPAND_PARAM_CONFIG_REQUIRED(field_type, field_name) field_type, field_name
 #define CONFIGURATION_WRAPPER_EXPAND_PARAM(count, field) MU_C2(CONFIGURATION_WRAPPER_EXPAND_PARAM_, field) MU_IFCOMMALOGIC(MU_DEC(count))
+
+#define CONFIGURATION_WRAPPER_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_OPTIONAL(field_type, field_name) field_type, field_name, 0
+#define CONFIGURATION_WRAPPER_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_REQUIRED(field_type, field_name) field_type, field_name, 1
+#define CONFIGURATION_WRAPPER_EXPAND_PARAM_WITH_REQUIRED_FLAG(field) MU_C2(CONFIGURATION_WRAPPER_EXPAND_PARAM_WITH_REQUIRED_FLAG_, field)
 
 // This will strip the REQUIRED and OPTIONAL parts of the fields
 
@@ -317,6 +321,12 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     MU_IF(CONFIGURATION_WRAPPER_IS_TYPE_SKIP(field_type),, \
         MU_C2(CONFIGURATION_WRAPPER_DO_READ_, field_type)(handle, field_name, CONFIGURATION_WRAPPER_PARAMETER_NAME(field_name), handle->field_name, error_occurred, 0) \
     )
+#define CONFIGURATION_WRAPPER_DO_READ_EITHER(handle, field_type, field_name, is_required) \
+    MU_IF(CONFIGURATION_WRAPPER_IS_TYPE_SKIP(field_type),, \
+        MU_C2(CONFIGURATION_WRAPPER_DO_READ_, field_type)(handle, field_name, CONFIGURATION_WRAPPER_PARAMETER_NAME(field_name), handle->field_name, error_occurred, is_required) \
+    )
+
+#define CONFIGURATION_WRAPPER_DO_READ(handle, config) CONFIGURATION_WRAPPER_EXPAND_MACRO_HELPER(CONFIGURATION_WRAPPER_DO_READ_EITHER, handle, CONFIGURATION_WRAPPER_EXPAND_PARAM_WITH_REQUIRED_FLAG(config))
 
 #define CONFIGURATION_WRAPPER_DEFINE_CREATE(name, sf_config_name, sf_parameters_section_name, ...) \
     static int MU_C2(name, _read_all_config_values)(CONFIGURATION_WRAPPER(name)* handle) \
@@ -324,8 +334,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         int result; \
         bool error_occurred = false; \
         /*Codes_SRS_CONFIGURATION_WRAPPER_42_013: [ For each configuration value with name config_name: ]*/ \
-        CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2_KEEP_1(CONFIGURATION_WRAPPER_DO_READ_REQUIRED, handle, CONFIGURATION_WRAPPER_EXPAND_REQUIRED_ONLY(__VA_ARGS__)); \
-        CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2_KEEP_1(CONFIGURATION_WRAPPER_DO_READ_OPTIONAL, handle, CONFIGURATION_WRAPPER_EXPAND_OPTIONAL_ONLY(__VA_ARGS__)); \
+        MU_FOR_EACH_1_KEEP_1(CONFIGURATION_WRAPPER_DO_READ, handle, __VA_ARGS__) \
         if (error_occurred) \
         { \
             /*Codes_SRS_CONFIGURATION_WRAPPER_42_034: [ If there are any errors then CONFIGURATION_WRAPPER_CREATE(name) shall fail and return NULL. ]*/ \

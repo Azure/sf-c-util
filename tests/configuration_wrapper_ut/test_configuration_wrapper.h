@@ -44,65 +44,7 @@ extern "C" {
     CONFIG_OPTIONAL(wchar_ptr, wide_string_option_optional), \
     CONFIG_REQUIRED(bool, another_flag) \
 
-//DECLARE_CONFIGURATION_WRAPPER(my_config, MY_CONFIG_TEST_PARAMS)
-
-    typedef struct my_config_CONFIGURATION_TAG my_config_CONFIGURATION;
-    typedef const my_config_CONFIGURATION
-        * const volatile CONST_P2_CONST_my_config_CONFIGURATION;
-    ;
-    void my_config_CONFIGURATION_ASSIGN(CONST_P2_CONST_my_config_CONFIGURATION* t1,
-        CONST_P2_CONST_my_config_CONFIGURATION t2);
-    ;
-    void my_config_CONFIGURATION_INITIALIZE(
-        CONST_P2_CONST_my_config_CONFIGURATION* t1,
-        CONST_P2_CONST_my_config_CONFIGURATION t2);
-    ;
-    void my_config_CONFIGURATION_MOVE(CONST_P2_CONST_my_config_CONFIGURATION* t1,
-        CONST_P2_CONST_my_config_CONFIGURATION* t2);
-    ;
-    void my_config_CONFIGURATION_INITIALIZE_MOVE(
-        CONST_P2_CONST_my_config_CONFIGURATION* t1,
-        CONST_P2_CONST_my_config_CONFIGURATION* t2);
-    ;
-    ;
-    CONST_P2_CONST_my_config_CONFIGURATION my_config_configuration_create(
-        IFabricCodePackageActivationContext* activation_context);
-    ;
-    uint64_t my_config_configuration_get_parameter_1(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    uint64_t my_config_configuration_get_parameter_2(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    uint32_t my_config_configuration_get_parameter_3(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    _Bool my_config_configuration_get_some_flag(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    CONST_P2_CONST_RC_STRING my_config_configuration_get_string_option_in_thandle(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    const char* my_config_configuration_get_string_option(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    const wchar_t* my_config_configuration_get_wide_string_option(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    CONST_P2_CONST_RC_STRING
-        my_config_configuration_get_string_option_in_thandle_optional(
-            CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    const char* my_config_configuration_get_string_option_optional(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    const wchar_t* my_config_configuration_get_wide_string_option_optional(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-    _Bool my_config_configuration_get_another_flag(
-        CONST_P2_CONST_my_config_CONFIGURATION handle);
-    ;
-
+DECLARE_CONFIGURATION_WRAPPER(my_config, MY_CONFIG_TEST_PARAMS)
 
 #ifdef __cplusplus
 }

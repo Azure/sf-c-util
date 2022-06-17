@@ -45,7 +45,7 @@ extern "C" {
     TEST_CONFIGURATION_WRAPPER_DEFINE_CONFIGURATION_READER_HOOK(thandle_rc_string, config_name, __VA_ARGS__) \
     TEST_CONFIGURATION_WRAPPER_DEFINE_CONFIGURATION_READER_HOOK(bool, config_name, __VA_ARGS__) \
     /* Creates variables "test_configuration_wrapper_NAME_index" which map the config name to its order in the list of configs (0 based index) */ \
-    TEST_CONFIGURATION_WRAPPER_DEFINE_INDEX_OF(name) \
+    TEST_CONFIGURATION_WRAPPER_DEFINE_INDEX_OF(config_name, __VA_ARGS__) \
 
 // In the test, each value which is returned by the reader hook can be referenced as TEST_CONFIGURATION_WRAPPER_VALUE_TO_RETURN(NAME)
 // Example: TEST_CONFIGURATION_WRAPPER_VALUE_TO_RETURN(foo) = 42;
@@ -64,6 +64,10 @@ extern "C" {
     REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_thandle_rc_string, MU_C3(hook_, config_name, _configuration_reader_get_thandle_rc_string)); \
     REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_wchar_string, MU_C3(hook_, config_name, _configuration_reader_get_wchar_ptr)); \
     REGISTER_GLOBAL_MOCK_HOOK(configuration_reader_get_bool, MU_C3(hook_, config_name, _configuration_reader_get__Bool)); \
+    MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _vtbl).Release = MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _Release); \
+    MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _vtbl).AddRef = MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _AddRef); \
+    MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _storage).lpVtbl = &MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _vtbl); \
+    TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name) = &MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(config_name), _storage);
 
 // Should be called in test method setup
 #define TEST_CONFIGURATION_WRAPPER_RESET(...) \
@@ -88,9 +92,18 @@ extern "C" {
 // Helper to expect the cleanup of the config, which should free all the strings
 #define TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_STRINGS(name) MU_C3(expect_, name, _free_strings)
 
+// Helper to expect the destroy of the config
+#define TEST_CONFIGURATION_WRAPPER_EXPECT_DESTROY(name) MU_C3(expect_, name, _destroy)
+
 // define expectation helpers
 #define TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECTED_CALL_HELPERS(name, sf_config_name, sf_parameters_section_name, ...) \
-    static IFabricCodePackageActivationContext* TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name) = (IFabricCodePackageActivationContext*)0x1000; \
+    static IFabricCodePackageActivationContextVtbl MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _vtbl); \
+    static IFabricCodePackageActivationContext MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _storage); \
+    static IFabricCodePackageActivationContext* TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name); \
+    MOCK_FUNCTION_WITH_CODE(, ULONG, MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _AddRef), IFabricCodePackageActivationContext*, This) \
+    MOCK_FUNCTION_END(0); \
+    MOCK_FUNCTION_WITH_CODE(, ULONG, MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _Release), IFabricCodePackageActivationContext*, This) \
+    MOCK_FUNCTION_END(0); \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, uint64_t) \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, uint32_t) \
     TEST_CONFIGURATION_WRAPPER_DEFINE_EXPECT_READ(name, sf_config_name, sf_parameters_section_name, wchar_ptr) \
@@ -100,23 +113,36 @@ extern "C" {
     static void TEST_CONFIGURATION_WRAPPER_EXPECT_ALL_READ(name)(void) \
     { \
         STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); \
+        STRICT_EXPECTED_CALL(MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _AddRef)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name))) \
+            .CallCannotFail(); \
         CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2_KEEP_1(TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION, name, CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
     } \
     static void TEST_CONFIGURATION_WRAPPER_EXPECT_READ_UP_TO(name)(uint32_t up_to_index) \
     { \
         STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); \
+        STRICT_EXPECTED_CALL(MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _AddRef)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name))) \
+            .CallCannotFail(); \
         /* Counter for the up_to_index check */ \
         uint32_t expectation_counter = 0; \
         CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2_KEEP_1(TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION_IF_LESS, name, CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
         /* Every string that was successful will need to be freed */ \
         expectation_counter = 0; \
         CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2(TEST_CONFIGURATION_WRAPPER_SETUP_EXPECTATION_FREE_IF_LESS, CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
+        STRICT_EXPECTED_CALL(MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _Release)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name))) \
+            .CallCannotFail(); \
         STRICT_EXPECTED_CALL(free(IGNORED_ARG)); \
     } \
     static void TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_STRINGS(name)(void) \
     { \
         CONFIGURATION_WRAPPER_EXPANDED_MU_FOR_EACH_2(TEST_CONFIGURATION_WRAPPER_EXPECT_FREE, CONFIGURATION_WRAPPER_EXPAND_PARAMS(__VA_ARGS__)); \
-    }
+    } \
+    static void TEST_CONFIGURATION_WRAPPER_EXPECT_DESTROY(name)(void) \
+    { \
+        TEST_CONFIGURATION_WRAPPER_EXPECT_FREE_STRINGS(name)(); \
+        STRICT_EXPECTED_CALL(MU_C2A(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name), _Release)(TEST_CONFIGURATION_WRAPPER_ACTIVATION_CONTEXT(name))) \
+            .CallCannotFail(); \
+        STRICT_EXPECTED_CALL(free(IGNORED_ARG)); \
+    } \
 
 
 // The following are internal helpers for the above defines

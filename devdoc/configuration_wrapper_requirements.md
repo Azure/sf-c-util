@@ -5,7 +5,7 @@
 `configuration_wrapper` is a series of macros which can be used to generate code to read configurations from Service Fabric and expose the values as getters.
 
 The following types are supported:
- - `bool` (must be the string "True" for `true` or "False" or empty for `false`)
+ - `bool` (must be the string "True" for `true` or "False" or empty for `false`, any other value will fail to parse)
  - `uint32_t`
  - `uint64_t`
  - `char*` (`char_ptr`)
@@ -19,6 +19,7 @@ Any of the string types may be required (must be present in the config or create
 ```c
 // In header:
 #define MY_CONFIGURATION_PARAMETER_NAME_parameter_1 L"ParameterName1"
+#define MY_CONFIGURATION_PARAMETER_NAME_parameter_2 L"ParameterName2"
 #define MY_CONFIGURATION_PARAMETER_NAME_other_option L"OtherOption"
 #define MY_CONFIGURATION_PARAMETER_NAME_foo L"FooNameInXML"
 
@@ -145,7 +146,7 @@ Get the name of the configuration type, e.g. `MY_CONFIGURATION`.
 
 Get the name of the function to create the configuration object, e.g. `MY_configuration_create`.
 
-**SRS_CONFIGURATION_WRAPPER_42_008: [** `CONFIGURATION_WRAPPER` shall expand to the name of the create function for the configuration module by appending the suffix `_configuration_create`. **]**
+**SRS_CONFIGURATION_WRAPPER_42_008: [** `CONFIGURATION_WRAPPER_CREATE` shall expand to the name of the create function for the configuration module by appending the suffix `_configuration_create`. **]**
 
 ```c
 THANDLE(CONFIGURATION_WRAPPER(name)) CONFIGURATION_WRAPPER_CREATE(name)(IFabricCodePackageActivationContext* activation_context)
