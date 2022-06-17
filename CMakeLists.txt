@@ -95,6 +95,13 @@ set(run_reals_check ${original_run_reals_check})
 
 add_subdirectory(deps/servicefabric)
 
+if((CMAKE_GENERATOR MATCHES "Visual Studio") AND (${run_traceability}))
+    #add traceability custom target
+    add_custom_target(sf_c_util_traceability ALL
+        COMMAND traceabilitytool -buildcheck -e ${CMAKE_CURRENT_LIST_DIR}/deps -i ${CMAKE_CURRENT_LIST_DIR})
+    add_dependencies(sf_c_util_traceability traceabilitytool)
+endif()
+
 set(sf_c_util_h_files
     inc/sf_c_util/configuration_reader.h
     inc/sf_c_util/configuration_wrapper.h

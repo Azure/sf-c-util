@@ -193,7 +193,8 @@ TEST_FUNCTION(CONFIGURATION_WRAPPER_CREATE_with_NULL_activation_context_fails)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
-/*Tests_RS_CONFIGURATION_WRAPPER_42_010: [ CONFIGURATION_WRAPPER_CREATE(name) shall allocate the THANDLE(CONFIGURATION_WRAPPER(name)) with MU_C2A(CONFIGURATION_WRAPPER(name), _dispose) as the dispose function. ]*/
+/*Tests_SRS_CONFIGURATION_WRAPPER_42_002: [ DECLARE_CONFIGURATION_WRAPPER shall generate a mockable create function CONFIGURATION_WRAPPER_CREATE(name) which takes an IFabricCodePackageActivationContext* and produces the THANDLE. ]*/
+/*Tests_SRS_CONFIGURATION_WRAPPER_42_010: [ CONFIGURATION_WRAPPER_CREATE(name) shall allocate the THANDLE(CONFIGURATION_WRAPPER(name)) with MU_C2A(CONFIGURATION_WRAPPER(name), _dispose) as the dispose function. ]*/
 /*Tests_SRS_CONFIGURATION_WRAPPER_42_011: [ CONFIGURATION_WRAPPER_CREATE(name) shall call AddRef and store the activation_context. ]*/
 /*Tests_SRS_CONFIGURATION_WRAPPER_42_012: [ CONFIGURATION_WRAPPER_CREATE(name) shall store the sf_config_name and sf_parameters_section_name. ]*/
 /*Tests_SRS_CONFIGURATION_WRAPPER_42_013: [ For each configuration value with name config_name: ]*/
@@ -498,6 +499,18 @@ TEST_FUNCTION(CONFIGURATION_WRAPPER_Dispose_works_when_optional_strings_are_null
 // CONFIGURATION_WRAPPER_GETTER
 //
 
+/*Tests_SRS_CONFIGURATION_WRAPPER_42_043: [ CONFIGURATION_WRAPPER_GETTER shall expand to the name of the getter function for the configuration module and the given param by concatenating the name, the string _configuration_get, and the param. ]*/
+TEST_FUNCTION(CONFIGURATION_WRAPPER_GETTER_macro_expands_to_name_of_getter_function)
+{
+    // arrange
+
+    // act
+    const char* name = MU_TOSTRING(CONFIGURATION_WRAPPER_GETTER(name, parameter));
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, "name_configuration_get_parameter", name);
+}
+
 /*Tests_SRS_CONFIGURATION_WRAPPER_42_044: [ If handle is NULL then CONFIGURATION_WRAPPER_GETTER(name, field_name) shall fail and return... ]*/
 /*Tests_SRS_CONFIGURATION_WRAPPER_42_045: [ ...false if the type is bool ]*/
 TEST_FUNCTION(CONFIGURATION_WRAPPER_GETTER_for_bool_with_NULL_handle_returns_false)
@@ -620,6 +633,7 @@ TEST_FUNCTION(CONFIGURATION_WRAPPER_GETTER_for_thandle_rc_string_with_NULL_handl
     THANDLE_ASSIGN(CONFIGURATION_WRAPPER(my_config))(&config, NULL);
 }
 
+/*Tests_SRS_CONFIGURATION_WRAPPER_42_003: [ DECLARE_CONFIGURATION_WRAPPER shall generate mockable getter functions CONFIGURATION_WRAPPER_GETTER(name, param) for each of the configurations provided. ]*/
 /*Tests_SRS_CONFIGURATION_WRAPPER_42_050: [ CONFIGURATION_WRAPPER_GETTER(name, field_name) shall return the configuration value for field_name. ]*/
 TEST_FUNCTION(CONFIGURATION_WRAPPER_GETTER_for_bool_with_true_value_returns_true)
 {
