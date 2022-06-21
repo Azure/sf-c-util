@@ -56,7 +56,73 @@ typedef interface ITestAsyncOperation ITestAsyncOperation;
 #include "unknwn.h"
 #include "FabricCommon.h"
 
-	/* C style interface */
+#ifdef __cplusplus
+extern "C"{
+#endif 
+
+
+/* interface __MIDL_itf_testasyncoperation_0000_0000 */
+/* [local] */ 
+
+
+
+
+extern RPC_IF_HANDLE __MIDL_itf_testasyncoperation_0000_0000_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_testasyncoperation_0000_0000_v0_0_s_ifspec;
+
+#ifndef __ITestAsyncOperation_INTERFACE_DEFINED__
+#define __ITestAsyncOperation_INTERFACE_DEFINED__
+
+/* interface ITestAsyncOperation */
+/* [object][local][version][uuid] */ 
+
+
+EXTERN_C const IID IID_ITestAsyncOperation;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("5F5898FA-7BB0-49F0-81D1-7CBFF5FCFF55")
+    ITestAsyncOperation : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginTestOperation( 
+            int arg1,
+            IFabricAsyncOperationCallback *callback,
+            IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndTestOperation( 
+            IFabricAsyncOperationContext *context,
+            int *operation_result_1,
+            double *operation_result_2) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginTestOperationWithNoBeginArgs( 
+            IFabricAsyncOperationCallback *callback,
+            IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndTestOperationWithNoBeginArgs( 
+            IFabricAsyncOperationContext *context,
+            int *operation_result_1,
+            double *operation_result_2) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginTestOperationWithNoEndArgs( 
+            int arg1,
+            IFabricAsyncOperationCallback *callback,
+            IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndTestOperationWithNoEndArgs( 
+            IFabricAsyncOperationContext *context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginTestOperationWithNoArgs( 
+            IFabricAsyncOperationCallback *callback,
+            IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndTestOperationWithNoArgs( 
+            IFabricAsyncOperationContext *context) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
 
     typedef struct ITestAsyncOperationVtbl
     {
@@ -163,7 +229,7 @@ typedef interface ITestAsyncOperation ITestAsyncOperation;
 #define ITestAsyncOperation_EndTestOperationWithNoArgs(This,context)	\
     ( (This)->lpVtbl -> EndTestOperationWithNoArgs(This,context) ) 
 
-/* COBJMACROS */
+#endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
@@ -178,6 +244,9 @@ typedef interface ITestAsyncOperation ITestAsyncOperation;
 
 /* end of Additional Prototypes */
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

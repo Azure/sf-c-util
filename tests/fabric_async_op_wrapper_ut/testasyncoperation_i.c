@@ -21,7 +21,21 @@
 #pragma warning( disable: 4049 )  /* more than 64k source lines */
 
 
+#ifdef __cplusplus
+extern "C"{
+#endif 
+
+#include "windows.h"
+
+#ifdef _MIDL_USE_GUIDDEF_
+
+#ifndef INITGUID
+#define INITGUID
 #include <guiddef.h>
+#undef INITGUID
+#else
+#include <guiddef.h>
+#endif
 
 #define MIDL_DEFINE_GUID(type,name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) \
         DEFINE_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)
@@ -55,6 +69,9 @@ MIDL_DEFINE_GUID(IID, IID_ITestAsyncOperation,0x5F5898FA,0x7BB0,0x49F0,0x81,0xD1
 
 #undef MIDL_DEFINE_GUID
 
+#ifdef __cplusplus
+}
+#endif
 
 
 
