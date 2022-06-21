@@ -104,7 +104,6 @@ endif()
 
 set(sf_c_util_h_files
     inc/sf_c_util/configuration_reader.h
-    inc/sf_c_util/configuration_wrapper.h
     inc/sf_c_util/fabric_async_op_cb.h
     inc/sf_c_util/fabric_async_op_cb_com.h
     inc/sf_c_util/fabric_async_op_wrapper.h
@@ -115,6 +114,7 @@ set(sf_c_util_h_files
     inc/sf_c_util/fabric_string_result_com.h
     inc/sf_c_util/hresult_to_string.h
     inc/sf_c_util/servicefabric_enums_to_strings.h
+    inc/sf_c_util/sf_service_config.h
 )
 
 set(sf_c_util_c_files
