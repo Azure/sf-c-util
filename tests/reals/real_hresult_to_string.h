@@ -4,13 +4,8 @@
 #ifndef REAL_HRESULT_TO_STRING_H
 #define REAL_HRESULT_TO_STRING_H
 
-#ifdef __cplusplus
-#include <cstdint>
-#include <cstddef>
-#else
 #include <stdint.h>
 #include <stddef.h>
-#endif
 
 #include "macro_utils/macro_utils.h"
 
@@ -26,9 +21,6 @@
 
 #include "sf_c_util/hresult_to_string.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
     char* real_hresult_to_string(malloc_t the_malloc, free_t the_free, HRESULT hr);
     wchar_t* real_hresult_to_wstring(HRESULT hresult);
@@ -36,8 +28,5 @@ extern "C" {
     void* real_same_as_malloc(size_t size);
     
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif //REAL_HRESULT_TO_STRING_H

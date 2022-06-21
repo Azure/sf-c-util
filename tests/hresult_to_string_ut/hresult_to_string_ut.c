@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifdef __cplusplus
-#include <cstdlib>
-#include <cstdint>
-#else
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
-#endif
 
 #include "real_gballoc_ll.h"
 static void* my_gballoc_malloc(size_t size)
@@ -32,9 +27,6 @@ static void my_gballoc_free(void* ptr)
 
 #include "windows.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include "c_pal/interlocked.h" /*included for mocking reasons - it will prohibit creation of mocks belonging to interlocked.h - at the moment verified through int tests - this is porting legacy code, temporary solution*/
 
@@ -79,9 +71,6 @@ MOCKABLE_FUNCTION(, DWORD, mocked_GetModuleFileNameA,
 #include "real_gballoc_hl.h"
 
 
-#ifdef __cplusplus
-}
-#endif
 
 #include "sf_c_util/hresult_to_string.h"
 

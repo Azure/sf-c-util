@@ -8,9 +8,6 @@
 #include "windows.h"
 #include "fabriccommon.h" // for IFabricAsyncOperationCallback
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 typedef struct TEST_ASYNC_OPERATION_CONTEXT_TAG* TEST_ASYNC_OPERATION_CONTEXT_HANDLE;
 
@@ -21,8 +18,5 @@ BOOLEAN test_async_operation_context_CompletedSynchronously(TEST_ASYNC_OPERATION
 HRESULT test_async_operation_context_get_Callback(TEST_ASYNC_OPERATION_CONTEXT_HANDLE test_async_operation_context, IFabricAsyncOperationCallback** callback);
 HRESULT test_async_operation_context_Cancel(TEST_ASYNC_OPERATION_CONTEXT_HANDLE test_async_operation_context);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* TEST_ASYNC_OPERATION_CONTEXT_H */

@@ -12,9 +12,6 @@
 #include "windows.h"
 #include "fabriccommon.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define TEST_ASYNC_OPERATION_CONTEXT_HANDLE_INTERFACES \
     COM_WRAPPER_INTERFACE(IUnknown, \
@@ -30,8 +27,5 @@ extern "C" {
 
 DECLARE_COM_WRAPPER_OBJECT(TEST_ASYNC_OPERATION_CONTEXT_HANDLE, TEST_ASYNC_OPERATION_CONTEXT_HANDLE_INTERFACES);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* TEST_ASYNC_OPERATION_CONTEXT_COM_H */
