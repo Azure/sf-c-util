@@ -4,32 +4,25 @@
 #ifndef CONFIGURATION_WRAPPER_UT_HELPERS_H
 #define CONFIGURATION_WRAPPER_UT_HELPERS_H
 
-#ifdef __cplusplus
-#include <cinttypes>
-#else
 #include <inttypes.h>
 #include <stdbool.h>
 #include <wchar.h>
-#endif
 
 #include "windows.h"
 #include "fabricruntime.h"
+
+#include "macro_utils/macro_utils.h"
 
 #include "c_util/rc_string.h"
 #include "c_util/thandle.h"
 
 #include "c_pal/string_utils.h"
 
-#include "macro_utils/macro_utils.h"
-
 #include "sf_c_util/configuration_reader.h"
 
 #include "sf_c_util/configuration_wrapper.h"
 
 #include "umock_c/umock_c_prod.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 // Setup the test hooks for configuration_reader to return configured values
 #define TEST_CONFIGURATION_WRAPPER_DEFINE_CONFIGURATION_READER_HOOKS(config_name, ...) \
@@ -428,9 +421,5 @@ extern "C" {
         TEST_CONFIGURATION_WRAPPER_EXPECT_FREE(type, name) \
     } \
     expectation_counter++;
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* CONFIGURATION_WRAPPER_UT_HELPERS_H */

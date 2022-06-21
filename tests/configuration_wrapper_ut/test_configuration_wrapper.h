@@ -4,20 +4,13 @@
 #ifndef TEST_CONFIGURATION_WRAPPER_H
 #define TEST_CONFIGURATION_WRAPPER_H
 
-#ifdef __cplusplus
-#include <cinttypes>
-#else
 #include <inttypes.h>
 #include <stdbool.h>
 #include <wchar.h>
-#endif
 
 #include "sf_c_util/configuration_wrapper.h"
 
 #include "umock_c/umock_c_prod.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define CONFIGURATION_WRAPPER_PARAMETER_NAME_parameter_1 L"Parameter1"
 #define CONFIGURATION_WRAPPER_PARAMETER_NAME_parameter_2 L"Parameter2"
@@ -45,9 +38,5 @@ extern "C" {
     CONFIG_REQUIRED(bool, another_flag) \
 
 DECLARE_CONFIGURATION_WRAPPER(my_config, MY_CONFIG_TEST_PARAMS)
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* TEST_CONFIGURATION_WRAPPER_H */
