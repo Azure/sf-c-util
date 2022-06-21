@@ -7,9 +7,6 @@
 
 #include "fabriccommon.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 typedef struct TEST_FABRIC_ASYNC_OPERATION_TAG* TEST_FABRIC_ASYNC_OPERATION_HANDLE;
 
@@ -24,8 +21,5 @@ HRESULT test_fabric_async_operation_EndTestOperationWithNoEndArgs(TEST_FABRIC_AS
 HRESULT test_fabric_async_operation_BeginTestOperationWithNoArgs(TEST_FABRIC_ASYNC_OPERATION_HANDLE test_fabric_async_operation, IFabricAsyncOperationCallback* callback, IFabricAsyncOperationContext** context);
 HRESULT test_fabric_async_operation_EndTestOperationWithNoArgs(TEST_FABRIC_ASYNC_OPERATION_HANDLE test_fabric_async_operation, IFabricAsyncOperationContext* context);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* TEST_FABRIC_ASYNC_OPERATION_H */

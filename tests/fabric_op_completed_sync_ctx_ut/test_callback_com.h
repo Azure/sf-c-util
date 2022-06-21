@@ -12,9 +12,6 @@
 #include "windows.h"
 #include "fabriccommon.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define TEST_CALLBACK_HANDLE_INTERFACES \
     COM_WRAPPER_INTERFACE(IUnknown, \
@@ -27,8 +24,5 @@ extern "C" {
 
 DECLARE_COM_WRAPPER_OBJECT(TEST_CALLBACK_HANDLE, TEST_CALLBACK_HANDLE_INTERFACES);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* TEST_CALLBACK_COM_H */
