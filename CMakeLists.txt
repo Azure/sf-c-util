@@ -9,7 +9,7 @@ endif()
 
 #if ((NOT TARGET sf_c_util) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/sf-c-util/CMakeLists.txt))
 #    add_subdirectory(deps/sf-c-util)
-#endif() 
+#endif()
 
 if (TARGET sf_c_util)
     RETURN()
@@ -95,6 +95,13 @@ set(run_reals_check ${original_run_reals_check})
 
 add_subdirectory(deps/servicefabric)
 
+if((CMAKE_GENERATOR MATCHES "Visual Studio") AND (${run_traceability}))
+    #add traceability custom target
+    add_custom_target(sf_c_util_traceability ALL
+        COMMAND traceabilitytool -buildcheck -e ${CMAKE_CURRENT_LIST_DIR}/deps -i ${CMAKE_CURRENT_LIST_DIR})
+    add_dependencies(sf_c_util_traceability traceabilitytool)
+endif()
+
 set(sf_c_util_h_files
     inc/sf_c_util/configuration_reader.h
     inc/sf_c_util/fabric_async_op_cb.h
@@ -107,6 +114,7 @@ set(sf_c_util_h_files
     inc/sf_c_util/fabric_string_result_com.h
     inc/sf_c_util/hresult_to_string.h
     inc/sf_c_util/servicefabric_enums_to_strings.h
+    inc/sf_c_util/sf_service_config.h
 )
 
 set(sf_c_util_c_files
