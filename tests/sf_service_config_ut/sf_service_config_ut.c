@@ -72,6 +72,40 @@ TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOKS(my_config, MY_CONFIG_TE
 TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_package_name, expected_section_name, MY_CONFIG_TEST_PARAMS)
 
 
+// Also test that the generated code can be mocked
+
+#define ENABLE_MOCKS
+#include "umock_c/umock_c_prod.h"
+
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_1 L"Parameter1"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_2 L"Parameter2"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_3 L"Parameter3WithLongerName"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_some_flag L"SomeFlag"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option_in_thandle L"StringOptionThandle"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option L"MyString"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_wide_string_option L"MyWideString"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option_in_thandle_optional L"OptionalStringOptionThandle"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option_optional L"OptionalStringOption"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_wide_string_option_optional L"OptionalWideStringOption"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_another_flag L"AnotherFlag"
+
+#define MY_MOCKED_CONFIG_TEST_PARAMS \
+    CONFIG_REQUIRED(uint64_t, mocked_parameter_1), \
+    CONFIG_REQUIRED(uint64_t, mocked_parameter_2), \
+    CONFIG_REQUIRED(uint32_t, mocked_parameter_3), \
+    CONFIG_REQUIRED(bool, mocked_some_flag), \
+    CONFIG_REQUIRED(thandle_rc_string, mocked_string_option_in_thandle), \
+    CONFIG_REQUIRED(char_ptr, mocked_string_option), \
+    CONFIG_REQUIRED(wchar_ptr, mocked_wide_string_option), \
+    CONFIG_OPTIONAL(thandle_rc_string, mocked_string_option_in_thandle_optional), \
+    CONFIG_OPTIONAL(char_ptr, mocked_string_option_optional), \
+    CONFIG_OPTIONAL(wchar_ptr, mocked_wide_string_option_optional), \
+    CONFIG_REQUIRED(bool, mocked_another_flag) \
+
+DECLARE_SF_SERVICE_CONFIG(my_mocked_config, MY_MOCKED_CONFIG_TEST_PARAMS)
+
+#undef ENABLE_MOCKS
+
 MU_DEFINE_ENUM_STRINGS(UMOCK_C_ERROR_CODE, UMOCK_C_ERROR_CODE_VALUES)
 
 static void on_umock_c_error(UMOCK_C_ERROR_CODE error_code)
@@ -105,6 +139,7 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(realloc_flex, NULL);
     REGISTER_GLOBAL_MOCK_HOOK(free, my_gballoc_free);
 
+    REGISTER_UMOCK_ALIAS_TYPE(THANDLE(SF_SERVICE_CONFIG(my_mocked_config)), void*);
     TEST_SF_SERVICE_CONFIG_HOOK_CONFIGURATION_READER(my_config)
 
     rc_string_test_init_statics();
@@ -142,6 +177,34 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
     TEST_SF_SERVICE_CONFIG_CLEANUP(MY_CONFIG_TEST_PARAMS);
 
     TEST_MUTEX_RELEASE(test_serialize_mutex);
+}
+
+TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_is_mockable)
+{
+    // arrange
+    STRICT_EXPECTED_CALL(SF_SERVICE_CONFIG_CREATE(my_mocked_config)(IGNORED_ARG))
+        .SetReturn((SF_SERVICE_CONFIG(my_mocked_config)*)0xABCD);
+
+    // act
+    THANDLE(SF_SERVICE_CONFIG(my_mocked_config)) result = SF_SERVICE_CONFIG_CREATE(my_mocked_config)((IFabricCodePackageActivationContext*)42);
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(void_ptr, (void*)0xABCD, (void*)result);
+}
+
+TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_is_mockable)
+{
+    // arrange
+    STRICT_EXPECTED_CALL(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_2)(IGNORED_ARG))
+        .SetReturn(42);
+
+    // act
+    uint64_t result = SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_2)((SF_SERVICE_CONFIG(my_mocked_config)*)0xffff);
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(uint64_t, 42, result);
 }
 
 /*Tests_SRS_SF_SERVICE_CONFIG_42_001: [ DECLARE_SF_SERVICE_CONFIG shall generate a THANDLE declaration of type SF_SERVICE_CONFIG(name). ]*/
