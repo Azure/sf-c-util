@@ -147,6 +147,7 @@
         (void)activation_context; \
         (void)config_package_name; \
         (void)section_name; \
+        (void)value; /*maybe not set, e.g. if there are no configs of this type */ \
         if (parameter_name == NULL || parameter_name[0] == L'\0') \
         { \
             result = MU_FAILURE; \

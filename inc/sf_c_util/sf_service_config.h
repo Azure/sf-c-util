@@ -69,7 +69,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     /*Codes_SRS_SF_SERVICE_CONFIG_42_002: [ DECLARE_SF_SERVICE_CONFIG shall generate a mockable create function SF_SERVICE_CONFIG_CREATE(name) which takes an IFabricCodePackageActivationContext* and produces the THANDLE. ]*/ \
     MOCKABLE_FUNCTION(, THANDLE(SF_SERVICE_CONFIG(name)), SF_SERVICE_CONFIG_CREATE(name), IFabricCodePackageActivationContext*, activation_context); \
     /*Codes_SRS_SF_SERVICE_CONFIG_42_003: [ DECLARE_SF_SERVICE_CONFIG shall generate mockable getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/ \
-    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(DECLARE_SF_SERVICE_CONFIG_GETTER, name, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
+    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_2(DECLARE_SF_SERVICE_CONFIG_GETTER, name, dummy, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
 
 
 // Define configuration (for .c file)
@@ -124,7 +124,10 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Helpers for Declare
 
-#define DECLARE_SF_SERVICE_CONFIG_GETTER(name, type, param) \
+// NOTE that we have a dummy variable here so we can use MU_FOR_EACH_2_KEEP_2 instead of MU_FOR_EACH_2_KEEP_1.
+// The reason is that MOCKABLE_FUNCTION uses MU_FOR_EACH_2_KEEP_1, and we cannot nest the same macro name
+
+#define DECLARE_SF_SERVICE_CONFIG_GETTER(name, dummy, type, param) \
     MOCKABLE_FUNCTION(, SF_SERVICE_CONFIG_RETURN_TYPE(type), SF_SERVICE_CONFIG_GETTER(name, param), THANDLE(SF_SERVICE_CONFIG(name)), handle);
 
 // Helpers for Define
