@@ -74,8 +74,8 @@ typedef struct SF_ENUM_AND_STRING_TAG
         static void Main(string[] args)
         {
             var inputFileName = @"..\..\..\..\deps\servicefabric\inc\fabrictypes.h";
-            var outputHeaderFileName = @"..\..\..\..\bs_utils\inc\servicefabric_enums_to_strings.h";
-            var outputSourceFileName = @"..\..\..\..\bs_utils\src\servicefabric_enums_to_strings.c";
+            var outputHeaderFileName = @"..\..\..\..\inc\servicefabric_enums_to_strings.h";
+            var outputSourceFileName = @"..\..\..\..\src\servicefabric_enums_to_strings.c";
 
             var fileContent = File.ReadAllText(inputFileName);
 

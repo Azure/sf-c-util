@@ -151,9 +151,28 @@ library FabricType_Lib
 
         FABRIC_TRANSACTIONAL_REPLICATOR_ENABLE_INCREMENTAL_BACKUPS_ACROSS_REPLICAS = 0x40000,
 
-        FABRIC_TRANSACTIONAL_REPLICATOR_LOG_TRUNCATION_INTERVAL_SECONDS = 0x80000
+        FABRIC_TRANSACTIONAL_REPLICATOR_LOG_TRUNCATION_INTERVAL_SECONDS = 0x080000,
+
+        FABRIC_TRANSACTIONAL_REPLICATOR_COPY_BATCH_SIZE_IN_KB = 0x100000,
+        
+        FABRIC_TRANSACTIONAL_REPLICATOR_LOGGING_ENGINE = 0x200000,
+        
+        FABRIC_TRANSACTIONAL_REPLICATOR_EXTENTLOGGER_SETTINGS = 0x400000
 
     } FABRIC_TRANSACTIONAL_REPLICATOR_SETTINGS_FLAGS;
+
+    [v1_enum, uuid(fc85d8d9-8b38-4670-a488-c2ce9e06881d)]
+    typedef enum FABRIC_EXTENTLOG_LOG_SETTINGS_FLAGS
+    {
+        FABRIC_EXTENTLOG_LOG_SETTINGS_NONE = 0x0000,
+
+        FABRIC_EXTENTLOG_LOG_SETTINGS_NEW_EXTENT_THRESHOLD = 0x0001,
+
+        FABRIC_EXTENTLOG_LOG_SETTINGS_INITIAL_NUM_FREE_EXTENTS = 0x0002,
+
+        FABRIC_EXTENTLOG_LOG_SETTINGS_PAGE_SIZE_KB = 0x0004,
+
+    } FABRIC_EXTENTLOG_LOG_SETTINGS_FLAGS;
 
     [v1_enum, uuid(6e04d3b8-9a04-430e-ab35-58d480813cda)]
     typedef enum FABRIC_QUERY_RESULT_KIND
@@ -252,6 +271,14 @@ library FabricType_Lib
         FABRIC_QUERY_RESULT_ITEM_KIND_DEPLOYED_NETWORK = 0x0035,
 
         FABRIC_QUERY_RESULT_ITEM_KIND_DEPLOYED_NETWORK_CODE_PACKAGE = 0x0036,
+
+        FABRIC_QUERY_RESULT_ITEM_KIND_CONFIGURATION_PARAMETER_OVERRIDE = 0x0037,
+
+        FABRIC_QUERY_RESULT_ITEM_KIND_UPDATE_PARTITION_LOAD = 0x0038,
+
+        FABRIC_QUERY_RESULT_ITEM_KIND_LOADED_PARTITION_INFORMATION = 0x0039,
+
+        FABRIC_QUERY_RESULT_ITEM_KIND_UPDATE_PARTITION_MOVE_COST = 0x003A
     } FABRIC_QUERY_RESULT_ITEM_KIND;
 
     [v1_enum, uuid(6ea7bfcc-16fc-4fbf-9b66-046cb0a02656)]
@@ -331,6 +358,14 @@ library FabricType_Lib
 
     } FABRIC_FILE_ATTRIBUTES;
 
+    typedef struct EXTENTLOGGER_LOG_SETTINGS
+    {
+        DWORD64 Flags;
+        ULONG ExtentLogThresholdForNewWriteExtentInMB;
+        ULONG ExtentLogInitialNumFreeExtents;
+        ULONG ExtentLogPageSizeInKB ;
+    } EXTENTLOGGER_LOG_SETTINGS;
+
     typedef struct TRANSACTIONAL_REPLICATOR_SETTINGS
     {
         DWORD64 Flags;
@@ -354,6 +389,10 @@ library FabricType_Lib
         DWORD SerializationVersion;
         BOOLEAN EnableIncrementalBackupsAcrossReplicas;
         DWORD LogTruncationIntervalSeconds;
+        DWORD CopyBatchSizeInKB;
+        // TODO: Check support for old SF SDK versions
+        DWORD LoggingEngine;
+        EXTENTLOGGER_LOG_SETTINGS ExtentLogSettings;
         void * Reserved;
     } TRANSACTIONAL_REPLICATOR_SETTINGS;
 
@@ -535,6 +574,15 @@ library FabricType_Lib
         FABRIC_BACKUP_POLICY_TYPE_SCHEDULE_BASED     = 0x0002
     } FABRIC_BACKUP_POLICY_TYPE;
 
+    //Randomly geenrated guid
+    [v1_enum, uuid(ccc6d553-dac1-4c3f-9e39-13f122e82048)]
+    typedef enum FABRIC_BACKUP_STORE_MANAGED_IDENTITY_KIND
+    {
+        FABRIC_BACKUP_STORE_MANAGED_IDENTITY_KIND_INVALID = 0x0000,
+        FABRIC_BACKUP_STORE_MANAGED_IDENTITY_KIND_VMSS = 0x0001,
+        FABRIC_BACKUP_STORE_MANAGED_IDENTITY_KIND_CLUSTER = 0x0002
+    } FABRIC_BACKUP_STORE_MANAGED_IDENTITY_KIND;
+
     [v1_enum, uuid(9fd97a6c-63bf-4691-b34c-734dbe73aa5c)]
     typedef enum FABRIC_BACKUP_POLICY_RUN_SCHEDULE_MODE
     {
@@ -558,6 +606,8 @@ library FabricType_Lib
         FABRIC_BACKUP_STORE_TYPE_FILE_SHARE       = 0x0001,
         FABRIC_BACKUP_STORE_TYPE_AZURE_STORE      = 0x0002,
         FABRIC_BACKUP_STORE_TYPE_DSMS_AZURE_STORE = 0x0003,
+        FABRIC_BACKUP_STORE_TYPE_KV_AZURE_STORE   = 0x0004,
+        FABRIC_BACKUP_STORE_TYPE_MANAGED_IDENTITY_AZURE_STORE = 0x0005,
     } FABRIC_BACKUP_STORE_TYPE;
 
     [v1_enum, uuid(9460d8aa-e70d-480e-a118-453016a0867e)]
@@ -1098,6 +1148,12 @@ library FabricType_Lib
         void * Reserved;
     }FABRIC_SERVICE_TRANSPORT_SETTINGS_EX1;
 
+    typedef struct FABRIC_SERVICE_TRANSPORT_SETTINGS_EX2
+    {
+        BOOLEAN EnableMaxConcurrentCalls;
+        void * Reserved;
+    }FABRIC_SERVICE_TRANSPORT_SETTINGS_EX2;
+
     typedef struct FABRIC_SERVICE_LISTENER_ADDRESS
     {
         LPCWSTR IPAddressOrFQDN;
@@ -1187,6 +1243,41 @@ library FabricType_Lib
         LPCWSTR                     FolderPath;
         void*                       Reserved;
     } FABRIC_BACKUP_STORE_DSMS_AZURE_STORAGE_INFORMATION;
+
+    typedef struct FABRIC_BACKUP_STORE_KEY_VAULT_INFORMATION
+    {
+        LPCWSTR   BaseUri;
+        LPCWSTR   SecretName;
+        void     *Reserved;
+    } FABRIC_BACKUP_STORE_KEY_VAULT_INFORMATION;
+
+
+    typedef struct FABRIC_BACKUP_STORE_KEY_VAULT_AUTH_INFORMATION
+    {
+        LPCWSTR  ApplicationClientId;
+        LPCWSTR  CertificateSubject;
+        LPCWSTR  CertificateIssuerThumbprint;
+        LPCWSTR  StoreName;
+        void     *Reserved;
+    } FABRIC_BACKUP_STORE_KEY_VAULT_AUTH_INFORMATION;
+
+    typedef struct FABRIC_BACKUP_STORE_KEY_VAULT_AZURE_STORAGE_INFORMATION
+    {
+        const FABRIC_BACKUP_STORE_KEY_VAULT_AUTH_INFORMATION *          KeyVaultAuthInformation;
+        const FABRIC_BACKUP_STORE_KEY_VAULT_INFORMATION *               KeyVaultInformation;
+        LPCWSTR                                                         ContainerName;
+        LPCWSTR                                                         FolderPath;
+        void                                                            *Reserved;
+    } FABRIC_BACKUP_STORE_KEY_VAULT_AZURE_STORAGE_INFORMATION;
+
+    typedef struct FABRIC_BACKUP_STORE_MANAGED_IDENTITY_AZURE_STORAGE_INFORMATION
+    {
+        LPCWSTR                                     BlobServiceUri;
+        LPCWSTR                                     ContainerName;
+        FABRIC_BACKUP_STORE_MANAGED_IDENTITY_KIND   ManagedIdentityType;
+        LPCWSTR                                     FolderPath;
+        void                                        *Reserved;
+    }FABRIC_BACKUP_STORE_MANAGED_IDENTITY_AZURE_STORAGE_INFORMATION;
 
     typedef struct FABRIC_BACKUP_POLICY
     {
@@ -1292,8 +1383,41 @@ library FabricType_Lib
         FABRIC_CONTAINER_NETWORK_TYPE_OTHER = 0x0000,
         FABRIC_CONTAINER_NETWORK_TYPE_OPEN = 0x0001,
         FABRIC_CONTAINER_NETWORK_TYPE_ISOLATED = 0x0002,
+        FABRIC_CONTAINER_NETWORK_TYPE_DELEGATED = 0x0004,
 
     } FABRIC_CONTAINER_NETWORK_TYPE;
+
+    typedef struct FABRIC_CONTAINER_DNS_CONFIG_DESCRIPTION
+    {
+        FABRIC_STRING_LIST * NameServers;
+        LPCWSTR LocalDomain;
+        FABRIC_STRING_LIST * SearchDomains;
+        FABRIC_STRING_LIST * Options;
+        void * Reserved;
+    } FABRIC_CONTAINER_DNS_CONFIG_DESCRIPTION;
+
+    typedef struct FABRIC_NETWORK_RESOURCE
+    {
+        LPCWSTR ServicePackageId;
+        LPCWSTR CodePackageName;
+        LPCWSTR NetworkName;
+        LPCWSTR NetworkType;
+        LPCWSTR PodNamespace;
+        LPCWSTR PodName;
+        LPCWSTR NetworkContainerId;
+        LPCWSTR IpAddress;
+        LPCWSTR MacAddress;
+        FABRIC_STRING_PAIR_LIST * PortBindings;
+        FABRIC_STRING_PAIR_LIST * NetworkProperties;
+        FABRIC_CONTAINER_DNS_CONFIG_DESCRIPTION * DnsConfig;
+        void * Reserved;
+    } FABRIC_NETWORK_RESOURCE;
+
+    typedef struct FABRIC_NETWORK_RESOURCE_LIST
+    {
+        ULONG Count;
+        [size_is(Count)] FABRIC_NETWORK_RESOURCE * Items;
+    } FABRIC_NETWORK_RESOURCE_LIST;
 
     typedef struct FABRIC_CONTAINER_NETWORK_CONFIG_DESCRIPTION
     {
@@ -1306,6 +1430,12 @@ library FabricType_Lib
         FABRIC_CONTAINER_NETWORK_TYPE NetworkType;
         void * Reserved;
     } FABRIC_CONTAINER_NETWORK_CONFIG_DESCRIPTION;
+
+    typedef struct FABRIC_CONTAINER_NETWORK_CONFIG_DESCRIPTION_EX1
+    {
+        FABRIC_NETWORK_RESOURCE_LIST * NetworkResources;
+        void * Reserved;
+    } FABRIC_CONTAINER_NETWORK_CONFIG_DESCRIPTION_EX1;
 
     typedef struct FABRIC_CONTAINER_DRIVER_OPTION_DESCRIPTION
     {
@@ -1377,6 +1507,22 @@ library FabricType_Lib
         LPCWSTR Type;
         void * Reserved;
     } FABRIC_REPOSITORY_CREDENTIAL_DESCRIPTION_EX1;
+
+    [v1_enum, uuid(CA78ED3B-2774-4BAE-87BE-C7003C07B789)]
+    typedef enum FABRIC_MANAGED_IDENTITY_REFERENCE_KIND
+    {
+        FABRIC_MANAGED_IDENTITY_NONE	= 0,
+        FABRIC_MANAGED_IDENTITY_HOST	= 1,
+        FABRIC_MANAGED_IDENTITY_SERVICE	= 2,
+        FABRIC_MANAGED_IDENTITY_CLUSTER	= 3
+    } 	FABRIC_MANAGED_IDENTITY_REFERENCE_KIND;
+
+    typedef struct FABRIC_REPOSITORY_AUTHENTICATION_DESCRIPTION
+    {
+        FABRIC_MANAGED_IDENTITY_REFERENCE_KIND IdentityKind;
+        LPCWSTR IdentityRef;
+        void * Reserved;
+    } FABRIC_REPOSITORY_AUTHENTICATION_DESCRIPTION;
 
     typedef struct FABRIC_CONTAINER_HEALTH_CONFIG_DESCRIPTION
     {
@@ -1486,6 +1632,19 @@ library FabricType_Lib
         void * Reserved;
     } FABRIC_RESOURCE_GOVERNANCE_POLICY_DESCRIPTION_EX1;
 
+    typedef struct FABRIC_RESOURCE_GOVERNANCE_POLICY_DESCRIPTION_EX2
+    {
+        ULONG MemoryInMBLimit;
+        void * Reserved;
+    } FABRIC_RESOURCE_GOVERNANCE_POLICY_DESCRIPTION_EX2;
+
+    typedef struct FABRIC_RESOURCE_GOVERNANCE_POLICY_DESCRIPTION_EX3
+    {
+        DOUBLE CpuCores;
+        DOUBLE CpuCoresLimit;
+        void * Reserved;
+    } FABRIC_RESOURCE_GOVERNANCE_POLICY_DESCRIPTION_EX3;
+
     typedef struct FABRIC_SERVICE_PACKAGE_RESOURCE_GOVERNANCE_DESCRIPTION
     {
         BOOLEAN IsGoverned;
@@ -1494,6 +1653,13 @@ library FabricType_Lib
         ULONG NotUsed;
         void * Reserved;
     } FABRIC_SERVICE_PACKAGE_RESOURCE_GOVERNANCE_DESCRIPTION;
+
+    typedef struct FABRIC_SERVICE_PACKAGE_RESOURCE_GOVERNANCE_DESCRIPTION_EX1
+    {
+        DOUBLE CpuCoresLimit;
+        ULONG MemoryInMBLimit;
+        void * Reserved;
+    } FABRIC_SERVICE_PACKAGE_RESOURCE_GOVERNANCE_DESCRIPTION_EX1;
 
     typedef struct FABRIC_PROCESS_DESCRIPTION
     {
@@ -1545,6 +1711,12 @@ library FabricType_Lib
 	    void * Reserved;
 	} FABRIC_CONTAINER_IMAGE_DESCRIPTION_EX2;
 
+    typedef struct FABRIC_CONTAINER_IMAGE_DESCRIPTION_EX3
+	{
+        FABRIC_REPOSITORY_AUTHENTICATION_DESCRIPTION * RepositoryAuthentication;
+	    void * Reserved;
+	} FABRIC_CONTAINER_IMAGE_DESCRIPTION_EX3;
+
     typedef struct FABRIC_CONTAINER_IMAGE_DESCRIPTION_LIST
     {
         ULONG Count;
@@ -1591,7 +1763,8 @@ library FabricType_Lib
         FABRIC_CONTAINER_EVENT_TYPE_NONE = 0x0000,
         FABRIC_CONTAINER_EVENT_TYPE_STOP = 0x0001,
         FABRIC_CONTAINER_EVENT_TYPE_DIE = 0x0002,
-        FABRIC_CONTAINER_EVENT_TYPE_HEALTH = 0x0003
+        FABRIC_CONTAINER_EVENT_TYPE_HEALTH = 0x0003,
+        FABRIC_CONTAINER_EVENT_TYPE_EXEC_DIE = 0x0004
 
     } FABRIC_CONTAINER_EVENT_TYPE;
 
@@ -1617,6 +1790,12 @@ library FabricType_Lib
         ULONG ExitCode;
         void * Reserved;
     } FABRIC_CONTAINER_EVENT_DESCRIPTION;
+
+    typedef struct FABRIC_CONTAINER_EVENT_DESCRIPTION_EX1
+    {
+        LPCWSTR ExecID;
+        void * Reserved;
+    } FABRIC_CONTAINER_EVENT_DESCRIPTION_EX1;
 
     typedef struct FABRIC_CONTAINER_EVENT_DESCRIPTION_LIST
     {

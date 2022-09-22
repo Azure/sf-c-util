@@ -452,11 +452,25 @@ typedef interface IFabricCodePackageActivator IFabricCodePackageActivator;
 #endif 	/* __IFabricCodePackageActivator_FWD_DEFINED__ */
 
 
+#ifndef __IFabricCodePackageActivator2_FWD_DEFINED__
+#define __IFabricCodePackageActivator2_FWD_DEFINED__
+typedef interface IFabricCodePackageActivator2 IFabricCodePackageActivator2;
+
+#endif 	/* __IFabricCodePackageActivator2_FWD_DEFINED__ */
+
+
 #ifndef __IFabricCodePackageEventHandler_FWD_DEFINED__
 #define __IFabricCodePackageEventHandler_FWD_DEFINED__
 typedef interface IFabricCodePackageEventHandler IFabricCodePackageEventHandler;
 
 #endif 	/* __IFabricCodePackageEventHandler_FWD_DEFINED__ */
+
+
+#ifndef __IExtentLogicalLog_FWD_DEFINED__
+#define __IExtentLogicalLog_FWD_DEFINED__
+typedef interface IExtentLogicalLog IExtentLogicalLog;
+
+#endif 	/* __IExtentLogicalLog_FWD_DEFINED__ */
 
 
 #ifndef __FabricRuntime_FWD_DEFINED__
@@ -518,6 +532,13 @@ typedef interface IFabricStatelessServicePartition2 IFabricStatelessServiceParti
 typedef interface IFabricStatelessServicePartition3 IFabricStatelessServicePartition3;
 
 #endif 	/* __IFabricStatelessServicePartition3_FWD_DEFINED__ */
+
+
+#ifndef __IFabricStatelessServicePartition4_FWD_DEFINED__
+#define __IFabricStatelessServicePartition4_FWD_DEFINED__
+typedef interface IFabricStatelessServicePartition4 IFabricStatelessServicePartition4;
+
+#endif 	/* __IFabricStatelessServicePartition4_FWD_DEFINED__ */
 
 
 #ifndef __IFabricStatefulServiceFactory_FWD_DEFINED__
@@ -835,6 +856,20 @@ typedef interface IFabricKeyValueStoreReplica6 IFabricKeyValueStoreReplica6;
 #endif 	/* __IFabricKeyValueStoreReplica6_FWD_DEFINED__ */
 
 
+#ifndef __IFabricKeyValueStoreReplica7_FWD_DEFINED__
+#define __IFabricKeyValueStoreReplica7_FWD_DEFINED__
+typedef interface IFabricKeyValueStoreReplica7 IFabricKeyValueStoreReplica7;
+
+#endif 	/* __IFabricKeyValueStoreReplica7_FWD_DEFINED__ */
+
+
+#ifndef __IFabricKeyValueStoreReplica8_FWD_DEFINED__
+#define __IFabricKeyValueStoreReplica8_FWD_DEFINED__
+typedef interface IFabricKeyValueStoreReplica8 IFabricKeyValueStoreReplica8;
+
+#endif 	/* __IFabricKeyValueStoreReplica8_FWD_DEFINED__ */
+
+
 #ifndef __IFabricKeyValueStoreEnumerator_FWD_DEFINED__
 #define __IFabricKeyValueStoreEnumerator_FWD_DEFINED__
 typedef interface IFabricKeyValueStoreEnumerator IFabricKeyValueStoreEnumerator;
@@ -982,6 +1017,13 @@ typedef interface IFabricCodePackageActivator IFabricCodePackageActivator;
 #endif 	/* __IFabricCodePackageActivator_FWD_DEFINED__ */
 
 
+#ifndef __IFabricCodePackageActivator2_FWD_DEFINED__
+#define __IFabricCodePackageActivator2_FWD_DEFINED__
+typedef interface IFabricCodePackageActivator2 IFabricCodePackageActivator2;
+
+#endif 	/* __IFabricCodePackageActivator2_FWD_DEFINED__ */
+
+
 #ifndef __IFabricCodePackageEventHandler_FWD_DEFINED__
 #define __IFabricCodePackageEventHandler_FWD_DEFINED__
 typedef interface IFabricCodePackageEventHandler IFabricCodePackageEventHandler;
@@ -989,10 +1031,17 @@ typedef interface IFabricCodePackageEventHandler IFabricCodePackageEventHandler;
 #endif 	/* __IFabricCodePackageEventHandler_FWD_DEFINED__ */
 
 
+#ifndef __IExtentLogicalLog_FWD_DEFINED__
+#define __IExtentLogicalLog_FWD_DEFINED__
+typedef interface IExtentLogicalLog IExtentLogicalLog;
+
+#endif 	/* __IExtentLogicalLog_FWD_DEFINED__ */
+
+
 /* header files for imported files */
-#include "unknwn.h"
-#include "fabrictypes.h"
-#include "fabriccommon.h"
+#include "Unknwn.h"
+#include "FabricTypes.h"
+#include "FabricCommon.h"
 
 #ifdef __cplusplus
 extern "C"{
@@ -1084,6 +1133,10 @@ extern "C"{
 
 
 
+
+
+
+
 extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0000_v0_0_c_ifspec;
 extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0000_v0_0_s_ifspec;
 
@@ -1096,6 +1149,8 @@ extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0000_v0_0_s_ifspec;
 
 
 #pragma pack(push, 8)
+
+
 
 
 
@@ -9479,6 +9534,152 @@ EXTERN_C const IID IID_IFabricCodePackageActivator;
 #endif 	/* __IFabricCodePackageActivator_INTERFACE_DEFINED__ */
 
 
+#ifndef __IFabricCodePackageActivator2_INTERFACE_DEFINED__
+#define __IFabricCodePackageActivator2_INTERFACE_DEFINED__
+
+/* interface IFabricCodePackageActivator2 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricCodePackageActivator2;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("13C742AA-A426-4A5B-B2D2-7A9AC0DB71E2")
+    IFabricCodePackageActivator2 : public IFabricCodePackageActivator
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginActivateCodePackage2( 
+            /* [in] */ FABRIC_CODE_PACKAGE_ACTIVATION_INFORMATION_LIST *cpActivationInfoList,
+            /* [in] */ FABRIC_STRING_MAP *environment,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricCodePackageActivator2Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricCodePackageActivator2 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricCodePackageActivator2 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginActivateCodePackage )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ FABRIC_STRING_LIST *codePackageNames,
+            /* [in] */ FABRIC_STRING_MAP *environment,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndActivateCodePackage )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginDeactivateCodePackage )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ FABRIC_STRING_LIST *codePackageNames,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndDeactivateCodePackage )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *AbortCodePackage )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ FABRIC_STRING_LIST *codePackageNames);
+        
+        HRESULT ( STDMETHODCALLTYPE *RegisterCodePackageEventHandler )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ IFabricCodePackageEventHandler *eventHandler,
+            /* [retval][out] */ ULONGLONG *callbackHandle);
+        
+        HRESULT ( STDMETHODCALLTYPE *UnregisterCodePackageEventHandler )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ ULONGLONG callbackHandle);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginActivateCodePackage2 )( 
+            IFabricCodePackageActivator2 * This,
+            /* [in] */ FABRIC_CODE_PACKAGE_ACTIVATION_INFORMATION_LIST *cpActivationInfoList,
+            /* [in] */ FABRIC_STRING_MAP *environment,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        END_INTERFACE
+    } IFabricCodePackageActivator2Vtbl;
+
+    interface IFabricCodePackageActivator2
+    {
+        CONST_VTBL struct IFabricCodePackageActivator2Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricCodePackageActivator2_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricCodePackageActivator2_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricCodePackageActivator2_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricCodePackageActivator2_BeginActivateCodePackage(This,codePackageNames,environment,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginActivateCodePackage(This,codePackageNames,environment,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricCodePackageActivator2_EndActivateCodePackage(This,context)	\
+    ( (This)->lpVtbl -> EndActivateCodePackage(This,context) ) 
+
+#define IFabricCodePackageActivator2_BeginDeactivateCodePackage(This,codePackageNames,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginDeactivateCodePackage(This,codePackageNames,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricCodePackageActivator2_EndDeactivateCodePackage(This,context)	\
+    ( (This)->lpVtbl -> EndDeactivateCodePackage(This,context) ) 
+
+#define IFabricCodePackageActivator2_AbortCodePackage(This,codePackageNames)	\
+    ( (This)->lpVtbl -> AbortCodePackage(This,codePackageNames) ) 
+
+#define IFabricCodePackageActivator2_RegisterCodePackageEventHandler(This,eventHandler,callbackHandle)	\
+    ( (This)->lpVtbl -> RegisterCodePackageEventHandler(This,eventHandler,callbackHandle) ) 
+
+#define IFabricCodePackageActivator2_UnregisterCodePackageEventHandler(This,callbackHandle)	\
+    ( (This)->lpVtbl -> UnregisterCodePackageEventHandler(This,callbackHandle) ) 
+
+
+#define IFabricCodePackageActivator2_BeginActivateCodePackage2(This,cpActivationInfoList,environment,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginActivateCodePackage2(This,cpActivationInfoList,environment,timeoutMilliseconds,callback,context) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricCodePackageActivator2_INTERFACE_DEFINED__ */
+
+
 #ifndef __IFabricCodePackageEventHandler_INTERFACE_DEFINED__
 #define __IFabricCodePackageEventHandler_INTERFACE_DEFINED__
 
@@ -9559,6 +9760,156 @@ EXTERN_C const IID IID_IFabricCodePackageEventHandler;
 
 
 #endif 	/* __IFabricCodePackageEventHandler_INTERFACE_DEFINED__ */
+
+
+#ifndef __IExtentLogicalLog_INTERFACE_DEFINED__
+#define __IExtentLogicalLog_INTERFACE_DEFINED__
+
+/* interface IExtentLogicalLog */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IExtentLogicalLog;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("778dfdc1-58f5-4cec-a266-65e1bc8281f4")
+    IExtentLogicalLog : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginOpen( 
+            /* [in] */ LPCWSTR directoryPath,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndOpen( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE Append( 
+            /* [in] */ ULONG bufferSizeInBytes,
+            /* [size_is][in] */ const BYTE *buffer) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginFlushWithMarker( 
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndFlushWithMarker( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginClose( 
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndClose( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IExtentLogicalLogVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IExtentLogicalLog * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IExtentLogicalLog * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IExtentLogicalLog * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginOpen )( 
+            IExtentLogicalLog * This,
+            /* [in] */ LPCWSTR directoryPath,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndOpen )( 
+            IExtentLogicalLog * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *Append )( 
+            IExtentLogicalLog * This,
+            /* [in] */ ULONG bufferSizeInBytes,
+            /* [size_is][in] */ const BYTE *buffer);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginFlushWithMarker )( 
+            IExtentLogicalLog * This,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndFlushWithMarker )( 
+            IExtentLogicalLog * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginClose )( 
+            IExtentLogicalLog * This,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndClose )( 
+            IExtentLogicalLog * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        END_INTERFACE
+    } IExtentLogicalLogVtbl;
+
+    interface IExtentLogicalLog
+    {
+        CONST_VTBL struct IExtentLogicalLogVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IExtentLogicalLog_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IExtentLogicalLog_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IExtentLogicalLog_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IExtentLogicalLog_BeginOpen(This,directoryPath,callback,context)	\
+    ( (This)->lpVtbl -> BeginOpen(This,directoryPath,callback,context) ) 
+
+#define IExtentLogicalLog_EndOpen(This,context)	\
+    ( (This)->lpVtbl -> EndOpen(This,context) ) 
+
+#define IExtentLogicalLog_Append(This,bufferSizeInBytes,buffer)	\
+    ( (This)->lpVtbl -> Append(This,bufferSizeInBytes,buffer) ) 
+
+#define IExtentLogicalLog_BeginFlushWithMarker(This,callback,context)	\
+    ( (This)->lpVtbl -> BeginFlushWithMarker(This,callback,context) ) 
+
+#define IExtentLogicalLog_EndFlushWithMarker(This,context)	\
+    ( (This)->lpVtbl -> EndFlushWithMarker(This,context) ) 
+
+#define IExtentLogicalLog_BeginClose(This,callback,context)	\
+    ( (This)->lpVtbl -> BeginClose(This,callback,context) ) 
+
+#define IExtentLogicalLog_EndClose(This,context)	\
+    ( (This)->lpVtbl -> EndClose(This,context) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IExtentLogicalLog_INTERFACE_DEFINED__ */
 
 
 EXTERN_C const CLSID CLSID_FabricRuntime;
@@ -9715,8 +10066,155 @@ FabricRuntime;
     /* [in] */ __RPC__in REFIID riid,
     /* [retval][out] */ __RPC__deref_out_opt void **activator);
 
+/* [entry] */ HRESULT FabricCreateExtentLog( 
+    /* [in] */ FABRIC_PARTITION_ID partitionId,
+    /* [in] */ FABRIC_REPLICA_ID replicaId,
+    /* [in] */ __RPC__in LPCWSTR directoryPath,
+    /* [retval][out] */ __RPC__deref_out_opt void **result);
+
 #endif /* __FabricRuntimeModule_MODULE_DEFINED__ */
 #endif /* __FabricRuntimeLib_LIBRARY_DEFINED__ */
+
+#ifndef __IFabricStatelessServicePartition4_INTERFACE_DEFINED__
+#define __IFabricStatelessServicePartition4_INTERFACE_DEFINED__
+
+/* interface IFabricStatelessServicePartition4 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricStatelessServicePartition4;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("4e3c6976-b642-49a7-a323-46c316dd883d")
+    IFabricStatelessServicePartition4 : public IFabricStatelessServicePartition3
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE ReportCompletion( void) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricStatelessServicePartition4Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricStatelessServicePartition4 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricStatelessServicePartition4 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetPartitionInfo )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [retval][out] */ const FABRIC_SERVICE_PARTITION_INFORMATION **bufferedValue);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportLoad )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ ULONG metricCount,
+            /* [size_is][in] */ const FABRIC_LOAD_METRIC *metrics);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportFault )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ FABRIC_FAULT_TYPE faultType);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportMoveCost )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ FABRIC_MOVE_COST moveCost);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportInstanceHealth )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportPartitionHealth )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportInstanceHealth2 )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo,
+            /* [in] */ const FABRIC_HEALTH_REPORT_SEND_OPTIONS *sendOptions);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportPartitionHealth2 )( 
+            IFabricStatelessServicePartition4 * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo,
+            /* [in] */ const FABRIC_HEALTH_REPORT_SEND_OPTIONS *sendOptions);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportCompletion )( 
+            IFabricStatelessServicePartition4 * This);
+        
+        END_INTERFACE
+    } IFabricStatelessServicePartition4Vtbl;
+
+    interface IFabricStatelessServicePartition4
+    {
+        CONST_VTBL struct IFabricStatelessServicePartition4Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricStatelessServicePartition4_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricStatelessServicePartition4_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricStatelessServicePartition4_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricStatelessServicePartition4_GetPartitionInfo(This,bufferedValue)	\
+    ( (This)->lpVtbl -> GetPartitionInfo(This,bufferedValue) ) 
+
+#define IFabricStatelessServicePartition4_ReportLoad(This,metricCount,metrics)	\
+    ( (This)->lpVtbl -> ReportLoad(This,metricCount,metrics) ) 
+
+#define IFabricStatelessServicePartition4_ReportFault(This,faultType)	\
+    ( (This)->lpVtbl -> ReportFault(This,faultType) ) 
+
+
+#define IFabricStatelessServicePartition4_ReportMoveCost(This,moveCost)	\
+    ( (This)->lpVtbl -> ReportMoveCost(This,moveCost) ) 
+
+
+#define IFabricStatelessServicePartition4_ReportInstanceHealth(This,healthInfo)	\
+    ( (This)->lpVtbl -> ReportInstanceHealth(This,healthInfo) ) 
+
+#define IFabricStatelessServicePartition4_ReportPartitionHealth(This,healthInfo)	\
+    ( (This)->lpVtbl -> ReportPartitionHealth(This,healthInfo) ) 
+
+
+#define IFabricStatelessServicePartition4_ReportInstanceHealth2(This,healthInfo,sendOptions)	\
+    ( (This)->lpVtbl -> ReportInstanceHealth2(This,healthInfo,sendOptions) ) 
+
+#define IFabricStatelessServicePartition4_ReportPartitionHealth2(This,healthInfo,sendOptions)	\
+    ( (This)->lpVtbl -> ReportPartitionHealth2(This,healthInfo,sendOptions) ) 
+
+
+#define IFabricStatelessServicePartition4_ReportCompletion(This)	\
+    ( (This)->lpVtbl -> ReportCompletion(This) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricStatelessServicePartition4_INTERFACE_DEFINED__ */
+
 
 #ifndef __IFabricStateReplicator2_INTERFACE_DEFINED__
 #define __IFabricStateReplicator2_INTERFACE_DEFINED__
@@ -11052,6 +11550,856 @@ EXTERN_C const IID IID_IFabricKeyValueStoreReplica6;
 #endif 	/* __IFabricKeyValueStoreReplica6_INTERFACE_DEFINED__ */
 
 
+#ifndef __IFabricKeyValueStoreReplica7_INTERFACE_DEFINED__
+#define __IFabricKeyValueStoreReplica7_INTERFACE_DEFINED__
+
+/* interface IFabricKeyValueStoreReplica7 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricKeyValueStoreReplica7;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("2903f8b3-f508-4ee8-b205-289d877f63ce")
+    IFabricKeyValueStoreReplica7 : public IFabricKeyValueStoreReplica6
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE EnumerateByLSN( 
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER fromLsn,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EnumerateKeysAndTombstonesByLSN( 
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER fromLsn,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetLastCommittedSequenceNumber( 
+            /* [retval][out] */ FABRIC_SEQUENCE_NUMBER *lastCommittedSequenceNumber) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricKeyValueStoreReplica7Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricKeyValueStoreReplica7 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricKeyValueStoreReplica7 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginOpen )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ FABRIC_REPLICA_OPEN_MODE openMode,
+            /* [in] */ IFabricStatefulServicePartition *partition,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndOpen )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricReplicator **replicator);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginChangeRole )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ FABRIC_REPLICA_ROLE newRole,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndChangeRole )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **serviceAddress);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginClose )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndClose )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        void ( STDMETHODCALLTYPE *Abort )( 
+            IFabricKeyValueStoreReplica7 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetCurrentEpoch )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [out] */ FABRIC_EPOCH *currentEpoch);
+        
+        HRESULT ( STDMETHODCALLTYPE *UpdateReplicatorSettings )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ const FABRIC_REPLICATOR_SETTINGS *replicatorSettings);
+        
+        HRESULT ( STDMETHODCALLTYPE *CreateTransaction )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [retval][out] */ IFabricTransaction **transaction);
+        
+        HRESULT ( STDMETHODCALLTYPE *Add )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *Remove )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber);
+        
+        HRESULT ( STDMETHODCALLTYPE *Update )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber);
+        
+        HRESULT ( STDMETHODCALLTYPE *Get )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetMetadata )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *Contains )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ BOOLEAN *result);
+        
+        HRESULT ( STDMETHODCALLTYPE *Enumerate )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateByKey )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateMetadata )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateMetadataByKey )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *Backup )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ LPCWSTR backupDirectory);
+        
+        HRESULT ( STDMETHODCALLTYPE *Restore )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ LPCWSTR backupDirectory);
+        
+        HRESULT ( STDMETHODCALLTYPE *CreateTransaction2 )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ const FABRIC_KEY_VALUE_STORE_TRANSACTION_SETTINGS *settings,
+            /* [retval][out] */ IFabricTransaction **transaction);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginBackup )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ LPCWSTR backupDirectory,
+            /* [in] */ FABRIC_STORE_BACKUP_OPTION backupOption,
+            /* [in] */ IFabricStorePostBackupHandler *postBackupHandler,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndBackup )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRestore )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ LPCWSTR backupDirectory,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRestore )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryAdd )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value,
+            /* [retval][out] */ BOOLEAN *added);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryRemove )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber,
+            /* [retval][out] */ BOOLEAN *exists);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryUpdate )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber,
+            /* [retval][out] */ BOOLEAN *exists);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryGet )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryGetMetadata )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateByKey2 )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [in] */ BOOLEAN strictPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateMetadataByKey2 )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [in] */ BOOLEAN strictPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRestore2 )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ LPCWSTR backupDirectory,
+            /* [in] */ FABRIC_KEY_VALUE_STORE_RESTORE_SETTINGS *settings,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateByLSN )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER fromLsn,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateKeysAndTombstonesByLSN )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER fromLsn,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetLastCommittedSequenceNumber )( 
+            IFabricKeyValueStoreReplica7 * This,
+            /* [retval][out] */ FABRIC_SEQUENCE_NUMBER *lastCommittedSequenceNumber);
+        
+        END_INTERFACE
+    } IFabricKeyValueStoreReplica7Vtbl;
+
+    interface IFabricKeyValueStoreReplica7
+    {
+        CONST_VTBL struct IFabricKeyValueStoreReplica7Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricKeyValueStoreReplica7_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricKeyValueStoreReplica7_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricKeyValueStoreReplica7_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricKeyValueStoreReplica7_BeginOpen(This,openMode,partition,callback,context)	\
+    ( (This)->lpVtbl -> BeginOpen(This,openMode,partition,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica7_EndOpen(This,context,replicator)	\
+    ( (This)->lpVtbl -> EndOpen(This,context,replicator) ) 
+
+#define IFabricKeyValueStoreReplica7_BeginChangeRole(This,newRole,callback,context)	\
+    ( (This)->lpVtbl -> BeginChangeRole(This,newRole,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica7_EndChangeRole(This,context,serviceAddress)	\
+    ( (This)->lpVtbl -> EndChangeRole(This,context,serviceAddress) ) 
+
+#define IFabricKeyValueStoreReplica7_BeginClose(This,callback,context)	\
+    ( (This)->lpVtbl -> BeginClose(This,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica7_EndClose(This,context)	\
+    ( (This)->lpVtbl -> EndClose(This,context) ) 
+
+#define IFabricKeyValueStoreReplica7_Abort(This)	\
+    ( (This)->lpVtbl -> Abort(This) ) 
+
+
+#define IFabricKeyValueStoreReplica7_GetCurrentEpoch(This,currentEpoch)	\
+    ( (This)->lpVtbl -> GetCurrentEpoch(This,currentEpoch) ) 
+
+#define IFabricKeyValueStoreReplica7_UpdateReplicatorSettings(This,replicatorSettings)	\
+    ( (This)->lpVtbl -> UpdateReplicatorSettings(This,replicatorSettings) ) 
+
+#define IFabricKeyValueStoreReplica7_CreateTransaction(This,transaction)	\
+    ( (This)->lpVtbl -> CreateTransaction(This,transaction) ) 
+
+#define IFabricKeyValueStoreReplica7_Add(This,transaction,key,valueSizeInBytes,value)	\
+    ( (This)->lpVtbl -> Add(This,transaction,key,valueSizeInBytes,value) ) 
+
+#define IFabricKeyValueStoreReplica7_Remove(This,transaction,key,checkSequenceNumber)	\
+    ( (This)->lpVtbl -> Remove(This,transaction,key,checkSequenceNumber) ) 
+
+#define IFabricKeyValueStoreReplica7_Update(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber)	\
+    ( (This)->lpVtbl -> Update(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber) ) 
+
+#define IFabricKeyValueStoreReplica7_Get(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> Get(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica7_GetMetadata(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> GetMetadata(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica7_Contains(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> Contains(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica7_Enumerate(This,transaction,result)	\
+    ( (This)->lpVtbl -> Enumerate(This,transaction,result) ) 
+
+#define IFabricKeyValueStoreReplica7_EnumerateByKey(This,transaction,keyPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateByKey(This,transaction,keyPrefix,result) ) 
+
+#define IFabricKeyValueStoreReplica7_EnumerateMetadata(This,transaction,result)	\
+    ( (This)->lpVtbl -> EnumerateMetadata(This,transaction,result) ) 
+
+#define IFabricKeyValueStoreReplica7_EnumerateMetadataByKey(This,transaction,keyPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateMetadataByKey(This,transaction,keyPrefix,result) ) 
+
+
+#define IFabricKeyValueStoreReplica7_Backup(This,backupDirectory)	\
+    ( (This)->lpVtbl -> Backup(This,backupDirectory) ) 
+
+#define IFabricKeyValueStoreReplica7_Restore(This,backupDirectory)	\
+    ( (This)->lpVtbl -> Restore(This,backupDirectory) ) 
+
+#define IFabricKeyValueStoreReplica7_CreateTransaction2(This,settings,transaction)	\
+    ( (This)->lpVtbl -> CreateTransaction2(This,settings,transaction) ) 
+
+
+#define IFabricKeyValueStoreReplica7_BeginBackup(This,backupDirectory,backupOption,postBackupHandler,callback,context)	\
+    ( (This)->lpVtbl -> BeginBackup(This,backupDirectory,backupOption,postBackupHandler,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica7_EndBackup(This,context)	\
+    ( (This)->lpVtbl -> EndBackup(This,context) ) 
+
+
+#define IFabricKeyValueStoreReplica7_BeginRestore(This,backupDirectory,callback,context)	\
+    ( (This)->lpVtbl -> BeginRestore(This,backupDirectory,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica7_EndRestore(This,context)	\
+    ( (This)->lpVtbl -> EndRestore(This,context) ) 
+
+
+#define IFabricKeyValueStoreReplica7_TryAdd(This,transaction,key,valueSizeInBytes,value,added)	\
+    ( (This)->lpVtbl -> TryAdd(This,transaction,key,valueSizeInBytes,value,added) ) 
+
+#define IFabricKeyValueStoreReplica7_TryRemove(This,transaction,key,checkSequenceNumber,exists)	\
+    ( (This)->lpVtbl -> TryRemove(This,transaction,key,checkSequenceNumber,exists) ) 
+
+#define IFabricKeyValueStoreReplica7_TryUpdate(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber,exists)	\
+    ( (This)->lpVtbl -> TryUpdate(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber,exists) ) 
+
+#define IFabricKeyValueStoreReplica7_TryGet(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> TryGet(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica7_TryGetMetadata(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> TryGetMetadata(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica7_EnumerateByKey2(This,transaction,keyPrefix,strictPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateByKey2(This,transaction,keyPrefix,strictPrefix,result) ) 
+
+#define IFabricKeyValueStoreReplica7_EnumerateMetadataByKey2(This,transaction,keyPrefix,strictPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateMetadataByKey2(This,transaction,keyPrefix,strictPrefix,result) ) 
+
+
+#define IFabricKeyValueStoreReplica7_BeginRestore2(This,backupDirectory,settings,callback,context)	\
+    ( (This)->lpVtbl -> BeginRestore2(This,backupDirectory,settings,callback,context) ) 
+
+
+#define IFabricKeyValueStoreReplica7_EnumerateByLSN(This,transaction,fromLsn,result)	\
+    ( (This)->lpVtbl -> EnumerateByLSN(This,transaction,fromLsn,result) ) 
+
+#define IFabricKeyValueStoreReplica7_EnumerateKeysAndTombstonesByLSN(This,transaction,fromLsn,result)	\
+    ( (This)->lpVtbl -> EnumerateKeysAndTombstonesByLSN(This,transaction,fromLsn,result) ) 
+
+#define IFabricKeyValueStoreReplica7_GetLastCommittedSequenceNumber(This,lastCommittedSequenceNumber)	\
+    ( (This)->lpVtbl -> GetLastCommittedSequenceNumber(This,lastCommittedSequenceNumber) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricKeyValueStoreReplica7_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricKeyValueStoreReplica8_INTERFACE_DEFINED__
+#define __IFabricKeyValueStoreReplica8_INTERFACE_DEFINED__
+
+/* interface IFabricKeyValueStoreReplica8 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricKeyValueStoreReplica8;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("fb87ec27-fff9-4c03-820e-41a7ef38e732")
+    IFabricKeyValueStoreReplica8 : public IFabricKeyValueStoreReplica7
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE TryAbortExistingTransactionsAndRejectWrites( 
+            /* [retval][out] */ BOOLEAN *readyForFinalMigration) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetLSNSplitPercentile( 
+            /* [in] */ LONG percentile,
+            /* [retval][out] */ FABRIC_SEQUENCE_NUMBER *readyForFinalMigration) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricKeyValueStoreReplica8Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricKeyValueStoreReplica8 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricKeyValueStoreReplica8 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginOpen )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ FABRIC_REPLICA_OPEN_MODE openMode,
+            /* [in] */ IFabricStatefulServicePartition *partition,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndOpen )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricReplicator **replicator);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginChangeRole )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ FABRIC_REPLICA_ROLE newRole,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndChangeRole )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **serviceAddress);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginClose )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndClose )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        void ( STDMETHODCALLTYPE *Abort )( 
+            IFabricKeyValueStoreReplica8 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetCurrentEpoch )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [out] */ FABRIC_EPOCH *currentEpoch);
+        
+        HRESULT ( STDMETHODCALLTYPE *UpdateReplicatorSettings )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ const FABRIC_REPLICATOR_SETTINGS *replicatorSettings);
+        
+        HRESULT ( STDMETHODCALLTYPE *CreateTransaction )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [retval][out] */ IFabricTransaction **transaction);
+        
+        HRESULT ( STDMETHODCALLTYPE *Add )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *Remove )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber);
+        
+        HRESULT ( STDMETHODCALLTYPE *Update )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber);
+        
+        HRESULT ( STDMETHODCALLTYPE *Get )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetMetadata )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *Contains )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ BOOLEAN *result);
+        
+        HRESULT ( STDMETHODCALLTYPE *Enumerate )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateByKey )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateMetadata )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateMetadataByKey )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *Backup )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ LPCWSTR backupDirectory);
+        
+        HRESULT ( STDMETHODCALLTYPE *Restore )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ LPCWSTR backupDirectory);
+        
+        HRESULT ( STDMETHODCALLTYPE *CreateTransaction2 )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ const FABRIC_KEY_VALUE_STORE_TRANSACTION_SETTINGS *settings,
+            /* [retval][out] */ IFabricTransaction **transaction);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginBackup )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ LPCWSTR backupDirectory,
+            /* [in] */ FABRIC_STORE_BACKUP_OPTION backupOption,
+            /* [in] */ IFabricStorePostBackupHandler *postBackupHandler,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndBackup )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRestore )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ LPCWSTR backupDirectory,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRestore )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryAdd )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value,
+            /* [retval][out] */ BOOLEAN *added);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryRemove )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber,
+            /* [retval][out] */ BOOLEAN *exists);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryUpdate )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [in] */ LONG valueSizeInBytes,
+            /* [size_is][in] */ const BYTE *value,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER checkSequenceNumber,
+            /* [retval][out] */ BOOLEAN *exists);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryGet )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryGetMetadata )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR key,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateByKey2 )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [in] */ BOOLEAN strictPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateMetadataByKey2 )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ LPCWSTR keyPrefix,
+            /* [in] */ BOOLEAN strictPrefix,
+            /* [retval][out] */ IFabricKeyValueStoreItemMetadataEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRestore2 )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ LPCWSTR backupDirectory,
+            /* [in] */ FABRIC_KEY_VALUE_STORE_RESTORE_SETTINGS *settings,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateByLSN )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER fromLsn,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EnumerateKeysAndTombstonesByLSN )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ IFabricTransactionBase *transaction,
+            /* [in] */ FABRIC_SEQUENCE_NUMBER fromLsn,
+            /* [retval][out] */ IFabricKeyValueStoreItemEnumerator **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetLastCommittedSequenceNumber )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [retval][out] */ FABRIC_SEQUENCE_NUMBER *lastCommittedSequenceNumber);
+        
+        HRESULT ( STDMETHODCALLTYPE *TryAbortExistingTransactionsAndRejectWrites )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [retval][out] */ BOOLEAN *readyForFinalMigration);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetLSNSplitPercentile )( 
+            IFabricKeyValueStoreReplica8 * This,
+            /* [in] */ LONG percentile,
+            /* [retval][out] */ FABRIC_SEQUENCE_NUMBER *readyForFinalMigration);
+        
+        END_INTERFACE
+    } IFabricKeyValueStoreReplica8Vtbl;
+
+    interface IFabricKeyValueStoreReplica8
+    {
+        CONST_VTBL struct IFabricKeyValueStoreReplica8Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricKeyValueStoreReplica8_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricKeyValueStoreReplica8_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricKeyValueStoreReplica8_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricKeyValueStoreReplica8_BeginOpen(This,openMode,partition,callback,context)	\
+    ( (This)->lpVtbl -> BeginOpen(This,openMode,partition,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica8_EndOpen(This,context,replicator)	\
+    ( (This)->lpVtbl -> EndOpen(This,context,replicator) ) 
+
+#define IFabricKeyValueStoreReplica8_BeginChangeRole(This,newRole,callback,context)	\
+    ( (This)->lpVtbl -> BeginChangeRole(This,newRole,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica8_EndChangeRole(This,context,serviceAddress)	\
+    ( (This)->lpVtbl -> EndChangeRole(This,context,serviceAddress) ) 
+
+#define IFabricKeyValueStoreReplica8_BeginClose(This,callback,context)	\
+    ( (This)->lpVtbl -> BeginClose(This,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica8_EndClose(This,context)	\
+    ( (This)->lpVtbl -> EndClose(This,context) ) 
+
+#define IFabricKeyValueStoreReplica8_Abort(This)	\
+    ( (This)->lpVtbl -> Abort(This) ) 
+
+
+#define IFabricKeyValueStoreReplica8_GetCurrentEpoch(This,currentEpoch)	\
+    ( (This)->lpVtbl -> GetCurrentEpoch(This,currentEpoch) ) 
+
+#define IFabricKeyValueStoreReplica8_UpdateReplicatorSettings(This,replicatorSettings)	\
+    ( (This)->lpVtbl -> UpdateReplicatorSettings(This,replicatorSettings) ) 
+
+#define IFabricKeyValueStoreReplica8_CreateTransaction(This,transaction)	\
+    ( (This)->lpVtbl -> CreateTransaction(This,transaction) ) 
+
+#define IFabricKeyValueStoreReplica8_Add(This,transaction,key,valueSizeInBytes,value)	\
+    ( (This)->lpVtbl -> Add(This,transaction,key,valueSizeInBytes,value) ) 
+
+#define IFabricKeyValueStoreReplica8_Remove(This,transaction,key,checkSequenceNumber)	\
+    ( (This)->lpVtbl -> Remove(This,transaction,key,checkSequenceNumber) ) 
+
+#define IFabricKeyValueStoreReplica8_Update(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber)	\
+    ( (This)->lpVtbl -> Update(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber) ) 
+
+#define IFabricKeyValueStoreReplica8_Get(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> Get(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica8_GetMetadata(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> GetMetadata(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica8_Contains(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> Contains(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica8_Enumerate(This,transaction,result)	\
+    ( (This)->lpVtbl -> Enumerate(This,transaction,result) ) 
+
+#define IFabricKeyValueStoreReplica8_EnumerateByKey(This,transaction,keyPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateByKey(This,transaction,keyPrefix,result) ) 
+
+#define IFabricKeyValueStoreReplica8_EnumerateMetadata(This,transaction,result)	\
+    ( (This)->lpVtbl -> EnumerateMetadata(This,transaction,result) ) 
+
+#define IFabricKeyValueStoreReplica8_EnumerateMetadataByKey(This,transaction,keyPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateMetadataByKey(This,transaction,keyPrefix,result) ) 
+
+
+#define IFabricKeyValueStoreReplica8_Backup(This,backupDirectory)	\
+    ( (This)->lpVtbl -> Backup(This,backupDirectory) ) 
+
+#define IFabricKeyValueStoreReplica8_Restore(This,backupDirectory)	\
+    ( (This)->lpVtbl -> Restore(This,backupDirectory) ) 
+
+#define IFabricKeyValueStoreReplica8_CreateTransaction2(This,settings,transaction)	\
+    ( (This)->lpVtbl -> CreateTransaction2(This,settings,transaction) ) 
+
+
+#define IFabricKeyValueStoreReplica8_BeginBackup(This,backupDirectory,backupOption,postBackupHandler,callback,context)	\
+    ( (This)->lpVtbl -> BeginBackup(This,backupDirectory,backupOption,postBackupHandler,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica8_EndBackup(This,context)	\
+    ( (This)->lpVtbl -> EndBackup(This,context) ) 
+
+
+#define IFabricKeyValueStoreReplica8_BeginRestore(This,backupDirectory,callback,context)	\
+    ( (This)->lpVtbl -> BeginRestore(This,backupDirectory,callback,context) ) 
+
+#define IFabricKeyValueStoreReplica8_EndRestore(This,context)	\
+    ( (This)->lpVtbl -> EndRestore(This,context) ) 
+
+
+#define IFabricKeyValueStoreReplica8_TryAdd(This,transaction,key,valueSizeInBytes,value,added)	\
+    ( (This)->lpVtbl -> TryAdd(This,transaction,key,valueSizeInBytes,value,added) ) 
+
+#define IFabricKeyValueStoreReplica8_TryRemove(This,transaction,key,checkSequenceNumber,exists)	\
+    ( (This)->lpVtbl -> TryRemove(This,transaction,key,checkSequenceNumber,exists) ) 
+
+#define IFabricKeyValueStoreReplica8_TryUpdate(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber,exists)	\
+    ( (This)->lpVtbl -> TryUpdate(This,transaction,key,valueSizeInBytes,value,checkSequenceNumber,exists) ) 
+
+#define IFabricKeyValueStoreReplica8_TryGet(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> TryGet(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica8_TryGetMetadata(This,transaction,key,result)	\
+    ( (This)->lpVtbl -> TryGetMetadata(This,transaction,key,result) ) 
+
+#define IFabricKeyValueStoreReplica8_EnumerateByKey2(This,transaction,keyPrefix,strictPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateByKey2(This,transaction,keyPrefix,strictPrefix,result) ) 
+
+#define IFabricKeyValueStoreReplica8_EnumerateMetadataByKey2(This,transaction,keyPrefix,strictPrefix,result)	\
+    ( (This)->lpVtbl -> EnumerateMetadataByKey2(This,transaction,keyPrefix,strictPrefix,result) ) 
+
+
+#define IFabricKeyValueStoreReplica8_BeginRestore2(This,backupDirectory,settings,callback,context)	\
+    ( (This)->lpVtbl -> BeginRestore2(This,backupDirectory,settings,callback,context) ) 
+
+
+#define IFabricKeyValueStoreReplica8_EnumerateByLSN(This,transaction,fromLsn,result)	\
+    ( (This)->lpVtbl -> EnumerateByLSN(This,transaction,fromLsn,result) ) 
+
+#define IFabricKeyValueStoreReplica8_EnumerateKeysAndTombstonesByLSN(This,transaction,fromLsn,result)	\
+    ( (This)->lpVtbl -> EnumerateKeysAndTombstonesByLSN(This,transaction,fromLsn,result) ) 
+
+#define IFabricKeyValueStoreReplica8_GetLastCommittedSequenceNumber(This,lastCommittedSequenceNumber)	\
+    ( (This)->lpVtbl -> GetLastCommittedSequenceNumber(This,lastCommittedSequenceNumber) ) 
+
+
+#define IFabricKeyValueStoreReplica8_TryAbortExistingTransactionsAndRejectWrites(This,readyForFinalMigration)	\
+    ( (This)->lpVtbl -> TryAbortExistingTransactionsAndRejectWrites(This,readyForFinalMigration) ) 
+
+#define IFabricKeyValueStoreReplica8_GetLSNSplitPercentile(This,percentile,readyForFinalMigration)	\
+    ( (This)->lpVtbl -> GetLSNSplitPercentile(This,percentile,readyForFinalMigration) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricKeyValueStoreReplica8_INTERFACE_DEFINED__ */
+
+
 #ifndef __IFabricKeyValueStoreEnumerator_INTERFACE_DEFINED__
 #define __IFabricKeyValueStoreEnumerator_INTERFACE_DEFINED__
 
@@ -11911,14 +13259,14 @@ EXTERN_C const IID IID_IFabricSecondaryEventHandler;
 #endif 	/* __IFabricSecondaryEventHandler_INTERFACE_DEFINED__ */
 
 
-/* interface __MIDL_itf_fabricruntime_0000_0075 */
+/* interface __MIDL_itf_fabricruntime_0000_0080 */
 /* [local] */ 
 
 typedef HRESULT (*FnFabricMain)(IFabricRuntime * runtime, IFabricCodePackageActivationContext * activationContext);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0075_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0075_v0_0_s_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0080_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0080_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 
