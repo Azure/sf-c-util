@@ -17,6 +17,7 @@ namespace servicefabric_enums_to_strings_generator
         {
             outputHeaderFile.Write(
 @"// Copyright (C) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /*THIS FILE IS GENERATED, DO NOT EDIT BY HAND!!!*/
 /*generator is called ""servicefabric_enums_to_strings_generator""*/
