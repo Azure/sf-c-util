@@ -110,8 +110,8 @@ typedef interface IFabricGetReplicatorStatusResult IFabricGetReplicatorStatusRes
 
 
 /* header files for imported files */
-#include "unknwn.h"
-#include "fabrictypes.h"
+#include "Unknwn.h"
+#include "FabricTypes.h"
 
 #ifdef __cplusplus
 extern "C"{

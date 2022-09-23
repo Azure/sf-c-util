@@ -35,6 +35,7 @@ interface IFabricKeyValueStoreReplicaSettings_V2Result;
 interface IFabricSharedLogSettingsResult;
 interface IFabricInternalManagedReplicator;
 interface IFabricTransactionalReplicatorSettingsResult;
+interface IFabricOperationDataStream2;
 
 interface IFabricBackupRestoreAgent;
 interface IFabricBackupRestoreHandler;
@@ -62,6 +63,7 @@ library FabricRuntime_Lib
     interface IFabricDisposable;
     interface IFabricCodePackageHost;
     interface IFabricTransactionalReplicatorSettingsResult;
+    interface IFabricOperationDataStream2;
 
     interface IFabricBackupRestoreAgent;
     interface IFabricBackupRestoreHandler;
@@ -460,4 +462,12 @@ interface IFabricBackupRestoreAgent : IUnknown
 
     [] HRESULT EndDownloadBackup(
         [in] IFabricAsyncOperationContext * context);
+}
+
+[object, local, uuid(469febc8-30c6-4d47-9202-4de365b0142b)]
+interface IFabricOperationDataStream2 : IFabricOperationDataStream
+{    
+    [] HRESULT EndGetNext2(
+        [in] IFabricAsyncOperationContext * context,
+        [out, retval] void ** operationData);
 }
