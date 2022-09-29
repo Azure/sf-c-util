@@ -9,6 +9,7 @@ endif()
 
 #if ((NOT TARGET sf_c_util) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/sf-c-util/CMakeLists.txt))
 #    add_subdirectory(deps/sf-c-util)
+#    include_directories(deps/sf-c-util/inc)
 #endif()
 
 if (TARGET sf_c_util)
