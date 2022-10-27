@@ -5,6 +5,8 @@ References:
 
 [StartServiceA](https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-startservicea)
 
+## Considerations
+
 In the context of another project (shall not be named), the application parameters that are passed to the SF application need to be made known to a Windows Service.
 
 Windows Services receive their parameters on the command line when they are started by a call to [StartServiceA].
@@ -55,3 +57,52 @@ B) If the .xml cannot be obtained/parsed from SF, then the data passed in the `I
     b) if `IFabricCodePackageActivationContext` would serialized/deserialized then some other IPC would carry the serialization/deserialization. This serialization/deserialization would only need to be done once (serialized once, transported over IPC once, deserialized once). As far as performance goes, this is not a concern.
 
 Recommendation at the moment is to go with B.1 and once a proper "argification/unargification" of `IFabricCodePackageActivationContext` is reached re-evaluate B.2 / B.3.b
+
+## Design
+
+```
+                                                    SF Service                                        Windows Service                                                        `sf_service_config`
+                                           +===========================+                        +=========================+                                                  +=================+
+IFabricCodePackageActivationContext* ----> |        argificator        | ----> argc/argv -----> |      unargificator      | ----> IFabricCodePackageActivationContext* ----> | existing magic  | ----> THANDLE(SF_CONFIGURATION)
+                                           +===========================+                        +=========================+                                                  +=================+
+```
+
+## Argification
+
+Analysis of the usage of `IFabricCodePackageActivationContext/IFabricConfigurationPackage` in `sf_service_config` leads to the conclusion that only several of its rather numerous methods are used. Specifically, the following are used in `sf_service_config`:
+
+`IFabricCodePackageActivationContext`: `GetConfigurationPackage` + IUnknown
+`IFabricConfigurationPackage`: `GetValue` + IUnknown
+
+`sf_service_config` does not provide the values from `IFabricCodePackageActivationContext`'s `GetServiceEndpointResource`, but there's a reasonable expectation that those will also be used later.
+
+(note: would be nice if `sf_service_config` did that, to be addressed with https://msazure.visualstudio.com/One/_workitems/edit/16024277).
+
+In conclusion the argificator/unargificator will need to export the following:
+1) all Configuration Packages
+2) all ServiceEndpointResources
+
+This is a rough example of the proposal of the export format :
+
+--configurationPackageName configuration_package_name_1 --sectionName section_name_1 --parameter name_1 value_1 --parameter name_2 value_2 [...] --sectionName section_name_2 [...] --configurationPackage configuration_package_name_2 [...] --serviceEndpointResource service_endpoint_resource_name_1 --protocol tcp --port 4242 --type whatever --certificateName certificate_name_1
+
+This is a rough grammar example of the export format:
+
+export_format
+  :   (configurationPackage)*
+      (serviceEndPointResource)*
+
+configurationPackage
+  :   --configurationPackageName "string" 
+      (section)*
+
+section
+  :   --sectionName "string"
+      (parameter)*
+
+parameter
+  :   "string" "string"
+
+serviceEndPointResource
+  :   --serviceEndpointResource "string" --Protocol "string" --Type "string" --Port "string" --CertificateName "string"
+
