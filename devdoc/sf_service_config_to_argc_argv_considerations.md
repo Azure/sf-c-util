@@ -47,3 +47,50 @@ B) If the .xml cannot be obtained/parsed from SF, then the data passed in the `I
     a) this alleviates the concern raised in B.1.a, however, it does create a new file that needs to be managed (created/deleted/scrubbed/updated etc).
 
 Recommendation at the moment is to go with B.1 and once a proper "argification/unargification" of `IFabricCodePackageActivationContext` is reached re-evaluate B.2
+
+Design: 
+
+```
+                                                    SF Service                                        Windows Service                                                        `sf_service_config`
+                                           +===========================+                        +=========================+                                                  +=================+
+IFabricCodePackageActivationContext* ----> |        argificator        | ----> argc/argv -----> |      unargificator      | ----> IFabricCodePackageActivationContext* ----> | existing magic  | ----> THANDLE(SF_CONFIGURATION)
+                                           +===========================+                        +=========================+                                                  +=================+
+```
+
+Analysis of the usage of `IFabricCodePackageActivationContext/IFabricConfigurationPackage` in `sf_service_config` leads to the conclusion that only several of its rather numerous methods are used. Specifically, the following are used in `sf_service_config`:
+
+`IFabricCodePackageActivationContext`: `GetConfigurationPackage` + IUnknown
+`IFabricConfigurationPackage`: `GetValue` + IUnknown
+
+`sf_service_config` does not provide the values from `IFabricCodePackageActivationContext`'s `GetServiceEndpointResource`, but there's a reasonable expectation that those will also be used later.
+
+(note: would be nice if `sf_service_config` did that, to be addressed with https://msazure.visualstudio.com/One/_workitems/edit/16024277).
+
+In conclusion the argificator/unargificator will need to export the following:
+1) all Configuration Packages
+2) all ServiceEndpointResources
+
+This is a rough example of the proposal of the export format :
+
+--configurationPackageName configuration_package_name_1 --sectionName section_name_1 --parameter name_1 value_1 --parameter name_2 value_2 [...] --sectionName section_name_2 [...] --configurationPackage configuration_package_name_2 [...] --serviceEndpointResource service_endpoint_resource_name_1 --protocol tcp --port 4242 --type whatever --certificateName certificate_name_1
+
+This is a rough grammar example of the export format:
+
+export_format
+  :   (configurationPackage)*
+      (serviceEndPointResource)*
+
+configurationPackage
+  :   --configurationPackageName "string" 
+      (section)*
+
+section
+  :   --sectionName "string"
+      (parameter)*
+
+parameter
+  :   "string" "string"
+
+serviceEndPointResource
+  :   --serviceEndpointResource "string" --Protocol "string" --Type "string" --Port "string" --CertificateName "string"
+
