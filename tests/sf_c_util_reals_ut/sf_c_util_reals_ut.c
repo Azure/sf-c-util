@@ -14,9 +14,11 @@
 
 #include "real_hresult_to_string.h"
 #include "real_fabric_configuration_parameter_argc_argv.h"
+#include "real_common_argc_argv.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/common_argc_argv.h"
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
