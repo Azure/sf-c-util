@@ -42,8 +42,141 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
     TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
-TEST_FUNCTION(AAAA)
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV_with_0_parameters)
 {
+    ///arrange
+    FABRIC_CONFIGURATION_PARAMETER_LIST param_list =
+    {
+        .Count = 0,
+        .Items = NULL
+    };
+    FABRIC_CONFIGURATION_SECTION input =
+    {
+        .Name = L"A",
+        .Reserved = NULL,
+        .Parameters = &param_list
+    };
 
+    int argc;
+    char** argv;
+    int result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(&input, &argc, &argv);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(int, 2, argc);
+    ASSERT_IS_NOT_NULL(argv);
+    ASSERT_ARE_EQUAL(char_ptr, SECTION_NAME_DEFINE, argv[0]);
+    ASSERT_ARE_EQUAL(char_ptr, "A", argv[1]);
+
+    ///clean
+    ARGC_ARGV_free(argc, argv);
 }
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV_with_1_parameters)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_PARAMETER params[] =
+    {
+        [0] = 
+        {
+            .IsEncrypted = false,
+            .MustOverride = false,
+            .Reserved = NULL,
+            .Name = L"param1",
+            .Value = L"value1"
+        }
+    };
+
+    FABRIC_CONFIGURATION_PARAMETER_LIST param_list =
+    {
+        .Count = sizeof(params)/sizeof(params[0]),
+        .Items = params
+    };
+    FABRIC_CONFIGURATION_SECTION input =
+    {
+        .Name = L"A",
+        .Reserved = NULL,
+        .Parameters = &param_list
+    };
+
+    int argc;
+    char** argv;
+    int result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(&input, &argc, &argv);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(int, 4, argc);
+    ASSERT_IS_NOT_NULL(argv);
+    ASSERT_ARE_EQUAL(char_ptr, SECTION_NAME_DEFINE, argv[0]);
+    ASSERT_ARE_EQUAL(char_ptr, "A", argv[1]);
+    ASSERT_ARE_EQUAL(char_ptr, "param1", argv[2]);
+    ASSERT_ARE_EQUAL(char_ptr, "value1", argv[3]);
+
+    ///clean
+    ARGC_ARGV_free(argc, argv);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV_with_2_parameters)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_PARAMETER params[] =
+    {
+        [0] =
+        {
+            .IsEncrypted = false,
+            .MustOverride = false,
+            .Reserved = NULL,
+            .Name = L"param1",
+            .Value = L"value1"
+        },
+        [1] =
+        {
+            .IsEncrypted = false,
+            .MustOverride = false,
+            .Reserved = NULL,
+            .Name = L"param2",
+            .Value = L"value2"
+        },
+    };
+
+    FABRIC_CONFIGURATION_PARAMETER_LIST param_list =
+    {
+        .Count = sizeof(params) / sizeof(params[0]),
+        .Items = params
+    };
+    FABRIC_CONFIGURATION_SECTION input =
+    {
+        .Name = L"A",
+        .Reserved = NULL,
+        .Parameters = &param_list
+    };
+
+    int argc;
+    char** argv;
+    int result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(&input, &argc, &argv);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(int, 6, argc);
+    ASSERT_IS_NOT_NULL(argv);
+    ASSERT_ARE_EQUAL(char_ptr, SECTION_NAME_DEFINE, argv[0]);
+    ASSERT_ARE_EQUAL(char_ptr, "A", argv[1]);
+    ASSERT_ARE_EQUAL(char_ptr, "param1", argv[2]);
+    ASSERT_ARE_EQUAL(char_ptr, "value1", argv[3]);
+    ASSERT_ARE_EQUAL(char_ptr, "param2", argv[4]);
+    ASSERT_ARE_EQUAL(char_ptr, "value2", argv[5]);
+
+    ///clean
+    ARGC_ARGV_free(argc, argv);
+}
+
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
