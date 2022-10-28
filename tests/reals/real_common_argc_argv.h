@@ -21,6 +21,6 @@
 
 void real_ARGC_ARGV_free(int argc, char** argv);
 
-const char* real_ARGC_ARGV_KEYWORDS_LIST[sizeof(ARGC_ARGV_KEYWORDS_LIST) / sizeof(ARGC_ARGV_KEYWORDS_LIST[0])];
+const char* real_ARGC_ARGV_KEYWORDS_LIST[];
 
 #endif //REAL_COMMON_ARGC_ARGV_H

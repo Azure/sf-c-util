@@ -17,7 +17,7 @@ MU_DEFINE_ENUM(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_RESULT_VALUES);
 
 #define ARGC_ARGV_KEYWORDS_LIST_DEFINE "--configurationPackageName", "--sectionName"
 
-const char* ARGC_ARGV_KEYWORDS_LIST[MU_COUNT_ARG(ARGC_ARGV_KEYWORDS_LIST_DEFINE)];
+extern const char* ARGC_ARGV_KEYWORDS_LIST[MU_COUNT_ARG(ARGC_ARGV_KEYWORDS_LIST_DEFINE)];
 
 #include "umock_c/umock_c_prod.h"
 #ifdef __cplusplus
