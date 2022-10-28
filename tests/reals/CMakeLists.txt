@@ -3,16 +3,24 @@
 
 set(sf_c_util_reals_c_files
     real_hresult_to_string.c
+    real_fabric_configuration_parameter_argc_argv.c
+    real_common_argc_argv.c
 )
 
 set(sf_c_util_reals_h_files
     real_hresult_to_string.h
     real_hresult_to_string_renames.h
+
+    real_fabric_configuration_parameter_argc_argv.h
+    real_fabric_configuration_parameter_argc_argv_renames.h
+
+    real_common_argc_argv.h
+    real_common_argc_argv_renames.h
 )
 
 #self include this folder
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_library(sf_c_util_reals ${sf_c_util_reals_c_files} ${sf_c_util_reals_h_files})
-target_link_libraries(sf_c_util_reals sf_c_util)
+target_link_libraries(sf_c_util_reals c_pal_reals c_util_reals)
 target_include_directories(sf_c_util_reals PUBLIC ${CMAKE_CURRENT_LIST_DIR})

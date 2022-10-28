@@ -93,15 +93,15 @@ export_format
       (serviceEndPointResource)*
 
 configurationPackage
-  :   --configurationPackageName "string" 
+  :   --configurationPackageName "name" 
       (section)*
 
 section
-  :   --sectionName "string"
+  :   --sectionName "name"
       (parameter)*
 
 parameter
-  :   "string" "string"
+  :   "name" "value"
 
 serviceEndPointResource
   :   --serviceEndpointResource "string" --Protocol "string" --Type "string" --Port "string" --CertificateName "string"
