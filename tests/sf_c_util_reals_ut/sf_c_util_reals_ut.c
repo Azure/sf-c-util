@@ -30,6 +30,7 @@ TEST_FUNCTION(check_sf_c_util_reals)
     // act
     REGISTER_HRESULT_TO_STRING_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_GLOBAL_MOCK_HOOK();
+    REGISTER_COMMON_ARGC_ARGV_GLOBAL_MOCK_HOOK();
 
     // assert
     // no explicit assert, if it builds it works
