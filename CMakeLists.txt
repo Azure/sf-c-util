@@ -116,6 +116,9 @@ set(sf_c_util_h_files
     inc/sf_c_util/hresult_to_string.h
     inc/sf_c_util/servicefabric_enums_to_strings.h
     inc/sf_c_util/sf_service_config.h
+    inc/sf_c_util/common_argc_argv.h
+    inc/sf_c_util/sf_service_config_to_argc_argv.h
+    inc/sf_c_util/fabric_configuration_parameter_argc_argv.h
 )
 
 set(sf_c_util_c_files
@@ -128,6 +131,9 @@ set(sf_c_util_c_files
     src/fabric_string_result_com.c
     src/hresult_to_string.c
     src/servicefabric_enums_to_strings.c
+    src/sf_service_config_to_argc_argv.c
+    src/fabric_configuration_parameter_argc_argv.c
+    src/common_argc_argv.c
 )
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
