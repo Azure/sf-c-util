@@ -57,8 +57,6 @@ int FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(const FABRIC_CONFIGURATION_PARAM
                     *argc = 2;
                     result = 0;
                     goto allok;
-
-                    //free((*argv)[1]);
                 }
                 free((*argv)[0]);
             }
@@ -120,7 +118,6 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, ch
                     result = ARGC_ARGV_DATA_OK;
                     *argc_consumed = 2;
                     goto allok;
-                    //free((*fabric_configuration_parameter)->Value);
                 }
 
                 free((void*)(*fabric_configuration_parameter)->Name);
