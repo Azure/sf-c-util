@@ -107,8 +107,18 @@ allok:;
 }
 
 /* argc/argv => FABRIC_CONFIGURATION_SECTION* */
-MOCKABLE_FUNCTION(, ARGC_ARGV_DATA_RESULT, FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV, int, argc, char**, argv, FABRIC_CONFIGURATION_SECTION**, fabric_configuration_section, int*, argc_consumed);
+ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_SECTION** fabric_configuration_section, int* argc_consumed)
+{
+    (void)argc;
+    (void)argv;
+    (void)fabric_configuration_section;
+    (void)argc_consumed;
+    return ARGC_ARGV_DATA_ERROR;
+}
 
 /* freeing a previously produced FABRIC_CONFIGURATION_SECTION* */
-MOCKABLE_FUNCTION(, void, FABRIC_CONFIGURATION_SECTION_free, FABRIC_CONFIGURATION_SECTION*, fabric_configuration_section);
+void FABRIC_CONFIGURATION_SECTION_free(FABRIC_CONFIGURATION_SECTION* fabric_configuration_section)
+{
+    (void) fabric_configuration_section;
+}
 
