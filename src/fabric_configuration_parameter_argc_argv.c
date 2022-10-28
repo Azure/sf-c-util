@@ -67,7 +67,6 @@ allok:;
     return result;
 }
 
-
 ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER** fabric_configuration_parameter, int* argc_consumed)
 {
     ARGC_ARGV_DATA_RESULT result;
@@ -86,6 +85,15 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, ch
     }
     else
     {
+        for (uint32_t i = 0; i < sizeof(ARGC_ARGV_KEYWORDS_LIST) / sizeof(ARGC_ARGV_KEYWORDS_LIST[0]); i++)
+        {
+            if (strcmp(argv[0], ARGC_ARGV_KEYWORDS_LIST[i]) == 0)
+            {
+                LogVerbose("argv[0]=%s cannot be a parameter name because it is a reserved keyword", argv[0]);
+                return  ARGC_ARGV_DATA_INVALID;
+            }
+        }
+        
         *fabric_configuration_parameter = malloc(sizeof(FABRIC_CONFIGURATION_PARAMETER));
         if (*fabric_configuration_parameter == NULL)
         {

@@ -132,4 +132,32 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_succeeds_2) /*in thi
     FABRIC_CONFIGURATION_PARAMETER_free(p);
 }
 
+TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_cannot_be_keywords) /*in this test, we're testing that parameters cannot be keywords (as listed in ARGC_ARGV_KEYWORDS_LIST)*/
+{
+    ///arrange
+    FABRIC_CONFIGURATION_PARAMETER* p;
+    char* argv[] =
+    {
+        "AA",
+        "BBB",
+        "CCCC"
+    };
+
+    int argc_consumed;
+
+    ARGC_ARGV_DATA_RESULT result;
+    
+    for (uint32_t i = 0; i < sizeof(ARGC_ARGV_KEYWORDS_LIST) / sizeof(ARGC_ARGV_KEYWORDS_LIST[0]); i++)
+    {
+        ///arrange
+        argv[0] = (char*)ARGC_ARGV_KEYWORDS_LIST[i];
+
+        ///act
+        result = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(sizeof(argv) / sizeof(argv[0]), argv, &p, &argc_consumed);
+
+        ///assert
+        ASSERT_IS_TRUE(result == ARGC_ARGV_DATA_INVALID);
+    }
+}
+
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)

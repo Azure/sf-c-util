@@ -5,7 +5,7 @@
 #define FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H
 
 
-#include "fabricruntime.h"
+#include "fabrictypes.h"
 
 #include "common_argc_argv.h"
 
