@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef REAL_HRESULT_TO_STRING_H
-#define REAL_HRESULT_TO_STRING_H
+#ifndef REAL_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H
+#define REAL_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -11,22 +11,18 @@
 
 #define R2(X) REGISTER_GLOBAL_MOCK_HOOK(X, real_##X);
 
-#define REGISTER_HRESULT_TO_STRING_GLOBAL_MOCK_HOOK() \
+#define REGISTER_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_GLOBAL_MOCK_HOOK() \
     MU_FOR_EACH_1(R2, \
-        hresult_to_string, \
-        hresult_to_wstring,   \
-        same_as_free,   \
-        same_as_malloc \
+        FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV, \
+        FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV,   \
+        FABRIC_CONFIGURATION_PARAMETER_free \
 )
 
-#include "sf_c_util/hresult_to_string.h"
+#include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
 
 
-    char* real_hresult_to_string(malloc_t the_malloc, free_t the_free, HRESULT hr);
-    wchar_t* real_hresult_to_wstring(HRESULT hresult);
-    void real_same_as_free(void* ptr);
-    void* real_same_as_malloc(size_t size);
-    
+int real_FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(const FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter, int* argc, char*** argv);
+ARGC_ARGV_DATA_RESULT real_FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER** fabric_configuration_parameter, int* argc_consumed);
+void real_FABRIC_CONFIGURATION_PARAMETER_free(FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter);
 
-
-#endif //REAL_HRESULT_TO_STRING_H
+#endif //REAL_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H
