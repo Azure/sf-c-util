@@ -16,6 +16,8 @@
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 
+TEST_DEFINE_ENUM_TYPE(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_RESULT_VALUES);
+
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
 TEST_SUITE_INITIALIZE(suite_init)
@@ -178,5 +180,116 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV_with_2_parameters)
     ///clean
     ARGC_ARGV_free(argc, argv);
 }
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV__no_section_does_not_parse)
+{
+    ///arrange
+    char* argv[] = {
+        SECTION_NAME_DEFINE "A",  /*so not really SECTION_NAME_DEFINE, something else*/
+        "section_name_is_a_rose",
+        "p1",
+        "v2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    FABRIC_CONFIGURATION_SECTION fabric_configuration_section;
+    int argc_consumed;
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(argc, argv, &fabric_configuration_section, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_INVALID, result);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV_0_parameters_succeeds)
+{
+    ///arrange
+    char* argv[] = {
+        SECTION_NAME_DEFINE,
+        "section_name_is_a_rose"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    FABRIC_CONFIGURATION_SECTION fabric_configuration_section;
+    int argc_consumed;
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(argc, argv, &fabric_configuration_section, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"section_name_is_a_rose", fabric_configuration_section.Name);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section.Parameters->Count);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+
+    ///clear
+    FABRIC_CONFIGURATION_SECTION_free(&fabric_configuration_section);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV_0_parameters_succeeds_2)
+{
+    ///arrange
+    char* argv[] = {
+        SECTION_NAME_DEFINE,
+        "section_name_is_a_rose",
+        "parameter_without_value"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    FABRIC_CONFIGURATION_SECTION fabric_configuration_section;
+    int argc_consumed;
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(argc, argv, &fabric_configuration_section, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"section_name_is_a_rose", fabric_configuration_section.Name);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section.Parameters->Count);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+
+    ///clear
+    FABRIC_CONFIGURATION_SECTION_free(&fabric_configuration_section);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV_1_parameters_succeeds)
+{
+    ///arrange
+    char* argv[] = {
+        SECTION_NAME_DEFINE,
+        "section_name_is_a_rose",
+        "p1",
+        "v1"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    FABRIC_CONFIGURATION_SECTION fabric_configuration_section;
+    int argc_consumed;
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(argc, argv, &fabric_configuration_section, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"section_name_is_a_rose", fabric_configuration_section.Name);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section.Parameters->Count);
+    {/*[0]*/
+        ASSERT_IS_FALSE(fabric_configuration_section.Parameters->Items[0].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section.Parameters->Items[0].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section.Parameters->Items[0].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"p1", fabric_configuration_section.Parameters->Items[0].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"v1", fabric_configuration_section.Parameters->Items[0].Value);
+    }
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+
+    ///clear
+    FABRIC_CONFIGURATION_SECTION_free(&fabric_configuration_section);
+}
+
 
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)

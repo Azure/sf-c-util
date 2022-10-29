@@ -106,8 +106,90 @@ allok:;
     return result;
 }
 
+static ARGC_ARGV_DATA_RESULT fabric_configuration_parameter_list_from_argc_argv(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list, int* argc_consumed)
+{
+    ARGC_ARGV_DATA_RESULT result;
+    /*scan parameteres until either: argc is consumed, or parameter scan fails*/
+    fabric_configuration_parameter_list->Count = 0;
+    fabric_configuration_parameter_list->Items = NULL;
+
+    bool error = false;
+    bool done_scanning = false;
+    *argc_consumed = 0;
+
+    while (!error && !done_scanning && argc > 0)
+    {
+        FABRIC_CONFIGURATION_PARAMETER temp;
+        int consumed = 0;
+        ARGC_ARGV_DATA_RESULT r = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(argc, argv, &temp, &consumed);
+        switch (r)
+        {
+            case ARGC_ARGV_DATA_OK:
+            {
+                fabric_configuration_parameter_list->Count++;
+                FABRIC_CONFIGURATION_PARAMETER* re = realloc_2((void*)fabric_configuration_parameter_list->Items, fabric_configuration_parameter_list->Count, sizeof(FABRIC_CONFIGURATION_PARAMETER));
+                if (re == NULL)
+                {
+                    LogError("failure in realloc_2");
+                    fabric_configuration_parameter_list->Count--;
+                    error = true;
+                }
+                else
+                {
+                    free((void*)fabric_configuration_parameter_list->Items);
+                    fabric_configuration_parameter_list->Items = re;
+                    /*cast the const away*/
+                    *(FABRIC_CONFIGURATION_PARAMETER *) &(fabric_configuration_parameter_list->Items[fabric_configuration_parameter_list->Count - 1]) = temp;
+                    argc -= consumed;
+                    argv += consumed;
+                    argc_consumed += consumed;
+                }
+                break;
+            }
+            case ARGC_ARGV_DATA_INVALID:
+            {
+                /*not an error, likely the section ended somehow*/
+                LogVerbose("done scanning");
+                done_scanning = true;
+                break;
+            }
+            case ARGC_ARGV_DATA_ERROR:
+            default:
+            {
+                LogError("failure in FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV");
+                error = true;
+                break;
+            }
+        }
+    }
+
+    if (done_scanning || argc == 0)
+    {
+        result = ARGC_ARGV_DATA_OK; /*(note: this function doesn't really return "invalid" because 0 size list is still valid*/
+    }
+    else
+    {
+        for (unsigned int i = 0; i < fabric_configuration_parameter_list->Count; i++)
+        {
+            FABRIC_CONFIGURATION_PARAMETER_free((FABRIC_CONFIGURATION_PARAMETER*)fabric_configuration_parameter_list->Items + fabric_configuration_parameter_list->Count);
+            free((void*)fabric_configuration_parameter_list->Items);
+        }
+        result = ARGC_ARGV_DATA_ERROR;
+    }
+    return result;
+
+}
+
+static void fabric_configuration_parameter_list_free(FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list)
+{
+    for (unsigned int i = 0; i < fabric_configuration_parameter_list->Count; i++)
+    {
+        FABRIC_CONFIGURATION_PARAMETER_free((FABRIC_CONFIGURATION_PARAMETER*)fabric_configuration_parameter_list->Items + fabric_configuration_parameter_list->Count);
+    }
+}
+
 /* argc/argv => FABRIC_CONFIGURATION_SECTION* */
-ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_SECTION** fabric_configuration_section, int* argc_consumed)
+ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_SECTION* fabric_configuration_section, int* argc_consumed)
 {
     ARGC_ARGV_DATA_RESULT result;
     if (
@@ -116,7 +198,6 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
         (fabric_configuration_section == NULL) ||
         (argc_consumed == NULL)
         )
-
     {
         LogError("invalid arguments int argc=%d, char** argv=%p, FABRIC_CONFIGURATION_SECTION** fabric_configuration_section=%p, int* argc_consumed=%p",
             argc, argv, fabric_configuration_section, argc_consumed);
@@ -124,6 +205,7 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
     }
     else
     {
+        *argc_consumed = 0;
         if (strcmp(argv[0], SECTION_NAME_DEFINE) != 0)
         {
             LogVerbose("cannot parse as FABRIC_CONFIGURATION_SECTION because the first argument is %s, but it is expected to be " SECTION_NAME_DEFINE "", argv[0]);
@@ -131,51 +213,72 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
         }
         else
         {
-            *fabric_configuration_section = malloc(sizeof(FABRIC_CONFIGURATION_SECTION));
-            if (*fabric_configuration_section == NULL)
+            (*argc_consumed)++;
+            fabric_configuration_section->Name = mbs_to_wcs(argv[1]);
+            if (fabric_configuration_section->Name == NULL)
             {
-                LogError("failure in malloc(sizeof(FABRIC_CONFIGURATION_SECTION)=%zu);",
-                    sizeof(FABRIC_CONFIGURATION_SECTION));
+                LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
                 result = ARGC_ARGV_DATA_ERROR;
             }
             else
             {
-                (*fabric_configuration_section)->Name = mbs_to_wcs(argv[1]);
-                if ((*fabric_configuration_section)->Name == NULL)
+                (*argc_consumed)++;
+
+                FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list;
+
+                fabric_configuration_parameter_list = malloc(sizeof(FABRIC_CONFIGURATION_PARAMETER_LIST));
+                if (fabric_configuration_parameter_list == NULL)
                 {
-                    LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
+                    LogError("failure in malloc");
                     result = ARGC_ARGV_DATA_ERROR;
                 }
                 else
                 {
-                    /*while the parameters can still be parsed... parse them*/
-                    int param_index = 2; /*parameters start at "2" index*/
-                    int param_argc = argc - 2;
-                    while (param_argc > 0)
-                    {
-                        FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter;
-                        int param_argc_consumed;
-                        ARGC_ARGV_DATA_RESULT param_result = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(param_argc, argv + param_index, &fabric_configuration_parameter, &param_argc_consumed);
-                        switch (param_result)
+                    fabric_configuration_section->Parameters = fabric_configuration_parameter_list;
 
+                    int consumed;
+                    ARGC_ARGV_DATA_RESULT r = fabric_configuration_parameter_list_from_argc_argv(argc-(*argc_consumed), argv+(*argc_consumed), fabric_configuration_parameter_list, &consumed);
+                    switch (r)
+                    {
+                        case ARGC_ARGV_DATA_OK:
                         {
-                            /*AICI AM RAMAS*/
+                            *argc_consumed += consumed;
+                            result = ARGC_ARGV_DATA_OK;
+                            goto allok;
+                            break;
+                        }
+                        case ARGC_ARGV_DATA_INVALID:
+                        {
+                            /*at this point invalid is unexpected because an empty list should always be parseable*/
+                            LogError("unexpected %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
+                            result = ARGC_ARGV_DATA_INVALID;
+                        }
+                        default:
+                        case ARGC_ARGV_DATA_ERROR:
+                        {
+                            LogError("failure %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
+                            result = ARGC_ARGV_DATA_INVALID;
                         }
                     }
-                    result = ARGC_ARGV_DATA_INVALID;
-                    free((void*)(*fabric_configuration_section)->Name);
+
+                    free(fabric_configuration_parameter_list);
                 }
-                
-                free(*fabric_configuration_section);
             }
         }
     }
+allok:;
     return result;
 }
 
 /* freeing a previously produced FABRIC_CONFIGURATION_SECTION* */
 void FABRIC_CONFIGURATION_SECTION_free(FABRIC_CONFIGURATION_SECTION* fabric_configuration_section)
 {
-    (void) fabric_configuration_section;
+    free((void*)fabric_configuration_section->Name);
+    for (unsigned int i = 0; i < fabric_configuration_section->Parameters->Count; i++)
+    {
+        FABRIC_CONFIGURATION_PARAMETER_free((void*)(fabric_configuration_section->Parameters->Items + i));
+    }
+    free((void*)(fabric_configuration_section->Parameters->Items));
+    free((void*)fabric_configuration_section->Parameters);
 }
 

@@ -22,7 +22,7 @@
 
 
 int real_FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(const FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter, int* argc, char*** argv);
-ARGC_ARGV_DATA_RESULT real_FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER** fabric_configuration_parameter, int* argc_consumed);
+ARGC_ARGV_DATA_RESULT real_FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter, int* argc_consumed);
 void real_FABRIC_CONFIGURATION_PARAMETER_free(FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter);
 
 #endif //REAL_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H

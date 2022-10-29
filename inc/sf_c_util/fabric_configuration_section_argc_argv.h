@@ -21,7 +21,7 @@ extern "C" {
     MOCKABLE_FUNCTION(, int, FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV, const FABRIC_CONFIGURATION_SECTION*, fabric_configuration_section, int*, argc, char***, argv);
 
     /* argc/argv => FABRIC_CONFIGURATION_SECTION* */
-    MOCKABLE_FUNCTION(, ARGC_ARGV_DATA_RESULT, FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV, int, argc, char**, argv, FABRIC_CONFIGURATION_SECTION**, fabric_configuration_section, int*, argc_consumed);
+    MOCKABLE_FUNCTION(, ARGC_ARGV_DATA_RESULT, FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV, int, argc, char**, argv, FABRIC_CONFIGURATION_SECTION*, fabric_configuration_section, int*, argc_consumed);
 
     /* freeing a previously produced FABRIC_CONFIGURATION_SECTION* */
     MOCKABLE_FUNCTION(, void, FABRIC_CONFIGURATION_SECTION_free, FABRIC_CONFIGURATION_SECTION*, fabric_configuration_section);
