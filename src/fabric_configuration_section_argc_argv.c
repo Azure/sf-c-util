@@ -136,13 +136,12 @@ static ARGC_ARGV_DATA_RESULT fabric_configuration_parameter_list_from_argc_argv(
                 }
                 else
                 {
-                    free((void*)fabric_configuration_parameter_list->Items);
                     fabric_configuration_parameter_list->Items = re;
                     /*cast the const away*/
                     *(FABRIC_CONFIGURATION_PARAMETER *) &(fabric_configuration_parameter_list->Items[fabric_configuration_parameter_list->Count - 1]) = temp;
                     argc -= consumed;
                     argv += consumed;
-                    argc_consumed += consumed;
+                    *argc_consumed += consumed;
                 }
                 break;
             }
