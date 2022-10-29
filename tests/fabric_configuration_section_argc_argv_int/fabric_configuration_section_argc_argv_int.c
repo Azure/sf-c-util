@@ -12,7 +12,7 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
-#include "sf_c_util/fabric_configuration_section_argc_argv.h"
+#include "sf_c_util/fc_section_argc_argv.h"
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 

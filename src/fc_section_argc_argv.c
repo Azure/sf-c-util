@@ -10,9 +10,9 @@
 
 #include "c_pal/string_utils.h"
 
-#include "sf_c_util/fabric_configuration_parameter_list_argc_argv.h"
+#include "sf_c_util/fc_parameter_list_argc_argv.h"
 
-#include "sf_c_util/fabric_configuration_section_argc_argv.h"
+#include "sf_c_util/fc_section_argc_argv.h"
 
 /* FABRIC_CONFIGURATION_SECTION => argc/argv */
 int FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(const FABRIC_CONFIGURATION_SECTION* fabric_configuration_section, int* argc, char*** argv)

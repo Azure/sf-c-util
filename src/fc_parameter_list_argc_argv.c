@@ -13,7 +13,7 @@
 
 #include "c_pal/string_utils.h"
 
-#include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/fc_parameter_argc_argv.h"
 
 int FABRIC_CONFIGURATION_PARAMETER_LIST_to_ARGC_ARGV(const FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list , int* argc, char*** argv)
 {

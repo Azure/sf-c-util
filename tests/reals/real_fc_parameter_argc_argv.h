@@ -18,7 +18,7 @@
         FABRIC_CONFIGURATION_PARAMETER_free \
 )
 
-#include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/fc_parameter_argc_argv.h"
 
 
 int real_FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(const FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter, int* argc, char*** argv);

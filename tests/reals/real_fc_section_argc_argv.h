@@ -18,7 +18,7 @@
         FABRIC_CONFIGURATION_SECTION_free \
 )
 
-#include "sf_c_util/fabric_configuration_section_argc_argv.h"
+#include "sf_c_util/fc_section_argc_argv.h"
 
 
 int real_FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(const FABRIC_CONFIGURATION_SECTION* fabric_configuration_section, int* argc, char*** argv);
