@@ -2,7 +2,7 @@
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 compileAsC11()
-set(theseTestsName fabric_configuration_parameter_argc_argv_int)
+set(theseTestsName fc_parameter_argc_argv_int)
 
 set(${theseTestsName}_test_files
 ${theseTestsName}.c
