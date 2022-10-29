@@ -109,11 +109,65 @@ allok:;
 /* argc/argv => FABRIC_CONFIGURATION_SECTION* */
 ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_SECTION** fabric_configuration_section, int* argc_consumed)
 {
-    (void)argc;
-    (void)argv;
-    (void)fabric_configuration_section;
-    (void)argc_consumed;
-    return ARGC_ARGV_DATA_ERROR;
+    ARGC_ARGV_DATA_RESULT result;
+    if (
+        (argc < 2) ||
+        (argv == NULL) ||
+        (fabric_configuration_section == NULL) ||
+        (argc_consumed == NULL)
+        )
+
+    {
+        LogError("invalid arguments int argc=%d, char** argv=%p, FABRIC_CONFIGURATION_SECTION** fabric_configuration_section=%p, int* argc_consumed=%p",
+            argc, argv, fabric_configuration_section, argc_consumed);
+        result = ARGC_ARGV_DATA_ERROR;
+    }
+    else
+    {
+        if (strcmp(argv[0], SECTION_NAME_DEFINE) != 0)
+        {
+            LogVerbose("cannot parse as FABRIC_CONFIGURATION_SECTION because the first argument is %s, but it is expected to be " SECTION_NAME_DEFINE "", argv[0]);
+            result = ARGC_ARGV_DATA_INVALID
+        }
+        else
+        {
+            *fabric_configuration_section = malloc(sizeof(FABRIC_CONFIGURATION_SECTION));
+            if (*fabric_configuration_section == NULL)
+            {
+                LogError("failure in malloc(sizeof(FABRIC_CONFIGURATION_SECTION)=%zu);",
+                    sizeof(FABRIC_CONFIGURATION_SECTION));
+            }
+            else
+            {
+                (*fabric_configuration_section)->Name = mbs_to_wcs(argv[1]);
+                if ((*fabric_configuration_section)->Name == NULL)
+                {
+                    LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
+                }
+                else
+                {
+                    /*while the parameters can still be parsed... parse them*/
+                    int param_index = 2; /*parameters start at "2" index*/
+                    int param_argc = argc - 2;
+                    while (param_argc > 0)
+                    {
+                        FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter;
+                        int argc_consumed;
+                        ARGC_ARGV_DATA_RESULT param_result = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(param_argc, argv + param_index, &fabric_configuration_parameter, &argc_consumed);
+                        switch (param_result)
+
+                        {
+                            /*AICI AM RAMAS*/
+                        }
+                    }
+                    free((*fabric_configuration_section)->Name);
+                }
+                
+                free(*fabric_configuration_section);
+            }
+        }
+    }
+    return result;
 }
 
 /* freeing a previously produced FABRIC_CONFIGURATION_SECTION* */
