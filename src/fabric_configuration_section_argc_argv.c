@@ -10,7 +10,7 @@
 
 #include "c_pal/string_utils.h"
 
-#include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/fabric_configuration_parameter_list_argc_argv.h"
 
 #include "sf_c_util/fabric_configuration_section_argc_argv.h"
 
@@ -55,42 +55,28 @@ int FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(const FABRIC_CONFIGURATION_SECTION
                 }
                 else
                 {
-                    uint32_t i;
-                    for (i = 0; i < fabric_configuration_section->Parameters->Count; i++)
+                    int g_argc;
+                    char** g_argv;
+                    if (FABRIC_CONFIGURATION_PARAMETER_LIST_to_ARGC_ARGV(fabric_configuration_section->Parameters, &g_argc, &g_argv) != 0)
                     {
-                        int parameter_argc;
-                        char** parameter_argv;
-                        if (FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(fabric_configuration_section->Parameters->Items + i, &parameter_argc, &parameter_argv) != 0)
-                        {
-                            LogError("failure in FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(fabric_configuration_section->Parameters->Items + i=%" PRIu32 ", &parameter_argc=%p, &parameter_argv=%p)",
-                                i, &argc, &argv);
-                            result = MU_FAILURE;
-                            break;
-                        }
-                        else
-                        {
-                            if (ARGC_ARGV_concat(argc, argv, parameter_argc, parameter_argv) != 0)
-                            {
-                                LogError("failure in ARGC_ARGV_concat");
-                            }
-                            else
-                            {
-                                /*keep going*/
-                            }
-                            ARGC_ARGV_free(parameter_argc, parameter_argv);
-                        }
-                    }
-
-                    if (i != fabric_configuration_section->Parameters->Count)
-                    {
+                        LogError("failure in FABRIC_CONFIGURATION_PARAMETER_LIST_to_ARGC_ARGV");
                         result = MU_FAILURE;
                     }
                     else
                     {
-                        result = 0;
-                        goto allok;
+                        if (ARGC_ARGV_concat(argc, argv, g_argc, g_argv) != 0)
+                        {
+                            ARGC_ARGV_free(g_argc, g_argv);
+                            LogError("failure in ARGC_ARGV_concat");
+                            result = MU_FAILURE;
+                        }
+                        else
+                        {
+                            ARGC_ARGV_free(g_argc, g_argv);
+                            result = 0;
+                            goto allok;
+                        }
                     }
-
 
                     free(argv[1]);
                 }
@@ -104,88 +90,6 @@ int FABRIC_CONFIGURATION_SECTION_to_ARGC_ARGV(const FABRIC_CONFIGURATION_SECTION
 
 allok:;
     return result;
-}
-
-/*note: should really be in its own unit*/
-static ARGC_ARGV_DATA_RESULT fabric_configuration_parameter_list_from_argc_argv(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list, int* argc_consumed)
-{
-    ARGC_ARGV_DATA_RESULT result;
-    /*scan parameteres until either: argc is consumed, or parameter scan fails*/
-    fabric_configuration_parameter_list->Count = 0;
-    fabric_configuration_parameter_list->Items = NULL;
-
-    bool error = false;
-    bool done_scanning = false;
-    *argc_consumed = 0;
-
-    while (!error && !done_scanning && argc > 0)
-    {
-        FABRIC_CONFIGURATION_PARAMETER temp;
-        int consumed = 0;
-        ARGC_ARGV_DATA_RESULT r = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(argc, argv, &temp, &consumed);
-        switch (r)
-        {
-            case ARGC_ARGV_DATA_OK:
-            {
-                fabric_configuration_parameter_list->Count++;
-                FABRIC_CONFIGURATION_PARAMETER* re = realloc_2((void*)fabric_configuration_parameter_list->Items, fabric_configuration_parameter_list->Count, sizeof(FABRIC_CONFIGURATION_PARAMETER));
-                if (re == NULL)
-                {
-                    LogError("failure in realloc_2");
-                    fabric_configuration_parameter_list->Count--;
-                    error = true;
-                }
-                else
-                {
-                    fabric_configuration_parameter_list->Items = re;
-                    /*cast the const away*/
-                    *(FABRIC_CONFIGURATION_PARAMETER *) &(fabric_configuration_parameter_list->Items[fabric_configuration_parameter_list->Count - 1]) = temp;
-                    argc -= consumed;
-                    argv += consumed;
-                    *argc_consumed += consumed;
-                }
-                break;
-            }
-            case ARGC_ARGV_DATA_INVALID:
-            {
-                /*not an error, likely the section ended somehow*/
-                LogVerbose("done scanning");
-                done_scanning = true;
-                break;
-            }
-            case ARGC_ARGV_DATA_ERROR:
-            default:
-            {
-                LogError("failure in FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV");
-                error = true;
-                break;
-            }
-        }
-    }
-
-    if (done_scanning || argc == 0)
-    {
-        result = ARGC_ARGV_DATA_OK; /*(note: this function doesn't really return "invalid" because 0 size list is still valid*/
-    }
-    else
-    {
-        for (unsigned int i = 0; i < fabric_configuration_parameter_list->Count; i++)
-        {
-            FABRIC_CONFIGURATION_PARAMETER_free((FABRIC_CONFIGURATION_PARAMETER*)fabric_configuration_parameter_list->Items + fabric_configuration_parameter_list->Count);
-            free((void*)fabric_configuration_parameter_list->Items);
-        }
-        result = ARGC_ARGV_DATA_ERROR;
-    }
-    return result;
-
-}
-
-static void fabric_configuration_parameter_list_free(FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list)
-{
-    for (unsigned int i = 0; i < fabric_configuration_parameter_list->Count; i++)
-    {
-        FABRIC_CONFIGURATION_PARAMETER_free((FABRIC_CONFIGURATION_PARAMETER*)fabric_configuration_parameter_list->Items + fabric_configuration_parameter_list->Count);
-    }
 }
 
 /* argc/argv => FABRIC_CONFIGURATION_SECTION* */
@@ -237,7 +141,7 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
                     fabric_configuration_section->Parameters = fabric_configuration_parameter_list;
 
                     int consumed;
-                    ARGC_ARGV_DATA_RESULT r = fabric_configuration_parameter_list_from_argc_argv(argc-(*argc_consumed), argv+(*argc_consumed), fabric_configuration_parameter_list, &consumed);
+                    ARGC_ARGV_DATA_RESULT r = FABRIC_CONFIGURATION_PARAMETER_LIST_from_ARGC_ARGV(argc-(*argc_consumed), argv+(*argc_consumed), fabric_configuration_parameter_list, &consumed);
                     switch (r)
                     {
                         case ARGC_ARGV_DATA_OK:
@@ -274,11 +178,6 @@ allok:;
 void FABRIC_CONFIGURATION_SECTION_free(FABRIC_CONFIGURATION_SECTION* fabric_configuration_section)
 {
     free((void*)fabric_configuration_section->Name);
-    for (unsigned int i = 0; i < fabric_configuration_section->Parameters->Count; i++)
-    {
-        FABRIC_CONFIGURATION_PARAMETER_free((void*)(fabric_configuration_section->Parameters->Items + i));
-    }
-    free((void*)(fabric_configuration_section->Parameters->Items));
-    free((void*)fabric_configuration_section->Parameters);
+    FABRIC_CONFIGURATION_PARAMETER_LIST_free((FABRIC_CONFIGURATION_PARAMETER_LIST*)fabric_configuration_section->Parameters);
 }
 

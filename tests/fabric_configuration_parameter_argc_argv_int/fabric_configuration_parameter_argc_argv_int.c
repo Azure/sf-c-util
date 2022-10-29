@@ -12,7 +12,11 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
+#include "sf_c_util/common_argc_argv.h"
+
 #include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+
+TEST_DEFINE_ENUM_TYPE(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_RESULT_VALUES);
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 
