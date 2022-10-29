@@ -106,6 +106,7 @@ allok:;
     return result;
 }
 
+/*note: should really be in its own unit*/
 static ARGC_ARGV_DATA_RESULT fabric_configuration_parameter_list_from_argc_argv(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list, int* argc_consumed)
 {
     ARGC_ARGV_DATA_RESULT result;
@@ -269,7 +270,7 @@ allok:;
     return result;
 }
 
-/* freeing a previously produced FABRIC_CONFIGURATION_SECTION* */
+/* freeing a previously filled FABRIC_CONFIGURATION_SECTION's data */
 void FABRIC_CONFIGURATION_SECTION_free(FABRIC_CONFIGURATION_SECTION* fabric_configuration_section)
 {
     free((void*)fabric_configuration_section->Name);
