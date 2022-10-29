@@ -127,7 +127,7 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
         if (strcmp(argv[0], SECTION_NAME_DEFINE) != 0)
         {
             LogVerbose("cannot parse as FABRIC_CONFIGURATION_SECTION because the first argument is %s, but it is expected to be " SECTION_NAME_DEFINE "", argv[0]);
-            result = ARGC_ARGV_DATA_INVALID
+            result = ARGC_ARGV_DATA_INVALID;
         }
         else
         {
@@ -136,6 +136,7 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
             {
                 LogError("failure in malloc(sizeof(FABRIC_CONFIGURATION_SECTION)=%zu);",
                     sizeof(FABRIC_CONFIGURATION_SECTION));
+                result = ARGC_ARGV_DATA_ERROR;
             }
             else
             {
@@ -143,6 +144,7 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
                 if ((*fabric_configuration_section)->Name == NULL)
                 {
                     LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
+                    result = ARGC_ARGV_DATA_ERROR;
                 }
                 else
                 {
@@ -152,15 +154,16 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
                     while (param_argc > 0)
                     {
                         FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter;
-                        int argc_consumed;
-                        ARGC_ARGV_DATA_RESULT param_result = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(param_argc, argv + param_index, &fabric_configuration_parameter, &argc_consumed);
+                        int param_argc_consumed;
+                        ARGC_ARGV_DATA_RESULT param_result = FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(param_argc, argv + param_index, &fabric_configuration_parameter, &param_argc_consumed);
                         switch (param_result)
 
                         {
                             /*AICI AM RAMAS*/
                         }
                     }
-                    free((*fabric_configuration_section)->Name);
+                    result = ARGC_ARGV_DATA_INVALID;
+                    free((void*)(*fabric_configuration_section)->Name);
                 }
                 
                 free(*fabric_configuration_section);
