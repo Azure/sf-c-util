@@ -14,10 +14,14 @@
 
 #include "real_hresult_to_string.h"
 #include "real_fabric_configuration_parameter_argc_argv.h"
+#include "real_fabric_configuration_parameter_list_argc_argv.h"
+#include "real_fabric_configuration_section_argc_argv.h"
 #include "real_common_argc_argv.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/fabric_configuration_parameter_list_argc_argv.h"
+#include "sf_c_util/fabric_configuration_section_argc_argv.h"
 #include "sf_c_util/common_argc_argv.h"
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
@@ -30,6 +34,8 @@ TEST_FUNCTION(check_sf_c_util_reals)
     // act
     REGISTER_HRESULT_TO_STRING_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_GLOBAL_MOCK_HOOK();
+    REGISTER_FABRIC_CONFIGURATION_PARAMETER_LIST_ARGC_ARGV_GLOBAL_MOCK_HOOK();
+    REGISTER_FABRIC_CONFIGURATION_SECTION_ARGC_ARGV_GLOBAL_MOCK_HOOK();
     REGISTER_COMMON_ARGC_ARGV_GLOBAL_MOCK_HOOK();
 
     // assert

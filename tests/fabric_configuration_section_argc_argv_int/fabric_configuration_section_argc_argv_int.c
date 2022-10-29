@@ -203,6 +203,27 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV__no_section_does_not_p
     ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_INVALID, result);
 }
 
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV__only_SECTION_NAME_DEFINE_parameters_is_invalid)
+{
+    ///arrange
+    char* argv[] = {
+        SECTION_NAME_DEFINE
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    FABRIC_CONFIGURATION_SECTION fabric_configuration_section;
+    int argc_consumed;
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(argc, argv, &fabric_configuration_section, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_INVALID, result);
+
+    ///clear
+}
+
 TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV_0_parameters_succeeds)
 {
     ///arrange

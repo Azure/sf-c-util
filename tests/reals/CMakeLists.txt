@@ -5,6 +5,7 @@ set(sf_c_util_reals_c_files
     real_hresult_to_string.c
     real_fabric_configuration_parameter_argc_argv.c
     real_fabric_configuration_parameter_list_argc_argv.c
+    real_fabric_configuration_section_argc_argv.c
     real_common_argc_argv.c
 )
 
@@ -17,6 +18,9 @@ set(sf_c_util_reals_h_files
 
     real_fabric_configuration_parameter_list_argc_argv.h
     real_fabric_configuration_parameter_list_argc_argv_renames.h
+
+    real_fabric_configuration_section_argc_argv.h
+    real_fabric_configuration_section_argc_argv_renames.h
 
     real_common_argc_argv.h
     real_common_argc_argv_renames.h

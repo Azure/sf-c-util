@@ -97,8 +97,6 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
 {
     ARGC_ARGV_DATA_RESULT result;
     if (
-        (argc < 2) ||
-        (argv == NULL) ||
         (fabric_configuration_section == NULL) ||
         (argc_consumed == NULL)
         )
@@ -109,63 +107,71 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(int argc, char
     }
     else
     {
-        *argc_consumed = 0;
-        if (strcmp(argv[0], SECTION_NAME_DEFINE) != 0)
+        if (
+            (argc < 2) ||
+            (argv == NULL)
+            )
         {
-            LogVerbose("cannot parse as FABRIC_CONFIGURATION_SECTION because the first argument is %s, but it is expected to be " SECTION_NAME_DEFINE "", argv[0]);
+            LogError("not enough data to parse: int argc=%d, char** argv=%p, FABRIC_CONFIGURATION_SECTION** fabric_configuration_section=%p, int* argc_consumed=%p",
+                argc, argv, fabric_configuration_section, argc_consumed);
             result = ARGC_ARGV_DATA_INVALID;
         }
         else
         {
-            (*argc_consumed)++;
-            fabric_configuration_section->Name = mbs_to_wcs(argv[1]);
-            if (fabric_configuration_section->Name == NULL)
+            *argc_consumed = 0;
+            if (strcmp(argv[0], SECTION_NAME_DEFINE) != 0)
             {
-                LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
-                result = ARGC_ARGV_DATA_ERROR;
+                LogVerbose("cannot parse as FABRIC_CONFIGURATION_SECTION because the first argument is %s, but it is expected to be " SECTION_NAME_DEFINE "", argv[0]);
+                result = ARGC_ARGV_DATA_INVALID;
             }
             else
             {
                 (*argc_consumed)++;
-
-                FABRIC_CONFIGURATION_PARAMETER_LIST* fabric_configuration_parameter_list;
-
-                fabric_configuration_parameter_list = malloc(sizeof(FABRIC_CONFIGURATION_PARAMETER_LIST));
-                if (fabric_configuration_parameter_list == NULL)
+                fabric_configuration_section->Name = mbs_to_wcs(argv[1]);
+                if (fabric_configuration_section->Name == NULL)
                 {
-                    LogError("failure in malloc");
+                    LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
                     result = ARGC_ARGV_DATA_ERROR;
                 }
                 else
                 {
-                    fabric_configuration_section->Parameters = fabric_configuration_parameter_list;
+                    (*argc_consumed)++;
 
-                    int consumed;
-                    ARGC_ARGV_DATA_RESULT r = FABRIC_CONFIGURATION_PARAMETER_LIST_from_ARGC_ARGV(argc-(*argc_consumed), argv+(*argc_consumed), fabric_configuration_parameter_list, &consumed);
-                    switch (r)
+                    fabric_configuration_section->Parameters = malloc(sizeof(FABRIC_CONFIGURATION_PARAMETER_LIST));
+                    if (fabric_configuration_section->Parameters == NULL)
                     {
-                        case ARGC_ARGV_DATA_OK:
-                        {
-                            *argc_consumed += consumed;
-                            result = ARGC_ARGV_DATA_OK;
-                            goto allok;
-                            break;
-                        }
-                        case ARGC_ARGV_DATA_INVALID:
-                        {
-                            /*at this point invalid is unexpected because an empty list should always be parseable*/
-                            LogError("unexpected %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
-                            result = ARGC_ARGV_DATA_INVALID;
-                        }
-                        default:
-                        case ARGC_ARGV_DATA_ERROR:
-                        {
-                            LogError("failure %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
-                            result = ARGC_ARGV_DATA_INVALID;
-                        }
+                        LogError("failure in malloc");
+                        result = ARGC_ARGV_DATA_ERROR;
                     }
+                    else
+                    {
+                        int consumed;
+                        ARGC_ARGV_DATA_RESULT r = FABRIC_CONFIGURATION_PARAMETER_LIST_from_ARGC_ARGV(argc - (*argc_consumed), argv + (*argc_consumed), (FABRIC_CONFIGURATION_PARAMETER_LIST*)fabric_configuration_section->Parameters, &consumed);
+                        switch (r)
+                        {
+                            case ARGC_ARGV_DATA_OK:
+                            {
+                                *argc_consumed += consumed;
+                                result = ARGC_ARGV_DATA_OK;
+                                goto allok;
+                                break; /*interesting the compiler ain't complaining about unreachable code here. Bug??*/
+                            }
+                            case ARGC_ARGV_DATA_INVALID:
+                            {
+                                /*at this point invalid is unexpected because an empty list should always be parseable*/
+                                LogError("unexpected %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
+                                result = ARGC_ARGV_DATA_INVALID;
+                            }
+                            default:
+                            case ARGC_ARGV_DATA_ERROR:
+                            {
+                                LogError("failure %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
+                                result = ARGC_ARGV_DATA_INVALID;
+                            }
+                        }
 
-                    free(fabric_configuration_parameter_list);
+                        free((void*)fabric_configuration_section->Parameters);
+                    }
                 }
             }
         }
@@ -179,5 +185,6 @@ void FABRIC_CONFIGURATION_SECTION_free(FABRIC_CONFIGURATION_SECTION* fabric_conf
 {
     free((void*)fabric_configuration_section->Name);
     FABRIC_CONFIGURATION_PARAMETER_LIST_free((FABRIC_CONFIGURATION_PARAMETER_LIST*)fabric_configuration_section->Parameters);
+    free((void*)fabric_configuration_section->Parameters);
 }
 

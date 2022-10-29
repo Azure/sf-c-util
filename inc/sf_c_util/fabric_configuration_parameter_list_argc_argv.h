@@ -1,8 +1,8 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H
-#define FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H
+#ifndef FABRIC_CONFIGURATION_PARAMETER_LIST_ARGC_ARGV_H
+#define FABRIC_CONFIGURATION_PARAMETER_LIST_ARGC_ARGV_H
 
 
 #include "fabrictypes.h"
@@ -29,4 +29,4 @@ extern "C" {
 }
 #endif
 
-#endif /* FABRIC_CONFIGURATION_PARAMETER_ARGC_ARGV_H */
+#endif /* FABRIC_CONFIGURATION_PARAMETER_LIST_ARGC_ARGV_H */
