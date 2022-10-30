@@ -15,12 +15,12 @@
 extern "C" {
 #endif
 
-    /*a FABRIC_CONFIGURATION_PACKAGE is serialized to argc/argv as --configurationPackageName "name" followed by a list of FABRIC_CONFIGURATION_SECTIONs*/
+    /*a FABRIC_CONFIGURATION_PACKAGE is serialized to argc/argv as --configurationPackageName "name" followed by 1x FABRIC_CONFIGURATION_SECTION_LIST*/
 
     /* FABRIC_CONFIGURATION_PACKAGE => argc/argv */
-    MOCKABLE_FUNCTION(, int, FABRIC_CONFIGURATION_PACKAGE_to_ARGC_ARGV, const IFabricConfigurationPackage*, iFabricConfigurationPackage, int*, argc, char***, argv);
+    MOCKABLE_FUNCTION(, int, FABRIC_CONFIGURATION_PACKAGE_to_ARGC_ARGV, IFabricConfigurationPackage*, iFabricConfigurationPackage, int*, argc, char***, argv);
 
-    /* argc/argv => IFabricConfigurationPackage* */
+    /* argc/argv => IFabricConfigurationPackage* sort of "factory" :)*/
     MOCKABLE_FUNCTION(, ARGC_ARGV_DATA_RESULT, FABRIC_CONFIGURATION_PACKAGE_from_ARGC_ARGV, int, argc, char**, argv, IFabricConfigurationPackage**, iFabricConfigurationPackage, int*, argc_consumed);
 
     /* freeing a previously produced IFabricConfigurationPackage* */
