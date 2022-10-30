@@ -964,4 +964,937 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_to_ARGC_ARGV_with_2_sections_wit
     ARGC_ARGV_free(argc, argv);
 }
 
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_without_sectionName_consumes_0_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE "A", /*does not start with a section...*/
+        "S1"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 0, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Count);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items);
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_0_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE, 
+        "S1" 
+        /*note: no arguments follow*/
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+    
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_0_arguments_followed_by_half_argument)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "half_argument" /*note: half_argument is not parsed*/
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_0_arguments_followed_by_SECTION_NAME_DEFINE)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        SECTION_NAME_DEFINE
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_0_arguments_followed_by_SERVICE_ENDPOINT_RESOURCE)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        SERVICE_ENDPOINT_RESOURCE
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_0_arguments_followed_by_CONFIGURATION_PACKAGE_NAME)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        CONFIGURATION_PACKAGE_NAME
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_1_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 4, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[0].Parameters->Count);
+    ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+    ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+    ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        "s1p2",
+        "s1v2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[0].Parameters->Count);
+    {
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+    }
+    {
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[1].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1p2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1v2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Value);
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_arguments_and_a_half)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        "s1p2",
+        "s1v2",
+        "half_argument"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[0].Parameters->Count);
+    {
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+    }
+    {
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[1].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1p2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1v2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Value);
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_arguments_and_SECTION_NAME)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        "s1p2",
+        "s1v2",
+        SECTION_NAME_DEFINE
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[0].Parameters->Count);
+    {
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+    }
+    {
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].IsEncrypted);
+        ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].MustOverride);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[1].Reserved);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1p2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Name);
+        ASSERT_ARE_EQUAL(wchar_ptr, L"s1v2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Value);
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_0_and_0_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        SECTION_NAME_DEFINE,
+        "S2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 4, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_0_and_1_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        SECTION_NAME_DEFINE,
+        "S2",
+        "s2p1",
+        "s2v1"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+        {/*S2 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Value);
+        }
+
+        
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_0_and_2_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        SECTION_NAME_DEFINE,
+        "S2",
+        "s2p1",
+        "s2v1",
+        "s2p2",
+        "s2v2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 8, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+        {/*S2 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Value);
+        }
+        {/*S2 p2*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[1].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[1].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[1].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p2", fabric_configuration_section_list.Items[1].Parameters->Items[1].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v2", fabric_configuration_section_list.Items[1].Parameters->Items[1].Value);
+        }
+
+
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_1_and_0_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        SECTION_NAME_DEFINE,
+        "S2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+        {/*S1 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+        }
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_1_and_1_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        SECTION_NAME_DEFINE,
+        "S2",
+        "s2p1",
+        "s2v1"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 8, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+        {/*S1 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+        }
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+        {/*S2 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Value);
+        }
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_1_and_2_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        SECTION_NAME_DEFINE,
+        "S2",
+        "s2p1",
+        "s2v1",
+        "s2p2",
+        "s2v2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 10, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+        {/*S1 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+        }
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+        {/*S2 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Value);
+        }
+        {/*S2 p2*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[1].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[1].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[1].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p2", fabric_configuration_section_list.Items[1].Parameters->Items[1].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v2", fabric_configuration_section_list.Items[1].Parameters->Items[1].Value);
+        }
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_2_and_0_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        "s1p2",
+        "s1v2",
+        SECTION_NAME_DEFINE,
+        "S2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 8, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+        {/*S1 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+        }
+        {/*S1 p2*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Value);
+        }
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 0, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_2_and_1_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        "s1p2",
+        "s1v2",
+        SECTION_NAME_DEFINE,
+        "S2",
+        "s2p1",
+        "s2v1"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 10, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+        {/*S1 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+        }
+        {/*S1 p2*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Value);
+        }
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 1, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+        {/*S2 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Value);
+        }
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
+TEST_FUNCTION(FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV_with_sectionName_with_2_sections_with_2_and_2_arguments)
+{
+    ///arrange
+    FABRIC_CONFIGURATION_SECTION_LIST fabric_configuration_section_list;
+    int argc_consumed;
+
+    char* argv[] =
+    {
+        SECTION_NAME_DEFINE,
+        "S1",
+        "s1p1",
+        "s1v1",
+        "s1p2",
+        "s1v2",
+        SECTION_NAME_DEFINE,
+        "S2",
+        "s2p1",
+        "s2v1",
+        "s2p2",
+        "s2v2"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    ///act
+    result = FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(argc, argv, &fabric_configuration_section_list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 12, argc_consumed);
+    ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Count);
+    ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items);
+
+    { /*"S1"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S1", fabric_configuration_section_list.Items[0].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters);
+        ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[0].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[0].Parameters->Items);
+        {/*S1 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v1", fabric_configuration_section_list.Items[0].Parameters->Items[0].Value);
+        }
+        {/*S1 p2*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[0].Parameters->Items[1].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[0].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1p2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s1v2", fabric_configuration_section_list.Items[0].Parameters->Items[1].Value);
+        }
+    }
+    { /*"S2"*/
+        ASSERT_ARE_EQUAL(wchar_ptr, L"S2", fabric_configuration_section_list.Items[1].Name);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters);
+        ASSERT_ARE_EQUAL(int, 2, fabric_configuration_section_list.Items[1].Parameters->Count);
+        ASSERT_IS_NOT_NULL(fabric_configuration_section_list.Items[1].Parameters->Items);
+        {/*S2 p1*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[0].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[0].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v1", fabric_configuration_section_list.Items[1].Parameters->Items[0].Value);
+        }
+        {/*S2 p2*/
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[1].IsEncrypted);
+            ASSERT_IS_FALSE(fabric_configuration_section_list.Items[1].Parameters->Items[1].MustOverride);
+            ASSERT_IS_NULL(fabric_configuration_section_list.Items[1].Parameters->Items[1].Reserved);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2p2", fabric_configuration_section_list.Items[1].Parameters->Items[1].Name);
+            ASSERT_ARE_EQUAL(wchar_ptr, L"s2v2", fabric_configuration_section_list.Items[1].Parameters->Items[1].Value);
+        }
+    }
+
+    ///clean
+    FABRIC_CONFIGURATION_SECTION_LIST_free(&fabric_configuration_section_list);
+}
+
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)

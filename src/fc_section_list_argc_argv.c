@@ -81,7 +81,70 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(int argc,
     }
     else
     {
-        result = ARGC_ARGV_DATA_ERROR;
+        *argc_consumed = 0;
+        fabric_configuration_section_list->Count = 0;
+        fabric_configuration_section_list->Items = NULL;
+
+        bool done = false;
+        bool wasError = false;
+
+        while(!done && !wasError)
+        {
+            FABRIC_CONFIGURATION_SECTION fabric_configuration_section;
+            int c_argc;
+            ARGC_ARGV_DATA_RESULT r = FABRIC_CONFIGURATION_SECTION_from_ARGC_ARGV(argc - *argc_consumed, argv + *argc_consumed, &fabric_configuration_section, &c_argc);
+            switch (r)
+            {
+                case ARGC_ARGV_DATA_OK:
+                {
+                    if (c_argc == 0)
+                    {
+                        /*valid data, but nothing was consumed, we are done*/
+                        done = true;
+                    }
+                    else
+                    {
+                        fabric_configuration_section_list->Count++;
+                        FABRIC_CONFIGURATION_SECTION* new_sections = realloc_2((void*)fabric_configuration_section_list->Items, fabric_configuration_section_list->Count, sizeof(FABRIC_CONFIGURATION_SECTION));
+                        if (new_sections == NULL)
+                        {
+                            fabric_configuration_section_list->Count--;
+                            LogError("failure in realloc_2");
+
+                        }
+                        else
+                        {
+                            fabric_configuration_section_list->Items = new_sections;
+
+                            /*cast the const away*/
+                            *(FABRIC_CONFIGURATION_SECTION*)& fabric_configuration_section_list->Items[fabric_configuration_section_list->Count - 1] = fabric_configuration_section;
+                        }
+                        *argc_consumed += c_argc;
+                    }
+                    break;
+                }
+                case ARGC_ARGV_DATA_INVALID:
+                {
+                    done = true;
+                    break;
+                }
+                default:
+                case ARGC_ARGV_DATA_ERROR:
+                {
+                    wasError = true;
+                    break;
+                }
+            }
+        }
+
+        if (wasError)
+        {
+            result = ARGC_ARGV_DATA_ERROR;
+        }
+        else
+        {
+            result = ARGC_ARGV_DATA_OK;
+        }
     }
     return result;
 }
@@ -89,6 +152,10 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_SECTION_LIST_from_ARGC_ARGV(int argc,
 /* freeing a previously filled FABRIC_CONFIGURATION_SECTION_LIST's data */
 void FABRIC_CONFIGURATION_SECTION_LIST_free(FABRIC_CONFIGURATION_SECTION_LIST* fabric_configuration_section_list)
 {
-    (void)fabric_configuration_section_list;
+    for (ULONG u = 0; u < fabric_configuration_section_list->Count; u++)
+    {
+        FABRIC_CONFIGURATION_SECTION_free((void*)(fabric_configuration_section_list->Items + u));
+    }
+    free((void*)fabric_configuration_section_list->Items);
 }
 
