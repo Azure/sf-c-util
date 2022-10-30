@@ -7,6 +7,7 @@ set(sf_c_util_reals_c_files
     real_fc_parameter_argc_argv.c
     real_fc_parameter_list_argc_argv.c
     real_fc_section_argc_argv.c
+    real_fc_section_list_argc_argv.c
     real_common_argc_argv.c
 )
 
@@ -22,6 +23,9 @@ set(sf_c_util_reals_h_files
 
     real_fc_section_argc_argv.h
     real_fc_section_argc_argv_renames.h
+
+    real_fc_section_list_argc_argv.h
+    real_fc_section_list_argc_argv_renames.h
 
     real_common_argc_argv.h
     real_common_argc_argv_renames.h

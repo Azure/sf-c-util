@@ -3,6 +3,8 @@
 
 #include "real_gballoc_hl_renames.h"
 
+#include "real_common_argc_argv_renames.h" // IWYU pragma: keep
+
 #include "real_fc_parameter_argc_argv_renames.h" // IWYU pragma: keep
 
 #include "../../src/fc_parameter_argc_argv.c"
