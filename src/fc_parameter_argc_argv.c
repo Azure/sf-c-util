@@ -11,7 +11,7 @@
 
 #include "c_pal/string_utils.h"
 
-#include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/fc_parameter_argc_argv.h"
 
 int FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV(const FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter, int* argc, char*** argv)
 {
@@ -67,7 +67,7 @@ allok:;
     return result;
 }
 
-ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER** fabric_configuration_parameter, int* argc_consumed)
+ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, char** argv, FABRIC_CONFIGURATION_PARAMETER* fabric_configuration_parameter, int* argc_consumed)
 {
     ARGC_ARGV_DATA_RESULT result;
     if (
@@ -94,43 +94,34 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, ch
             }
         }
         
-        *fabric_configuration_parameter = malloc(sizeof(FABRIC_CONFIGURATION_PARAMETER));
-        if (*fabric_configuration_parameter == NULL)
+        
+        fabric_configuration_parameter->IsEncrypted = false;
+        fabric_configuration_parameter->MustOverride = false;
+        fabric_configuration_parameter->Reserved = NULL;
+
+        fabric_configuration_parameter->Name = mbs_to_wcs(argv[0]);
+        if (fabric_configuration_parameter->Name == NULL)
         {
-            LogError("failure in malloc(sizeof(FABRIC_CONFIGURATION_PARAMETER)=%zu);", sizeof(FABRIC_CONFIGURATION_PARAMETER));
+            LogError("failure in mbs_to_wcs(argv[0]=%s);", argv[0]);
             result = ARGC_ARGV_DATA_ERROR;
         }
         else
         {
-            (*fabric_configuration_parameter)->IsEncrypted = false;
-            (*fabric_configuration_parameter)->MustOverride = false;
-            (*fabric_configuration_parameter)->Reserved = NULL;
+            fabric_configuration_parameter->Value = mbs_to_wcs(argv[1]);
 
-            (*fabric_configuration_parameter)->Name = mbs_to_wcs(argv[0]);
-            if ((*fabric_configuration_parameter)->Name == NULL)
+            if (fabric_configuration_parameter->Value == NULL)
             {
-                LogError("failure in mbs_to_wcs(argv[0]=%s);", argv[0]);
+                LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
                 result = ARGC_ARGV_DATA_ERROR;
             }
             else
             {
-                (*fabric_configuration_parameter)->Value = mbs_to_wcs(argv[1]);
-
-                if ((*fabric_configuration_parameter)->Value == NULL)
-                {
-                    LogError("failure in mbs_to_wcs(argv[1]=%s);", argv[1]);
-                    result = ARGC_ARGV_DATA_ERROR;
-                }
-                else
-                {
-                    result = ARGC_ARGV_DATA_OK;
-                    *argc_consumed = 2;
-                    goto allok;
-                }
-
-                free((void*)(*fabric_configuration_parameter)->Name);
+                result = ARGC_ARGV_DATA_OK;
+                *argc_consumed = 2;
+                goto allok;
             }
-            free(*fabric_configuration_parameter);
+
+            free((void*)fabric_configuration_parameter->Name);
         }
     }
 allok:;
@@ -148,6 +139,5 @@ void FABRIC_CONFIGURATION_PARAMETER_free(FABRIC_CONFIGURATION_PARAMETER* fabric_
     {
         free((void*)fabric_configuration_parameter->Name);
         free((void*)fabric_configuration_parameter->Value);
-        free(fabric_configuration_parameter);
     }
 }

@@ -12,7 +12,11 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
-#include "sf_c_util/fabric_configuration_parameter_argc_argv.h"
+#include "sf_c_util/common_argc_argv.h"
+
+#include "sf_c_util/fc_parameter_argc_argv.h"
+
+TEST_DEFINE_ENUM_TYPE(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_RESULT_VALUES);
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 
@@ -74,7 +78,7 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_to_ARGC_ARGV_succeeds)
 TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_succeeds_1)
 {
     ///arrange
-    FABRIC_CONFIGURATION_PARAMETER* p;
+    FABRIC_CONFIGURATION_PARAMETER p;
     char* argv[] =
     {
         "AA",
@@ -91,20 +95,20 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_succeeds_1)
     ///assert
     ASSERT_IS_TRUE(result== ARGC_ARGV_DATA_OK);
     ASSERT_ARE_EQUAL(int, 2, argc_consumed);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"AA", p->Name);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"BBB", p->Value);
-    ASSERT_IS_FALSE(p->IsEncrypted);
-    ASSERT_IS_FALSE(p->MustOverride);
-    ASSERT_IS_NULL(p->Reserved);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"AA", p.Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"BBB", p.Value);
+    ASSERT_IS_FALSE(p.IsEncrypted);
+    ASSERT_IS_FALSE(p.MustOverride);
+    ASSERT_IS_NULL(p.Reserved);
 
     ///clean
-    FABRIC_CONFIGURATION_PARAMETER_free(p);
+    FABRIC_CONFIGURATION_PARAMETER_free(&p);
 }
 
 TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_succeeds_2) /*in this test, 3 argv are passed, however, only 2 are expected to be consumed*/
 {
     ///arrange
-    FABRIC_CONFIGURATION_PARAMETER* p;
+    FABRIC_CONFIGURATION_PARAMETER p;
     char* argv[] =
     {
         "AA",
@@ -122,20 +126,20 @@ TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_succeeds_2) /*in thi
     ///assert
     ASSERT_IS_TRUE(result == ARGC_ARGV_DATA_OK);
     ASSERT_ARE_EQUAL(int, 2, argc_consumed);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"AA", p->Name);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"BBB", p->Value);
-    ASSERT_IS_FALSE(p->IsEncrypted);
-    ASSERT_IS_FALSE(p->MustOverride);
-    ASSERT_IS_NULL(p->Reserved);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"AA", p.Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"BBB", p.Value);
+    ASSERT_IS_FALSE(p.IsEncrypted);
+    ASSERT_IS_FALSE(p.MustOverride);
+    ASSERT_IS_NULL(p.Reserved);
 
     ///clean
-    FABRIC_CONFIGURATION_PARAMETER_free(p);
+    FABRIC_CONFIGURATION_PARAMETER_free(&p);
 }
 
 TEST_FUNCTION(FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV_cannot_be_keywords) /*in this test, we're testing that parameters cannot be keywords (as listed in ARGC_ARGV_KEYWORDS_LIST)*/
 {
     ///arrange
-    FABRIC_CONFIGURATION_PARAMETER* p;
+    FABRIC_CONFIGURATION_PARAMETER p;
     char* argv[] =
     {
         "AA",

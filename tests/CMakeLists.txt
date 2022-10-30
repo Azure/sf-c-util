@@ -19,8 +19,9 @@ endif()
 # int tests
 if(${run_int_tests})
     build_test_folder(hresult_to_string_int)
-    build_test_folder(fabric_configuration_parameter_argc_argv_int)
+    build_test_folder(fc_parameter_argc_argv_int)
+    build_test_folder(fc_parameter_list_argc_argv_int)
     build_test_folder(common_argc_argv_int)
-    build_test_folder(fabric_configuration_section_argc_argv_int)
+    build_test_folder(fc_section_argc_argv_int)
 
 endif()
