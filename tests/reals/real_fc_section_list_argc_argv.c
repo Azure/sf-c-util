@@ -5,8 +5,10 @@
 
 #include "real_common_argc_argv_renames.h" // IWYU pragma: keep
 
-#include "real_fc_parameter_argc_argv_renames.h" // IWYU pragma: keep
-
 #include "real_fc_parameter_list_argc_argv_renames.h" // IWYU pragma: keep
 
-#include "../../src/fc_parameter_list_argc_argv.c"
+#include "real_fc_section_argc_argv_renames.h" // IWYU pragma: keep
+
+#include "real_fc_section_list_argc_argv_renames.h" // IWYU pragma: keep
+
+#include "../../src/fc_section_list_argc_argv.c"
