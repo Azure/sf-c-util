@@ -1,4 +1,5 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "windows.h"
 
@@ -16,8 +17,7 @@
 
 struct FC_ACTIVATION_CONTEXT_TAG
 {
-    FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION fabric_configuration_package_description;
-    FABRIC_CONFIGURATION_SETTINGS fabric_configuration_settings;
+    int dummy;
 };
 
 FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv, int* argc_consumed)
@@ -50,3 +50,5 @@ LPCWSTR get_ContextId(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle)
     (void)fc_activation_context_handle;
     return NULL;
 }
+
+/*COMMENT: NOT DONE YET!!!!!*/
