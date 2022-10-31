@@ -253,7 +253,7 @@ HRESULT DecryptValue(FC_PACKAGE_HANDLE fc_package_handle,
     return hr;
 }
 
-int FABRIC_CONFIGURATION_PACKAGE_to_ARGC_ARGV(IFabricConfigurationPackage* iFabricConfigurationPackage, int* argc, char*** argv)
+int IFabricConfigurationPackage_to_ARGC_ARGV(IFabricConfigurationPackage* iFabricConfigurationPackage, int* argc, char*** argv)
 {
     int result;
     if (
@@ -268,7 +268,87 @@ int FABRIC_CONFIGURATION_PACKAGE_to_ARGC_ARGV(IFabricConfigurationPackage* iFabr
     }
     else
     {
-        result = MU_FAILURE; /*not implemented yet*/
+        *argv = malloc_2(2, sizeof(char*));
+        if (*argv == NULL)
+        {
+            LogError("failure in malloc_2");
+            result = MU_FAILURE;
+        }
+        else
+        {
+            if (((*argv)[0] = sprintf_char(CONFIGURATION_PACKAGE_NAME)) == NULL)
+            {
+                LogError("failure in sprintf_char");
+                result = MU_FAILURE;
+            }
+            else
+            {
+                const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION* fabric_configuration_package_description = iFabricConfigurationPackage->lpVtbl->get_Description(iFabricConfigurationPackage);
+                if (fabric_configuration_package_description == NULL)
+                {
+                    LogError("failure in get_Description");
+                    result = MU_FAILURE;
+                }
+                else
+                {
+                    if (fabric_configuration_package_description->Name == NULL)
+                    {
+                        LogError("unexpected fabric_configuration_package_description->Name == NULL");
+                        result = MU_FAILURE;
+                    }
+                    else
+                    {
+                        if (((*argv)[1] = sprintf_char("%ls", fabric_configuration_package_description->Name)) == NULL)
+                        {
+                            LogError("failure in sprintf_char");
+                            result = MU_FAILURE;
+                        }
+                        else
+                        {
+                            *argc = 2;
+                            const FABRIC_CONFIGURATION_SETTINGS* fabric_configuration_settings = iFabricConfigurationPackage->lpVtbl->get_Settings(iFabricConfigurationPackage);
+                            if (fabric_configuration_settings == NULL)
+                            {
+                                LogError("unexpected get_Settings returning NULL");
+                                result = MU_FAILURE;
+                            }
+                            else
+                            {
+                                const FABRIC_CONFIGURATION_SECTION_LIST* fabric_configuration_section_list = fabric_configuration_settings->Sections;
+
+                                int p_argc;
+                                char** p_argv;
+                                if (FABRIC_CONFIGURATION_SECTION_LIST_to_ARGC_ARGV(fabric_configuration_section_list, &p_argc, &p_argv) != 0)
+                                {
+                                    LogError("failure in FABRIC_CONFIGURATION_SECTION_LIST_to_ARGC_ARGV");
+                                    result = MU_FAILURE;
+                                }
+                                else
+                                {
+                                    if (ARGC_ARGV_concat(argc, argv, p_argc, p_argv) != 0)
+                                    {
+                                        ARGC_ARGV_free(p_argc, p_argv);
+                                        LogError("failure in ARGC_ARGV_concat");
+                                        result = MU_FAILURE;
+                                    }
+                                    else
+                                    {
+                                        result = 0;
+                                        ARGC_ARGV_free(p_argc, p_argv);
+                                        goto allok;
+                                    }
+                                }
+
+                            }
+                            free((*argv)[1]);
+                        }
+                    }
+                }
+                free((*argv)[0]);
+            }
+            free(*argv);
+        }
     }
+allok:;
     return result;
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "macro_utils/macro_utils.h"
 
@@ -18,6 +19,25 @@
 
 #include "sf_c_util/fc_package_com.h"
 #include "sf_c_util/fc_package.h"
+
+static bool argc_argv_are_equal(int argc_left, char** argv_left, int argc_right, char** argv_right)
+{
+    if (argc_left != argc_right)
+    {
+        return false;
+    }
+    else
+    {
+        for (int i = 0; i < argc_left; i++)
+        {
+            if (strcmp(argv_left[i], argv_right[i]) != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
 
@@ -50,8 +70,9 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
 }
 
 /*all tests are actually going against IFabricConfigurationPackage rather than FC_PACKAGE_HANDLE. COM_WRAPPER ROCKS!!!*/
+/*including getting the produced IFabricConfigurationPackage -> argc/argv*/
 
-TEST_FUNCTION(FC_PACKAGE_create_with_0_sections_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_0_sections_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -104,11 +125,18 @@ TEST_FUNCTION(FC_PACKAGE_create_with_0_sections_succeeds)
     ASSERT_IS_NOT_NULL(fabric_configuration_settings->Sections);
     ASSERT_ARE_EQUAL(int, 0, fabric_configuration_settings->Sections->Count); /*no sections, no parameters, no nothing*/
 
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
 
-TEST_FUNCTION(FC_PACKAGE_create_with_0_sections_half_params_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_0_sections_half_params_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -164,11 +192,18 @@ TEST_FUNCTION(FC_PACKAGE_create_with_0_sections_half_params_succeeds)
     ASSERT_ARE_EQUAL(int, 0, fabric_configuration_settings->Sections->Count); /*no sections, no parameters, no nothing*/
     ASSERT_ARE_EQUAL(wchar_ptr, L"CONFIG", obj->lpVtbl->get_Description(obj)->Name);
 
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
 
-TEST_FUNCTION(FC_PACKAGE_create_with_0_sections_SERVICE_ENDPOINT_RESOURCE_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_0_sections_SERVICE_ENDPOINT_RESOURCE_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -224,11 +259,18 @@ TEST_FUNCTION(FC_PACKAGE_create_with_0_sections_SERVICE_ENDPOINT_RESOURCE_succee
     ASSERT_ARE_EQUAL(int, 0, fabric_configuration_settings->Sections->Count); /*no sections, no parameters, no nothing*/
     ASSERT_ARE_EQUAL(wchar_ptr, L"CONFIG", obj->lpVtbl->get_Description(obj)->Name);
 
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
 
-TEST_FUNCTION(FC_PACKAGE_create_with_1_sections_0_parameters_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_1_sections_0_parameters_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -293,11 +335,18 @@ TEST_FUNCTION(FC_PACKAGE_create_with_1_sections_0_parameters_succeeds)
     }
     ASSERT_ARE_EQUAL(wchar_ptr, L"CONFIG", obj->lpVtbl->get_Description(obj)->Name);
     
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
 
-TEST_FUNCTION(FC_PACKAGE_create_with_1_sections_1_parameters_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_1_sections_1_parameters_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -369,11 +418,18 @@ TEST_FUNCTION(FC_PACKAGE_create_with_1_sections_1_parameters_succeeds)
     }
     ASSERT_ARE_EQUAL(wchar_ptr, L"CONFIG", obj->lpVtbl->get_Description(obj)->Name);
     
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
 
-TEST_FUNCTION(FC_PACKAGE_create_with_1_sections_2_parameters_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_1_sections_2_parameters_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -453,11 +509,18 @@ TEST_FUNCTION(FC_PACKAGE_create_with_1_sections_2_parameters_succeeds)
     }
     ASSERT_ARE_EQUAL(wchar_ptr, L"CONFIG", obj->lpVtbl->get_Description(obj)->Name);
     
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
 
-TEST_FUNCTION(FC_PACKAGE_create_with_2_sections_each_with_2_parameters_succeeds)
+TEST_FUNCTION(FC_PACKAGE_with_2_sections_each_with_2_parameters_succeeds)
 {
     ///arrange
     char* argv[] =
@@ -564,8 +627,16 @@ TEST_FUNCTION(FC_PACKAGE_create_with_2_sections_each_with_2_parameters_succeeds)
     }
     ASSERT_ARE_EQUAL(wchar_ptr, L"CONFIG", obj->lpVtbl->get_Description(obj)->Name);
 
+    /*act(3)*/
+    int p_argc;
+    char** p_argv;
+    ASSERT_ARE_EQUAL(int, 0, IFabricConfigurationPackage_to_ARGC_ARGV(obj, &p_argc, &p_argv));
+    ASSERT_IS_TRUE(argc_argv_are_equal(argc_consumed, argv, p_argc, p_argv));
+
     ///clean
+    ARGC_ARGV_free(p_argc, p_argv);
     obj->lpVtbl->Release(obj);
 }
+
 
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)

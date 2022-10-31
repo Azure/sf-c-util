@@ -38,7 +38,7 @@ extern "C" {
     )
 
     /* FABRIC_CONFIGURATION_PACKAGE => argc/argv */
-    MOCKABLE_FUNCTION(, int, FABRIC_CONFIGURATION_PACKAGE_to_ARGC_ARGV, IFabricConfigurationPackage*, iFabricConfigurationPackage, int*, argc, char***, argv);
+    MOCKABLE_FUNCTION(, int, IFabricConfigurationPackage_to_ARGC_ARGV, IFabricConfigurationPackage*, iFabricConfigurationPackage, int*, argc, char***, argv);
 
     /*argc/argv = > IFabricConfigurationPackage * sort of "factory" :). Handled by fc_create above in MOCKABLE_INTERFACE(fc_package,... */
     /*freeing a previously produced IFabricConfigurationPackage* => done by COM means, it ends up eventually calling fc_package_destroy */
@@ -47,4 +47,4 @@ extern "C" {
 }
 #endif
 
-#endif /* BS2SF_CCS_2_H */
+#endif /* FC_PACKAGE_H */
