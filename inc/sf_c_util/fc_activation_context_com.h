@@ -63,7 +63,7 @@ extern "C" {
         COM_WRAPPER_FUNCTION_WRAPPER(HRESULT, RegisterDataPackageChangeHandler, \
             /* [in] */ IFabricDataPackageChangeHandler*, callback,  \
             /* [retval][out] */ LONGLONG*, callbackHandle), \
-    COM_WRAPPER_FUNCTION_WRAPPER(HRESULT, UnregisterDataPackageChangeHandler, \
+        COM_WRAPPER_FUNCTION_WRAPPER(HRESULT, UnregisterDataPackageChangeHandler, \
             /* [in] */ LONGLONG, callbackHandle) \
     )
 
