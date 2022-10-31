@@ -18,6 +18,7 @@
 #include "real_fc_section_argc_argv.h"
 #include "real_fc_section_list_argc_argv.h"
 #include "real_common_argc_argv.h"
+#include "real_fc_package.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fc_parameter_argc_argv.h"
@@ -25,6 +26,7 @@
 #include "sf_c_util/fc_section_argc_argv.h"
 #include "sf_c_util/fc_section_list_argc_argv.h"
 #include "sf_c_util/common_argc_argv.h"
+#include "sf_c_util/fc_package.h"
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
