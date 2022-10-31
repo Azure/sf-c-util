@@ -22,21 +22,24 @@
 
 static bool argc_argv_are_equal(int argc_left, char** argv_left, int argc_right, char** argv_right)
 {
+    bool result;
     if (argc_left != argc_right)
     {
-        return false;
+        result = false;
     }
     else
     {
-        for (int i = 0; i < argc_left; i++)
+        int i;
+        for (i = 0; i < argc_left; i++)
         {
             if (strcmp(argv_left[i], argv_right[i]) != 0)
             {
-                return false;
+                break;
             }
         }
-        return true;
+        result = (i == argc_left);
     }
+    return result;
 }
 
 static TEST_MUTEX_HANDLE test_serialize_mutex;
