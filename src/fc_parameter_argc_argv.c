@@ -94,7 +94,6 @@ ARGC_ARGV_DATA_RESULT FABRIC_CONFIGURATION_PARAMETER_from_ARGC_ARGV(int argc, ch
             }
         }
         
-        
         fabric_configuration_parameter->IsEncrypted = false;
         fabric_configuration_parameter->MustOverride = false;
         fabric_configuration_parameter->Reserved = NULL;

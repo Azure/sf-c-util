@@ -121,7 +121,6 @@ set(sf_c_util_h_files
     inc/sf_c_util/fc_parameter_list_argc_argv.h
     inc/sf_c_util/fc_section_argc_argv.h
     inc/sf_c_util/fc_section_list_argc_argv.h
-    inc/sf_c_util/fc_package_argc_argv.h
     inc/sf_c_util/fc_package_com.h
     inc/sf_c_util/fc_package.h
 )
@@ -141,7 +140,6 @@ set(sf_c_util_c_files
     src/common_argc_argv.c
     src/fc_section_argc_argv.c
     src/fc_section_list_argc_argv.c
-    src/fc_package_argc_argv.c
     src/fc_package_com.c
     src/fc_package.c
 )

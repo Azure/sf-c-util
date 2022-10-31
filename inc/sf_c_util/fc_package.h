@@ -16,8 +16,10 @@ extern "C" {
 
     typedef struct FC_PACKAGE_TAG* FC_PACKAGE_HANDLE;
 
+    /*a FABRIC_CONFIGURATION_PACKAGE is serialized to argc/argv as --configurationPackageName "name" followed by 1x FABRIC_CONFIGURATION_SECTION_LIST*/
+
     MOCKABLE_INTERFACE(fc_package,
-        FUNCTION(, FC_PACKAGE_HANDLE, fc_package_create, int, a),
+        FUNCTION(, FC_PACKAGE_HANDLE, fc_package_create, int, argc, char**, argv, int*, argc_consumed),
         FUNCTION(, void, fc_package_destroy, FC_PACKAGE_HANDLE, fc_package_handle),
         FUNCTION(, const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION*, get_Description, FC_PACKAGE_HANDLE, fc_package_handle),
         FUNCTION(, LPCWSTR, get_Path, FC_PACKAGE_HANDLE, fc_package_handle),
@@ -34,6 +36,12 @@ extern "C" {
             /* [in] */ LPCWSTR, encryptedValue,
             /* [retval][out] */ IFabricStringResult**, decryptedValue)
     )
+
+    /* FABRIC_CONFIGURATION_PACKAGE => argc/argv */
+    MOCKABLE_FUNCTION(, int, FABRIC_CONFIGURATION_PACKAGE_to_ARGC_ARGV, IFabricConfigurationPackage*, iFabricConfigurationPackage, int*, argc, char***, argv);
+
+    /*argc/argv = > IFabricConfigurationPackage * sort of "factory" :). Handled by fc_create above in MOCKABLE_INTERFACE(fc_package,... */
+    /*freeing a previously produced IFabricConfigurationPackage* => done by COM means, it ends up eventually calling fc_package_destroy */
 
 #ifdef __cplusplus
 }
