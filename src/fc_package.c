@@ -1,5 +1,7 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 
+#include "windows.h"
+
 #include "c_logging/xlogging.h"
 
 #include "c_pal/gballoc_hl.h"
