@@ -1,4 +1,5 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #ifndef FC_PACKAGE_H
 #define FC_PACKAGE_H
@@ -21,18 +22,18 @@ extern "C" {
     MOCKABLE_INTERFACE(fc_package,
         FUNCTION(, FC_PACKAGE_HANDLE, fc_package_create, int, argc, char**, argv, int*, argc_consumed),
         FUNCTION(, void, fc_package_destroy, FC_PACKAGE_HANDLE, fc_package_handle),
-        FUNCTION(, const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION*, get_Description, FC_PACKAGE_HANDLE, fc_package_handle),
-        FUNCTION(, LPCWSTR, get_Path, FC_PACKAGE_HANDLE, fc_package_handle),
-        FUNCTION(, const FABRIC_CONFIGURATION_SETTINGS*, get_Settings, FC_PACKAGE_HANDLE, fc_package_handle),
-        FUNCTION(, HRESULT, GetSection, FC_PACKAGE_HANDLE, fc_package_handle,
+        FUNCTION(, const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION*, IFabricConfigurationPackage_get_Description, FC_PACKAGE_HANDLE, fc_package_handle),
+        FUNCTION(, LPCWSTR, IFabricConfigurationPackage_get_Path, FC_PACKAGE_HANDLE, fc_package_handle),
+        FUNCTION(, const FABRIC_CONFIGURATION_SETTINGS*, IFabricConfigurationPackage_get_Settings, FC_PACKAGE_HANDLE, fc_package_handle),
+        FUNCTION(, HRESULT, IFabricConfigurationPackage_GetSection, FC_PACKAGE_HANDLE, fc_package_handle,
             /* [in] */ LPCWSTR, sectionName,
             /* [retval][out] */ const FABRIC_CONFIGURATION_SECTION**, bufferedValue),
-        FUNCTION(, HRESULT, GetValue, FC_PACKAGE_HANDLE, fc_package_handle,
+        FUNCTION(, HRESULT, IFabricConfigurationPackage_GetValue, FC_PACKAGE_HANDLE, fc_package_handle,
             /* [in] */ LPCWSTR, sectionName,
             /* [in] */ LPCWSTR, parameterName,
             /* [out] */ BOOLEAN*, isEncrypted,
             /* [retval][out] */ LPCWSTR*, bufferedValue),
-        FUNCTION(, HRESULT, DecryptValue, FC_PACKAGE_HANDLE, fc_package_handle,
+        FUNCTION(, HRESULT, IFabricConfigurationPackage_DecryptValue, FC_PACKAGE_HANDLE, fc_package_handle,
             /* [in] */ LPCWSTR, encryptedValue,
             /* [retval][out] */ IFabricStringResult**, decryptedValue)
     )

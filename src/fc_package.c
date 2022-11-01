@@ -1,4 +1,5 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "windows.h"
 
@@ -114,7 +115,7 @@ void fc_package_destroy(FC_PACKAGE_HANDLE fc_package_handle)
     free(fc_package_handle);
 }
 
-const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION* get_Description(FC_PACKAGE_HANDLE fc_package_handle)
+const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION* IFabricConfigurationPackage_get_Description(FC_PACKAGE_HANDLE fc_package_handle)
 {
     const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION* result;
     if (fc_package_handle == NULL)
@@ -130,7 +131,7 @@ const FABRIC_CONFIGURATION_PACKAGE_DESCRIPTION* get_Description(FC_PACKAGE_HANDL
 }
 
 
-LPCWSTR get_Path(FC_PACKAGE_HANDLE fc_package_handle)
+LPCWSTR IFabricConfigurationPackage_get_Path(FC_PACKAGE_HANDLE fc_package_handle)
 {
     if (fc_package_handle == NULL)
     {
@@ -144,7 +145,7 @@ LPCWSTR get_Path(FC_PACKAGE_HANDLE fc_package_handle)
     return FC_NOT_IMPLEMENTED_STRING;
 }
 
-const FABRIC_CONFIGURATION_SETTINGS* get_Settings(FC_PACKAGE_HANDLE fc_package_handle)
+const FABRIC_CONFIGURATION_SETTINGS* IFabricConfigurationPackage_get_Settings(FC_PACKAGE_HANDLE fc_package_handle)
 {
     if (fc_package_handle == NULL)
     {
@@ -158,7 +159,7 @@ const FABRIC_CONFIGURATION_SETTINGS* get_Settings(FC_PACKAGE_HANDLE fc_package_h
 }
 
 
-HRESULT GetSection(FC_PACKAGE_HANDLE fc_package_handle,
+HRESULT IFabricConfigurationPackage_GetSection(FC_PACKAGE_HANDLE fc_package_handle,
     LPCWSTR sectionName,
     const FABRIC_CONFIGURATION_SECTION** bufferedValue
     )
@@ -191,7 +192,7 @@ HRESULT GetSection(FC_PACKAGE_HANDLE fc_package_handle,
     return hr;
 }
 
-HRESULT GetValue(FC_PACKAGE_HANDLE fc_package_handle,
+HRESULT IFabricConfigurationPackage_GetValue(FC_PACKAGE_HANDLE fc_package_handle,
     /* [in] */ LPCWSTR sectionName,
     /* [in] */ LPCWSTR parameterName,
     /* [out] */ BOOLEAN* isEncrypted,
@@ -234,7 +235,7 @@ HRESULT GetValue(FC_PACKAGE_HANDLE fc_package_handle,
 
 }
 
-HRESULT DecryptValue(FC_PACKAGE_HANDLE fc_package_handle,
+HRESULT IFabricConfigurationPackage_DecryptValue(FC_PACKAGE_HANDLE fc_package_handle,
     /* [in] */ LPCWSTR encryptedValue,
     /* [retval][out] */ IFabricStringResult** decryptedValue)
 {

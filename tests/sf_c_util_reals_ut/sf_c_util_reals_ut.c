@@ -18,6 +18,7 @@
 #include "real_fc_section_argc_argv.h"
 #include "real_fc_section_list_argc_argv.h"
 #include "real_common_argc_argv.h"
+#include "real_fc_package.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fc_parameter_argc_argv.h"
@@ -25,6 +26,7 @@
 #include "sf_c_util/fc_section_argc_argv.h"
 #include "sf_c_util/fc_section_list_argc_argv.h"
 #include "sf_c_util/common_argc_argv.h"
+#include "sf_c_util/fc_package.h"
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
@@ -40,6 +42,7 @@ TEST_FUNCTION(check_sf_c_util_reals)
     REGISTER_FABRIC_CONFIGURATION_SECTION_ARGC_ARGV_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_CONFIGURATION_SECTION_LIST_ARGC_ARGV_GLOBAL_MOCK_HOOK();
     REGISTER_COMMON_ARGC_ARGV_GLOBAL_MOCK_HOOK();
+    REGISTER_FABRIC_CONFIGURATION_PACKAGE_GLOBAL_MOCK_HOOK();
 
     // assert
     // no explicit assert, if it builds it works
