@@ -11,13 +11,14 @@
 
 #include "sf_c_util/common_argc_argv.h"
 
-#include "sf_c_util/fc_package.h"
+#include "sf_c_util/fc_package_com.h"
 
 #include "sf_c_util/fc_activation_context.h"
 
 struct FC_ACTIVATION_CONTEXT_TAG
 {
-    int dummy;
+    uint32_t nFabricConfigurationPackages;
+    IFabricConfigurationPackage** iFabricConfigurationPackages; /*an array of nFabricConfigurationPackages*/
 };
 
 FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv, int* argc_consumed)
@@ -36,6 +37,79 @@ FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv,
     {
         *argc_consumed = 0;
         result = NULL;
+        int c_argc;
+
+        result = malloc(sizeof(struct FC_ACTIVATION_CONTEXT_TAG));
+        if (result == NULL)
+        {
+            LogError("failure in malloc");
+        }
+        else
+        {
+            result->nFabricConfigurationPackages = 0;
+            result->iFabricConfigurationPackages = NULL;
+
+            FC_PACKAGE_HANDLE fc_package;
+            bool done = false;
+            bool waserror = false;
+
+            while(!done && !waserror)
+            {
+                fc_package = fc_package_create(argc + *argc_consumed, argv + *argc_consumed, &c_argc);
+                if (fc_package == NULL)
+                {
+                    /*not an error, just indicates we are done */
+                    /*wrong, it is an error. Task 16098536: fc_package_create should differentiate betweene ERROR and "does not start with..." will address it*/
+                    /*errr... will assume NULL means "we are done"*/
+                    done = true;
+                }
+                else
+                {
+                    *argc_consumed += c_argc;
+
+                    bool wasMoved = false;
+                    IFabricConfigurationPackage* temp_IFabricConfigurationPackage = COM_WRAPPER_CREATE(FC_PACKAGE_HANDLE, IFabricConfigurationPackage, fc_package, fc_package_destroy);
+                    if (temp_IFabricConfigurationPackage == NULL)
+                    {
+                        LogError("failure in COM_WRAPPER_CREATE");
+                        waserror = true;
+                    }
+                    else
+                    {
+                        wasMoved = true;
+
+
+                        IFabricConfigurationPackage** temp = realloc_2(result->iFabricConfigurationPackages, (result->nFabricConfigurationPackages + 1), sizeof(IFabricConfigurationPackage*));
+                        if (temp == NULL)
+                        {
+                            LogError("failure in realloc_2");
+                            waserror = true;
+                        }
+                        else
+                        {
+                            result->iFabricConfigurationPackages[result->nFabricConfigurationPackages] = temp_IFabricConfigurationPackage;
+                            result->nFabricConfigurationPackages++;
+                            continue;
+                        }
+
+                        temp_IFabricConfigurationPackage->lpVtbl->Release(temp_IFabricConfigurationPackage);
+                    }
+
+                    wasMoved ? (void)0: fc_package_destroy(fc_package);
+                    
+                }
+            } /*can only exit when waserrror = true or when done==true*/
+
+            if (waserror)
+            {
+                free(result);
+                result = NULL;
+            }
+            else
+            {
+                /*all fine*/
+            }
+        }
     }
      
     return result;
@@ -43,7 +117,20 @@ FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv,
 
 void fc_activation_context_destroy(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle)
 {
-    (void)fc_activation_context_handle;
+    if (fc_activation_context_handle == NULL)
+    {
+        LogError("invalid argument FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle=%p", fc_activation_context_handle);
+    }
+    else
+    {
+        for (uint32_t i = 0; i < fc_activation_context_handle->nFabricConfigurationPackages; i++)
+        {
+            fc_activation_context_handle->iFabricConfigurationPackages[i]->lpVtbl->Release(fc_activation_context_handle->iFabricConfigurationPackages[i]);
+        }
+        free(fc_activation_context_handle->iFabricConfigurationPackages);
+        free(fc_activation_context_handle);
+    }
+    
 }
 
 LPCWSTR get_ContextId(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle)

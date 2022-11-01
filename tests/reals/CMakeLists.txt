@@ -43,5 +43,5 @@ set(sf_c_util_reals_h_files
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_library(sf_c_util_reals ${sf_c_util_reals_c_files} ${sf_c_util_reals_h_files})
-target_link_libraries(sf_c_util_reals c_pal_reals c_util_reals)
+target_link_libraries(sf_c_util_reals c_pal_reals c_util_reals com_wrapper debug FabricUUIDD optimized FabricUUID)
 target_include_directories(sf_c_util_reals PUBLIC ${CMAKE_CURRENT_LIST_DIR})

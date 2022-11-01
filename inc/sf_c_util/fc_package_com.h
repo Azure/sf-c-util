@@ -10,7 +10,7 @@
 
 #include "com_wrapper/com_wrapper.h"
 
-#include "fc_package.h"
+#include "sf_c_util/fc_package.h"
 
 #ifdef __cplusplus
 extern "C" {
