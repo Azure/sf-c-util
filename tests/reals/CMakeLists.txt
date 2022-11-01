@@ -10,6 +10,7 @@ set(sf_c_util_reals_c_files
     real_fc_section_list_argc_argv.c
     real_common_argc_argv.c
     real_fc_package.c
+    real_fc_activation_context.c
 )
 
 set(sf_c_util_reals_h_files
@@ -33,6 +34,9 @@ set(sf_c_util_reals_h_files
 
     real_fc_package.h
     real_fc_package_renames.h
+    
+    real_fc_activation_context.h
+    real_fc_activation_context_renames.h
 )
 
 #self include this folder
