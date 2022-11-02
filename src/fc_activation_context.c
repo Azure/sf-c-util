@@ -25,7 +25,6 @@ FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv,
 {
     FC_ACTIVATION_CONTEXT_HANDLE result;
     if (
-        (argc < 2) ||
         (argv == NULL) ||
         (argc_consumed == NULL)
         )
@@ -55,7 +54,7 @@ FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv,
 
             while(!done && !waserror)
             {
-                fc_package = fc_package_create(argc + *argc_consumed, argv + *argc_consumed, &c_argc);
+                fc_package = fc_package_create(argc - *argc_consumed, argv + *argc_consumed, &c_argc);
                 if (fc_package == NULL)
                 {
                     /*not an error, just indicates we are done */
@@ -87,6 +86,7 @@ FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv,
                         }
                         else
                         {
+                            result->iFabricConfigurationPackages = temp;
                             result->iFabricConfigurationPackages[result->nFabricConfigurationPackages] = temp_IFabricConfigurationPackage;
                             result->nFabricConfigurationPackages++;
                             continue;
@@ -254,11 +254,46 @@ HRESULT GetConfigurationPackage(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_conte
     /* [in] */ LPCWSTR configPackageName,
     /* [retval][out] */ IFabricConfigurationPackage** configPackage)
 {
-    (void)fc_activation_context_handle;
-    (void)configPackageName;
-    (void)configPackage;
-    LogError("Not implemented.");
-    return E_NOTIMPL;
+    HRESULT result;
+    if (
+        (fc_activation_context_handle == NULL) ||
+        (configPackageName == NULL) ||
+        (configPackage == NULL)
+        )
+    {
+        LogError("invalid argument FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle=%p, LPCWSTR configPackageName=%ls, IFabricConfigurationPackage * *configPackage=%p",
+            fc_activation_context_handle,
+            MU_WP_OR_NULL(configPackageName),
+            configPackage);
+        result = E_INVALIDARG;
+    }
+    else
+    {
+        uint32_t i;
+        IFabricConfigurationPackage* fc_package = NULL;
+        for (i = 0; i < fc_activation_context_handle->nFabricConfigurationPackages; i++)
+        {
+            fc_package = fc_activation_context_handle->iFabricConfigurationPackages[i];
+            if (wcscmp(fc_package->lpVtbl->get_Description(fc_package)->Name, configPackageName) == 0)
+            {
+                break;
+            }
+        }
+
+        if (i == fc_activation_context_handle->nFabricConfigurationPackages)
+        {
+            LogError("could not find the package named %ls", configPackageName);
+            result = E_NOT_SET;
+        }
+        else
+        {
+            fc_package->lpVtbl->AddRef(fc_package);
+            *configPackage = fc_package;
+
+            result = S_OK;
+        }
+    }
+    return result;
 }
 
 HRESULT GetDataPackage(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle,
