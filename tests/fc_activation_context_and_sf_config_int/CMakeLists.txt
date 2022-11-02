@@ -9,9 +9,11 @@ ${theseTestsName}.c
 )
 
 set(${theseTestsName}_c_files
+    service_config.c
 )
 
 set(${theseTestsName}_h_files
+    service_config.h
 )
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)

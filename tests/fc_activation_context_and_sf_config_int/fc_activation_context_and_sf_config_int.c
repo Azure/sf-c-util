@@ -15,8 +15,10 @@
 
 #include "com_wrapper/com_wrapper.h"
 
-#include "sf_c_util/common_argc_argv.h"
+#include "service_config.h"
 
+#include "sf_c_util/common_argc_argv.h"
+#include "sf_c_util/sf_service_config.h"
 #include "sf_c_util/fc_activation_context_com.h"
 #include "sf_c_util/fc_activation_context.h"
 
@@ -50,322 +52,181 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
     TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
-/*all tests are actually going against IFabricCodePackageActivationContext rather than FC_ACTIVATION_CONTEXT_HANDLE. COM_WRAPPER ROCKS!!!*/
-/*including getting the produced IFabricCodePackageActivationContext -> argc/argv*/
-
-TEST_FUNCTION(fc_activation_context_create_succeeds_1) /*in this case, it contains nothing, because argvs don't start with CONFIGURATION_PACKAGE_NAME*/
+TEST_FUNCTION(sf_config_can_parse_all_optional_configs_present)
 {
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME "TOTALLY NOT"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-
-    ///act
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-
-    ///assert
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 0, argc_consumed);
-
-    ///clean
-    fc_activation_context_destroy(activation_context);
-}
-
-TEST_FUNCTION(fc_activation_context_create_succeeds_2) /*in this case, it contains nothing, because argv do not have the name of the CONFIGURATION_PACKAGE*/
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME
-        /*note: no name following CONFIGURATION_PACKAGE_NAME*/
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-
-    ///act
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-
-    ///assert
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 0, argc_consumed);
-
-    ///clean
-    fc_activation_context_destroy(activation_context);
-}
-
-TEST_FUNCTION(fc_activation_context_create_succeeds_3) /*in this case, it contains only the name of the configuration package ("A")*/
-{
-    ///arrange
     char* argv[] =
     {
         CONFIGURATION_PACKAGE_NAME,
-        "A"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-
-    ///act
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-
-    ///assert
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
-
-    ///clean
-    fc_activation_context_destroy(activation_context);
-}
-
-TEST_FUNCTION(fc_activation_context_create_succeeds_4) /*in this case, it contains only the name of the configuration package ("A")*/
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A", 
-        "SOME UNEXPECTED STRING WHICH SHOULD BE IGNORED"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-
-    ///act
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-
-    ///assert
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
-
-    ///clean
-    fc_activation_context_destroy(activation_context);
-}
-
-TEST_FUNCTION(fc_activation_context_create_succeeds_5) /*in this case, it contains 2 configuration packages, "A" and "B"*/
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A",
-        CONFIGURATION_PACKAGE_NAME,
-        "B"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-
-    ///act
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-
-    ///assert
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 4, argc_consumed);
-
-    ///clean
-    fc_activation_context_destroy(activation_context);
-}
-
-TEST_FUNCTION(fc_activation_context_create_can_be_wrapped_in_COM_object)
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
-
-    IFabricCodePackageActivationContext* fc_activation_context;
-
-    ///act
-    fc_activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, activation_context, fc_activation_context_destroy);
-
-    ///assert
-    ASSERT_IS_NOT_NULL(fc_activation_context);
-
-    ///clean
-    fc_activation_context->lpVtbl->Release(fc_activation_context);
-}
-
-TEST_FUNCTION(IFabricCodePackageActivationContext_GetConfigurationPackage_with_1_configuration_package)
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 2, argc_consumed);
-    IFabricCodePackageActivationContext* fc_activation_context;
-    fc_activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, activation_context, fc_activation_context_destroy);
-    ASSERT_IS_NOT_NULL(fc_activation_context);
-
-    IFabricConfigurationPackage* configPackage;
-    HRESULT hr;
-
-    ///act
-    hr = fc_activation_context->lpVtbl->GetConfigurationPackage(fc_activation_context, L"A", &configPackage);
-
-    ///assert
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_IS_NOT_NULL(configPackage);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"A", configPackage->lpVtbl->get_Description(configPackage)->Name);
-
-    ///clean
-    configPackage->lpVtbl->Release(configPackage);
-    fc_activation_context->lpVtbl->Release(fc_activation_context);
-}
-
-TEST_FUNCTION(IFabricCodePackageActivationContext_GetConfigurationPackage_with_2_configuration_packages)
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A", 
-        CONFIGURATION_PACKAGE_NAME,
-        "B"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 4, argc_consumed);
-    IFabricCodePackageActivationContext* fc_activation_context;
-    fc_activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, activation_context, fc_activation_context_destroy);
-    ASSERT_IS_NOT_NULL(fc_activation_context);
-
-    IFabricConfigurationPackage* configPackage;
-    HRESULT hr;
-
-    ///act(1)
-    hr = fc_activation_context->lpVtbl->GetConfigurationPackage(fc_activation_context, L"A", &configPackage);
-
-    ///assert(1)
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_IS_NOT_NULL(configPackage);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"A", configPackage->lpVtbl->get_Description(configPackage)->Name);
-
-    ///clean(1)
-    configPackage->lpVtbl->Release(configPackage);
-
-    ///act(2)
-    hr = fc_activation_context->lpVtbl->GetConfigurationPackage(fc_activation_context, L"B", &configPackage);
-
-    ///assert(2)
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_IS_NOT_NULL(configPackage);
-    ASSERT_ARE_EQUAL(wchar_ptr, L"B", configPackage->lpVtbl->get_Description(configPackage)->Name);
-
-    ///clean(2)
-    configPackage->lpVtbl->Release(configPackage);
-
-    ///clean
-    fc_activation_context->lpVtbl->Release(fc_activation_context);
-}
-
-TEST_FUNCTION(IFabricCodePackageActivationContext_GetConfigurationPackage_with_unexisting_package)
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A",
-        CONFIGURATION_PACKAGE_NAME,
-        "B"
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 4, argc_consumed);
-    IFabricCodePackageActivationContext* fc_activation_context;
-    fc_activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, activation_context, fc_activation_context_destroy);
-    ASSERT_IS_NOT_NULL(fc_activation_context);
-
-    IFabricConfigurationPackage* configPackage;
-    HRESULT hr;
-
-    ///act
-    hr = fc_activation_context->lpVtbl->GetConfigurationPackage(fc_activation_context, L"DOE SNOT EXIST", &configPackage);
-
-    ///assert
-    ASSERT_IS_TRUE(hr==E_NOT_SET);
-
-    ///clean
-    fc_activation_context->lpVtbl->Release(fc_activation_context);
-}
-
-TEST_FUNCTION(IFabricCodePackageActivationContext_to_ARGC_ARGV_succeeds)
-{
-    ///arrange
-    char* argv[] =
-    {
-        CONFIGURATION_PACKAGE_NAME,
-        "A",
-        CONFIGURATION_PACKAGE_NAME,
-        "B",
+        SF_CONFIG_NAME_DEFINE,
         SECTION_NAME_DEFINE,
-        "S"
+        SF_SECTION_NAME_DEFINE,
+
+        /*followed by a list of parameters...*/
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_parameter_1,
+        "1",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_parameter_2,
+        "2",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_parameter_3,
+        "3",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_some_flag, 
+        "true",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option_in_thandle, 
+        "awesome",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option, 
+        "simpleString",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_wide_string_option, 
+        "WAAAAAAAAAAAAAAA",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option_in_thandle_optional,
+        "zuzu", /*note: zuzu, snowflake and vincent are cat names*/
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option_optional, 
+        "snowflake",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_wide_string_option_optional, 
+        "vincent",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_another_flag,
+        "false"
     };
     int argc = sizeof(argv) / sizeof(argv[0]);
-    int argc_consumed;
-    FC_ACTIVATION_CONTEXT_HANDLE activation_context;
-    activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
-    ASSERT_IS_NOT_NULL(activation_context);
-    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
-    IFabricCodePackageActivationContext* fc_activation_context;
-    fc_activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, activation_context, fc_activation_context_destroy);
-    ASSERT_IS_NOT_NULL(fc_activation_context);
 
-    int p_argc;
-    char** p_argv;
-    int result;
+    int argc_consumed;
+    FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
+    ASSERT_IS_NOT_NULL(fc_activation_context);
+    ASSERT_ARE_EQUAL(int, argc, argc_consumed);
+    IFabricCodePackageActivationContext* activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, fc_activation_context, fc_activation_context_destroy);
+    ASSERT_IS_NOT_NULL(activation_context);
 
     ///act
-    result = IFabricCodePackageActivationContext_to_ARGC_ARGV(fc_activation_context, &p_argc, &p_argv);
+    THANDLE(SF_SERVICE_CONFIG(my_mocked_config)) config = SF_SERVICE_CONFIG_CREATE(my_mocked_config)(activation_context);
+
+    ///assert (very e2e-ish)
+    ASSERT_IS_NOT_NULL(config);
+    ASSERT_ARE_EQUAL(uint64_t, 1, SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_1)(config));
+    ASSERT_ARE_EQUAL(uint64_t, 2, SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_2)(config));
+    ASSERT_ARE_EQUAL(uint64_t, 3, SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_3)(config));
+    ASSERT_IS_TRUE(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_some_flag)(config));
+
+    {
+        THANDLE(RC_STRING) temp = SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option_in_thandle)(config);
+        ASSERT_IS_NOT_NULL(temp);
+        ASSERT_ARE_EQUAL(char_ptr, "awesome", temp->string);
+        THANDLE_ASSIGN(RC_STRING)(&temp, NULL);
+    }
+
+    ASSERT_ARE_EQUAL(char_ptr, "simpleString", SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option)(config));
+    ASSERT_ARE_EQUAL(wchar_ptr, L"WAAAAAAAAAAAAAAA", SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_wide_string_option)(config));
     
-    ///assert
-    ASSERT_ARE_EQUAL(int, 0, result);
-    ASSERT_ARE_EQUAL(int, 6, p_argc);
-    ASSERT_ARE_EQUAL(char_ptr, CONFIGURATION_PACKAGE_NAME, p_argv[0]);
-    ASSERT_ARE_EQUAL(char_ptr, "A", p_argv[1]);
-    ASSERT_ARE_EQUAL(char_ptr, CONFIGURATION_PACKAGE_NAME, p_argv[2]);
-    ASSERT_ARE_EQUAL(char_ptr, "B", p_argv[3]);
-    ASSERT_ARE_EQUAL(char_ptr, SECTION_NAME_DEFINE, p_argv[4]);
-    ASSERT_ARE_EQUAL(char_ptr, "S", p_argv[5]);
+    {
+        THANDLE(RC_STRING) temp = SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option_in_thandle_optional)(config);
+        ASSERT_IS_NOT_NULL(temp);
+        ASSERT_ARE_EQUAL(char_ptr, "zuzu", temp->string);
+        THANDLE_ASSIGN(RC_STRING)(&temp, NULL);
+    }
+
+    ASSERT_ARE_EQUAL(char_ptr, "snowflake", SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option_optional)(config));
+    ASSERT_ARE_EQUAL(char_ptr, L"vincent", SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_wide_string_option_optional)(config));
+    
+    ASSERT_IS_FALSE(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_another_flag)(config));
 
     ///clean
-    ARGC_ARGV_free(p_argc, p_argv);
-    fc_activation_context->lpVtbl->Release(fc_activation_context);
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_mocked_config))(&config, NULL);
+    activation_context->lpVtbl->Release(activation_context);
 }
 
-/*TO CONTINUE with: add ServiceEndpointResources to the serialization of the configuration*/
+TEST_FUNCTION(sf_config_can_parse_no_optional_configs_present)
+{
+    char* argv[] =
+    {
+        CONFIGURATION_PACKAGE_NAME,
+        SF_CONFIG_NAME_DEFINE,
+        SECTION_NAME_DEFINE,
+        SF_SECTION_NAME_DEFINE,
+
+        /*followed by a list of parameters...*/
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_parameter_1,
+        "1",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_parameter_2,
+        "2",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_parameter_3,
+        "3",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_some_flag,
+        "true",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option_in_thandle,
+        "awesome",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option,
+        "simpleString",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_wide_string_option,
+        "WAAAAAAAAAAAAAAA",
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option_in_thandle_optional,
+        "", /*used to be zuzu in the previous test*/
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_string_option_optional,
+        "", /*used to be snowflake in the previous test*/
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_wide_string_option_optional,
+        "", /*used to be vincent in the previous test*/
+
+        SF_SERVICE_CONFIG_PARAMETER_NAME_NARROW_mocked_another_flag,
+        "false"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    int argc_consumed;
+    FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context = fc_activation_context_create(argc, argv, &argc_consumed);
+    ASSERT_IS_NOT_NULL(fc_activation_context);
+    ASSERT_ARE_EQUAL(int, argc, argc_consumed);
+    IFabricCodePackageActivationContext* activation_context = COM_WRAPPER_CREATE(FC_ACTIVATION_CONTEXT_HANDLE, IFabricCodePackageActivationContext, fc_activation_context, fc_activation_context_destroy);
+    ASSERT_IS_NOT_NULL(activation_context);
+
+    ///act
+    THANDLE(SF_SERVICE_CONFIG(my_mocked_config)) config = SF_SERVICE_CONFIG_CREATE(my_mocked_config)(activation_context);
+
+    ///assert (very e2e-ish)
+    ASSERT_IS_NOT_NULL(config);
+    ASSERT_ARE_EQUAL(uint64_t, 1, SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_1)(config));
+    ASSERT_ARE_EQUAL(uint64_t, 2, SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_2)(config));
+    ASSERT_ARE_EQUAL(uint64_t, 3, SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_3)(config));
+    ASSERT_IS_TRUE(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_some_flag)(config));
+
+    {
+        THANDLE(RC_STRING) temp = SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option_in_thandle)(config);
+        ASSERT_IS_NOT_NULL(temp);
+        ASSERT_ARE_EQUAL(char_ptr, "awesome", temp->string);
+        THANDLE_ASSIGN(RC_STRING)(&temp, NULL);
+    }
+
+    ASSERT_ARE_EQUAL(char_ptr, "simpleString", SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option)(config));
+    ASSERT_ARE_EQUAL(wchar_ptr, L"WAAAAAAAAAAAAAAA", SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_wide_string_option)(config));
+
+    {
+        THANDLE(RC_STRING) temp = SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option_in_thandle_optional)(config);
+        ASSERT_IS_NULL(temp); /*optional without a value*/
+    }
+
+    ASSERT_IS_NULL(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_string_option_optional)(config));
+    ASSERT_IS_NULL(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_wide_string_option_optional)(config));
+
+    ASSERT_IS_FALSE(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_another_flag)(config));
+
+    ///clean
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_mocked_config))(&config, NULL);
+    activation_context->lpVtbl->Release(activation_context);
+}
+
 
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
