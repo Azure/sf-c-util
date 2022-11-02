@@ -21,6 +21,7 @@
 #include "real_fc_package.h"
 #include "real_fc_activation_context.h"
 #include "real_fabric_string_result.h"
+#include "real_fabric_string_list_result.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fc_parameter_argc_argv.h"
@@ -30,6 +31,7 @@
 #include "sf_c_util/common_argc_argv.h"
 #include "sf_c_util/fc_package.h"
 #include "sf_c_util/fc_activation_context.h"
+#include "sf_c_util/fabric_string_result.h"
 #include "sf_c_util/fabric_string_list_result.h"
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
@@ -49,6 +51,7 @@ TEST_FUNCTION(check_sf_c_util_reals)
     REGISTER_FABRIC_CONFIGURATION_PACKAGE_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_STRING_RESULT_GLOBAL_MOCK_HOOK();
+    REGISTER_FABRIC_STRING_LIST_RESULT_GLOBAL_MOCK_HOOK();
 
 
     // assert
