@@ -21,7 +21,7 @@ extern "C" {
 
     MOCKABLE_FUNCTION(, FABRIC_STRING_LIST_RESULT_HANDLE, fabric_string_list_result_create, ULONG, nStrings, const wchar_t**, strings);
     MOCKABLE_FUNCTION(, void, fabric_string_list_result_destroy, FABRIC_STRING_LIST_RESULT_HANDLE, fabric_string_list_result);
-    MOCKABLE_FUNCTION(, HRESULT, fabric_string_result_GetStrings, FABRIC_STRING_LIST_RESULT_HANDLE, fabric_string_list_result, ULONG*, nStrings, wchar_t***, strings);
+    MOCKABLE_FUNCTION(, HRESULT, fabric_string_list_result_GetStrings, FABRIC_STRING_LIST_RESULT_HANDLE, fabric_string_list_result, ULONG*, nStrings, const LPCWSTR**, strings);
 
 #ifdef __cplusplus
 }

@@ -14,6 +14,8 @@
 #include "sf_c_util/common_argc_argv.h"
 
 #include "sf_c_util/fc_package_com.h"
+#include "sf_c_util/fabric_string_list_result.h"
+#include "sf_c_util/fabric_string_list_result_com.h"
 
 #include "sf_c_util/fc_activation_context.h"
 
@@ -239,7 +241,42 @@ HRESULT GetConfigurationPackageNames(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_
     else
     {
 
-        result = E_FAIL;
+        const wchar_t** allnames = malloc_2(fc_activation_context_handle->nFabricConfigurationPackages, sizeof(wchar_t*));
+        if (allnames == NULL)
+        {
+            LogError("failure in amlloc_2");
+            result = E_FAIL;
+        }
+        else
+        {
+            for (ULONG i = 0; i < fc_activation_context_handle->nFabricConfigurationPackages; i++)
+            {
+                IFabricConfigurationPackage* fabricConfigurationPackage = fc_activation_context_handle->iFabricConfigurationPackages[i]; /*shortcut*/
+                allnames[i] = fabricConfigurationPackage->lpVtbl->get_Description(fabricConfigurationPackage)->Name; /*fabric_string_list_result_create copies, we don't have to*/
+            }
+
+            FABRIC_STRING_LIST_RESULT_HANDLE fabric_string_list_result = fabric_string_list_result_create(fc_activation_context_handle->nFabricConfigurationPackages, allnames);
+            if (fabric_string_list_result == NULL)
+            {
+                LogError("failure in fabric_string_list_result_create");
+                result = E_FAIL;
+            }
+            else
+            {
+                *names = COM_WRAPPER_CREATE(FABRIC_STRING_LIST_RESULT_HANDLE, IFabricStringListResult, fabric_string_list_result, fabric_string_list_result_destroy);
+                if (*names == NULL)
+                {
+                    LogError("failure in COM_WRAPPER_CREATE");
+                    result = E_FAIL;
+                }
+                else
+                {
+                    result = S_OK;
+                }
+
+            }
+            free(allnames);
+        }
     }
     return result;
 }
