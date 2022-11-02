@@ -125,6 +125,7 @@ set(sf_c_util_h_files
     inc/sf_c_util/fc_package.h
     inc/sf_c_util/fc_activation_context_com.h
     inc/sf_c_util/fc_activation_context.h
+    inc/sf_c_util/fabric_string_list_result.h
 )
 
 set(sf_c_util_c_files
@@ -146,6 +147,7 @@ set(sf_c_util_c_files
     src/fc_package.c
     src/fc_activation_context_com.c
     src/fc_activation_context.c
+    src/fabric_string_list_result.c
 )
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)

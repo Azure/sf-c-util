@@ -226,10 +226,22 @@ HRESULT GetCodePackageNames(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_h
 HRESULT GetConfigurationPackageNames(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle,
     /* [retval][out] */ IFabricStringListResult** names)
 {
-    (void)fc_activation_context_handle;
-    (void)names;
-    LogError("Not implemented but will be.");
-    return E_NOTIMPL;
+    HRESULT result;
+    if (
+        (fc_activation_context_handle == NULL) ||
+        (names == NULL)
+        )
+    {
+        LogError("invalid argument (FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle=%p, IFabricStringListResult * *names=%p",
+            fc_activation_context_handle, names);
+        result = E_INVALIDARG;
+    }
+    else
+    {
+
+        result = E_FAIL;
+    }
+    return result;
 }
 
 HRESULT GetDataPackageNames(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle,
@@ -390,9 +402,9 @@ int IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivatio
 
         *argc = 0;
         *argv = NULL;
-        IFabricStringListResult* fabricStringResult;
+        IFabricStringListResult* fabricStringListResult;
 
-        hr = iFabricCodePackageActivationContext->lpVtbl->GetConfigurationPackageNames(iFabricCodePackageActivationContext, &fabricStringResult);
+        hr = iFabricCodePackageActivationContext->lpVtbl->GetConfigurationPackageNames(iFabricCodePackageActivationContext, &fabricStringListResult);
         if (FAILED(hr))
         {
             LogHRESULTError(hr, "failure in GetConfigurationPackageNames");
@@ -403,7 +415,7 @@ int IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivatio
             ULONG nStrings;
             const wchar_t** strings;
 
-            hr = fabricStringResult->lpVtbl->GetStrings(fabricStringResult, &nStrings, &strings);
+            hr = fabricStringListResult->lpVtbl->GetStrings(fabricStringListResult, &nStrings, &strings);
             if (FAILED(hr))
             {
                 LogHRESULTError(hr, "failure in GetStrings");
@@ -460,7 +472,7 @@ int IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivatio
                 }
             }
 
-            fabricStringResult->lpVtbl->Release(fabricStringResult);
+            fabricStringListResult->lpVtbl->Release(fabricStringListResult);
         }
 
     }
