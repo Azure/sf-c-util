@@ -68,6 +68,7 @@ FABRIC_STRING_LIST_RESULT_HANDLE fabric_string_list_result_create(ULONG nStrings
             }
             else
             {
+                result->nstrings = nStrings;
                 goto allok;
             }
 
