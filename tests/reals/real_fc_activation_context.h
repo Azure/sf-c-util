@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef REAL_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_ARGC_ARGV_H
-#define REAL_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_ARGC_ARGV_H
+#ifndef REAL_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_H
+#define REAL_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -91,4 +91,4 @@ HRESULT real_UnregisterDataPackageChangeHandler(FC_ACTIVATION_CONTEXT_HANDLE fc_
 
 int real_IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivationContext* iFabricCodePackageActivationContext, int* argc, char*** argv);
 
-#endif //REAL_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_ARGC_ARGV_H
+#endif //REAL_FABRIC_CONFIGURATION_ACTIVATION_CONTEXT_H
