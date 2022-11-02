@@ -412,6 +412,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define DEFINE_SF_SERVICE_CONFIG_DISPOSE(name, ...) \
     static void MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(SF_SERVICE_CONFIG(name)* handle) \
     { \
+        (void)handle; /*handle can be unused when none of the parameters need cleaning, that is: SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(DO_CLEANUP_IF_NEEDED, ... ) below expands to nothing*/ \
         /*Codes_SRS_SF_SERVICE_CONFIG_42_035: [ For each config value: ]*/ \
         SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(DO_CLEANUP_IF_NEEDED, handle, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__)) \
     } \
