@@ -9,6 +9,8 @@
 #include "c_pal/gballoc_hl_redirect.h"
 #include "c_pal/string_utils.h"
 
+#include "sf_c_util/hresult_to_string.h"
+
 #include "sf_c_util/common_argc_argv.h"
 
 #include "sf_c_util/fc_package_com.h"
@@ -384,7 +386,83 @@ int IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivatio
     }
     else
     {
-        result = MU_FAILURE;
+        HRESULT hr;
+
+        *argc = 0;
+        *argv = NULL;
+        IFabricStringListResult* fabricStringResult;
+
+        hr = iFabricCodePackageActivationContext->lpVtbl->GetConfigurationPackageNames(iFabricCodePackageActivationContext, &fabricStringResult);
+        if (FAILED(hr))
+        {
+            LogHRESULTError(hr, "failure in GetConfigurationPackageNames");
+            result = MU_FAILURE;
+        }
+        else
+        {
+            ULONG nStrings;
+            const wchar_t** strings;
+
+            hr = fabricStringResult->lpVtbl->GetStrings(fabricStringResult, &nStrings, &strings);
+            if (FAILED(hr))
+            {
+                LogHRESULTError(hr, "failure in GetStrings");
+                result = MU_FAILURE;
+            }
+            else
+            {
+                ULONG i;
+                bool wasError = false;
+                for (i = 0; !wasError && i < nStrings; i++)
+                {
+                    IFabricConfigurationPackage* configPackage;
+                    hr = iFabricCodePackageActivationContext->lpVtbl->GetConfigurationPackage(iFabricCodePackageActivationContext, strings[i], &configPackage);
+                    if (FAILED(hr))
+                    {
+                        wasError = true;
+                        LogHRESULTError(hr, "failure in GetConfigurationPackage");
+                    }
+                    else
+                    {
+                        int p_argc;
+                        char** p_argv;
+                        if (IFabricConfigurationPackage_to_ARGC_ARGV(configPackage, &p_argc, &p_argv) != 0)
+                        {
+                            wasError = true;
+                            LogError("failure in IFabricConfigurationPackage_to_ARGC_ARGV");
+                        }
+                        else
+                        {
+                            if (ARGC_ARGV_concat(argc, argv, p_argc, p_argv) != 0)
+                            {
+                                wasError = true;
+                                LogError("Failure in ARGC_ARGV_concat");
+                            }
+                            else
+                            {
+                                /*all nice keep going*/
+                            }
+
+                            ARGC_ARGV_free(p_argc, p_argv);
+                        }
+
+                        configPackage->lpVtbl->Release(configPackage);
+                    }
+                }
+                if (wasError)
+                {
+                    LogError("failing because of previous logged error");
+                    result = MU_FAILURE;
+                }
+                else
+                {
+                    result = 0;
+                }
+            }
+
+            fabricStringResult->lpVtbl->Release(fabricStringResult);
+        }
+
     }
     return result;
 }

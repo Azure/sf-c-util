@@ -322,4 +322,6 @@ TEST_FUNCTION(IFabricCodePackageActivationContext_GetConfigurationPackage_with_u
     fc_activation_context->lpVtbl->Release(fc_activation_context);
 }
 
+/*TO CONTINUE with: add ServiceEndpointResources to the serialization of the configuration*/
+
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
