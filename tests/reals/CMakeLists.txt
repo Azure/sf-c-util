@@ -13,7 +13,7 @@ set(sf_c_util_reals_c_files
     real_fc_activation_context.c
     real_fabric_string_result.c
     real_fabric_string_list_result.c
-    real_fc_endpoint_resource_description_argc_argv.c
+    real_fc_erd_argc_argv.c
 )
 
 set(sf_c_util_reals_h_files
@@ -47,8 +47,8 @@ set(sf_c_util_reals_h_files
     real_fabric_string_list_result.h
     real_fabric_string_list_result_renames.h
 
-    real_fc_endpoint_resource_description_argc_argv.h
-    real_fc_endpoint_resource_description_argc_argv_renames.h
+    real_fc_erd_argc_argv.h
+    real_fc_erd_argc_argv_renames.h
 )
 
 #self include this folder
