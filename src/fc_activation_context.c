@@ -570,18 +570,48 @@ int IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivatio
                 }
                 if (wasError)
                 {
+                    ARGC_ARGV_free(*argc, *argv);
                     LogError("failing because of previous logged error");
                     result = MU_FAILURE;
                 }
                 else
                 {
-                    result = 0;
+                    /*add the rest of the serviceEndpointDescriptions*/
+                    const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST* list = iFabricCodePackageActivationContext->lpVtbl->get_ServiceEndpointResources(iFabricCodePackageActivationContext);
+                    if (list == NULL)
+                    {
+                        LogError("failure in get_ServiceEndpointResources");
+                        result = MU_FAILURE;
+                    }
+                    else
+                    {
+                        int p_argc;
+                        char** p_argv;
+                        if (FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV(list, &p_argc, &p_argv) != 0)
+                        {
+                            LogError("failure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV");
+                            result = MU_FAILURE;
+                        }
+                        else
+                        {
+                            if (ARGC_ARGV_concat(argc, argv, p_argc, p_argv) != 0)
+                            {
+                                LogError("failure in ARGC_ARGV_concat");
+                                ARGC_ARGV_free(p_argc, p_argv);
+                                result = MU_FAILURE;
+                            }
+                            else
+                            {
+                                ARGC_ARGV_free(p_argc, p_argv);
+                                result = 0;
+                            }
+                        }
+                    }
+                    result != 0 ? ARGC_ARGV_free(*argc, *argv) : (void)0;
                 }
             }
-
             fabricStringListResult->lpVtbl->Release(fabricStringListResult);
         }
-
     }
     return result;
 }
