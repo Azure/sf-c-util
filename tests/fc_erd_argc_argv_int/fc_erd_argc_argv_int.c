@@ -108,6 +108,7 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV_succeeds)
     ASSERT_ARE_EQUAL(wchar_ptr, L"vincent", d.Type);
     ASSERT_ARE_EQUAL(uint16_t, 4242, d.Port);
     ASSERT_ARE_EQUAL(wchar_ptr, L"certificate", d.CertificateName);
+    ASSERT_IS_NULL(d.Reserved);
 
     ///clean
     FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_free(&d);
@@ -168,6 +169,7 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV_only_consumes_
     ASSERT_ARE_EQUAL(wchar_ptr, L"vincent", d.Type);
     ASSERT_ARE_EQUAL(uint16_t, 4242, d.Port);
     ASSERT_ARE_EQUAL(wchar_ptr, L"certificate", d.CertificateName);
+    ASSERT_IS_NULL(d.Reserved);
 
     ///clean
     FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_free(&d);

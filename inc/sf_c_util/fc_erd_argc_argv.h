@@ -23,10 +23,10 @@
         /* FABRIC_ENDPOINT_RESOURCE_DESCRIPTION => argc/argv */
         MOCKABLE_FUNCTION(, int, FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV, const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*, fabric_endpoint_resource_description, int*, argc, char***, argv);
 
-        /* argc/argv => FABRIC_CONFIGURATION_PARAMETER_LIST* */
+        /* argc/argv => FABRIC_ENDPOINT_RESOURCE_DESCRIPTION* */
         MOCKABLE_FUNCTION(, ARGC_ARGV_DATA_RESULT, FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV, int, argc, char**, argv, FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*, fabric_endpoint_resource_description, int*, argc_consumed);
 
-        /* freeing a previously produced FABRIC_CONFIGURATION_PARAMETER_LIST* */
+        /* freeing a previously produced FABRIC_ENDPOINT_RESOURCE_DESCRIPTION* */
         MOCKABLE_FUNCTION(, void, FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_free, FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*, fabric_endpoint_resource_description);
 
 #ifdef __cplusplus
