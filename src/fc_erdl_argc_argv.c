@@ -83,14 +83,14 @@ ARGC_ARGV_DATA_RESULT FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(i
 {
     ARGC_ARGV_DATA_RESULT result;
     if (
-        (argv == NULL) ||
+        ((argv == NULL) &&(argc!=0)) ||
         (fabric_endpoint_resource_description_list == NULL) ||
         (argc_consumed == NULL)
         )
     {
         LogError("invalid argument int argc=%d, char** argv=%p, FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST* fabric_endpoint_resource_description_list=%p, int* argc_consumed=%p",
             argc, argv, fabric_endpoint_resource_description_list, argc_consumed);
-        result = ARGC_ARGV_DATA_INVALID;
+        result = ARGC_ARGV_DATA_ERROR;
     }
     else
     {
@@ -121,8 +121,9 @@ ARGC_ARGV_DATA_RESULT FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(i
                     }
                     else
                     {
+                        fabric_endpoint_resource_description_list->Items = temp;
                         /*cast the const away*/
-                        *(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*)(fabric_endpoint_resource_description_list->Items+fabric_endpoint_resource_description_list->Count) = d;
+                        *(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*)(fabric_endpoint_resource_description_list->Items+fabric_endpoint_resource_description_list->Count - 1) = d;
                         /*advance to the next arguments*/
                         *argc_consumed += c_argc;
                     }

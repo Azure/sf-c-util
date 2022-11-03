@@ -184,6 +184,7 @@ ARGC_ARGV_DATA_RESULT FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV(int ar
                             }
                             else
                             {
+                                fabric_endpoint_resource_description->Reserved = NULL;
                                 *argc_consumed = 6;
                                 result = ARGC_ARGV_DATA_OK;
                                 goto allok;

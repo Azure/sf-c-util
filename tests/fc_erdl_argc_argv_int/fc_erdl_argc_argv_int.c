@@ -169,6 +169,170 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV_succeeds_3)
     ARGC_ARGV_free(argc, argv);
 }
 
+TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_1) /*an empty list produces an empty list*/
+{
+    int argc = 0;
+    char** argv = NULL;
+    ARGC_ARGV_DATA_RESULT result;
+
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST list;
+    int argc_consumed;
+
+    ///act
+    result = FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(argc, argv, &list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 0, argc_consumed);
+
+    ASSERT_ARE_EQUAL(ULONG, 0, list.Count);
+    ASSERT_IS_NULL(list.Items);
+
+    ///clean
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(&list);
+}
+
+TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_2) /*a list with 1 endpoint*/
+{
+    
+    char* argv[] =
+    {
+        SERVICE_ENDPOINT_RESOURCE,
+        "zuzu", /*zuzu, snowflake and vincent are cat names*/
+        "snowflake",
+        "vincent",
+        "4242", 
+        "certificate"
+    };
+    int argc = sizeof(argv)/sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST list;
+    int argc_consumed;
+
+    ///act
+    result = FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(argc, argv, &list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 6, argc_consumed);
+
+    ASSERT_ARE_EQUAL(ULONG, 1, list.Count);
+    ASSERT_IS_NOT_NULL(list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"zuzu", list.Items[0].Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"snowflake", list.Items[0].Protocol);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"vincent", list.Items[0].Type);
+    ASSERT_ARE_EQUAL(uint16_t, 4242, list.Items[0].Port);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"certificate", list.Items[0].CertificateName);
+    ASSERT_IS_NULL(list.Items[0].Reserved);
+
+    ///clean
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(&list);
+}
+
+TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_3) /*a list with 2 endpoints*/
+{
+
+    char* argv[] =
+    {
+        SERVICE_ENDPOINT_RESOURCE,
+        "zuzu", /*zuzu, snowflake and vincent are cat names*/
+        "snowflake",
+        "vincent",
+        "4242",
+        "certificate",
+        SERVICE_ENDPOINT_RESOURCE,
+        "2zuzu", /*zuzu, snowflake and vincent are cat names*/
+        "2snowflake",
+        "2vincent",
+        "24242",
+        "2certificate"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST list;
+    int argc_consumed;
+
+    ///act
+    result = FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(argc, argv, &list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 12, argc_consumed);
+
+    ASSERT_ARE_EQUAL(ULONG, 2, list.Count);
+    ASSERT_IS_NOT_NULL(list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"zuzu", list.Items[0].Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"snowflake", list.Items[0].Protocol);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"vincent", list.Items[0].Type);
+    ASSERT_ARE_EQUAL(uint16_t, 4242, list.Items[0].Port);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"certificate", list.Items[0].CertificateName);
+    ASSERT_IS_NULL(list.Items[0].Reserved);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2zuzu", list.Items[1].Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2snowflake", list.Items[1].Protocol);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2vincent", list.Items[1].Type);
+    ASSERT_ARE_EQUAL(uint16_t, 24242, list.Items[1].Port);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2certificate", list.Items[1].CertificateName);
+    ASSERT_IS_NULL(list.Items[1].Reserved);
+
+    ///clean
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(&list);
+}
+
+TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_4) /*a list with 2 endpoints and some extraneous parameter still produces 2 lists*/
+{
+
+    char* argv[] =
+    {
+        SERVICE_ENDPOINT_RESOURCE,
+        "zuzu", /*zuzu, snowflake and vincent are cat names*/
+        "snowflake",
+        "vincent",
+        "4242",
+        "certificate",
+        SERVICE_ENDPOINT_RESOURCE,
+        "2zuzu", /*zuzu, snowflake and vincent are cat names*/
+        "2snowflake",
+        "2vincent",
+        "24242",
+        "2certificate",
+        "extra"
+    };
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    ARGC_ARGV_DATA_RESULT result;
+
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST list;
+    int argc_consumed;
+
+    ///act
+    result = FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(argc, argv, &list, &argc_consumed);
+
+    ///assert
+    ASSERT_ARE_EQUAL(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_OK, result);
+    ASSERT_ARE_EQUAL(int, 12, argc_consumed);
+
+    ASSERT_ARE_EQUAL(ULONG, 2, list.Count);
+    ASSERT_IS_NOT_NULL(list.Items);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"zuzu", list.Items[0].Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"snowflake", list.Items[0].Protocol);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"vincent", list.Items[0].Type);
+    ASSERT_ARE_EQUAL(uint16_t, 4242, list.Items[0].Port);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"certificate", list.Items[0].CertificateName);
+    ASSERT_IS_NULL(list.Items[0].Reserved);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2zuzu", list.Items[1].Name);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2snowflake", list.Items[1].Protocol);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2vincent", list.Items[1].Type);
+    ASSERT_ARE_EQUAL(uint16_t, 24242, list.Items[1].Port);
+    ASSERT_ARE_EQUAL(wchar_ptr, L"2certificate", list.Items[1].CertificateName);
+    ASSERT_IS_NULL(list.Items[1].Reserved);
+
+    ///clean
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(&list);
+}
 
 
 
