@@ -1,7 +1,7 @@
 #Copyright (c) Microsoft. All rights reserved.
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#note: "fc_erd_argc_argv" comes from "fabric configuration endpoint resource description" and was shortened because of the build system who is unhappy with such a long filename
+#note: "fc_erdl_argc_argv" comes from "fabric configuration endpoint resource description list" and was shortened because of the build system who is unhappy with such a long filename
 
 compileAsC11()
 set(theseTestsName fc_erdl_argc_argv_int)
