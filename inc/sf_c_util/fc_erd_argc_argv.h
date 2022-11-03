@@ -4,6 +4,7 @@
 #ifndef FC_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_H
 #define FC_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_H
 
+/*note: "fc_erd_argc_argv" comes from "fabric configuration endpoint resource description" and was shortened because of the build system who is unhappy with such a long filename*/
 
 #include "windows.h"
 #include "fabriccommon.h"

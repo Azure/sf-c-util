@@ -104,5 +104,5 @@ parameter
   :   "name" "value"
 
 serviceEndPointResource
-  :   --serviceEndpointResource "string" --Protocol "string" --Type "string" --Port "string" --CertificateName "string"
-
+  :   --serviceEndpointResource "name" "protocol" "type" "port" "certificateName"
+  

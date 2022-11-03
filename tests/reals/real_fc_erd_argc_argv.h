@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+/*note: "fc_erd_argc_argv" comes from "fabric configuration endpoint resource description" and was shortened because of the build system who is unhappy with such a long filename*/
+
 #ifndef REAL_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_ARGC_ARGV_H
 #define REAL_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_ARGC_ARGV_H
 
@@ -18,7 +20,7 @@
         FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_free \
 )
 
-#include "sf_c_util/fc_endpoint_resource_description_argc_argv.h"
+#include "sf_c_util/fc_erd_argc_argv.h"
 
 
 int real_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV(const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION* fabric_endpoint_resource_description, int* argc, char*** argv);
