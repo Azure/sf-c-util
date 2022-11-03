@@ -20,7 +20,7 @@
         FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free \
 )
 
-#include "sf_c_util/fc_erd_argc_argv.h"
+#include "sf_c_util/fc_erdl_argc_argv.h"
 
 
 int real_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV(const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST* fabric_endpoint_resource_description_list, int* argc, char*** argv);

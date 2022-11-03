@@ -37,7 +37,43 @@ int FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV(const FABRIC_ENDPOINT
     }
     else
     {
-        result = 0;
+        *argc = 0;
+        *argv = NULL;
+        bool wasError = false;
+        for (ULONG i = 0; !wasError && (i < fabric_endpoint_resource_description_list->Count); i++)
+        {
+            int p_argc;
+            char** p_argv;
+            if (FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV(fabric_endpoint_resource_description_list->Items + i, &p_argc, &p_argv) != 0)
+            {
+                LogError("fairlure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV");
+                wasError = true;
+            }
+            else
+            {
+                if (ARGC_ARGV_concat(argc, argv, p_argc, p_argv) != 0)
+                {
+                    LogError("failure in ARGC_ARGV_concat");
+                }
+                else
+                {
+                    /*keep going...*/
+                }
+
+                ARGC_ARGV_free(p_argc, p_argv);
+            }
+        }
+
+        if (wasError)
+        {
+            ARGC_ARGV_free(*argc, *argv);
+            /*clean*/
+            result = MU_FAILURE;
+        }
+        else
+        {
+            result = 0;
+        }
     }
     return result;
 }
@@ -58,7 +94,70 @@ ARGC_ARGV_DATA_RESULT FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(i
     }
     else
     {
-        result = ARGC_ARGV_DATA_ERROR;
+        *argc_consumed = 0;
+        fabric_endpoint_resource_description_list->Count = 0;
+        fabric_endpoint_resource_description_list->Items = NULL;
+
+        bool done = false;
+        bool wasError = false;
+
+
+        while(!wasError && !done)
+        {
+            FABRIC_ENDPOINT_RESOURCE_DESCRIPTION d;
+            int c_argc;
+            ARGC_ARGV_DATA_RESULT r = FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV(argc - *argc_consumed, argv + *argc_consumed, &d, &c_argc);
+            switch (r)
+            {
+                case ARGC_ARGV_DATA_OK:
+                {
+                    fabric_endpoint_resource_description_list->Count++;
+                    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION* temp = realloc_2((void*)fabric_endpoint_resource_description_list->Items, fabric_endpoint_resource_description_list->Count, sizeof(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION));
+                    if (temp == NULL)
+                    {
+                        fabric_endpoint_resource_description_list->Count--;
+                        LogError("Failure in realloc_2");
+                        wasError = true;
+                    }
+                    else
+                    {
+                        /*cast the const away*/
+                        *(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*)(fabric_endpoint_resource_description_list->Items+fabric_endpoint_resource_description_list->Count) = d;
+                        /*advance to the next arguments*/
+                        *argc_consumed += c_argc;
+                    }
+                    break;
+                }
+                case ARGC_ARGV_DATA_INVALID:
+                {
+                    /*not really an error, we are done scanning*/
+                    done = true;
+                    break;
+                }
+                case ARGC_ARGV_DATA_ERROR:
+                default:
+                {
+                    LogError("failure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV, %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
+                    wasError = true;
+                    break;
+                }
+            } /*switch*/
+        } /*while*/
+
+        if (wasError)
+        {
+            /*undo all changes*/
+            for (ULONG i = 0; i < fabric_endpoint_resource_description_list->Count; i++)
+            {
+                FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_free((FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*)(fabric_endpoint_resource_description_list->Items + i));
+            }
+            free((void*)fabric_endpoint_resource_description_list->Items);
+            result = ARGC_ARGV_DATA_ERROR;
+        }
+        else
+        {
+            result = ARGC_ARGV_DATA_OK; /*note: this can result in a 0 element for FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST, still totally valid*/
+        }
     }
     return result;
 }
@@ -72,6 +171,10 @@ void FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(FABRIC_ENDPOINT_RESOURCE_DES
     }
     else
     {
-
+        for (ULONG i = 0; i < fabric_endpoint_resource_description_list->Count; i++)
+        {
+            FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_free((FABRIC_ENDPOINT_RESOURCE_DESCRIPTION*)(fabric_endpoint_resource_description_list->Items + i));
+        }
+        free((void*)fabric_endpoint_resource_description_list->Items);
     }
 }
