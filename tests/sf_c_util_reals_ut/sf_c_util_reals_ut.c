@@ -23,6 +23,7 @@
 #include "real_fabric_string_result.h"
 #include "real_fabric_string_list_result.h"
 #include "real_fc_erd_argc_argv.h"
+#include "real_fc_erdl_argc_argv.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fc_parameter_argc_argv.h"
@@ -35,6 +36,7 @@
 #include "sf_c_util/fabric_string_result.h"
 #include "sf_c_util/fabric_string_list_result.h"
 #include "sf_c_util/fc_erd_argc_argv.h"
+#include "sf_c_util/fc_erdl_argc_argv.h"
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
@@ -55,6 +57,7 @@ TEST_FUNCTION(check_sf_c_util_reals)
     REGISTER_FABRIC_STRING_RESULT_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_STRING_LIST_RESULT_GLOBAL_MOCK_HOOK();
     REGISTER_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_ARGC_ARGV_GLOBAL_MOCK_HOOK();
+    REGISTER_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_ARGC_ARGV_GLOBAL_MOCK_HOOK();
 
 
     // assert
