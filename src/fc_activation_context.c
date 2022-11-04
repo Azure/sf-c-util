@@ -163,6 +163,9 @@ void fc_activation_context_destroy(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_co
             fc_activation_context_handle->iFabricConfigurationPackages[i]->lpVtbl->Release(fc_activation_context_handle->iFabricConfigurationPackages[i]);
         }
         free(fc_activation_context_handle->iFabricConfigurationPackages);
+
+        FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(&fc_activation_context_handle->fabric_endpoint_resource_description_list);
+
         free(fc_activation_context_handle);
     }
     
