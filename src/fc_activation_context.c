@@ -13,9 +13,11 @@
 
 #include "sf_c_util/common_argc_argv.h"
 
+#include "sf_c_util/fc_package.h"
 #include "sf_c_util/fc_package_com.h"
 #include "sf_c_util/fabric_string_list_result.h"
 #include "sf_c_util/fabric_string_list_result_com.h"
+#include "sf_c_util/fc_erdl_argc_argv.h"
 
 #include "sf_c_util/fc_activation_context.h"
 
@@ -23,6 +25,7 @@ struct FC_ACTIVATION_CONTEXT_TAG
 {
     uint32_t nFabricConfigurationPackages;
     IFabricConfigurationPackage** iFabricConfigurationPackages; /*an array of nFabricConfigurationPackages*/
+    FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST fabric_endpoint_resource_description_list;
 };
 
 FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv, int* argc_consumed)
@@ -111,7 +114,35 @@ FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_create(int argc, char** argv,
             }
             else
             {
-                /*all fine*/
+                /*see if there are endpoint resources here...*/
+                ARGC_ARGV_DATA_RESULT r;
+                r = FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV(argc - *argc_consumed, argv + *argc_consumed, &result->fabric_endpoint_resource_description_list, &c_argc);
+                switch (r)
+                {
+                    case ARGC_ARGV_DATA_OK:
+                    {
+                        *argc_consumed += c_argc;
+                        /*all fine*/
+                        break;
+                    }
+                    case ARGC_ARGV_DATA_INVALID:
+                    {
+                        /*all fine*/
+                        result->fabric_endpoint_resource_description_list.Count = 0;
+                        result->fabric_endpoint_resource_description_list.Items = NULL;
+                        break;
+                    }
+                    default:
+                    case ARGC_ARGV_DATA_ERROR:
+                    {
+                        LogError("failure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV, it returned %" PRI_MU_ENUM "", MU_ENUM_VALUE(ARGC_ARGV_DATA_RESULT, r));
+                        free(result); /*very likely MORE handling is needed here for cleanup*/
+                        result = NULL; /*return it*/
+                        break;
+                    }
+
+                }
+                
             }
         }
     }
@@ -132,6 +163,9 @@ void fc_activation_context_destroy(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_co
             fc_activation_context_handle->iFabricConfigurationPackages[i]->lpVtbl->Release(fc_activation_context_handle->iFabricConfigurationPackages[i]);
         }
         free(fc_activation_context_handle->iFabricConfigurationPackages);
+
+        FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_free(&fc_activation_context_handle->fabric_endpoint_resource_description_list);
+
         free(fc_activation_context_handle);
     }
     
@@ -200,20 +234,59 @@ const FABRIC_APPLICATION_PRINCIPALS_DESCRIPTION* get_ApplicationPrincipals(FC_AC
 
 const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST* get_ServiceEndpointResources(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle)
 {
-    (void)fc_activation_context_handle;
-    LogError("Not implemented but will be.");
-    return NULL;
+    const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST* result;
+    if (fc_activation_context_handle == NULL)
+    {
+        LogError("invalid argument FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle=%p", fc_activation_context_handle);
+        result = NULL;
+    }
+    else
+    {
+        result = &fc_activation_context_handle->fabric_endpoint_resource_description_list;
+    }
+    return result;
 }
 
 HRESULT GetServiceEndpointResource(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle,
     /* [in] */ LPCWSTR serviceEndpointResourceName,
     /* [retval][out] */ const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION** bufferedValue)
 {
-    (void)fc_activation_context_handle;
-    (void)serviceEndpointResourceName;
-    (void)bufferedValue;
-    LogError("Not implemented but will be.");
-    return E_NOTIMPL;
+    HRESULT result;
+    if (
+        (fc_activation_context_handle == NULL) ||
+        (serviceEndpointResourceName == NULL) ||
+        (bufferedValue == NULL)
+        )
+    {
+        LogError("invalid argument  FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle=%p, LPCWSTR serviceEndpointResourceName=%ls, const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION * *bufferedValue=%p",
+            fc_activation_context_handle,
+            MU_WP_OR_NULL(serviceEndpointResourceName),
+            bufferedValue);
+        result = E_INVALIDARG;
+    }
+    else
+    {
+        ULONG i;
+        for (i = 0; i < fc_activation_context_handle->fabric_endpoint_resource_description_list.Count; i++)
+        {
+            if (wcscmp(fc_activation_context_handle->fabric_endpoint_resource_description_list.Items[i].Name, serviceEndpointResourceName) == 0)
+            {
+                *bufferedValue = fc_activation_context_handle->fabric_endpoint_resource_description_list.Items + i;
+                break;
+            }
+        }
+
+        if (i == fc_activation_context_handle->fabric_endpoint_resource_description_list.Count)
+        {
+            result = E_NOT_SET;
+        }
+        else
+        {
+            result = S_OK;
+        }
+
+    }
+    return result;
 }
 
 HRESULT GetCodePackageNames(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_context_handle,
@@ -500,18 +573,48 @@ int IFabricCodePackageActivationContext_to_ARGC_ARGV(IFabricCodePackageActivatio
                 }
                 if (wasError)
                 {
+                    ARGC_ARGV_free(*argc, *argv);
                     LogError("failing because of previous logged error");
                     result = MU_FAILURE;
                 }
                 else
                 {
-                    result = 0;
+                    /*add the rest of the serviceEndpointDescriptions*/
+                    const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST* list = iFabricCodePackageActivationContext->lpVtbl->get_ServiceEndpointResources(iFabricCodePackageActivationContext);
+                    if (list == NULL)
+                    {
+                        LogError("failure in get_ServiceEndpointResources");
+                        result = MU_FAILURE;
+                    }
+                    else
+                    {
+                        int p_argc;
+                        char** p_argv;
+                        if (FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV(list, &p_argc, &p_argv) != 0)
+                        {
+                            LogError("failure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV");
+                            result = MU_FAILURE;
+                        }
+                        else
+                        {
+                            if (ARGC_ARGV_concat(argc, argv, p_argc, p_argv) != 0)
+                            {
+                                LogError("failure in ARGC_ARGV_concat");
+                                ARGC_ARGV_free(p_argc, p_argv);
+                                result = MU_FAILURE;
+                            }
+                            else
+                            {
+                                ARGC_ARGV_free(p_argc, p_argv);
+                                result = 0;
+                            }
+                        }
+                    }
+                    result != 0 ? ARGC_ARGV_free(*argc, *argv) : (void)0;
                 }
             }
-
             fabricStringListResult->lpVtbl->Release(fabricStringListResult);
         }
-
     }
     return result;
 }
