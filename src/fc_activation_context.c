@@ -348,7 +348,7 @@ HRESULT GetConfigurationPackageNames(FC_ACTIVATION_CONTEXT_HANDLE fc_activation_
                 }
 
             }
-            free(allnames);
+            free((void*)allnames);
         }
     }
     return result;
