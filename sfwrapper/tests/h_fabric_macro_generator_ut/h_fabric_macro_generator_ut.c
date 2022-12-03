@@ -76,7 +76,7 @@ static IFabricZZZZVtbl vtbl =
 /*sort of "reals"*/
 static HRESULT MU_C2(real_, CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ))(IFabricZZZZ** fabricVariable)
 {
-    *fabricVariable = (IFabricZZZZ*)my_gballoc_malloc(sizeof(IFabricZZZZ));
+    *fabricVariable = my_gballoc_malloc(sizeof(IFabricZZZZ));
     (*fabricVariable)->lpVtbl = &vtbl;
     return S_OK;
 }
