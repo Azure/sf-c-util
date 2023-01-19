@@ -136,11 +136,13 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Need extra layer of indirection so the SF_SERVICE_CONFIG_EXPAND_PARAMS() macro expands first
 #define DEFINE_SF_SERVICE_CONFIG_STRUCT(name, sf_config_name, sf_parameters_section_name, ...) \
-    MU_DEFINE_STRUCT(name, \
-        IFabricCodePackageActivationContext*, activation_context,\
-        const wchar_t*, sf_config_name_string, \
-        const wchar_t*, sf_parameters_section_name_string, \
-        __VA_ARGS__)
+    typedef struct MU_C2(name, _TAG) \
+        { \
+            IFabricCodePackageActivationContext* activation_context; \
+            const wchar_t* sf_config_name_string; \
+            const wchar_t* sf_parameters_section_name_string; \
+            MU_FOR_EACH_2(MU_DEFINE_STRUCT_FIELD, __VA_ARGS__) \
+        } name;
 
 // Type helpers
 
