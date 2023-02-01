@@ -34,8 +34,8 @@ static void my_gballoc_free(void* ptr)
 
 #include "c_pal/gballoc_hl.h"
 
-#include "c_util/interlocked_hl.h"
-#include "c_util/log_critical_and_terminate.h"
+#include "c_pal/interlocked_hl.h"
+#include "c_pal/log_critical_and_terminate.h"
 
 #define GBALLOC_HL_REDIRECT_H
 #include "sf_c_util/fabric_async_op_cb.h"
