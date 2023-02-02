@@ -25,8 +25,8 @@
 #include "c_pal/interlocked.h"
 #include "c_pal/sync.h"
 
-#include "c_util/interlocked_hl.h"
-#include "c_util/log_critical_and_terminate.h"
+#include "c_pal/interlocked_hl.h"
+#include "c_pal/log_critical_and_terminate.h"
 
 #include "com_wrapper/com_wrapper.h"
 #include "sf_c_util/fabric_async_op_cb.h"
