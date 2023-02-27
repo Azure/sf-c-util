@@ -84,7 +84,19 @@ int FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV(const FABRIC_ENDPOINT_RESO
                             }
                             else
                             {
-                                (*argv)[5] = sprintf_char("%ls", fabric_endpoint_resource_description->CertificateName);
+                                if (
+                                    (fabric_endpoint_resource_description->CertificateName == NULL) ||
+                                    (fabric_endpoint_resource_description->CertificateName[0] == L'\0')
+                                    )
+                                {
+                                    /*if CertificateName is L"" or NULL and that is passed as an argv to a command line - it gets eaten and later FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_from_ARGC_ARGV expects 6 arguments but only gets 5*/
+                                    (*argv)[5] = sprintf_char("%ls", L"CERTIFICATE_NAME_WAS_EMPTY_IN_FABRIC_ENDPOINT_RESOURCE_DESCRIPTION");
+                                }
+                                else
+                                {
+                                    (*argv)[5] = sprintf_char("%ls", fabric_endpoint_resource_description->CertificateName);
+                                }
+
                                 if ((*argv)[5] == NULL)
                                 {
                                     LogError("failure in sprintf_char");
