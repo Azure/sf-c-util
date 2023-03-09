@@ -85,6 +85,12 @@ SF Config XML
 #define SF_SERVICE_CONFIG_CREATE(name) MU_C2(name, _configuration_create)
 #define SF_SERVICE_CONFIG_GETTER(name, param) MU_C3(name, _configuration_get_, param)
 
+#define DECLARE_SF_SERVICE_CONFIG_HANDLE(name, ...) \
+    //...
+
+#define DECLARE_SF_SERVICE_CONFIG_GETTERS(name, ...) \
+    //...
+
 #define DECLARE_SF_SERVICE_CONFIG(name, ...) \
     //...
 
@@ -95,20 +101,38 @@ SF Config XML
 ### DECLARE_SF_SERVICE_CONFIG
 
 ```c
-#define DECLARE_SF_SERVICE_CONFIG(name, ...)
+#define DECLARE_SF_SERVICE_CONFIG_HANDLE(name, ...)
 ```
 
-Creates all declarations for the configuration type `SF_SERVICE_CONFIG(name)`. This includes the mockable create, which produces a `THANDLE`, and all of the mockable getters for the parameters specified.
+Creates all declarations for the configuration type `SF_SERVICE_CONFIG(name)`. This includes the `THANDLE` type and a mockable create, which produces a `THANDLE`, and all of the mockable getters for the parameters specified.
+
+**SRS_SF_SERVICE_CONFIG_42_001: [** `DECLARE_SF_SERVICE_CONFIG_HANDLE` shall generate a `THANDLE` declaration of type `SF_SERVICE_CONFIG(name)`. **]**
+
+### DECLARE_SF_SERVICE_CONFIG_GETTERS
+
+```c
+#define DECLARE_SF_SERVICE_CONFIG_GETTERS(name, ...)
+```
+
+Creates all declarations for the configuration type `SF_SERVICE_CONFIG(name)` mockable getters for the parameters specified.
 
 Each parameter must be in the form `CONFIG_REQUIRED(type, config_name)` or `CONFIG_OPTIONAL(type, config_name)`, for configurations that are required or optional, respectively. Required configs must be found in the SF configuration or the configuration create will fail, optional configs may be absent and a default (e.g. empty string) will be used.
 
 Each of these parameters with name `config_name` must also have a corresponding `SF_SERVICE_CONFIG_PARAMETER_NAME_config_name` defined with a wide string for the name of the config value as specified in the SF XML.
 
-**SRS_SF_SERVICE_CONFIG_42_001: [** `DECLARE_SF_SERVICE_CONFIG` shall generate a `THANDLE` declaration of type `SF_SERVICE_CONFIG(name)`. **]**
+**SRS_SF_SERVICE_CONFIG_42_002: [** `DECLARE_SF_SERVICE_CONFIG_GETTERS` shall generate a mockable create function `SF_SERVICE_CONFIG_CREATE(name)` which takes an `IFabricCodePackageActivationContext*` and produces the `THANDLE`. **]**
 
-**SRS_SF_SERVICE_CONFIG_42_002: [** `DECLARE_SF_SERVICE_CONFIG` shall generate a mockable create function `SF_SERVICE_CONFIG_CREATE(name)` which takes an `IFabricCodePackageActivationContext*` and produces the `THANDLE`. **]**
+**SRS_SF_SERVICE_CONFIG_42_003: [** `DECLARE_SF_SERVICE_CONFIG_GETTERS` shall generate mockable getter functions `SF_SERVICE_CONFIG_GETTER(name, param)` for each of the configurations provided. **]**
 
-**SRS_SF_SERVICE_CONFIG_42_003: [** `DECLARE_SF_SERVICE_CONFIG` shall generate mockable getter functions `SF_SERVICE_CONFIG_GETTER(name, param)` for each of the configurations provided. **]**
+### DECLARE_SF_SERVICE_CONFIG
+
+```c
+#define DECLARE_SF_SERVICE_CONFIG(name, ...)
+```
+
+Creates all declarations for the configuration type `SF_SERVICE_CONFIG(name)`. This includes the mockable create, which produces a `THANDLE`, and all of the mockable getters for the parameters specified.
+
+`DECLARE_SF_SERVICE_CONFIG` is a convenience macro that expans to `DECLARE_SF_SERVICE_CONFIG_HANDLE` and `DECLARE_SF_SERVICE_CONFIG_GETTERS`.
 
 ### DEFINE_SF_SERVICE_CONFIG
 
