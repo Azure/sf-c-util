@@ -24,12 +24,7 @@
 
 #include "umock_c/umock_c_prod.h"
 
-// Setup the test hooks for configuration_reader to return configured values
-#define TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOKS(config_name, ...) \
-    /* This expands to a bunch of global variables for the values to return in the configuration reader */ \
-    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2(TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN_DEFINE, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))\
-    /* This expands to a bunch of global variables for the default values to return in the configuration reader */ \
-    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2(TEST_SF_SERVICE_CONFIG_DEFAULT_DEFINE, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))\
+#define TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_TYPE_MOCK_HOOKS(config_name) \
     /* This expands to the configuration reader mock hooks */ \
     TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOK(uint64_t, config_name, __VA_ARGS__) \
     TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOK(uint32_t, config_name, __VA_ARGS__) \
@@ -37,6 +32,13 @@
     TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOK(char_ptr, config_name, __VA_ARGS__) \
     TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOK(thandle_rc_string, config_name, __VA_ARGS__) \
     TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOK(bool, config_name, __VA_ARGS__) \
+
+// Setup the test hooks for configuration_reader to return configured values
+#define TEST_SF_SERVICE_CONFIG_DEFINE_CONFIGURATION_READER_HOOKS(config_name, ...) \
+    /* This expands to a bunch of global variables for the values to return in the configuration reader */ \
+    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2(TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN_DEFINE, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))\
+    /* This expands to a bunch of global variables for the default values to return in the configuration reader */ \
+    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2(TEST_SF_SERVICE_CONFIG_DEFAULT_DEFINE, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))\
     /* Creates variables "test_sf_service_config_NAME_index" which map the config name to its order in the list of configs (0 based index) */ \
     TEST_SF_SERVICE_CONFIG_DEFINE_INDEX_OF(config_name, __VA_ARGS__) \
 
