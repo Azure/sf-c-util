@@ -3,7 +3,6 @@
 
 #note: "fc_erd_argc_argv" comes from "fabric configuration endpoint resource description" and was shortened because of the build system who is unhappy with such a long filename
 
-compileAsC11()
 set(theseTestsName fc_erd_argc_argv_int)
 
 set(${theseTestsName}_test_files

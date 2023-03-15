@@ -1,6 +1,5 @@
 #Copyright (c) Microsoft. All rights reserved.
 
-compileAsC11()
 set(theseTestsName h_fabric_macro_generator_ut)
 
 set(${theseTestsName}_test_files
