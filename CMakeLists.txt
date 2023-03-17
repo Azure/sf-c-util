@@ -78,6 +78,20 @@ if ((NOT TARGET c_pal) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/c-pal/CMakeLis
     include_directories(${C_PAL_INC_FOLDER})
 endif()
 
+#smhasher generates some warnings with /W3 (default)
+if(WIN32)
+    add_definitions(/W2)
+endif(WIN32)
+
+if ((NOT TARGET SMHasherSupport) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/smhasher/src/CMakeLists.txt))
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/deps/smhasher/src)
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/deps/smhasher/src)
+endif()
+
+if(WIN32)
+    remove_definitions(/W2)
+endif(WIN32)
+
 if ((NOT TARGET c_util) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/c-util/CMakeLists.txt))
     add_subdirectory(deps/c-util)
     include_directories(${C_UTIL_INC_FOLDER})
