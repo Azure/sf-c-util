@@ -50,8 +50,6 @@ MOCKABLE_FUNCTION(, ULONG, DoNothingRelease, IFabricZZZZ*, h);
 
 #include "hfabriczzzz.h"
 
-static TEST_MUTEX_HANDLE test_serialize_mutex;
-
 MU_DEFINE_ENUM_STRINGS(UMOCK_C_ERROR_CODE, UMOCK_C_ERROR_CODE_VALUES)
 static void on_umock_c_error(UMOCK_C_ERROR_CODE error_code)
 {
@@ -90,8 +88,6 @@ BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 TEST_SUITE_INITIALIZE(suite_init)
 {
     ASSERT_ARE_EQUAL(int, 0, real_gballoc_hl_init(NULL, NULL));
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error), "umock_c_init");
 
@@ -114,21 +110,13 @@ TEST_SUITE_INITIALIZE(suite_init)
 
 TEST_SUITE_CLEANUP(suite_cleanup)
 {
-
     umock_c_deinit();
-
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
 
     real_gballoc_hl_deinit();
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
-
     umock_c_reset_all_calls();
     umock_c_negative_tests_init();
 
@@ -137,7 +125,6 @@ TEST_FUNCTION_INITIALIZE(method_init)
 TEST_FUNCTION_CLEANUP(method_cleanup)
 {
     umock_c_negative_tests_deinit();
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_001: [ H_FABRIC_HANDLE_CREATE(IFABRIC_INTERFACE_NAME) shall allocate memory to hold nMaxRetries, msBetweenRetries and an instance of IFABRIC_INTERFACE_NAME. ]*/

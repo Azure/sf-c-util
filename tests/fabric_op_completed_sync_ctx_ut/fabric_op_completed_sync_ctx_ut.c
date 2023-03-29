@@ -46,11 +46,7 @@ DEFINE_COM_WRAPPER_OBJECT(TEST_CALLBACK_HANDLE, TEST_CALLBACK_HANDLE_INTERFACES)
 
 #include "real_gballoc_hl.h"
 
-
 #include "sf_c_util/fabric_op_completed_sync_ctx.h"
-
-
-static TEST_MUTEX_HANDLE test_serialize_mutex;
 
 static IFabricAsyncOperationCallback* test_callback_com;
 
@@ -66,8 +62,6 @@ BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 TEST_SUITE_INITIALIZE(suite_init)
 {
     ASSERT_ARE_EQUAL(int, 0, real_gballoc_hl_init(NULL, NULL));
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error), "umock_c_init");
 
@@ -87,18 +81,11 @@ TEST_SUITE_CLEANUP(suite_cleanup)
 {
     umock_c_deinit();
 
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
-
     real_gballoc_hl_deinit();
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
-
     TEST_CALLBACK_HANDLE test_callback = test_callback_create();
     ASSERT_IS_NOT_NULL(test_callback, "creating test callback failed");
 
@@ -113,7 +100,6 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
 {
     (void)test_callback_com->lpVtbl->Release(test_callback_com);
     umock_c_negative_tests_deinit();
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 /* fabric_op_completed_sync_ctx_create */

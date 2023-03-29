@@ -74,8 +74,6 @@ MOCKABLE_FUNCTION(, DWORD, mocked_GetModuleFileNameA,
 
 #include "sf_c_util/hresult_to_string.h"
 
-static TEST_MUTEX_HANDLE test_serialize_mutex;
-
 MU_DEFINE_ENUM_STRINGS(UMOCK_C_ERROR_CODE, UMOCK_C_ERROR_CODE_VALUES)
 
 static void on_umock_c_error(UMOCK_C_ERROR_CODE error_code)
@@ -109,8 +107,6 @@ BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 TEST_SUITE_INITIALIZE(suite_init)
 {
     ASSERT_ARE_EQUAL(int, 0, real_gballoc_hl_init(NULL, NULL));
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error));
 
@@ -132,8 +128,6 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_UMOCK_ALIAS_TYPE(LPWSTR, wchar_t*);
     REGISTER_UMOCK_ALIAS_TYPE(BOOL, int);
 
-
-
     REGISTER_GLOBAL_MOCK_HOOK(malloc, my_gballoc_malloc);
     REGISTER_GLOBAL_MOCK_HOOK(free, my_gballoc_free);
 }
@@ -142,24 +136,16 @@ TEST_SUITE_CLEANUP(suite_cleanup)
 {
     umock_c_deinit();
 
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
-
     real_gballoc_hl_deinit();
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
-
     umock_c_reset_all_calls();
 }
 
 TEST_FUNCTION_CLEANUP(method_cleanup)
 {
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_018: [ If the_malloc is NULL then hresult_to_string shall fail and return NULL. ]*/

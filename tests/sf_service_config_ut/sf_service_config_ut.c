@@ -55,9 +55,6 @@ static void my_gballoc_free(void* ptr)
 CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );
 
-static TEST_MUTEX_HANDLE test_serialize_mutex;
-
-
 RC_STRING_TEST_DECL(
     empty_string, ""
 )
@@ -118,8 +115,6 @@ BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 TEST_SUITE_INITIALIZE(suite_init)
 {
     ASSERT_ARE_EQUAL(int, 0, real_gballoc_hl_init(NULL, NULL));
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error));
 
@@ -151,18 +146,11 @@ TEST_SUITE_CLEANUP(suite_cleanup)
 
     rc_string_test_cleanup_statics();
 
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
-
     real_gballoc_hl_deinit();
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
-
     // Initialize so each default value is returned (individual tests can override what gets returned)
     TEST_SF_SERVICE_CONFIG_RESET(MY_CONFIG_TEST_PARAMS);
 
@@ -175,8 +163,6 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
     umock_c_negative_tests_deinit();
 
     TEST_SF_SERVICE_CONFIG_CLEANUP(MY_CONFIG_TEST_PARAMS);
-
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_is_mockable)
