@@ -53,7 +53,6 @@ static void my_gballoc_free(void* ptr)
 
 #include "test_fabric_async_operation_wrapper.h"
 
-static TEST_MUTEX_HANDLE test_serialize_mutex;
 static ITestAsyncOperation* test_async_operation_com;
 static IFabricAsyncOperationContext* test_async_operation_context_com;
 static FABRIC_ASYNC_OP_CB_HANDLE test_fabric_async_op_cb = (FABRIC_ASYNC_OP_CB_HANDLE)0x4242;
@@ -124,8 +123,6 @@ BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 TEST_SUITE_INITIALIZE(suite_init)
 {
     ASSERT_ARE_EQUAL(int, 0, real_gballoc_hl_init(NULL, NULL));
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error), "umock_c_init");
 
@@ -152,18 +149,11 @@ TEST_SUITE_CLEANUP(suite_cleanup)
 {
     umock_c_deinit();
 
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
-
     real_gballoc_hl_deinit();
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
-
     TEST_FABRIC_ASYNC_OPERATION_HANDLE test_fabric_async_operation = test_fabric_async_operation_create();
     ASSERT_IS_NOT_NULL(test_fabric_async_operation);
     test_async_operation_com = COM_WRAPPER_CREATE(TEST_FABRIC_ASYNC_OPERATION_HANDLE, ITestAsyncOperation, test_fabric_async_operation, test_fabric_async_operation_destroy);
@@ -183,8 +173,6 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
     umock_c_negative_tests_deinit();
     (void)test_async_operation_com->lpVtbl->Release(test_async_operation_com);
     (void)test_async_operation_context_com->lpVtbl->Release(test_async_operation_context_com);
-
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 /* Tests_SRS_FABRIC_ASYNC_OP_WRAPPER_01_003: [ If com_object is NULL, _execute_async shall fail and return E_INVALIDARG. ]*/

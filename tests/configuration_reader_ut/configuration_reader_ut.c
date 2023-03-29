@@ -81,8 +81,6 @@ wchar_t* sprintf_wchar_function(const wchar_t* format, ...)
 CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );
 
-static TEST_MUTEX_HANDLE test_serialize_mutex;
-
 static const wchar_t* test_config_package_name = L"my_package_name";
 static const wchar_t* test_section_name = L"SectionName";
 static const wchar_t* test_parameter_name = L"Parameter1";
@@ -168,8 +166,6 @@ BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 TEST_SUITE_INITIALIZE(suite_init)
 {
     ASSERT_ARE_EQUAL(int, 0, real_gballoc_hl_init(NULL, NULL));
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error));
 
@@ -198,18 +194,11 @@ TEST_SUITE_CLEANUP(suite_cleanup)
 {
     umock_c_deinit();
 
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
-
     real_gballoc_hl_deinit();
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
-
     test_fabric_code_package_activation_context.lpVtbl = &test_fabric_code_package_activation_context_vtbl;
     test_fabric_code_package_activation_context.lpVtbl->GetConfigurationPackage = test_GetConfigurationPackage;
 
@@ -226,7 +215,6 @@ TEST_FUNCTION_INITIALIZE(method_init)
 TEST_FUNCTION_CLEANUP(method_cleanup)
 {
     umock_c_negative_tests_deinit();
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 //

@@ -20,34 +20,24 @@
 #include "sf_c_util/fc_activation_context_com.h"
 #include "sf_c_util/fc_activation_context.h"
 
-static TEST_MUTEX_HANDLE test_serialize_mutex;
-
 TEST_DEFINE_ENUM_TYPE(ARGC_ARGV_DATA_RESULT, ARGC_ARGV_DATA_RESULT_VALUES);
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
 TEST_SUITE_INITIALIZE(suite_init)
 {
-    test_serialize_mutex = TEST_MUTEX_CREATE();
-    ASSERT_IS_NOT_NULL(test_serialize_mutex);
 }
 
 TEST_SUITE_CLEANUP(suite_cleanup)
 {
-    TEST_MUTEX_DESTROY(test_serialize_mutex);
 }
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    if (TEST_MUTEX_ACQUIRE(test_serialize_mutex))
-    {
-        ASSERT_FAIL("Could not acquire test serialization mutex.");
-    }
 }
 
 TEST_FUNCTION_CLEANUP(method_cleanup)
 {
-    TEST_MUTEX_RELEASE(test_serialize_mutex);
 }
 
 /*all tests are actually going against IFabricCodePackageActivationContext rather than FC_ACTIVATION_CONTEXT_HANDLE. COM_WRAPPER ROCKS!!!*/
