@@ -41,7 +41,7 @@ static void my_gballoc_free(void* ptr)
 #include "c_pal/gballoc_hl_redirect.h"
 #include "c_pal/string_utils.h"
 #include "c_util/rc_string.h"
-#include "c_util/thandle.h"
+#include "c_pal/thandle.h"
 #undef ENABLE_MOCKS
 
 // Must include umock_c_prod so mocks are not expanded in real_rc_string
