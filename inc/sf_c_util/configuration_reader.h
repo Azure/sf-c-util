@@ -17,7 +17,7 @@
 #include "fabricruntime.h"
 
 #include "c_util/rc_string.h"
-#include "c_util/thandle.h"
+#include "c_pal/thandle.h"
 
 #include "umock_c/umock_c_prod.h"
 #ifdef __cplusplus
