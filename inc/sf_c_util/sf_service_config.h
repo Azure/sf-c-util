@@ -60,23 +60,17 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 #define SF_SERVICE_CONFIG_PARAMETER_NAME(name) MU_C2(SF_SERVICE_CONFIG_PARAMETER_NAME_, name)
 
-#define DECLARE_SF_SERVICE_CONFIG_HANDLE(name, ...) \
-    /*Codes_SRS_SF_SERVICE_CONFIG_42_001: [ DECLARE_SF_SERVICE_CONFIG_HANDLE shall generate a THANDLE declaration of type SF_SERVICE_CONFIG(name). ]*/ \
-    typedef struct MU_C2(name, _CONFIGURATION_TAG) SF_SERVICE_CONFIG(name); \
-    THANDLE_TYPE_DECLARE(SF_SERVICE_CONFIG(name)); \
-    /*Codes_SRS_SF_SERVICE_CONFIG_42_002: [ DECLARE_SF_SERVICE_CONFIG_GETTERS shall generate a mockable create function SF_SERVICE_CONFIG_CREATE(name) which takes an IFabricCodePackageActivationContext* and produces the THANDLE. ]*/ \
-    MOCKABLE_FUNCTION(, THANDLE(SF_SERVICE_CONFIG(name)), SF_SERVICE_CONFIG_CREATE(name), IFabricCodePackageActivationContext*, activation_context); \
-    /*Codes_SRS_SF_SERVICE_CONFIG_42_003: [ DECLARE_SF_SERVICE_CONFIG_GETTERS shall generate mockable getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/ \
-
-// separated macro so that it can be used directly in order to allow more options to be declared/defined
-#define DECLARE_SF_SERVICE_CONFIG_GETTERS(name, ...) \
-    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_2(DECLARE_SF_SERVICE_CONFIG_GETTER, name, dummy, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
-
 // Declare configuration (for header)
 
 #define DECLARE_SF_SERVICE_CONFIG(name, ...) \
-    DECLARE_SF_SERVICE_CONFIG_HANDLE(name) \
-    DECLARE_SF_SERVICE_CONFIG_GETTERS(name, __VA_ARGS__)
+    /*Codes_SRS_SF_SERVICE_CONFIG_42_001: [ DECLARE_SF_SERVICE_CONFIG shall generate a THANDLE declaration of type SF_SERVICE_CONFIG(name). ]*/ \
+    typedef struct MU_C2(name, _CONFIGURATION_TAG) SF_SERVICE_CONFIG(name); \
+    THANDLE_TYPE_DECLARE(SF_SERVICE_CONFIG(name)); \
+    /*Codes_SRS_SF_SERVICE_CONFIG_42_002: [ DECLARE_SF_SERVICE_CONFIG shall generate a mockable create function SF_SERVICE_CONFIG_CREATE(name) which takes an IFabricCodePackageActivationContext* and produces the THANDLE. ]*/ \
+    MOCKABLE_FUNCTION(, THANDLE(SF_SERVICE_CONFIG(name)), SF_SERVICE_CONFIG_CREATE(name), IFabricCodePackageActivationContext*, activation_context); \
+    /*Codes_SRS_SF_SERVICE_CONFIG_42_003: [ DECLARE_SF_SERVICE_CONFIG shall generate mockable getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/ \
+    SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_2(DECLARE_SF_SERVICE_CONFIG_GETTER, name, dummy, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
+
 
 // Define configuration (for .c file)
 
