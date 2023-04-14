@@ -443,6 +443,232 @@ TEST_FUNCTION(configuration_reader_get_uint64_t_fails_when_underlying_functions_
 }
 
 //
+// configuration_reader_get_uint8_t
+//
+
+/*Tests_SRS_CONFIGURATION_READER_01_001: [ If activation_context is NULL then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_null_activation_context_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(NULL, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_002: [ If config_package_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_null_config_package_name_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, NULL, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_002: [ If config_package_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_empty_config_package_name_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, L"", test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_003: [ If section_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_null_section_name_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, NULL, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_003: [ If section_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_empty_section_name_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, L"", test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_004: [ If parameter_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_null_parameter_name_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, NULL, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_004: [ If parameter_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_empty_parameter_name_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, L"", &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_005: [ If value is NULL then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_null_value_fails)
+{
+    ///arrange
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_006: [ configuration_reader_get_uint8_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_007: [ configuration_reader_get_uint8_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_008: [ configuration_reader_get_uint8_t shall convert the value to uint8_t and store it in value. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_011: [ configuration_reader_get_uint8_t shall succeed and return 0. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_succeeds)
+{
+    /// arrange
+    uint8_t value;
+
+    test_value_to_return = L"42";
+
+    setup_expectation_read_uint_values();
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(uint8_t, 42, value);
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_006: [ configuration_reader_get_uint8_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_007: [ configuration_reader_get_uint8_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_008: [ configuration_reader_get_uint8_t shall convert the value to uint8_t and store it in value. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_011: [ configuration_reader_get_uint8_t shall succeed and return 0. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_max_succeeds)
+{
+    /// arrange
+    uint8_t value;
+
+    test_value_to_return = L"255"; // UINT8_MAX as decimal
+
+    setup_expectation_read_uint_values();
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(uint8_t, 255, value);
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_006: [ configuration_reader_get_uint8_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_007: [ configuration_reader_get_uint8_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_008: [ configuration_reader_get_uint8_t shall convert the value to uint8_t and store it in value. ]*/
+/*Tests_SRS_CONFIGURATION_READER_01_011: [ configuration_reader_get_uint8_t shall succeed and return 0. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_with_0_succeeds)
+{
+    /// arrange
+    uint8_t value;
+
+    test_value_to_return = L"0"; // UINT32_MAX as decimal
+
+    setup_expectation_read_uint_values();
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(uint8_t, 0, value);
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_009: [ If the value is outside the range of representable values then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_too_large_fails)
+{
+    /// arrange
+    uint8_t value;
+
+    test_value_to_return = L"256";
+
+    setup_expectation_read_uint_values();
+
+    ///act
+    int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+    ///assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_CONFIGURATION_READER_01_010: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(configuration_reader_get_uint8_t_fails_when_underlying_functions_fail)
+{
+    /// arrange
+    uint8_t value;
+
+    test_value_to_return = L"42";
+
+    setup_expectation_read_uint_values();
+
+    umock_c_negative_tests_snapshot();
+
+    for (uint8_t i = 0; i < umock_c_negative_tests_call_count(); i++)
+    {
+        if (umock_c_negative_tests_can_call_fail(i))
+        {
+            umock_c_negative_tests_reset();
+            umock_c_negative_tests_fail_call(i);
+
+            /// act
+            int result = configuration_reader_get_uint8_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, &value);
+
+            /// assert
+            ASSERT_ARE_NOT_EQUAL(int, 0, result, "On failed call %" PRIu32, i);
+        }
+    }
+}
+
+//
 // configuration_reader_get_uint32_t
 //
 
@@ -547,6 +773,7 @@ TEST_FUNCTION(configuration_reader_get_uint32_t_with_empty_parameter_name_fails)
 /*Tests_SRS_CONFIGURATION_READER_42_016: [ If value is NULL then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
 TEST_FUNCTION(configuration_reader_get_uint32_t_with_null_value_fails)
 {
+    ///arrange
     ///act
     int result = configuration_reader_get_uint32_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
 
@@ -574,7 +801,7 @@ TEST_FUNCTION(configuration_reader_get_uint32_t_succeeds)
     ///assert
     ASSERT_ARE_EQUAL(int, 0, result);
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-    ASSERT_ARE_EQUAL(uint64_t, 42, value);
+    ASSERT_ARE_EQUAL(uint32_t, 42, value);
 }
 
 /*Tests_SRS_CONFIGURATION_READER_42_017: [ configuration_reader_get_uint32_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/

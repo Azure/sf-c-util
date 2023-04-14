@@ -24,9 +24,11 @@
 extern "C" {
 #endif
 
-MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint64_t*, value)(0, MU_FAILURE);
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint8_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint8_t*, value)(0, MU_FAILURE);
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint32_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint32_t*, value)(0, MU_FAILURE);
+
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint64_t*, value)(0, MU_FAILURE);
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_char_string, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, char**, value)(0, MU_FAILURE);
 

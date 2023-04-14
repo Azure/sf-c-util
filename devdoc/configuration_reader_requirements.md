@@ -7,9 +7,11 @@
 ## Exposed API
 
 ```c
-MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint64_t*, value)(0, MU_FAILURE);
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint8_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint8_t*, value)(0, MU_FAILURE);
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint32_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint32_t*, value)(0, MU_FAILURE);
+
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint64_t*, value)(0, MU_FAILURE);
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_char_string, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, char**, value)(0, MU_FAILURE);
 
@@ -19,6 +21,66 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_wchar_string, IFa
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_bool, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, bool*, value)(0, MU_FAILURE);
 ```
+
+### configuration_reader_get_uint8_t
+
+```c
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint8_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint8_t*, value)(0, MU_FAILURE);
+```
+
+`configuration_reader_get_uint8_t` reads a configuration value from the code package and returns it as `uint8_t`.
+
+**SRS_CONFIGURATION_READER_01_001: [** If `activation_context` is `NULL` then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_002: [** If `config_package_name` is `NULL` or empty then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_003: [** If `section_name` is `NULL` or empty then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_004: [** If `parameter_name` is `NULL` or empty then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_005: [** If `value` is `NULL` then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_006: [** `configuration_reader_get_uint8_t` shall call the `GetConfigurationPackage` function on `activation_context` with `config_package_name`. **]**
+
+**SRS_CONFIGURATION_READER_01_007: [** `configuration_reader_get_uint8_t` shall call `GetValue` on the configuration package with `section_name` and `parameter_name`. **]**
+
+**SRS_CONFIGURATION_READER_01_008: [** `configuration_reader_get_uint8_t` shall convert the value to `uint8_t` and store it in `value`. **]**
+
+**SRS_CONFIGURATION_READER_01_009: [** If the value is outside the range of representable values then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_010: [** If there are any other failures then `configuration_reader_get_uint8_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_01_011: [** `configuration_reader_get_uint8_t` shall succeed and return 0. **]**
+
+### configuration_reader_get_uint8_t
+
+```c
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint32_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint32_t*, value)(0, MU_FAILURE);
+```
+
+`configuration_reader_get_uint32_t` reads a configuration value from the code package and returns it as `uint32_t`.
+
+**SRS_CONFIGURATION_READER_42_012: [** If `activation_context` is `NULL` then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_013: [** If `config_package_name` is `NULL` or empty then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_014: [** If `section_name` is `NULL` or empty then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_015: [** If `parameter_name` is `NULL` or empty then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_016: [** If `value` is `NULL` then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_017: [** `configuration_reader_get_uint32_t` shall call the `GetConfigurationPackage` function on `activation_context` with `config_package_name`. **]**
+
+**SRS_CONFIGURATION_READER_42_018: [** `configuration_reader_get_uint32_t` shall call `GetValue` on the configuration package with `section_name` and `parameter_name`. **]**
+
+**SRS_CONFIGURATION_READER_42_019: [** `configuration_reader_get_uint32_t` shall convert the value to `uint32_t` and store it in `value`. **]**
+
+**SRS_CONFIGURATION_READER_42_020: [** If the value is outside the range of representable values then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_021: [** If there are any other failures then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_42_022: [** `configuration_reader_get_uint32_t` shall succeed and return 0. **]**
 
 ### configuration_reader_get_uint64_t
 
@@ -49,37 +111,6 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabric
 **SRS_CONFIGURATION_READER_42_010: [** If there are any other failures then `configuration_reader_get_uint64_t` shall fail and return a non-zero value. **]**
 
 **SRS_CONFIGURATION_READER_42_011: [** `configuration_reader_get_uint64_t` shall succeed and return 0. **]**
-
-
-### configuration_reader_get_uint32_t
-
-```c
-MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint32_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint32_t*, value)(0, MU_FAILURE);
-```
-
-`configuration_reader_get_uint32_t` reads a configuration value from the code package and returns it as `uint32_t`.
-
-**SRS_CONFIGURATION_READER_42_012: [** If `activation_context` is `NULL` then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_013: [** If `config_package_name` is `NULL` or empty then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_014: [** If `section_name` is `NULL` or empty then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_015: [** If `parameter_name` is `NULL` or empty then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_016: [** If `value` is `NULL` then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_017: [** `configuration_reader_get_uint32_t` shall call the `GetConfigurationPackage` function on `activation_context` with `config_package_name`. **]**
-
-**SRS_CONFIGURATION_READER_42_018: [** `configuration_reader_get_uint32_t` shall call `GetValue` on the configuration package with `section_name` and `parameter_name`. **]**
-
-**SRS_CONFIGURATION_READER_42_019: [** `configuration_reader_get_uint32_t` shall convert the value to `uint32_t` and store it in `value`. **]**
-
-**SRS_CONFIGURATION_READER_42_020: [** If the value is outside the range of representable values then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_021: [** If there are any other failures then `configuration_reader_get_uint32_t` shall fail and return a non-zero value. **]**
-
-**SRS_CONFIGURATION_READER_42_022: [** `configuration_reader_get_uint32_t` shall succeed and return 0. **]**
 
 ### configuration_reader_get_char_string
 
