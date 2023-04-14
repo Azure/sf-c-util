@@ -36,6 +36,7 @@ extern "C" {
 /*
 Currently supports the following types:
    bool
+   uint8_t
    uint32_t
    uint64_t
    char* (char_ptr)
@@ -146,6 +147,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Type helpers
 
+#define PRI_uint8_t PRIu8
 #define PRI_uint32_t PRIu32
 #define PRI_uint64_t PRIu64
 
@@ -202,6 +204,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_DO_READ_integer_type(type, max_value, config, parameter_string, result_value, error_occurred_flag) \
     if (!error_occurred_flag) \
     { \
+        /*Codes_SRS_SF_SERVICE_CONFIG_01_002: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_uint8_t with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/ \
         /*Codes_SRS_SF_SERVICE_CONFIG_42_017: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_uint32_t with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/ \
         /*Codes_SRS_SF_SERVICE_CONFIG_42_020: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_uint64_t with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/ \
         if (MU_C2(configuration_reader_get_, type)(config->activation_context, config->sf_config_name_string, config->sf_parameters_section_name_string, parameter_string, &result_value) != 0) \
@@ -213,6 +216,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         } \
         else if (result_value == max_value) \
         { \
+            /*Codes_SRS_SF_SERVICE_CONFIG_01_003: [ If the result is UINT8_MAX then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
             /*Codes_SRS_SF_SERVICE_CONFIG_42_018: [ If the result is UINT32_MAX then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
             /*Codes_SRS_SF_SERVICE_CONFIG_42_021: [ If the result is UINT64_MAX then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
             LogError("Invalid %ls=%" MU_C2(PRI_, type), parameter_string, result_value); \
@@ -223,6 +227,10 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             LogVerbose("Config loaded: %ls = %" MU_C2(PRI_, type), parameter_string, result_value); \
         } \
     }
+
+/*Codes_SRS_SF_SERVICE_CONFIG_01_001: [ If the type is uint8_t then: ]*/
+#define SF_SERVICE_CONFIG_DO_READ_uint8_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
+    SF_SERVICE_CONFIG_DO_READ_integer_type(uint8_t, UINT8_MAX, config, parameter_string, result_value, error_occurred_flag)
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_016: [ If the type is uint32_t then: ]*/
 #define SF_SERVICE_CONFIG_DO_READ_uint32_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
@@ -428,6 +436,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 // Getters
 
 #define SF_SERVICE_CONFIG_RETURN_TYPE__Bool bool
+#define SF_SERVICE_CONFIG_RETURN_TYPE_uint8_t uint8_t
 #define SF_SERVICE_CONFIG_RETURN_TYPE_uint32_t uint32_t
 #define SF_SERVICE_CONFIG_RETURN_TYPE_uint64_t uint64_t
 #define SF_SERVICE_CONFIG_RETURN_TYPE_char_ptr const char*
@@ -437,6 +446,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_RETURN_TYPE(type) MU_C2A(SF_SERVICE_CONFIG_RETURN_TYPE_, type)
 
 #define SF_SERVICE_CONFIG_INIT_RETURN__Bool
+#define SF_SERVICE_CONFIG_INIT_RETURN_uint8_t
 #define SF_SERVICE_CONFIG_INIT_RETURN_uint32_t
 #define SF_SERVICE_CONFIG_INIT_RETURN_uint64_t
 #define SF_SERVICE_CONFIG_INIT_RETURN_char_ptr
@@ -447,6 +457,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_045: [ ...false if the type is bool ]*/
 #define SF_SERVICE_CONFIG_GETTER_ERROR__Bool false
+/*Codes_SRS_SF_SERVICE_CONFIG_01_004: [ ...UINT8_MAX if the type is uint8_t ]*/
+#define SF_SERVICE_CONFIG_GETTER_ERROR_uint8_t UINT8_MAX
 /*Codes_SRS_SF_SERVICE_CONFIG_42_046: [ ...UINT32_MAX if the type is uint32_t ]*/
 #define SF_SERVICE_CONFIG_GETTER_ERROR_uint32_t UINT32_MAX
 /*Codes_SRS_SF_SERVICE_CONFIG_42_047: [ ...UINT64_MAX if the type is uint64_t ]*/
@@ -459,6 +471,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_GETTER_ERROR(type) MU_C2(SF_SERVICE_CONFIG_GETTER_ERROR_, type)
 
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN__Bool(lval, rval) lval = rval
+#define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_uint8_t(lval, rval) lval = rval
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_uint32_t(lval, rval) lval = rval
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_uint64_t(lval, rval) lval = rval
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_char_ptr(lval, rval) lval = rval

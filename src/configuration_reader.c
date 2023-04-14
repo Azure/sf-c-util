@@ -28,16 +28,18 @@ static int get_string_value_from_package(IFabricCodePackageActivationContext* ac
     int result;
     HRESULT hr;
 
-    /*Codes_SRS_CONFIGURATION_READER_42_006: [ configuration_reader_get_uint64_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
+    /*Codes_SRS_CONFIGURATION_READER_01_006: [ configuration_reader_get_uint8_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_017: [ configuration_reader_get_uint32_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
+    /*Codes_SRS_CONFIGURATION_READER_42_006: [ configuration_reader_get_uint64_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_028: [ configuration_reader_get_char_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_038: [ configuration_reader_get_wchar_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_048: [ configuration_reader_get_thandle_rc_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     hr = activation_context->lpVtbl->GetConfigurationPackage(activation_context, config_package_name, fabric_configuration_package);
     if (FAILED(hr))
     {
-        /*Codes_SRS_CONFIGURATION_READER_42_010: [ If there are any other failures then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
+        /*Codes_SRS_CONFIGURATION_READER_01_010: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+        /*Codes_SRS_CONFIGURATION_READER_42_010: [ If there are any other failures then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_031: [ If there are any other failures then configuration_reader_get_char_string shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_041: [ If there are any other failures then configuration_reader_get_wchar_string shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_052: [ If there are any other failures then configuration_reader_get_thandle_rc_string shall fail and return a non-zero value. ]*/
@@ -47,16 +49,18 @@ static int get_string_value_from_package(IFabricCodePackageActivationContext* ac
     else
     {
         BOOLEAN is_encrypted = FALSE;
-        /*Codes_SRS_CONFIGURATION_READER_42_007: [ configuration_reader_get_uint64_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
+        /*Codes_SRS_CONFIGURATION_READER_01_007: [ configuration_reader_get_uint8_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_018: [ configuration_reader_get_uint32_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
+        /*Codes_SRS_CONFIGURATION_READER_42_007: [ configuration_reader_get_uint64_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_029: [ configuration_reader_get_char_string shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_039: [ configuration_reader_get_wchar_string shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_049: [ configuration_reader_get_thandle_rc_string shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         hr = (*fabric_configuration_package)->lpVtbl->GetValue((*fabric_configuration_package), section_name, parameter_name, &is_encrypted, wchar_value);
         if (FAILED(hr))
         {
-            /*Codes_SRS_CONFIGURATION_READER_42_010: [ If there are any other failures then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
+            /*Codes_SRS_CONFIGURATION_READER_01_010: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+            /*Codes_SRS_CONFIGURATION_READER_42_010: [ If there are any other failures then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_031: [ If there are any other failures then configuration_reader_get_char_string shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_041: [ If there are any other failures then configuration_reader_get_wchar_string shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_052: [ If there are any other failures then configuration_reader_get_thandle_rc_string shall fail and return a non-zero value. ]*/
@@ -76,6 +80,149 @@ all_ok:
     return result;
 }
 
+int configuration_reader_get_uint8_t(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, uint8_t* value)
+{
+    int result;
+
+    if (
+        /*Codes_SRS_CONFIGURATION_READER_01_001: [ If activation_context is NULL then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+        activation_context == NULL ||
+        /*Codes_SRS_CONFIGURATION_READER_01_002: [ If config_package_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+        (config_package_name == NULL || config_package_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_01_003: [ If section_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+        (section_name == NULL || section_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_01_004: [ If parameter_name is NULL or empty then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+        (parameter_name == NULL || parameter_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_01_005: [ If value is NULL then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+        (value == NULL)
+        )
+    {
+        LogError("Invalid args: IFabricCodePackageActivationContext* activation_context = %p, const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls, uint8_t* value = %p",
+            activation_context, MU_WP_OR_NULL(config_package_name), MU_WP_OR_NULL(section_name), MU_WP_OR_NULL(parameter_name), value);
+        result = MU_FAILURE;
+    }
+    else
+    {
+        IFabricConfigurationPackage* fabric_configuration_package;
+        const wchar_t* wchar_value;
+        if (get_string_value_from_package(activation_context, config_package_name, section_name, parameter_name, &fabric_configuration_package, &wchar_value) != 0)
+        {
+            // already logged error
+            result = MU_FAILURE;
+        }
+        else
+        {
+            /*Codes_SRS_CONFIGURATION_READER_01_008: [ configuration_reader_get_uint8_t shall convert the value to uint8_t and store it in value. ]*/
+            wchar_t* end_ptr;
+            uint64_t temp = wcstoull(wchar_value, &end_ptr, 10);
+            if (end_ptr == wchar_value)
+            {
+                /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+                LogError("failure in wcstoull(%ls): subject sequence is empty or does not have the expected form (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                    wchar_value, config_package_name, section_name, parameter_name);
+                result = MU_FAILURE;
+            }
+            else
+            {
+                if ((temp == ULLONG_MAX) && (errno == ERANGE))
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_01_009: [ If the value is outside the range of representable values then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+                    LogError("ULLONGMAX was returned for wcstoull(%ls), indicating the correct value is outside the range of representable values (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                        wchar_value, config_package_name, section_name, parameter_name);
+                    result = MU_FAILURE;
+                }
+                else if (temp > UINT8_MAX)
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_01_009: [ If the value is outside the range of representable values then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
+                    LogError("The value %" PRIu64 " is too large for uint8_t (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                        temp, config_package_name, section_name, parameter_name);
+                    result = MU_FAILURE;
+                }
+                else
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_01_011: [ configuration_reader_get_uint8_t shall succeed and return 0. ]*/
+                    *value = (uint8_t)temp;
+                    result = 0;
+                }
+            }
+            (void)fabric_configuration_package->lpVtbl->Release(fabric_configuration_package);
+        }
+    }
+
+    return result;
+}
+
+int configuration_reader_get_uint32_t(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, uint32_t* value)
+{
+    int result;
+
+    if (
+        /*Codes_SRS_CONFIGURATION_READER_42_012: [ If activation_context is NULL then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+        activation_context == NULL ||
+        /*Codes_SRS_CONFIGURATION_READER_42_013: [ If config_package_name is NULL or empty then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+        (config_package_name == NULL || config_package_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_42_014: [ If section_name is NULL or empty then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+        (section_name == NULL || section_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_42_015: [ If parameter_name is NULL or empty then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+        (parameter_name == NULL || parameter_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_42_016: [ If value is NULL then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+        (value == NULL)
+        )
+    {
+        LogError("Invalid args: IFabricCodePackageActivationContext* activation_context = %p, const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls, uint32_t* value = %p",
+            activation_context, MU_WP_OR_NULL(config_package_name), MU_WP_OR_NULL(section_name), MU_WP_OR_NULL(parameter_name), value);
+        result = MU_FAILURE;
+    }
+    else
+    {
+        IFabricConfigurationPackage* fabric_configuration_package;
+        const wchar_t* wchar_value;
+        if (get_string_value_from_package(activation_context, config_package_name, section_name, parameter_name, &fabric_configuration_package, &wchar_value) != 0)
+        {
+            // already logged error
+            result = MU_FAILURE;
+        }
+        else
+        {
+            /*Codes_SRS_CONFIGURATION_READER_42_019: [ configuration_reader_get_uint32_t shall convert the value to uint32_t and store it in value. ]*/
+            wchar_t* end_ptr;
+            uint64_t temp = wcstoull(wchar_value, &end_ptr, 10);
+            if (end_ptr == wchar_value)
+            {
+                /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+                LogError("failure in wcstoull(%ls): subject sequence is empty or does not have the expected form (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                    wchar_value, config_package_name, section_name, parameter_name);
+                result = MU_FAILURE;
+            }
+            else
+            {
+                if ((temp == ULLONG_MAX) && (errno == ERANGE))
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_42_020: [ If the value is outside the range of representable values then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+                    LogError("ULLONGMAX was returned for wcstoull(%ls), indicating the correct value is outside the range of representable values (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                        wchar_value, config_package_name, section_name, parameter_name);
+                    result = MU_FAILURE;
+                }
+                else if (temp > UINT32_MAX)
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_42_020: [ If the value is outside the range of representable values then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+                    LogError("The value %" PRIu64 " is too large for uint32_t (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                        temp, config_package_name, section_name, parameter_name);
+                    result = MU_FAILURE;
+                }
+                else
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_42_022: [ configuration_reader_get_uint32_t shall succeed and return 0. ]*/
+                    *value = (uint32_t)temp;
+                    result = 0;
+                }
+            }
+            (void)fabric_configuration_package->lpVtbl->Release(fabric_configuration_package);
+        }
+    }
+
+    return result;
+}
 
 int configuration_reader_get_uint64_t(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, uint64_t* value)
 {
@@ -204,78 +351,6 @@ int configuration_reader_get_bool(IFabricCodePackageActivationContext* activatio
                 LogError("Invalid boolean value %ls for const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls",
                     wchar_value, config_package_name, section_name, parameter_name);
                 result = MU_FAILURE;
-            }
-            (void)fabric_configuration_package->lpVtbl->Release(fabric_configuration_package);
-        }
-    }
-
-    return result;
-}
-
-int configuration_reader_get_uint32_t(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, uint32_t* value)
-{
-    int result;
-
-    if (
-        /*Codes_SRS_CONFIGURATION_READER_42_012: [ If activation_context is NULL then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-        activation_context == NULL ||
-        /*Codes_SRS_CONFIGURATION_READER_42_013: [ If config_package_name is NULL or empty then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-        (config_package_name == NULL || config_package_name[0] == L'\0') ||
-        /*Codes_SRS_CONFIGURATION_READER_42_014: [ If section_name is NULL or empty then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-        (section_name == NULL || section_name[0] == L'\0') ||
-        /*Codes_SRS_CONFIGURATION_READER_42_015: [ If parameter_name is NULL or empty then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-        (parameter_name == NULL || parameter_name[0] == L'\0') ||
-        /*Codes_SRS_CONFIGURATION_READER_42_016: [ If value is NULL then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-        (value == NULL)
-        )
-    {
-        LogError("Invalid args: IFabricCodePackageActivationContext* activation_context = %p, const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls, uint32_t* value = %p",
-            activation_context, MU_WP_OR_NULL(config_package_name), MU_WP_OR_NULL(section_name), MU_WP_OR_NULL(parameter_name), value);
-        result = MU_FAILURE;
-    }
-    else
-    {
-        IFabricConfigurationPackage* fabric_configuration_package;
-        const wchar_t* wchar_value;
-        if (get_string_value_from_package(activation_context, config_package_name, section_name, parameter_name, &fabric_configuration_package, &wchar_value) != 0)
-        {
-            // already logged error
-            result = MU_FAILURE;
-        }
-        else
-        {
-            /*Codes_SRS_CONFIGURATION_READER_42_019: [ configuration_reader_get_uint32_t shall convert the value to uint32_t and store it in value. ]*/
-            wchar_t* end_ptr;
-            uint64_t temp = wcstoull(wchar_value, &end_ptr, 10);
-            if (end_ptr == wchar_value)
-            {
-                /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-                LogError("failure in wcstoull(%ls): subject sequence is empty or does not have the expected form (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
-                    wchar_value, config_package_name, section_name, parameter_name);
-                result = MU_FAILURE;
-            }
-            else
-            {
-                if ((temp == ULLONG_MAX) && (errno == ERANGE))
-                {
-                    /*Codes_SRS_CONFIGURATION_READER_42_020: [ If the value is outside the range of representable values then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-                    LogError("ULLONGMAX was returned for wcstoull(%ls), indicating the correct value is outside the range of representable values (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
-                        wchar_value, config_package_name, section_name, parameter_name);
-                    result = MU_FAILURE;
-                }
-                else if (temp > UINT32_MAX)
-                {
-                    /*Codes_SRS_CONFIGURATION_READER_42_020: [ If the value is outside the range of representable values then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
-                    LogError("The value %" PRIu64 " is too large for uint32_t (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
-                        temp, config_package_name, section_name, parameter_name);
-                    result = MU_FAILURE;
-                }
-                else
-                {
-                    /*Codes_SRS_CONFIGURATION_READER_42_022: [ configuration_reader_get_uint32_t shall succeed and return 0. ]*/
-                    *value = (uint32_t)temp;
-                    result = 0;
-                }
             }
             (void)fabric_configuration_package->lpVtbl->Release(fabric_configuration_package);
         }
