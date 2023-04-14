@@ -230,7 +230,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 /*Codes_SRS_SF_SERVICE_CONFIG_01_001: [ If the type is uint8_t then: ]*/
 #define SF_SERVICE_CONFIG_DO_READ_uint8_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
-    SF_SERVICE_CONFIG_DO_READ_integer_type(uint8_t, UINT32_MAX, config, parameter_string, result_value, error_occurred_flag)
+    SF_SERVICE_CONFIG_DO_READ_integer_type(uint8_t, UINT8_MAX, config, parameter_string, result_value, error_occurred_flag)
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_016: [ If the type is uint32_t then: ]*/
 #define SF_SERVICE_CONFIG_DO_READ_uint32_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
