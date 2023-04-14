@@ -15,6 +15,7 @@
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_parameter_1 L"Parameter1"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_parameter_2 L"Parameter2"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_parameter_3 L"Parameter3WithLongerName"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_parameter_4 L"Parameter4uint8_t"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_some_flag L"SomeFlag"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_string_option_in_thandle L"StringOptionThandle"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_string_option L"MyString"
@@ -28,6 +29,7 @@
     CONFIG_REQUIRED(uint64_t, parameter_1), \
     CONFIG_REQUIRED(uint64_t, parameter_2), \
     CONFIG_REQUIRED(uint32_t, parameter_3), \
+    CONFIG_REQUIRED(uint8_t, parameter_4), \
     CONFIG_REQUIRED(bool, some_flag), \
     CONFIG_REQUIRED(thandle_rc_string, string_option_in_thandle), \
     CONFIG_REQUIRED(char_ptr, string_option), \

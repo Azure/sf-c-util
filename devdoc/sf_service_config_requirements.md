@@ -6,6 +6,7 @@
 
 The following types are supported:
  - `bool` (must be the string "True" for `true` or "False" or empty for `false`, any other value will fail to parse)
+ - `uint8_t`
  - `uint32_t`
  - `uint64_t`
  - `char*` (`char_ptr`)
@@ -166,6 +167,12 @@ THANDLE(SF_SERVICE_CONFIG(name)) SF_SERVICE_CONFIG_CREATE(name)(IFabricCodePacka
 
    - **SRS_SF_SERVICE_CONFIG_42_015: [** `SF_SERVICE_CONFIG_CREATE(name)` shall call `configuration_reader_get_bool` with the `activation_context`, `sf_config_name`, `sf_parameters_section_name`, and `SF_SERVICE_CONFIG_PARAMETER_NAME_config_name`. **]**
 
+ - **SRS_SF_SERVICE_CONFIG_01_001: [** If the type is `uint8_t` then: **]**
+
+   - **SRS_SF_SERVICE_CONFIG_01_002: [** `SF_SERVICE_CONFIG_CREATE(name)` shall call `configuration_reader_get_uint8_t` with the `activation_context`, `sf_config_name`, `sf_parameters_section_name`, and `SF_SERVICE_CONFIG_PARAMETER_NAME_config_name`. **]**
+
+   - **SRS_SF_SERVICE_CONFIG_01_003: [** If the result is `UINT8_MAX` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
+
  - **SRS_SF_SERVICE_CONFIG_42_016: [** If the type is `uint32_t` then: **]**
 
    - **SRS_SF_SERVICE_CONFIG_42_017: [** `SF_SERVICE_CONFIG_CREATE(name)` shall call `configuration_reader_get_uint32_t` with the `activation_context`, `sf_config_name`, `sf_parameters_section_name`, and `SF_SERVICE_CONFIG_PARAMETER_NAME_config_name`. **]**
@@ -241,6 +248,8 @@ Each getter function returns the value read from the config. The integer values 
 **SRS_SF_SERVICE_CONFIG_42_044: [** If `handle` is `NULL` then `SF_SERVICE_CONFIG_GETTER(name, field_name)` shall fail and return... **]**
 
  -  **SRS_SF_SERVICE_CONFIG_42_045: [** ...`false` if the type is `bool` **]**
+
+ -  **SRS_SF_SERVICE_CONFIG_01_004: [** ...`UINT8_MAX` if the type is `uint8_t` **]**
 
  -  **SRS_SF_SERVICE_CONFIG_42_046: [** ...`UINT32_MAX` if the type is `uint32_t` **]**
 
