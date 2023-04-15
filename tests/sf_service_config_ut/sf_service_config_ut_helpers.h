@@ -156,6 +156,7 @@
             result = MU_FAILURE; \
             ASSERT_FAIL("Unexpected missing parameter_name"); \
         } \
+        else if (0) {} /* This is here to fool the compiler that there would be another branch that would not end up in an assert fail - without this, if no 'type' parameters exist the compiler thinks the return statement cannot be reached */ \
         SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2(MU_C2(TEST_SF_SERVICE_CONFIG_DO_ASSIGN_IF_MATCH_, type), SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__)) \
         else \
         { \
