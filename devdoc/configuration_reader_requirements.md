@@ -13,6 +13,8 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint32_t, IFabric
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint64_t*, value)(0, MU_FAILURE);
 
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_double, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, double*, value)(0, MU_FAILURE);
+
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_char_string, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, char**, value)(0, MU_FAILURE);
 
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_thandle_rc_string, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, THANDLE(RC_STRING)*, value)(0, MU_FAILURE);
@@ -52,7 +54,7 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint8_t, IFabricC
 
 **SRS_CONFIGURATION_READER_01_011: [** `configuration_reader_get_uint8_t` shall succeed and return 0. **]**
 
-### configuration_reader_get_uint8_t
+### configuration_reader_get_uint32_t
 
 ```c
 MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint32_t, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, uint32_t*, value)(0, MU_FAILURE);
@@ -111,6 +113,36 @@ MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_uint64_t, IFabric
 **SRS_CONFIGURATION_READER_42_010: [** If there are any other failures then `configuration_reader_get_uint64_t` shall fail and return a non-zero value. **]**
 
 **SRS_CONFIGURATION_READER_42_011: [** `configuration_reader_get_uint64_t` shall succeed and return 0. **]**
+
+### configuration_reader_get_double
+
+```c
+MOCKABLE_FUNCTION_WITH_RETURNS(, int, configuration_reader_get_double, IFabricCodePackageActivationContext*, activation_context, const wchar_t*, config_package_name, const wchar_t*, section_name, const wchar_t*, parameter_name, double*, value)(0, MU_FAILURE);
+```
+
+`configuration_reader_get_double` reads a configuration value from the code package and returns it as `double`.
+
+**SRS_CONFIGURATION_READER_22_001: [** If `activation_context` is `NULL` then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_002: [** If `config_package_name` is `NULL` or empty then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_003: [** If `section_name` is `NULL` or empty then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_004: [** If `parameter_name` is `NULL` or empty then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_005: [** If `value` is `NULL` then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_006: [** `configuration_reader_get_double` shall call the `GetConfigurationPackage` function on `activation_context` with `config_package_name`. **]**
+
+**SRS_CONFIGURATION_READER_22_007: [** `configuration_reader_get_double` shall call `GetValue` on the configuration package with `section_name` and `parameter_name`. **]**
+
+**SRS_CONFIGURATION_READER_22_008: [** `configuration_reader_get_double` shall convert the value to `double` and store it in `value`. **]**
+
+**SRS_CONFIGURATION_READER_22_009: [** If the value is outside the range of representable values then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_010: [** If there are any other failures then `configuration_reader_get_double` shall fail and return a non-zero value. **]**
+
+**SRS_CONFIGURATION_READER_22_011: [** `configuration_reader_get_double` shall succeed and return 0. **]**
 
 ### configuration_reader_get_char_string
 

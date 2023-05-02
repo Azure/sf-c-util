@@ -8,6 +8,7 @@
 #ifdef __cplusplus
 #include <cinttypes>
 #else
+#include <float.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -36,6 +37,7 @@ extern "C" {
 /*
 Currently supports the following types:
    bool
+   double
    uint8_t
    uint32_t
    uint64_t
@@ -198,6 +200,30 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         else \
         { \
             LogVerbose("Config loaded: %ls = %" PRI_BOOL, parameter_string, MU_BOOL_VALUE(result_value)); \
+        } \
+    }
+
+/*Codes_SRS_SF_SERVICE_CONFIG_22_001: [ If the type is double then: ]*/
+#define SF_SERVICE_CONFIG_DO_READ_double(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
+    if (!error_occurred_flag) \
+    { \
+        /*Codes_SRS_SF_SERVICE_CONFIG_22_002: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_double with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/ \
+        if (configuration_reader_get_double(config->activation_context, config->sf_config_name_string, config->sf_parameters_section_name_string, parameter_string, &result_value) != 0) \
+        { \
+            /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+            LogError("configuration_reader_get_double (\"%ls\", \"%ls\", \"%ls\") failed", \
+                config->sf_config_name_string, config->sf_parameters_section_name_string, parameter_string); \
+            error_occurred_flag = true; \
+        } \
+        else if (result_value == DBL_MAX) \
+        { \
+            /*Codes_SRS_SF_SERVICE_CONFIG_22_003: [ If the result is DBL_MAX then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+            LogError("Invalid %ls=%lf", parameter_string, result_value); \
+            error_occurred_flag = true; \
+        } \
+        else \
+        { \
+            LogVerbose("Config loaded: %ls = %lf", parameter_string, result_value); \
         } \
     }
 
@@ -436,6 +462,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 // Getters
 
 #define SF_SERVICE_CONFIG_RETURN_TYPE__Bool bool
+#define SF_SERVICE_CONFIG_RETURN_TYPE_double double
 #define SF_SERVICE_CONFIG_RETURN_TYPE_uint8_t uint8_t
 #define SF_SERVICE_CONFIG_RETURN_TYPE_uint32_t uint32_t
 #define SF_SERVICE_CONFIG_RETURN_TYPE_uint64_t uint64_t
@@ -446,6 +473,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_RETURN_TYPE(type) MU_C2A(SF_SERVICE_CONFIG_RETURN_TYPE_, type)
 
 #define SF_SERVICE_CONFIG_INIT_RETURN__Bool
+#define SF_SERVICE_CONFIG_INIT_RETURN_double
 #define SF_SERVICE_CONFIG_INIT_RETURN_uint8_t
 #define SF_SERVICE_CONFIG_INIT_RETURN_uint32_t
 #define SF_SERVICE_CONFIG_INIT_RETURN_uint64_t
@@ -457,6 +485,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_045: [ ...false if the type is bool ]*/
 #define SF_SERVICE_CONFIG_GETTER_ERROR__Bool false
+/*Codes_SRS_SF_SERVICE_CONFIG_22_004: [ ...DBL_MAX if the type is double ]*/
+#define SF_SERVICE_CONFIG_GETTER_ERROR_double DBL_MAX
 /*Codes_SRS_SF_SERVICE_CONFIG_01_004: [ ...UINT8_MAX if the type is uint8_t ]*/
 #define SF_SERVICE_CONFIG_GETTER_ERROR_uint8_t UINT8_MAX
 /*Codes_SRS_SF_SERVICE_CONFIG_42_046: [ ...UINT32_MAX if the type is uint32_t ]*/
@@ -471,6 +501,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_GETTER_ERROR(type) MU_C2(SF_SERVICE_CONFIG_GETTER_ERROR_, type)
 
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN__Bool(lval, rval) lval = rval
+#define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_double(lval, rval) lval = rval
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_uint8_t(lval, rval) lval = rval
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_uint32_t(lval, rval) lval = rval
 #define SF_SERVICE_CONFIG_GETTER_DO_ASSIGN_uint64_t(lval, rval) lval = rval

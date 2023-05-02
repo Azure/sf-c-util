@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <wchar.h>
+#include <corecrt_math.h>
 
 #include "windows.h"
 
@@ -31,6 +32,7 @@ static int get_string_value_from_package(IFabricCodePackageActivationContext* ac
     /*Codes_SRS_CONFIGURATION_READER_01_006: [ configuration_reader_get_uint8_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_017: [ configuration_reader_get_uint32_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_006: [ configuration_reader_get_uint64_t shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
+    /*Codes_SRS_CONFIGURATION_READER_22_006: [ configuration_reader_get_double shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_028: [ configuration_reader_get_char_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_038: [ configuration_reader_get_wchar_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
     /*Codes_SRS_CONFIGURATION_READER_42_048: [ configuration_reader_get_thandle_rc_string shall call the GetConfigurationPackage function on activation_context with config_package_name. ]*/
@@ -40,6 +42,7 @@ static int get_string_value_from_package(IFabricCodePackageActivationContext* ac
         /*Codes_SRS_CONFIGURATION_READER_01_010: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_010: [ If there are any other failures then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
+        /*Codes_SRS_CONFIGURATION_READER_22_010: [ If there are any other failures then configuration_reader_get_double shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_031: [ If there are any other failures then configuration_reader_get_char_string shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_041: [ If there are any other failures then configuration_reader_get_wchar_string shall fail and return a non-zero value. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_052: [ If there are any other failures then configuration_reader_get_thandle_rc_string shall fail and return a non-zero value. ]*/
@@ -52,6 +55,7 @@ static int get_string_value_from_package(IFabricCodePackageActivationContext* ac
         /*Codes_SRS_CONFIGURATION_READER_01_007: [ configuration_reader_get_uint8_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_018: [ configuration_reader_get_uint32_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_007: [ configuration_reader_get_uint64_t shall call GetValue on the configuration package with section_name and parameter_name. ]*/
+        /*Codes_SRS_CONFIGURATION_READER_22_007: [ configuration_reader_get_double shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_029: [ configuration_reader_get_char_string shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_039: [ configuration_reader_get_wchar_string shall call GetValue on the configuration package with section_name and parameter_name. ]*/
         /*Codes_SRS_CONFIGURATION_READER_42_049: [ configuration_reader_get_thandle_rc_string shall call GetValue on the configuration package with section_name and parameter_name. ]*/
@@ -61,6 +65,7 @@ static int get_string_value_from_package(IFabricCodePackageActivationContext* ac
             /*Codes_SRS_CONFIGURATION_READER_01_010: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_010: [ If there are any other failures then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
+            /*Codes_SRS_CONFIGURATION_READER_22_010: [ If there are any other failures then configuration_reader_get_double shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_031: [ If there are any other failures then configuration_reader_get_char_string shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_041: [ If there are any other failures then configuration_reader_get_wchar_string shall fail and return a non-zero value. ]*/
             /*Codes_SRS_CONFIGURATION_READER_42_052: [ If there are any other failures then configuration_reader_get_thandle_rc_string shall fail and return a non-zero value. ]*/
@@ -278,6 +283,71 @@ int configuration_reader_get_uint64_t(IFabricCodePackageActivationContext* activ
                 else
                 {
                     /*Codes_SRS_CONFIGURATION_READER_42_011: [ configuration_reader_get_uint64_t shall succeed and return 0. ]*/
+                    *value = temp;
+                    result = 0;
+                }
+            }
+            (void)fabric_configuration_package->lpVtbl->Release(fabric_configuration_package);
+        }
+    }
+
+    return result;
+}
+
+int configuration_reader_get_double(IFabricCodePackageActivationContext* activation_context, const wchar_t* config_package_name, const wchar_t* section_name, const wchar_t* parameter_name, double* value)
+{
+    int result;
+
+    if (
+        /*Codes_SRS_CONFIGURATION_READER_22_001: [ If activation_context is NULL then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+        activation_context == NULL ||
+        /*Codes_SRS_CONFIGURATION_READER_22_002: [ If config_package_name is NULL or empty then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+        (config_package_name == NULL || config_package_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_22_003: [ If section_name is NULL or empty then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+        (section_name == NULL || section_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_22_004: [ If parameter_name is NULL or empty then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+        (parameter_name == NULL || parameter_name[0] == L'\0') ||
+        /*Codes_SRS_CONFIGURATION_READER_22_005: [ If value is NULL then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+        (value == NULL)
+        )
+    {
+        LogError("Invalid args: IFabricCodePackageActivationContext* activation_context = %p, const wchar_t* config_package_name = %ls, const wchar_t* section_name = %ls, const wchar_t* parameter_name = %ls, double* value = %p",
+            activation_context, MU_WP_OR_NULL(config_package_name), MU_WP_OR_NULL(section_name), MU_WP_OR_NULL(parameter_name), value);
+        result = MU_FAILURE;
+    }
+    else
+    {
+        IFabricConfigurationPackage* fabric_configuration_package;
+        const wchar_t* wchar_value;
+        if (get_string_value_from_package(activation_context, config_package_name, section_name, parameter_name, &fabric_configuration_package, &wchar_value) != 0)
+        {
+            // already logged error
+            result = MU_FAILURE;
+        }
+        else
+        {
+            /*Codes_SRS_CONFIGURATION_READER_22_008: [ configuration_reader_get_double shall convert the value to double and store it in value. ]*/
+            wchar_t* end_ptr;
+            double temp = wcstod(wchar_value, &end_ptr);
+            if (end_ptr == wchar_value)
+            {
+                /*Codes_SRS_CONFIGURATION_READER_22_010: [ If there are any other failures then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+                LogError("failure in wcstod(%ls): subject sequence is empty or does not have the expected form (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                    wchar_value, config_package_name, section_name, parameter_name);
+                result = MU_FAILURE;
+            }
+            else
+            {
+                if (((temp == HUGE_VAL) || (temp == -HUGE_VAL)) && (errno == ERANGE))
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_22_009: [ If the value is outside the range of representable values then configuration_reader_get_double shall fail and return a non-zero value. ]*/
+                    LogError("HUGE_VAL was returned for wcstod(%ls), indicating the correct value is outside the range of representable values (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
+                        wchar_value, config_package_name, section_name, parameter_name);
+                    result = MU_FAILURE;
+                }
+                else
+                {
+                    /*Codes_SRS_CONFIGURATION_READER_22_011: [ configuration_reader_get_double shall succeed and return 0. ]*/
                     *value = temp;
                     result = 0;
                 }
