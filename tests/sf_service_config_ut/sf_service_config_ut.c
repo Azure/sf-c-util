@@ -78,6 +78,7 @@ TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_p
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_2 L"Parameter2"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_3 L"Parameter3WithLongerName"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_4 L"Parameter4"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_parameter_5 L"Parameter5"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_some_flag L"SomeFlag"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option_in_thandle L"StringOptionThandle"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option L"MyString"
@@ -92,6 +93,7 @@ TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_p
     CONFIG_REQUIRED(uint64_t, mocked_parameter_2), \
     CONFIG_REQUIRED(uint32_t, mocked_parameter_3), \
     CONFIG_REQUIRED(uint8_t, mocked_parameter_4), \
+    CONFIG_REQUIRED(double, mocked_parameter_5), \
     CONFIG_REQUIRED(bool, mocked_some_flag), \
     CONFIG_REQUIRED(thandle_rc_string, mocked_string_option_in_thandle), \
     CONFIG_REQUIRED(char_ptr, mocked_string_option), \
@@ -301,6 +303,23 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_fails_when_underlying_functions_fail)
             ASSERT_IS_NULL(result, "On failed call %zu", i);
         }
     }
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_22_001: [ If the type is double then: ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_22_002: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_double with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_22_003: [ If the result is DBL_MAX then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_fails_when_double_value_is_DBL_MAX)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(parameter_5) = DBL_MAX;
+    TEST_SF_SERVICE_CONFIG_EXPECT_READ_UP_TO(my_config)(TEST_SF_SERVICE_CONFIG_INDEX_OF_CONFIG(my_config, parameter_5));
+
+    // act
+    THANDLE(SF_SERVICE_CONFIG(my_config)) result = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+
+    // assert
+    ASSERT_IS_NULL(result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
 /*Tests_SRS_SF_SERVICE_CONFIG_01_001: [ If the type is uint8_t then: ]*/
@@ -595,6 +614,26 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_bool_with_NULL_handle_returns_false)
 
     // assert
     ASSERT_IS_FALSE(result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_42_044: [ If handle is NULL then SF_SERVICE_CONFIG_GETTER(name, field_name) shall fail and return... ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_22_004: [ ...DBL_MAX if the type is double ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_double_with_NULL_handle_returns_DBL_MAX)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+    ASSERT_IS_NOT_NULL(config);
+
+    // act
+    double result = SF_SERVICE_CONFIG_GETTER(my_config, parameter_5)(NULL);
+
+    // assert
+    ASSERT_ARE_EQUAL(double, DBL_MAX, result);
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     // cleanup
