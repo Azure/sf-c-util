@@ -21,7 +21,7 @@ void same_as_free(void* ptr)
 }
 
 #include "macro_utils/macro_utils.h"
-#include "c_logging/xlogging.h"
+#include "c_logging/logger.h"
 
 #include "sf_c_util/servicefabric_enums_to_strings.h"
 
