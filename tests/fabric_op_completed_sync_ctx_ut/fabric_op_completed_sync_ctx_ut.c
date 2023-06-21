@@ -22,7 +22,7 @@ static void my_gballoc_free(void* ptr)
 #include "umock_c/umock_c_negative_tests.h"
 #include "umock_c/umocktypes.h"
 #include "umock_c/umocktypes_stdint.h"
-#include "c_logging/xlogging.h"
+#include "c_logging/logger.h"
 
 
 #include "fabriccommon.h"
