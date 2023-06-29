@@ -55,7 +55,7 @@ endif()
 
 if ((NOT TARGET c_logging) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/c-logging/CMakeLists.txt))
     add_subdirectory(deps/c-logging)
-    include_directories(deps/c-logging/inc)
+    include_directories(deps/c-logging/v2/inc)
 endif()
 
 if ((NOT TARGET ctest) AND (EXISTS ${CMAKE_CURRENT_LIST_DIR}/deps/ctest/CMakeLists.txt))
@@ -164,7 +164,7 @@ SOURCE_GROUP(devdoc FILES ${sf_c_util_md_files})
 
 add_library(sf_c_util ${sf_c_util_h_files} ${sf_c_util_c_files} ${sf_c_util_md_files})
 target_include_directories(sf_c_util PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inc)
-target_link_libraries(sf_c_util c_logging c_pal com_wrapper c_util)
+target_link_libraries(sf_c_util c_logging_v2 c_pal com_wrapper c_util)
 
 add_subdirectory(sfwrapper)
 add_subdirectory(tests)

@@ -18,7 +18,7 @@
 #include "windows.h"
 #include "fabricruntime.h"
 
-#include "c_logging/xlogging.h"
+#include "c_logging/logger.h"
 
 #include "c_util/rc_string.h"
 #include "c_pal/thandle.h"
