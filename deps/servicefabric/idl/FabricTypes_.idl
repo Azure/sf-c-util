@@ -278,7 +278,9 @@ library FabricType_Lib
 
         FABRIC_QUERY_RESULT_ITEM_KIND_LOADED_PARTITION_INFORMATION = 0x0039,
 
-        FABRIC_QUERY_RESULT_ITEM_KIND_UPDATE_PARTITION_MOVE_COST = 0x003A
+        FABRIC_QUERY_RESULT_ITEM_KIND_UPDATE_PARTITION_MOVE_COST = 0x003A,
+
+        FABRIC_QUERY_RESULT_ITEM_KIND_AUTHORIZED_CONNECTION = 0x003B
     } FABRIC_QUERY_RESULT_ITEM_KIND;
 
     [v1_enum, uuid(6ea7bfcc-16fc-4fbf-9b66-046cb0a02656)]
@@ -1692,6 +1694,12 @@ library FabricType_Lib
         void * Reserved;
     } FABRIC_PROCESS_DESCRIPTION_EX1;
 
+    typedef struct FABRIC_PROCESS_DESCRIPTION_EX2
+    {
+        BOOLEAN ArgumentsBase64Encoded;
+        void* Reserved;
+    } FABRIC_PROCESS_DESCRIPTION_EX2;
+
     typedef struct FABRIC_CONTAINER_IMAGE_DESCRIPTION
     {
         LPCWSTR ImageName;
@@ -1925,6 +1933,38 @@ library FabricType_Lib
         LPCWSTR ContinuationToken;
         void * Reserved;
     } FABRIC_GATEWAY_RESOURCE_QUERY_RESULT;
+
+    //--------------------------------
+    // Resource Orchestrator Service
+    //--------------------------------
+
+    [v1_enum, uuid(90378bc8-3ce0-4782-a59d-ce5da0416a80)]
+    typedef enum FABRIC_AUTHORIZED_CONNECTION_KEYTYPE
+    {
+        FABRIC_AUTHORIZED_CONNECTION_INVALID = 0x0000,
+
+        FABRIC_AUTHORIZED_CONNECTION_BASE64_DER_CERTIFICATE = 0x0001,
+
+    } FABRIC_AUTHORIZED_CONNECTION_KEYTYPE;
+
+    typedef struct FABRIC_AUTHORIZED_CONNECTION_REQUEST
+    {
+        LPCWSTR ClientPublicKey;
+        LPCWSTR ClientAddress;
+        ULONG ClientPort;
+        FABRIC_AUTHORIZED_CONNECTION_KEYTYPE KeyType;
+        void * Reserved;
+    } FABRIC_AUTHORIZED_CONNECTION_REQUEST;
+
+    typedef struct FABRIC_AUTHORIZED_CONNECTION_RESULT
+    {
+        LPCWSTR ServerPublicKey;
+        LPCWSTR ServerAddress;
+        ULONG ServerPort;
+        GUID AuthorizedConnectionIdentifier;
+        FABRIC_AUTHORIZED_CONNECTION_KEYTYPE KeyType;
+        void * Reserved;
+    } FABRIC_AUTHORIZED_CONNECTION_RESULT;
 
     #pragma pack (pop)
 }
