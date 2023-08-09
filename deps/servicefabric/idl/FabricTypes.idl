@@ -364,7 +364,7 @@ library FabricTypeLib
 
         // IMPORTANT NOTE: NTSTATUS in \src\prod\src\data\statuscodes\SfStatus.mc must match with the Error Codes defined here.
         // If you are adding a new error code, make sure to also add it in SfStatus.mc.
-        // For more information see https://azurewiki.cloudapp.net/ServiceFabric/Native_Replicator_Stack "How to Add A New NTStatus".
+        // For more information see https://dev.azure.com/msazure/ServiceFabric/_wiki/wikis/SF-Wiki/90071/Native-Replicator-Stack.md?anchor=how-to-add-a-new-ntstatus%3F "How to Add A New NTStatus".
         FABRIC_E_LAST_USED_HRESULT = FABRIC_E_ENDPOINT_NOT_REFERENCED,
 
         FABRIC_E_FACILITY_SF_FIRST_HRESULT = 0x87b00000,
@@ -390,10 +390,16 @@ library FabricTypeLib
 
         FABRIC_E_RUN_TO_COMPLETION_INCOMPATIBLE_WITH_SHARED_PROCESS = FABRIC_E_AUXILIARY_FEATURE_DISABLED + 1,
 
+        FABRIC_E_VERSION_STORE_OUT_OF_MEMORY = FABRIC_E_RUN_TO_COMPLETION_INCOMPATIBLE_WITH_SHARED_PROCESS + 1,
+
+        FABRIC_E_BACKUP_NOT_FOUND = FABRIC_E_VERSION_STORE_OUT_OF_MEMORY + 1,
+
+        FABRIC_E_SKIP_RESTORE_OPERATION = FABRIC_E_BACKUP_NOT_FOUND + 1,
+
         // IMPORTANT NOTE: NTSTATUS in \src\prod\src\data\statuscodes\SfStatus.mc must match with the Error Codes defined here.
         // If you are adding a new error code, make sure to also add it in SfStatus.mc.
-        // For more information see https://azurewiki.cloudapp.net/ServiceFabric/Native_Replicator_Stack "How to Add A New NTStatus".
-        FABRIC_E_LAST_USED_FACILITY_SF_HRESULT = FABRIC_E_RUN_TO_COMPLETION_INCOMPATIBLE_WITH_SHARED_PROCESS,
+        // For more information see https://dev.azure.com/msazure/ServiceFabric/_wiki/wikis/SF-Wiki/90071/Native-Replicator-Stack.md?anchor=how-to-add-a-new-ntstatus%3F "How to Add A New NTStatus".
+        FABRIC_E_LAST_USED_FACILITY_SF_HRESULT = FABRIC_E_SKIP_RESTORE_OPERATION,
 
         FABRIC_E_FACILITY_SF_LAST_HRESULT = 0x87b0ffff
 
@@ -4329,6 +4335,12 @@ library FabricTypeLib
         void * Reserved;
 
     } FABRIC_ESE_LOCAL_STORE_SETTINGS_EX8;
+
+    typedef struct FABRIC_ESE_LOCAL_STORE_SETTINGS_EX9
+    {
+        int FreePageSizeThresholdInPercent;
+        void* Reserved;
+    } FABRIC_ESE_LOCAL_STORE_SETTINGS_EX9;
 
     typedef struct FABRIC_NODE_CONTEXT
     {
