@@ -5,17 +5,6 @@
 
 #include "macro_utils/macro_utils.h"
 
-#include "real_gballoc_ll.h"
-static void* my_gballoc_malloc(size_t size)
-{
-    return real_gballoc_ll_malloc(size);
-}
-
-static void my_gballoc_free(void* ptr)
-{
-     real_gballoc_ll_free(ptr);
-}
-
 #include "testrunnerswitcher.h"
 #include "umock_c/umock_c.h"
 #include "umock_c/umocktypes.h"
@@ -56,8 +45,7 @@ TEST_SUITE_INITIALIZE(suite_init)
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error), "umock_c_init");
 
-    REGISTER_GLOBAL_MOCK_HOOK(malloc, my_gballoc_malloc);
-    REGISTER_GLOBAL_MOCK_HOOK(free, my_gballoc_free);
+    REGISTER_GBALLOC_HL_GLOBAL_MOCK_HOOK();
 }
 
 TEST_SUITE_CLEANUP(suite_cleanup)

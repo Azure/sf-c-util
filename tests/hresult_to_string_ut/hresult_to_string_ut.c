@@ -5,17 +5,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "real_gballoc_ll.h"
-static void* my_gballoc_malloc(size_t size)
-{
-    return real_gballoc_ll_malloc(size);
-}
-
-static void my_gballoc_free(void* ptr)
-{
-     real_gballoc_ll_free(ptr);
-}
-
 #include "macro_utils/macro_utils.h"
 #include "testrunnerswitcher.h"
 #include "umock_c/umock_c.h"
@@ -128,8 +117,7 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_UMOCK_ALIAS_TYPE(LPWSTR, wchar_t*);
     REGISTER_UMOCK_ALIAS_TYPE(BOOL, int);
 
-    REGISTER_GLOBAL_MOCK_HOOK(malloc, my_gballoc_malloc);
-    REGISTER_GLOBAL_MOCK_HOOK(free, my_gballoc_free);
+    REGISTER_GBALLOC_HL_GLOBAL_MOCK_HOOK();
 }
 
 TEST_SUITE_CLEANUP(suite_cleanup)
@@ -195,7 +183,7 @@ TEST_FUNCTION(hresult_to_string_succeeds_from_system)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     ///cleanup
-    my_gballoc_free(humanReadable);
+    gballoc_hl_free(humanReadable);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_008: [ If there are any failures then hresult_to_string shall return NULL. ]*/
@@ -238,7 +226,7 @@ TEST_FUNCTION(hresult_to_string_succeeds_from_service_fabric)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     ///cleanup
-    my_gballoc_free(humanReadable);
+    gballoc_hl_free(humanReadable);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_005: [ If no Service Fabric codes match hresult then hresult_to_string shall look in all the loaded modules by the current process. ]*/
@@ -289,7 +277,7 @@ TEST_FUNCTION(hresult_to_string_succeeds_from_module_succeeds)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     ///cleanup
-    my_gballoc_free(humanReadable);
+    real_gballoc_hl_free(humanReadable);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_007: [ Otherwise NULL shall be returned. ]*/
@@ -447,7 +435,7 @@ TEST_FUNCTION(hresult_to_wstring_succeeds_from_system)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     ///cleanup
-    my_gballoc_free(humanReadable);
+    real_gballoc_hl_free(humanReadable);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_016: [ If there are any failures then hresult_to_wstring shall return NULL. ]*/
@@ -490,7 +478,7 @@ TEST_FUNCTION(hresult_to_wstring_succeeds_from_service_fabric)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     ///cleanup
-    my_gballoc_free(humanReadable);
+    real_gballoc_hl_free(humanReadable);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_013: [ If no Service Fabric codes match hresult then hresult_to_wstring shall look in all the loaded modules by the current process. ]*/
@@ -541,7 +529,7 @@ TEST_FUNCTION(hresult_to_wstring_succeeds_from_module_succeeds)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     ///cleanup
-    my_gballoc_free(humanReadable);
+    real_gballoc_hl_free(humanReadable);
 }
 
 /*Tests_SRS_HRESULT_TO_STRING_02_015: [ Otherwise NULL shall be returned. ]*/

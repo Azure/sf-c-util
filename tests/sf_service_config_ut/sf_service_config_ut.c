@@ -10,17 +10,6 @@
 
 #include "macro_utils/macro_utils.h"
 
-#include "real_gballoc_ll.h"
-static void* my_gballoc_malloc(size_t size)
-{
-    return real_gballoc_ll_malloc(size);
-}
-
-static void my_gballoc_free(void* ptr)
-{
-    real_gballoc_ll_free(ptr);
-}
-
 #include "testrunnerswitcher.h"
 #include "umock_c/umock_c.h"
 #include "umock_c/umocktypes.h"
@@ -131,12 +120,10 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_STRING_UTILS_GLOBAL_MOCK_HOOK();
     REGISTER_GBALLOC_HL_GLOBAL_MOCK_HOOK();
 
-    REGISTER_GLOBAL_MOCK_HOOK(malloc, my_gballoc_malloc);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(malloc_flex, NULL);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(realloc, NULL);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(realloc_2, NULL);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(realloc_flex, NULL);
-    REGISTER_GLOBAL_MOCK_HOOK(free, my_gballoc_free);
 
     REGISTER_UMOCK_ALIAS_TYPE(THANDLE(SF_SERVICE_CONFIG(my_mocked_config)), void*);
     TEST_SF_SERVICE_CONFIG_HOOK_CONFIGURATION_READER(my_config)

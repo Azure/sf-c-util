@@ -14,10 +14,12 @@
 
 #include "macro_utils/macro_utils.h"
 
-#include "c_util/rc_string.h"
 #include "c_pal/thandle.h"
-
 #include "c_pal/string_utils.h"
+
+#include "real_gballoc_hl.h"
+
+#include "c_util/rc_string.h"
 
 #include "sf_c_util/configuration_reader.h"
 
@@ -183,7 +185,7 @@
         if (TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(name) != NULL) \
         { \
             size_t len = strlen(TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(name)); \
-            *value = (char*)my_gballoc_malloc(len + 1); \
+            *value = (char*)real_gballoc_hl_malloc(len + 1); \
             ASSERT_IS_NOT_NULL(*value); \
             (void)strcpy(*value, TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(name)); \
         } \
@@ -204,7 +206,7 @@
         if (TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(name) != NULL) \
         { \
             size_t len = wcslen(TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(name)); \
-            *value = (wchar_t*)my_gballoc_malloc((len + 1) * sizeof(wchar_t)); \
+            *value = (wchar_t*)real_gballoc_hl_malloc((len + 1) * sizeof(wchar_t)); \
             ASSERT_IS_NOT_NULL(*value); \
             (void)wcscpy(*value, TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(name)); \
         } \
