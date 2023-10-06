@@ -10,17 +10,6 @@
 
 #include "macro_utils/macro_utils.h"
 
-#include "real_gballoc_ll.h"
-static void* my_gballoc_malloc(size_t size)
-{
-    return real_gballoc_ll_malloc(size);
-}
-
-static void my_gballoc_free(void* ptr)
-{
-     real_gballoc_ll_free(ptr);
-}
-
 #include "testrunnerswitcher.h"
 #include "umock_c/umock_c.h"
 #include "umock_c/umocktypes.h"
@@ -110,8 +99,7 @@ TEST_SUITE_INITIALIZE(suite_init)
     ASSERT_ARE_EQUAL(int, 0, umocktypes_stdint_register_types(), "umocktypes_stdint_register_types");
     ASSERT_ARE_EQUAL(int, 0, umocktypes_windows_register_types(), "umocktypes_windows_register_types");
 
-    REGISTER_GLOBAL_MOCK_HOOK(malloc, my_gballoc_malloc);
-    REGISTER_GLOBAL_MOCK_HOOK(free, my_gballoc_free);
+    REGISTER_GBALLOC_HL_GLOBAL_MOCK_HOOK();
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(malloc, NULL);
     REGISTER_GLOBAL_MOCK_RETURNS(fabric_async_op_cb_create, test_fabric_async_op_cb, NULL);
     REGISTER_GLOBAL_MOCK_RETURN(TEST_ASYNC_OPERATION_CONTEXT_HANDLE_IFabricAsyncOperationContext_test_async_operation_context_CompletedSynchronously, TRUE);
