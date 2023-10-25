@@ -184,7 +184,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_is_mockable)
     ASSERT_ARE_EQUAL(uint64_t, 42, result);
 }
 
-/*Tests_SRS_SF_SERVICE_CONFIG_42_001: [ DECLARE_SF_SERVICE_CONFIG shall generate a THANDLE declaration of type SF_SERVICE_CONFIG(name). ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_42_001: [ DECLARE_SF_SERVICE_CONFIG_HANDLE shall generate a THANDLE declaration of type SF_SERVICE_CONFIG(name). ]*/
 static THANDLE(my_config_CONFIGURATION) my_config_CONFIGURATION_has_THANDLE = NULL;
 
 // Tested implicitly in the cases below
@@ -233,7 +233,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_activation_context_fails)
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
-/*Tests_SRS_SF_SERVICE_CONFIG_42_002: [ DECLARE_SF_SERVICE_CONFIG shall generate a mockable create function SF_SERVICE_CONFIG_CREATE(name) which takes an IFabricCodePackageActivationContext* and produces the THANDLE. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_42_002: [ DECLARE_SF_SERVICE_CONFIG_GETTERS shall generate a mockable create function SF_SERVICE_CONFIG_CREATE(name) which takes an IFabricCodePackageActivationContext* and produces the THANDLE. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_42_010: [ SF_SERVICE_CONFIG_CREATE(name) shall allocate the THANDLE(SF_SERVICE_CONFIG(name)) with MU_C2A(SF_SERVICE_CONFIG(name), _dispose) as the dispose function. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_42_011: [ SF_SERVICE_CONFIG_CREATE(name) shall call AddRef and store the activation_context. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_42_012: [ SF_SERVICE_CONFIG_CREATE(name) shall store the sf_config_name and sf_parameters_section_name. ]*/
@@ -749,7 +749,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_thandle_rc_string_with_NULL_handle_re
     THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
 }
 
-/*Tests_SRS_SF_SERVICE_CONFIG_42_003: [ DECLARE_SF_SERVICE_CONFIG shall generate mockable getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_42_003: [ DECLARE_SF_SERVICE_CONFIG_GETTERS shall generate mockable getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_42_050: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall return the configuration value for field_name. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_bool_with_true_value_returns_true)
 {
