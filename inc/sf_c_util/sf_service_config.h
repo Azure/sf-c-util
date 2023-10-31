@@ -83,16 +83,24 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Define configuration (for .c file)
 
-#define DEFINE_SF_SERVICE_CONFIG(name, sf_config_name, sf_parameters_section_name, ...) \
+#define DEFINE_SF_SERVICE_CONFIG_HANDLE(name, sf_config_name, sf_parameters_section_name, ...) \
     /*Codes_SRS_SF_SERVICE_CONFIG_42_004: [ DEFINE_SF_SERVICE_CONFIG shall generate the SF_SERVICE_CONFIG(name) struct. ]*/ \
-    DEFINE_SF_SERVICE_CONFIG_STRUCT(SF_SERVICE_CONFIG(name), sf_config_name, sf_parameters_section_name, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__)); \
+    DEFINE_SF_SERVICE_CONFIG_STRUCT(SF_SERVICE_CONFIG(name), sf_config_name, sf_parameters_section_name, __VA_ARGS__); \
     THANDLE_TYPE_DEFINE(SF_SERVICE_CONFIG(name)); \
     DEFINE_SF_SERVICE_CONFIG_DISPOSE(name, __VA_ARGS__) \
     /*Codes_SRS_SF_SERVICE_CONFIG_42_005: [ DEFINE_SF_SERVICE_CONFIG shall generate the implementation of SF_SERVICE_CONFIG_CREATE(name). ]*/ \
-    SF_SERVICE_CONFIG_DEFINE_CREATE(name, sf_config_name, sf_parameters_section_name, __VA_ARGS__) \
+    SF_SERVICE_CONFIG_DEFINE_CREATE(name, sf_config_name, sf_parameters_section_name, __VA_ARGS__)
+
+// separated macro so that it can be used directly in order to allow more options to be declared/defined
+#define DEFINE_SF_SERVICE_CONFIG_GETTERS(name, ...) \
     /*Codes_SRS_SF_SERVICE_CONFIG_42_006: [ DECLARE_SF_SERVICE_CONFIG shall generate the implementation of the getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/ \
     SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(SF_SERVICE_CONFIG_DEFINE_GETTER, name, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
 
+// Define configuration (for .c file)
+
+#define DEFINE_SF_SERVICE_CONFIG(name, sf_config_name, sf_parameters_section_name, ...) \
+    DEFINE_SF_SERVICE_CONFIG_HANDLE(name, sf_config_name, sf_parameters_section_name,  __VA_ARGS__) \
+    DEFINE_SF_SERVICE_CONFIG_GETTERS(name, __VA_ARGS__)
 
 // Implementation details
 
@@ -143,6 +151,10 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Internal struct
 
+#define SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_OPTIONAL(field_type, field_name) field_type field_name;
+#define SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_REQUIRED(field_type, field_name) field_type field_name;
+#define SF_SERVICE_CONFIG_STRUCT_FIELD(field) MU_C2(SF_SERVICE_CONFIG_STRUCT_FIELD_, field)
+
 // Need extra layer of indirection so the SF_SERVICE_CONFIG_EXPAND_PARAMS() macro expands first
 #define DEFINE_SF_SERVICE_CONFIG_STRUCT(name, sf_config_name, sf_parameters_section_name, ...) \
     typedef struct MU_C2(name, _TAG) \
@@ -150,7 +162,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             IFabricCodePackageActivationContext* activation_context; \
             const wchar_t* sf_config_name_string; \
             const wchar_t* sf_parameters_section_name_string; \
-            MU_FOR_EACH_2(MU_DEFINE_STRUCT_FIELD, __VA_ARGS__) \
+            MU_FOR_EACH_1(SF_SERVICE_CONFIG_STRUCT_FIELD, __VA_ARGS__) \
         } name;
 
 // Type helpers
@@ -442,21 +454,29 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Cleanup
 
-#define SF_SERVICE_CONFIG_DO_CLEANUP_POINTER(handle, field_type, field_name) \
-    if (handle->field_name != NULL) \
+#define SF_SERVICE_CONFIG_DO_CLEANUP_POINTER(handle, field) \
+    if (handle->SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD(field) != NULL) \
     { \
-        SF_SERVICE_CONFIG_CLEANUP_FUNCTION(handle, field_type, field_name); \
+        SF_SERVICE_CONFIG_CLEANUP_FUNCTION(handle, SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD(field), SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD(field)); \
     }
 
-#define DO_CLEANUP_IF_NEEDED(handle, field_type, field_name) \
-    MU_IF(SF_SERVICE_CONFIG_MUST_CLEANUP_TYPE(field_type), SF_SERVICE_CONFIG_DO_CLEANUP_POINTER(handle, field_type, field_name), )
+#define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_OPTIONAL(field_type, field_name) field_type
+#define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_REQUIRED(field_type, field_name) field_type
+#define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD(field) MU_C2(SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_, field)
+
+#define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_OPTIONAL(field_type, field_name) field_name
+#define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_REQUIRED(field_type, field_name) field_name
+#define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD(field) MU_C2(SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_, field)
+
+#define DO_CLEANUP_IF_NEEDED(handle, field) \
+    MU_IF(SF_SERVICE_CONFIG_MUST_CLEANUP_TYPE(SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD(field)), SF_SERVICE_CONFIG_DO_CLEANUP_POINTER(handle, field), )
 
 #define DEFINE_SF_SERVICE_CONFIG_DISPOSE(name, ...) \
     static void MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(SF_SERVICE_CONFIG(name)* handle) \
     { \
         (void)handle; /*handle can be unused when none of the parameters need cleaning, that is: SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(DO_CLEANUP_IF_NEEDED, ... ) below expands to nothing*/ \
         /*Codes_SRS_SF_SERVICE_CONFIG_42_035: [ For each config value: ]*/ \
-        SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(DO_CLEANUP_IF_NEEDED, handle, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__)) \
+        MU_FOR_EACH_1_KEEP_1(DO_CLEANUP_IF_NEEDED, handle, __VA_ARGS__) \
     } \
     static void MU_C2A(SF_SERVICE_CONFIG(name), _dispose)(SF_SERVICE_CONFIG(name)* handle) \
     { \
