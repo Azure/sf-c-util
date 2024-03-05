@@ -129,6 +129,7 @@ set(sf_c_util_h_files
     inc/sf_c_util/fabric_string_list_result_com.h
     inc/sf_c_util/fc_erd_argc_argv.h
     inc/sf_c_util/fc_erdl_argc_argv.h
+    inc/sf_c_util/sf_config_to_strings.h
 )
 
 set(sf_c_util_c_files
@@ -154,6 +155,7 @@ set(sf_c_util_c_files
     src/fabric_string_list_result_com.c
     src/fc_erd_argc_argv.c
     src/fc_erdl_argc_argv.c
+    src/sf_config_to_strings.c
 )
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
