@@ -77,8 +77,6 @@ CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );
 
 RC_STRING_TEST_DECL(
-    test_offload_container_name_rc, "my-container-",
-    test_offload_container_name_full_rc, "my-container-abcdef12-4242-4343-0102-030405060708",
     test_code_path_rc, "c:/my/path/blah"
 )
 
@@ -93,29 +91,17 @@ static IFabricCodePackageActivationContextVtbl test_fabric_code_package_activati
 static IFabricCodePackage test_code_package;
 static IFabricCodePackageVtbl test_code_package_vtbl;
 
-static FABRIC_ENDPOINT_RESOURCE_DESCRIPTION test_block_storage_endpoint_resource_description;
-static FABRIC_ENDPOINT_RESOURCE_DESCRIPTION test_block_storage_backdoor_endpoint_resource_description;
-static FABRIC_ENDPOINT_RESOURCE_DESCRIPTION test_test_hook_endpoint_resource_description;
-
-static const wchar_t* test_block_storage_tcp_endpoint_name = L"BlockStorageTCPServerTypeEndpoint";
-static const wchar_t* test_block_storage_backdoor_tcp_endpoint_name = L"BlockStorageBackdoorTCPServerTypeEndpoint";
-static const wchar_t* test_hook_endpoint_name = L"BlockStorageTCPTestEndpoint";
-
 static const wchar_t* test_node_name_wchar = L"MyNode_1";
 static const char* test_node_name = "MyNode_1";
 
 static const wchar_t* test_code_path_wchar = L"c:/my/path/blah";
 static const char* test_code_path = "c:/my/path/blah";
 
-static const char* test_offload_container_name = "my-container-";
-
 static FABRIC_PARTITION_ID test_fabric_partition_id = { 0xABCDEF12, 0x4242, 0x4343, {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08} };
 static FABRIC_REPLICA_ID test_fabric_replica_id = 123457999;
 
 static const char* test_expected_partition_id = "abcdef12-4242-4343-0102-030405060708";
 static const char* test_expected_replica_id = "123457999";
-
-static const char* test_offload_container_name_full = "my-container-abcdef12-4242-4343-0102-030405060708";
 
 
 RPC_STATUS hook_UuidToStringA(
@@ -147,21 +133,6 @@ MOCK_FUNCTION_END(0);
 
 MOCK_FUNCTION_WITH_CODE(, HRESULT, test_GetCodePackage, IFabricCodePackageActivationContext*, This, LPCWSTR, codePackageName, IFabricCodePackage**, codePackage)
     *codePackage = &test_code_package;
-MOCK_FUNCTION_END(S_OK);
-
-MOCK_FUNCTION_WITH_CODE(, HRESULT, test_get_service_endpoint_resource, IFabricCodePackageActivationContext*, This, LPCWSTR, serviceEndpointResourceName, const FABRIC_ENDPOINT_RESOURCE_DESCRIPTION**, fabric_endpoint_resource)
-if (lstrcmpW(serviceEndpointResourceName, test_block_storage_tcp_endpoint_name) == 0)
-{
-    *fabric_endpoint_resource = &test_block_storage_endpoint_resource_description;
-}
-else if (lstrcmpW(serviceEndpointResourceName, test_block_storage_backdoor_tcp_endpoint_name) == 0)
-{
-    *fabric_endpoint_resource = &test_block_storage_backdoor_endpoint_resource_description;
-}
-else
-{
-    *fabric_endpoint_resource = &test_test_hook_endpoint_resource_description;
-}
 MOCK_FUNCTION_END(S_OK);
 
 MOCK_FUNCTION_WITH_CODE(, LPCWSTR, test_get_Path, IFabricCodePackage*, This)
@@ -226,7 +197,6 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(mocked_FabricGetNodeContext, E_FAIL);
 
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(test_GetCodePackage, E_FAIL);
-    REGISTER_GLOBAL_MOCK_FAIL_RETURN(test_get_service_endpoint_resource, E_FAIL);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(vsprintf_char, NULL);
 
     REGISTER_UMOCK_ALIAS_TYPE(va_list, void*);
@@ -246,10 +216,6 @@ TEST_SUITE_CLEANUP(suite_cleanup)
 
 TEST_FUNCTION_INITIALIZE(method_init)
 {
-    test_block_storage_endpoint_resource_description.Port = 666;
-    test_block_storage_backdoor_endpoint_resource_description.Port = 667;
-    test_test_hook_endpoint_resource_description.Port = 420;
-
     test_fabric_node_context_result.lpVtbl = &test_fabric_node_context_result_vtbl;
     test_fabric_node_context_result.lpVtbl->get_NodeContext = test_get_NodeContext;
     test_fabric_node_context_result.lpVtbl->Release = test_node_context_Release;
@@ -258,7 +224,7 @@ TEST_FUNCTION_INITIALIZE(method_init)
 
     test_fabric_code_package_activation_context.lpVtbl = &test_fabric_code_package_activation_context_vtbl;
     test_fabric_code_package_activation_context.lpVtbl->GetCodePackage = test_GetCodePackage;
-    test_fabric_code_package_activation_context.lpVtbl->GetServiceEndpointResource = test_get_service_endpoint_resource;
+    test_fabric_code_package_activation_context.lpVtbl->GetServiceEndpointResource = NULL;
 
 
     test_code_package.lpVtbl = &test_code_package_vtbl;
