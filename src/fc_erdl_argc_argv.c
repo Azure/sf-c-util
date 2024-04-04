@@ -46,7 +46,7 @@ int FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV(const FABRIC_ENDPOINT
             char** p_argv;
             if (FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV(fabric_endpoint_resource_description_list->Items + i, &p_argc, &p_argv) != 0)
             {
-                LogError("fairlure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV");
+                LogError("failure in FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_to_ARGC_ARGV");
                 wasError = true;
             }
             else
