@@ -81,3 +81,18 @@ wchar_t* hresult_to_wstring(HRESULT hresult);
 
 `LogHRESULTError` will behave as if `LogError(FORMAT, ...)` would have been called and it will append " HRESULT=<<human readable string>>" as obtained from `hresult_to_string`.
 
+### LogHRESULTInfo
+```c
+#define LogHRESULTInfo(hr, FORMAT, ...)
+```
+
+`LogHRESULTInfo` will behave as if `LogInfo(FORMAT, ...)` would have been called and it will append " HRESULT=<<human readable string>>" as obtained from `hresult_to_string`.
+
+
+### LogHRESULTError
+```c
+#define LogHRESULTVerbose(hr, FORMAT, ...)
+```
+
+`LogHRESULTVerbose` will behave as if `LogVerbose(FORMAT, ...)` would have been called and it will append " HRESULT=<<human readable string>>" as obtained from `hresult_to_string`.
+

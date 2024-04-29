@@ -39,9 +39,9 @@ extern "C" {
     will return NULL if it cannot determine the meaning (or it fails internally)
     in order will try to find the meaning of the HRESULT as follows:
     1) system (as defined in FORMAT_MESSAGE_FROM_SYSTEM)
-    2) service fabric's code 
+    2) service fabric's code
     3) every other loaded module
-    
+
     caller needs to dispose (call free()) of the string (note the missing "const" from the return value)
     */
     char* hresult_to_string(malloc_t the_malloc, free_t the_free, HRESULT hresult);
@@ -90,8 +90,9 @@ extern "C" {
 #define LogHRESULT(log_macro, hr, ...) do{MU_IF(MU_COUNT_ARG(__VA_ARGS__), LogHRESULTWithFormat (log_macro, hr, __VA_ARGS__);,  LogHRESULTWithoutFormat (log_macro, hr);)}while(0)
 #endif /*VS 2017/2019*/
 
-#define LogHRESULTError(hr, ...) LogHRESULT(LogError, hr, __VA_ARGS__)
-#define LogHRESULTInfo(hr, ...) LogHRESULT(LogInfo, hr, __VA_ARGS__)
+#define LogHRESULTError(hr, ...)        LogHRESULT(LogError, hr, __VA_ARGS__)
+#define LogHRESULTInfo(hr, ...)         LogHRESULT(LogInfo, hr, __VA_ARGS__)
+#define LogHRESULTVerbose(hr, ...)      LogHRESULT(LogVerbose, hr, __VA_ARGS__)
 
 #ifdef __cplusplus
 }
