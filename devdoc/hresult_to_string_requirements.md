@@ -89,7 +89,7 @@ wchar_t* hresult_to_wstring(HRESULT hresult);
 `LogHRESULTInfo` will behave as if `LogInfo(FORMAT, ...)` would have been called and it will append " HRESULT=<<human readable string>>" as obtained from `hresult_to_string`.
 
 
-### LogHRESULTError
+### LogHRESULTVerbose
 ```c
 #define LogHRESULTVerbose(hr, FORMAT, ...)
 ```
