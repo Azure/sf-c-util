@@ -362,7 +362,10 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             , \
             ) \
             { \
-                LogVerbose("Config loaded: %ls = %" PRI_RC_STRING, parameter_string, RC_STRING_VALUE_OR_NULL(result_value)); \
+                /* We should not be logging some very important configs like connection strings, this is an emergency disable of logging for all THANDLE(RC_STRING) */ \
+                /* and the follow up will be with this task: https://msazure.visualstudio.com/One/_workitems/edit/28237410 */ \
+                LogVerbose("Config loaded: %ls = *** not logging due to credential leak ***", parameter_string); \
+                /* LogVerbose("Config loaded: %ls = %" PRI_RC_STRING, parameter_string, RC_STRING_VALUE_OR_NULL(result_value));*/ \
             } \
         } \
     }
