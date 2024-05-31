@@ -76,8 +76,8 @@ TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_p
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option_optional L"OptionalStringOption"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_wide_string_option_optional L"OptionalWideStringOption"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_another_flag L"AnotherFlag"
-#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_secret L"DexterWasHere"
-#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_another_secret L"OrWasHe"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_secret L"ASecret"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_another_secret L"AnotherSecret"
 
 #define MY_MOCKED_CONFIG_TEST_PARAMS \
     CONFIG_REQUIRED(uint64_t, mocked_parameter_1), \

@@ -229,7 +229,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         } \
         else \
         { \
-            LogVerbose("Config loaded: %ls = %" PRI_BOOL, parameter_string, MU_BOOL_VALUE(result_value)); \
+            if (no_logging) \
+            { \
+                LogVerbose("Config loaded: %ls = ***", parameter_string); \
+            } \
+            else \
+            { \
+                LogVerbose("Config loaded: %ls = %" PRI_BOOL "", parameter_string, MU_BOOL_VALUE(result_value)); \
+            } \
         } \
     }
 
@@ -253,7 +260,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         } \
         else \
         { \
-            LogVerbose("Config loaded: %ls = %lf", parameter_string, result_value); \
+            if (no_logging) \
+            { \
+                LogVerbose("Config loaded: %ls = ***", parameter_string); \
+            } \
+            else \
+            { \
+                LogVerbose("Config loaded: %ls = %lf", parameter_string, result_value); \
+            } \
         } \
     }
 
@@ -280,7 +294,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         } \
         else \
         { \
-            LogVerbose("Config loaded: %ls = %" MU_C2(PRI_, type), parameter_string, result_value); \
+            if (no_logging) \
+            { \
+                LogVerbose("Config loaded: %ls = ***", parameter_string); \
+            } \
+            else \
+            { \
+                LogVerbose("Config loaded: %ls = %" MU_C2(PRI_, type), parameter_string, result_value); \
+            } \
         } \
     }
 
@@ -330,7 +351,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             , \
             ) \
             { \
-                LogVerbose("Config loaded: %ls = %" MU_C2(PRI_, type), parameter_string, SF_SERVICE_CONFIG_P_OR_NULL(type, result_value)); \
+                if (no_logging) \
+                { \
+                    LogVerbose("Config loaded: %ls = ***", parameter_string); \
+                } \
+                else \
+                { \
+                    LogVerbose("Config loaded: %ls = %" MU_C2(PRI_, type), parameter_string, SF_SERVICE_CONFIG_P_OR_NULL(type, result_value)); \
+                } \
             } \
         } \
     }
@@ -374,10 +402,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             , \
             ) \
             { \
-                /* We should not be logging some very important configs like connection strings, this is an emergency disable of logging for all THANDLE(RC_STRING) */ \
-                /* and the follow up will be with this task: https://msazure.visualstudio.com/One/_workitems/edit/28237410 */ \
-                LogVerbose("Config loaded: %ls = *** not logging due to credential leak ***", parameter_string); \
-                /* LogVerbose("Config loaded: %ls = %" PRI_RC_STRING, parameter_string, RC_STRING_VALUE_OR_NULL(result_value));*/ \
+                if (no_logging) \
+                { \
+                    LogVerbose("Config loaded: %ls = ***", parameter_string); \
+                } \
+                else \
+                { \
+                    LogVerbose("Config loaded: %ls = %" PRI_RC_STRING, parameter_string, RC_STRING_VALUE_OR_NULL(result_value)); \
+                } \
             } \
         } \
     }
