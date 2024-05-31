@@ -76,6 +76,8 @@ TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_p
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_string_option_optional L"OptionalStringOption"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_wide_string_option_optional L"OptionalWideStringOption"
 #define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_another_flag L"AnotherFlag"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_secret L"DexterWasHere"
+#define SF_SERVICE_CONFIG_PARAMETER_NAME_mocked_another_secret L"OrWasHe"
 
 #define MY_MOCKED_CONFIG_TEST_PARAMS \
     CONFIG_REQUIRED(uint64_t, mocked_parameter_1), \
@@ -90,7 +92,9 @@ TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_p
     CONFIG_OPTIONAL(thandle_rc_string, mocked_string_option_in_thandle_optional), \
     CONFIG_OPTIONAL(char_ptr, mocked_string_option_optional), \
     CONFIG_OPTIONAL(wchar_ptr, mocked_wide_string_option_optional), \
-    CONFIG_REQUIRED(bool, mocked_another_flag) \
+    CONFIG_REQUIRED(bool, mocked_another_flag), \
+    CONFIG_REQUIRED_NO_LOGGING(thandle_rc_string, a_secret), \
+    CONFIG_OPTIONAL_NO_LOGGING(char_ptr, another_secret) \
 
 DECLARE_SF_SERVICE_CONFIG(my_mocked_config, MY_MOCKED_CONFIG_TEST_PARAMS)
 
@@ -423,7 +427,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_optional_thandle_rc_string_suc
 /*Tests_SRS_SF_SERVICE_CONFIG_42_022: [ If the type is char_ptr then: ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_023: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_char_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_024: [ If the value is an empty string then SF_SERVICE_CONFIG_CREATE(name) shall free the string and set it to NULL. ]*/
-    /*Tests_SRS_SF_SERVICE_CONFIG_42_025: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_42_025: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_required_string_fails)
 {
     // arrange
@@ -440,7 +444,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_required_string_fails)
 
 /*Tests_SRS_SF_SERVICE_CONFIG_42_022: [ If the type is char_ptr then: ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_023: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_char_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
-    /*Tests_SRS_SF_SERVICE_CONFIG_42_025: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_42_025: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_required_string_fails)
 {
     // arrange
@@ -458,7 +462,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_required_string_fails)
 /*Tests_SRS_SF_SERVICE_CONFIG_42_026: [ If the type is wchar_ptr then: ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_027: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_wchar_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_028: [ If the value is an empty string then SF_SERVICE_CONFIG_CREATE(name) shall free the string and set it to NULL. ]*/
-    /*Tests_SRS_SF_SERVICE_CONFIG_42_029: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_42_029: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_required_wide_string_fails)
 {
     // arrange
@@ -475,7 +479,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_required_wide_string_fails)
 
 /*Tests_SRS_SF_SERVICE_CONFIG_42_026: [ If the type is wchar_ptr then: ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_027: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_wchar_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
-    /*Tests_SRS_SF_SERVICE_CONFIG_42_029: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_42_029: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_required_wide_string_fails)
 {
     // arrange
@@ -493,7 +497,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_required_wide_string_fails)
 /*Tests_SRS_SF_SERVICE_CONFIG_42_030: [ If the type is thandle_rc_string then: ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_031: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_thandle_rc_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_032: [ If the value is an empty string then SF_SERVICE_CONFIG_CREATE(name) shall free the string and set it to NULL. ]*/
-    /*Tests_SRS_SF_SERVICE_CONFIG_42_033: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_42_033: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_required_thandle_rcstring_fails)
 {
     // arrange
@@ -510,7 +514,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_empty_required_thandle_rcstring_fail
 
 /*Tests_SRS_SF_SERVICE_CONFIG_42_030: [ If the type is thandle_rc_string then: ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_031: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_thandle_rc_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
-    /*Tests_SRS_SF_SERVICE_CONFIG_42_033: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+    /*Tests_SRS_SF_SERVICE_CONFIG_42_033: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_required_thandle_rcstring_fails)
 {
     // arrange

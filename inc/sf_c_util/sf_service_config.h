@@ -309,8 +309,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             MU_IF(fail_if_null, \
                 if (result_value == NULL) \
                 { \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_42_025: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_42_029: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_42_025: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_42_029: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
                     LogError("Invalid %ls=%" MU_C2(PRI_, type), parameter_string, SF_SERVICE_CONFIG_P_OR_NULL(type, result_value)); \
                     error_occurred_flag = true; \
                 } \
@@ -354,7 +354,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             MU_IF(fail_if_null, \
                 if (result_value == NULL) \
                 { \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_42_033: [ If the configuration value is CONFIG_REQUIRED and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_42_033: [ If the configuration value is CONFIG_REQUIRED or CONFIG_REQUIRED_NO_LOGGING and the value is NULL then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
                     LogError("Invalid %ls=%" PRI_RC_STRING, parameter_string, RC_STRING_VALUE_OR_NULL(result_value)); \
                     error_occurred_flag = true; \
                 } \
