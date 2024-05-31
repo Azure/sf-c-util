@@ -106,10 +106,16 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 #define SF_SERVICE_CONFIG_EXPAND_PARAM_CONFIG_OPTIONAL(field_type, field_name) field_type, field_name
 #define SF_SERVICE_CONFIG_EXPAND_PARAM_CONFIG_REQUIRED(field_type, field_name) field_type, field_name
+// No logging flavors
+#define SF_SERVICE_CONFIG_EXPAND_PARAM_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_EXPAND_PARAM_CONFIG_REQUIRED(field_type, field_name)
+#define SF_SERVICE_CONFIG_EXPAND_PARAM_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_EXPAND_PARAM_CONFIG_OPTIONAL(field_type, field_name)
 #define SF_SERVICE_CONFIG_EXPAND_PARAM(count, field) MU_C2(SF_SERVICE_CONFIG_EXPAND_PARAM_, field) MU_IFCOMMALOGIC(MU_DEC(count))
 
-#define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_OPTIONAL(field_type, field_name) field_type, field_name, 0
-#define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_REQUIRED(field_type, field_name) field_type, field_name, 1
+#define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_OPTIONAL(field_type, field_name) field_type, field_name, 0, 0
+#define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_REQUIRED(field_type, field_name) field_type, field_name, 1, 0
+// No logging flavors, the last param is "no logging", set to 1 to not log the value when reading it
+#define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) field_type, field_name, 0, 1
+#define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) field_type, field_name, 1, 1
 #define SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG(field) MU_C2(SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG_, field)
 
 // This will strip the REQUIRED and OPTIONAL parts of the fields
@@ -129,12 +135,16 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 #define SF_SERVICE_CONFIG_EXPAND_REQUIRED_CONFIG_OPTIONAL(field_type, field_name) SKIP , SKIP
 #define SF_SERVICE_CONFIG_EXPAND_REQUIRED_CONFIG_REQUIRED(field_type, field_name) field_type, field_name
+#define SF_SERVICE_CONFIG_EXPAND_REQUIRED_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_EXPAND_REQUIRED_CONFIG_OPTIONAL(field_type, field_name)
+#define SF_SERVICE_CONFIG_EXPAND_REQUIRED_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_EXPAND_REQUIRED_CONFIG_REQUIRED(field_type, field_name)
 #define SF_SERVICE_CONFIG_EXPAND_REQUIRED(count, field) MU_C2(SF_SERVICE_CONFIG_EXPAND_REQUIRED_,field) MU_IFCOMMALOGIC(MU_DEC(count))
 
 #define SF_SERVICE_CONFIG_EXPAND_REQUIRED_ONLY(...) MU_FOR_EACH_1_COUNTED(SF_SERVICE_CONFIG_EXPAND_REQUIRED, __VA_ARGS__)
 
 #define SF_SERVICE_CONFIG_EXPAND_OPTIONAL_CONFIG_OPTIONAL(field_type, field_name) field_type, field_name
 #define SF_SERVICE_CONFIG_EXPAND_OPTIONAL_CONFIG_REQUIRED(field_type, field_name) SKIP , SKIP
+#define SF_SERVICE_CONFIG_EXPAND_OPTIONAL_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_EXPAND_OPTIONAL_CONFIG_OPTIONAL(field_type, field_name)
+#define SF_SERVICE_CONFIG_EXPAND_OPTIONAL_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_EXPAND_OPTIONAL_CONFIG_REQUIRED(field_type, field_name)
 #define SF_SERVICE_CONFIG_EXPAND_OPTIONAL(count, field) MU_C2(SF_SERVICE_CONFIG_EXPAND_OPTIONAL_,field) MU_IFCOMMALOGIC(MU_DEC(count))
 
 #define SF_SERVICE_CONFIG_EXPAND_OPTIONAL_ONLY(...) MU_FOR_EACH_1_COUNTED(SF_SERVICE_CONFIG_EXPAND_OPTIONAL, __VA_ARGS__)
@@ -153,6 +163,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 #define SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_OPTIONAL(field_type, field_name) field_type field_name;
 #define SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_REQUIRED(field_type, field_name) field_type field_name;
+#define SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_OPTIONAL(field_type, field_name)
+#define SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_STRUCT_FIELD_CONFIG_REQUIRED(field_type, field_name)
 #define SF_SERVICE_CONFIG_STRUCT_FIELD(field) MU_C2(SF_SERVICE_CONFIG_STRUCT_FIELD_, field)
 
 // Need extra layer of indirection so the SF_SERVICE_CONFIG_EXPAND_PARAMS() macro expands first
@@ -203,7 +215,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 // Note that "error_occurred" is defined below "by convention"
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_014: [ If the type is bool then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ__Bool(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
+#define SF_SERVICE_CONFIG_DO_READ__Bool(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
     result_value = false; \
     if (!error_occurred_flag) \
     { \
@@ -222,7 +234,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     }
 
 /*Codes_SRS_SF_SERVICE_CONFIG_22_001: [ If the type is double then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_double(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
+#define SF_SERVICE_CONFIG_DO_READ_double(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
     if (!error_occurred_flag) \
     { \
         /*Codes_SRS_SF_SERVICE_CONFIG_22_002: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_double with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/ \
@@ -245,7 +257,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         } \
     }
 
-#define SF_SERVICE_CONFIG_DO_READ_integer_type(type, max_value, config, parameter_string, result_value, error_occurred_flag) \
+#define SF_SERVICE_CONFIG_DO_READ_integer_type(type, max_value, config, parameter_string, result_value, error_occurred_flag, no_logging) \
     if (!error_occurred_flag) \
     { \
         /*Codes_SRS_SF_SERVICE_CONFIG_01_002: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_uint8_t with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/ \
@@ -273,18 +285,18 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     }
 
 /*Codes_SRS_SF_SERVICE_CONFIG_01_001: [ If the type is uint8_t then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_uint8_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
-    SF_SERVICE_CONFIG_DO_READ_integer_type(uint8_t, UINT8_MAX, config, parameter_string, result_value, error_occurred_flag)
+#define SF_SERVICE_CONFIG_DO_READ_uint8_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
+    SF_SERVICE_CONFIG_DO_READ_integer_type(uint8_t, UINT8_MAX, config, parameter_string, result_value, error_occurred_flag, no_logging)
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_016: [ If the type is uint32_t then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_uint32_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
-    SF_SERVICE_CONFIG_DO_READ_integer_type(uint32_t, UINT32_MAX, config, parameter_string, result_value, error_occurred_flag)
+#define SF_SERVICE_CONFIG_DO_READ_uint32_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
+    SF_SERVICE_CONFIG_DO_READ_integer_type(uint32_t, UINT32_MAX, config, parameter_string, result_value, error_occurred_flag, no_logging)
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_019: [ If the type is uint64_t then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_uint64_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
-    SF_SERVICE_CONFIG_DO_READ_integer_type(uint64_t, UINT64_MAX, config, parameter_string, result_value, error_occurred_flag)
+#define SF_SERVICE_CONFIG_DO_READ_uint64_t(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
+    SF_SERVICE_CONFIG_DO_READ_integer_type(uint64_t, UINT64_MAX, config, parameter_string, result_value, error_occurred_flag, no_logging)
 
-#define SF_SERVICE_CONFIG_DO_READ_any_char_ptr(config, type, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
+#define SF_SERVICE_CONFIG_DO_READ_any_char_ptr(config, type, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
     result_value = NULL; \
     if (!error_occurred_flag) \
     { \
@@ -324,15 +336,15 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     }
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_022: [ If the type is char_ptr then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_char_ptr(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
-    SF_SERVICE_CONFIG_DO_READ_any_char_ptr(config, char_ptr, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null)
+#define SF_SERVICE_CONFIG_DO_READ_char_ptr(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
+    SF_SERVICE_CONFIG_DO_READ_any_char_ptr(config, char_ptr, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging)
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_026: [ If the type is wchar_ptr then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_wchar_ptr(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
-    SF_SERVICE_CONFIG_DO_READ_any_char_ptr(config, wchar_ptr, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null)
+#define SF_SERVICE_CONFIG_DO_READ_wchar_ptr(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
+    SF_SERVICE_CONFIG_DO_READ_any_char_ptr(config, wchar_ptr, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging)
 
 /*Codes_SRS_SF_SERVICE_CONFIG_42_030: [ If the type is thandle_rc_string then: ]*/
-#define SF_SERVICE_CONFIG_DO_READ_thandle_rc_string(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null) \
+#define SF_SERVICE_CONFIG_DO_READ_thandle_rc_string(config, field_name, parameter_string, result_value, error_occurred_flag, fail_if_null, no_logging) \
     THANDLE_INITIALIZE(RC_STRING)(&result_value, NULL); \
     if (!error_occurred_flag) \
     { \
@@ -381,9 +393,9 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     MU_IF(SF_SERVICE_CONFIG_IS_TYPE_SKIP(field_type),, \
         MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), handle->field_name, error_occurred, 0) \
     )
-#define SF_SERVICE_CONFIG_DO_READ_EITHER(handle, field_type, field_name, is_required) \
+#define SF_SERVICE_CONFIG_DO_READ_EITHER(handle, field_type, field_name, is_required, no_logging) \
     MU_IF(SF_SERVICE_CONFIG_IS_TYPE_SKIP(field_type),, \
-        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), handle->field_name, error_occurred, is_required) \
+        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), handle->field_name, error_occurred, is_required, no_logging) \
     )
 
 #define SF_SERVICE_CONFIG_DO_READ(handle, config) SF_SERVICE_CONFIG_EXPAND_MACRO_HELPER(SF_SERVICE_CONFIG_DO_READ_EITHER, handle, SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG(config))
@@ -465,10 +477,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 #define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_OPTIONAL(field_type, field_name) field_type
 #define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_REQUIRED(field_type, field_name) field_type
+#define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_OPTIONAL(field_type, field_name)
+#define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_CONFIG_REQUIRED(field_type, field_name)
 #define SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD(field) MU_C2(SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD_, field)
 
 #define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_OPTIONAL(field_type, field_name) field_name
 #define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_REQUIRED(field_type, field_name) field_name
+#define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_OPTIONAL_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_OPTIONAL(field_type, field_name)
+#define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_REQUIRED_NO_LOGGING(field_type, field_name) SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_CONFIG_REQUIRED(field_type, field_name)
 #define SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD(field) MU_C2(SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD_, field)
 
 #define DO_CLEANUP_IF_NEEDED(handle, field) \
