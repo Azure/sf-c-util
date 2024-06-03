@@ -13,8 +13,10 @@ The following types are supported:
  - `char*` (`char_ptr`)
  - `wchar_t*` (`wchar_ptr`)
  - `THANDLE(RC_STRING)` (`thandle_rc_string`)
-
+ 
 Any of the string types may be required (must be present in the config or create will fail) or optional (`NULL` or empty strings are allowed). Integer and bool types do not behave differently for optional and required.
+
+By default configs do get logged for debugging purposes. In order to avoid logging a certain config, the macros `CONFIG_REQUIRED_NO_LOGGING` and `CONFIG_OPTIONAL_NO_LOGGING` are available. Secrets (like keys, passwords, connection strings) should be configured using these options.
 
 ## Example Usage
 
@@ -23,13 +25,16 @@ Any of the string types may be required (must be present in the config or create
 #define MY_CONFIGURATION_PARAMETER_NAME_parameter_1 L"ParameterName1"
 #define MY_CONFIGURATION_PARAMETER_NAME_parameter_2 L"ParameterName2"
 #define MY_CONFIGURATION_PARAMETER_NAME_other_option L"OtherOption"
+#define MY_CONFIGURATION_PARAMETER_NAME_connection_string L"ConnectionString"
 #define MY_CONFIGURATION_PARAMETER_NAME_foo L"FooNameInXML"
+#define MY_CONFIGURATION_PARAMETER_NAME_bar_hidden L"BarHidden"
 
 #define MY_CONFIGURATION_VALUES \
-    CONFIG_REQUIRED(uint64_t, parameter_1), \
     CONFIG_REQUIRED(bool, parameter_2), \
     CONFIG_REQUIRED(thandle_rc_string, other_option), \
-    CONFIG_OPTIONAL(thandle_rc_string, foo) \
+    CONFIG_REQUIRED_NO_LOGGING(thandle_rc_string, connection_string), \
+    CONFIG_OPTIONAL(thandle_rc_string, foo), \
+    CONFIG_OPTIONAL_NO_LOGGING(thandle_rc_string, bar_hidden) \
 
 DECLARE_SF_SERVICE_CONFIG(MY, MY_CONFIGURATION_VALUES)
 
@@ -46,7 +51,9 @@ SF Application Manifest
     <Parameter Name="ParameterName1Value" DefaultValue="42" />
     <Parameter Name="ParameterName2Value" DefaultValue="True" />
     <Parameter Name="OtherOptionValue" DefaultValue="some string" />
+    <Parameter Name="ConnectionString" DefaultValue="some hidden secret" />
     <Parameter Name="FooNameInXMLValue" DefaultValue="" />
+    <Parameter Name="BarHidden" DefaultValue="hide me" />
   </Parameters>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="MyServiceManifestName" ServiceManifestVersion="1.42" />
@@ -57,7 +64,9 @@ SF Application Manifest
             <Parameter Name="ParameterName1" Value="[ParameterName1Value]" />
             <Parameter Name="ParameterName2" Value="[ParameterName2Value]" />
             <Parameter Name="OtherOption" Value="[OtherOptionValueValue]" />
+            <Parameter Name="ConnectionString" Value="[ConnectionStringValue]" />
             <Parameter Name="FooNameInXML" Value="[FooNameInXMLValue]" />
+            <Parameter Name="BarHidden" Value="[BarHiddenValue]" />
           </Section>
         </Settings>
       </ConfigOverride>
@@ -75,7 +84,9 @@ SF Config XML
       <Parameter Name="ParameterName1" Value="42" />
       <Parameter Name="ParameterName2" Value="True" />
       <Parameter Name="OtherOption" Value="some string" />
+      <Parameter Name="ConnectionString" Value="some hidden secret" />
       <Parameter Name="FooNameInXML" Value="" />
+      <Parameter Name="BarHidden" Value="hide me" />
     </Section>
 </Settings>
 ```
@@ -118,7 +129,7 @@ Creates all declarations for the configuration type `SF_SERVICE_CONFIG(name)`. T
 
 Creates all declarations for the configuration type `SF_SERVICE_CONFIG(name)` mockable getters for the parameters specified.
 
-Each parameter must be in the form `CONFIG_REQUIRED(type, config_name)` or `CONFIG_OPTIONAL(type, config_name)`, for configurations that are required or optional, respectively. Required configs must be found in the SF configuration or the configuration create will fail, optional configs may be absent and a default (e.g. empty string) will be used.
+Each parameter must be in the form `CONFIG_REQUIRED(type, config_name)`, `CONFIG_OPTIONAL(type, config_name)`, `CONFIG_REQUIRED_NO_LOGGING(type, config_name)` or `CONFIG_OPTIONAL_NO_LOGGING(type, config_name)`, for configurations that are required or optional, respectively. Required configs must be found in the SF configuration or the configuration create will fail, optional configs may be absent and a default (e.g. empty string) will be used.
 
 Each of these parameters with name `config_name` must also have a corresponding `SF_SERVICE_CONFIG_PARAMETER_NAME_config_name` defined with a wide string for the name of the config value as specified in the SF XML.
 
@@ -222,7 +233,7 @@ THANDLE(SF_SERVICE_CONFIG(name)) SF_SERVICE_CONFIG_CREATE(name)(IFabricCodePacka
 
    - **SRS_SF_SERVICE_CONFIG_42_024: [** If the value is an empty string then `SF_SERVICE_CONFIG_CREATE(name)` shall free the string and set it to `NULL`. **]**
 
-   - **SRS_SF_SERVICE_CONFIG_42_025: [** If the configuration value is `CONFIG_REQUIRED` and the value is `NULL` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
+   - **SRS_SF_SERVICE_CONFIG_42_025: [** If the configuration value is `CONFIG_REQUIRED` or `CONFIG_REQUIRED_NO_LOGGING` and the value is `NULL` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
 
  - **SRS_SF_SERVICE_CONFIG_42_026: [** If the type is `wchar_ptr` then: **]**
 
@@ -230,7 +241,7 @@ THANDLE(SF_SERVICE_CONFIG(name)) SF_SERVICE_CONFIG_CREATE(name)(IFabricCodePacka
 
    - **SRS_SF_SERVICE_CONFIG_42_028: [** If the value is an empty string then `SF_SERVICE_CONFIG_CREATE(name)` shall free the string and set it to `NULL`. **]**
 
-   - **SRS_SF_SERVICE_CONFIG_42_029: [** If the configuration value is `CONFIG_REQUIRED` and the value is `NULL` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
+   - **SRS_SF_SERVICE_CONFIG_42_029: [** If the configuration value is `CONFIG_REQUIRED` or `CONFIG_REQUIRED_NO_LOGGING` and the value is `NULL` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
 
  - **SRS_SF_SERVICE_CONFIG_42_030: [** If the type is `thandle_rc_string` then: **]**
 
@@ -238,7 +249,7 @@ THANDLE(SF_SERVICE_CONFIG(name)) SF_SERVICE_CONFIG_CREATE(name)(IFabricCodePacka
 
    - **SRS_SF_SERVICE_CONFIG_42_032: [** If the value is an empty string then `SF_SERVICE_CONFIG_CREATE(name)` shall free the string and set it to `NULL`. **]**
 
-   - **SRS_SF_SERVICE_CONFIG_42_033: [** If the configuration value is `CONFIG_REQUIRED` and the value is `NULL` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
+   - **SRS_SF_SERVICE_CONFIG_42_033: [** If the configuration value is `CONFIG_REQUIRED` or `CONFIG_REQUIRED_NO_LOGGING` and the value is `NULL` then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
 
 **SRS_SF_SERVICE_CONFIG_42_034: [** If there are any errors then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
 
