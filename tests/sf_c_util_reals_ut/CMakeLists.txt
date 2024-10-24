@@ -7,7 +7,6 @@ set(${theseTestsName}_test_files
     ${theseTestsName}.c
 )
 
-include_directories(${CTEST_INC_FOLDER})
 build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util sf_c_util sf_c_util_reals)
 
 if("${building}" STREQUAL "exe")
