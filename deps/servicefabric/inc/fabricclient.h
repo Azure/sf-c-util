@@ -144,6 +144,13 @@ typedef interface IFabricServiceManagementClient7 IFabricServiceManagementClient
 #endif 	/* __IFabricServiceManagementClient7_FWD_DEFINED__ */
 
 
+#ifndef __IFabricServiceManagementClient8_FWD_DEFINED__
+#define __IFabricServiceManagementClient8_FWD_DEFINED__
+typedef interface IFabricServiceManagementClient8 IFabricServiceManagementClient8;
+
+#endif 	/* __IFabricServiceManagementClient8_FWD_DEFINED__ */
+
+
 #ifndef __IFabricServiceGroupManagementClient_FWD_DEFINED__
 #define __IFabricServiceGroupManagementClient_FWD_DEFINED__
 typedef interface IFabricServiceGroupManagementClient IFabricServiceGroupManagementClient;
@@ -354,6 +361,13 @@ typedef interface IFabricClusterManagementClient15 IFabricClusterManagementClien
 #endif 	/* __IFabricClusterManagementClient15_FWD_DEFINED__ */
 
 
+#ifndef __IFabricClusterManagementClient16_FWD_DEFINED__
+#define __IFabricClusterManagementClient16_FWD_DEFINED__
+typedef interface IFabricClusterManagementClient16 IFabricClusterManagementClient16;
+
+#endif 	/* __IFabricClusterManagementClient16_FWD_DEFINED__ */
+
+
 #ifndef __IFabricHealthClient_FWD_DEFINED__
 #define __IFabricHealthClient_FWD_DEFINED__
 typedef interface IFabricHealthClient IFabricHealthClient;
@@ -464,6 +478,13 @@ typedef interface IFabricQueryClient11 IFabricQueryClient11;
 typedef interface IFabricQueryClient12 IFabricQueryClient12;
 
 #endif 	/* __IFabricQueryClient12_FWD_DEFINED__ */
+
+
+#ifndef __IFabricQueryClient13_FWD_DEFINED__
+#define __IFabricQueryClient13_FWD_DEFINED__
+typedef interface IFabricQueryClient13 IFabricQueryClient13;
+
+#endif 	/* __IFabricQueryClient13_FWD_DEFINED__ */
 
 
 #ifndef __IFabricInfrastructureServiceClient_FWD_DEFINED__
@@ -1166,6 +1187,13 @@ typedef interface IFabricUpdatePartitionMoveCostResult IFabricUpdatePartitionMov
 #endif 	/* __IFabricUpdatePartitionMoveCostResult_FWD_DEFINED__ */
 
 
+#ifndef __IFabricGetBlockListResult_FWD_DEFINED__
+#define __IFabricGetBlockListResult_FWD_DEFINED__
+typedef interface IFabricGetBlockListResult IFabricGetBlockListResult;
+
+#endif 	/* __IFabricGetBlockListResult_FWD_DEFINED__ */
+
+
 #ifndef __FabricClient_FWD_DEFINED__
 #define __FabricClient_FWD_DEFINED__
 
@@ -1253,6 +1281,13 @@ typedef interface IFabricServiceManagementClient6 IFabricServiceManagementClient
 typedef interface IFabricServiceManagementClient7 IFabricServiceManagementClient7;
 
 #endif 	/* __IFabricServiceManagementClient7_FWD_DEFINED__ */
+
+
+#ifndef __IFabricServiceManagementClient8_FWD_DEFINED__
+#define __IFabricServiceManagementClient8_FWD_DEFINED__
+typedef interface IFabricServiceManagementClient8 IFabricServiceManagementClient8;
+
+#endif 	/* __IFabricServiceManagementClient8_FWD_DEFINED__ */
 
 
 #ifndef __IFabricServiceGroupManagementClient_FWD_DEFINED__
@@ -1465,6 +1500,13 @@ typedef interface IFabricClusterManagementClient15 IFabricClusterManagementClien
 #endif 	/* __IFabricClusterManagementClient15_FWD_DEFINED__ */
 
 
+#ifndef __IFabricClusterManagementClient16_FWD_DEFINED__
+#define __IFabricClusterManagementClient16_FWD_DEFINED__
+typedef interface IFabricClusterManagementClient16 IFabricClusterManagementClient16;
+
+#endif 	/* __IFabricClusterManagementClient16_FWD_DEFINED__ */
+
+
 #ifndef __IFabricHealthClient_FWD_DEFINED__
 #define __IFabricHealthClient_FWD_DEFINED__
 typedef interface IFabricHealthClient IFabricHealthClient;
@@ -1575,6 +1617,13 @@ typedef interface IFabricQueryClient11 IFabricQueryClient11;
 typedef interface IFabricQueryClient12 IFabricQueryClient12;
 
 #endif 	/* __IFabricQueryClient12_FWD_DEFINED__ */
+
+
+#ifndef __IFabricQueryClient13_FWD_DEFINED__
+#define __IFabricQueryClient13_FWD_DEFINED__
+typedef interface IFabricQueryClient13 IFabricQueryClient13;
+
+#endif 	/* __IFabricQueryClient13_FWD_DEFINED__ */
 
 
 #ifndef __IFabricInfrastructureServiceClient_FWD_DEFINED__
@@ -2354,6 +2403,13 @@ typedef interface IFabricGetGetLoadedPartitionInfoListResult IFabricGetGetLoaded
 #endif 	/* __IFabricGetGetLoadedPartitionInfoListResult_FWD_DEFINED__ */
 
 
+#ifndef __IFabricGetBlockListResult_FWD_DEFINED__
+#define __IFabricGetBlockListResult_FWD_DEFINED__
+typedef interface IFabricGetBlockListResult IFabricGetBlockListResult;
+
+#endif 	/* __IFabricGetBlockListResult_FWD_DEFINED__ */
+
+
 /* header files for imported files */
 #include "Unknwn.h"
 #include "FabricTypes.h"
@@ -2537,6 +2593,10 @@ extern "C"{
 
 
 
+
+
+
+
 extern RPC_IF_HANDLE __MIDL_itf_fabricclient_0000_0000_v0_0_c_ifspec;
 extern RPC_IF_HANDLE __MIDL_itf_fabricclient_0000_0000_v0_0_s_ifspec;
 
@@ -2549,6 +2609,10 @@ extern RPC_IF_HANDLE __MIDL_itf_fabricclient_0000_0000_v0_0_s_ifspec;
 
 
 #pragma pack(push, 8)
+
+
+
+
 
 
 
@@ -6201,6 +6265,407 @@ EXTERN_C const IID IID_IFabricServiceManagementClient7;
 
 
 #endif 	/* __IFabricServiceManagementClient7_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricServiceManagementClient8_INTERFACE_DEFINED__
+#define __IFabricServiceManagementClient8_INTERFACE_DEFINED__
+
+/* interface IFabricServiceManagementClient8 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricServiceManagementClient8;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("27309db9-61a7-ae11-967a-bbff7d5a5460")
+    IFabricServiceManagementClient8 : public IFabricServiceManagementClient7
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginDisableService( 
+            /* [in] */ const FABRIC_URI serviceNameUri,
+            /* [in] */ const FABRIC_SERVICE_DISABLE_FLAG disableServiceFlag,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndDisableService( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginEnableService( 
+            /* [in] */ const FABRIC_URI serviceNameUri,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndEnableService( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricServiceManagementClient8Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricServiceManagementClient8 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricServiceManagementClient8 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginCreateService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_SERVICE_DESCRIPTION *description,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndCreateService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginCreateServiceFromTemplate )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ FABRIC_URI applicationName,
+            /* [in] */ FABRIC_URI serviceName,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ ULONG InitializationDataSize,
+            /* [size_is][in] */ BYTE *InitializationData,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndCreateServiceFromTemplate )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginDeleteService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ FABRIC_URI name,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndDeleteService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceDescription )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ FABRIC_URI name,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceDescription )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricServiceDescriptionResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *RegisterServicePartitionResolutionChangeHandler )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ FABRIC_URI name,
+            /* [in] */ FABRIC_PARTITION_KEY_TYPE keyType,
+            /* [in] */ const void *partitionKey,
+            /* [in] */ IFabricServicePartitionResolutionChangeHandler *callback,
+            /* [retval][out] */ LONGLONG *callbackHandle);
+        
+        HRESULT ( STDMETHODCALLTYPE *UnregisterServicePartitionResolutionChangeHandler )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ LONGLONG callbackHandle);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginResolveServicePartition )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ FABRIC_URI name,
+            /* [in] */ FABRIC_PARTITION_KEY_TYPE partitionKeyType,
+            /* [in] */ const void *partitionKey,
+            /* [in] */ IFabricResolvedServicePartitionResult *previousResult,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndResolveServicePartition )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricResolvedServicePartitionResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceManifest )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ LPCWSTR applicationTypeName,
+            /* [in] */ LPCWSTR applicationTypeVersion,
+            /* [in] */ LPCWSTR serviceManifestName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceManifest )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUpdateService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ FABRIC_URI name,
+            /* [in] */ const FABRIC_SERVICE_UPDATE_DESCRIPTION *serviceUpdateDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUpdateService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRemoveReplica )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_REMOVE_REPLICA_DESCRIPTION *description,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRemoveReplica )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRestartReplica )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_RESTART_REPLICA_DESCRIPTION *description,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRestartReplica )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRegisterServiceNotificationFilter )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_SERVICE_NOTIFICATION_FILTER_DESCRIPTION *description,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRegisterServiceNotificationFilter )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ LONGLONG *filterId);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUnregisterServiceNotificationFilter )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ LONGLONG filterId,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUnregisterServiceNotificationFilter )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginDeleteService2 )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_DELETE_SERVICE_DESCRIPTION *deleteDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndDeleteService2 )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginCreateServiceFromTemplate2 )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_SERVICE_FROM_TEMPLATE_DESCRIPTION *serviceFromTemplateDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndCreateServiceFromTemplate2 )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginReportCompletion )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_COMPLETE_REPLICA_DESCRIPTION *description,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndReportCompletion )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginDisableService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_URI serviceNameUri,
+            /* [in] */ const FABRIC_SERVICE_DISABLE_FLAG disableServiceFlag,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndDisableService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginEnableService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ const FABRIC_URI serviceNameUri,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndEnableService )( 
+            IFabricServiceManagementClient8 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        END_INTERFACE
+    } IFabricServiceManagementClient8Vtbl;
+
+    interface IFabricServiceManagementClient8
+    {
+        CONST_VTBL struct IFabricServiceManagementClient8Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricServiceManagementClient8_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricServiceManagementClient8_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricServiceManagementClient8_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricServiceManagementClient8_BeginCreateService(This,description,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginCreateService(This,description,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndCreateService(This,context)	\
+    ( (This)->lpVtbl -> EndCreateService(This,context) ) 
+
+#define IFabricServiceManagementClient8_BeginCreateServiceFromTemplate(This,applicationName,serviceName,serviceTypeName,InitializationDataSize,InitializationData,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginCreateServiceFromTemplate(This,applicationName,serviceName,serviceTypeName,InitializationDataSize,InitializationData,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndCreateServiceFromTemplate(This,context)	\
+    ( (This)->lpVtbl -> EndCreateServiceFromTemplate(This,context) ) 
+
+#define IFabricServiceManagementClient8_BeginDeleteService(This,name,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginDeleteService(This,name,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndDeleteService(This,context)	\
+    ( (This)->lpVtbl -> EndDeleteService(This,context) ) 
+
+#define IFabricServiceManagementClient8_BeginGetServiceDescription(This,name,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceDescription(This,name,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndGetServiceDescription(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceDescription(This,context,result) ) 
+
+#define IFabricServiceManagementClient8_RegisterServicePartitionResolutionChangeHandler(This,name,keyType,partitionKey,callback,callbackHandle)	\
+    ( (This)->lpVtbl -> RegisterServicePartitionResolutionChangeHandler(This,name,keyType,partitionKey,callback,callbackHandle) ) 
+
+#define IFabricServiceManagementClient8_UnregisterServicePartitionResolutionChangeHandler(This,callbackHandle)	\
+    ( (This)->lpVtbl -> UnregisterServicePartitionResolutionChangeHandler(This,callbackHandle) ) 
+
+#define IFabricServiceManagementClient8_BeginResolveServicePartition(This,name,partitionKeyType,partitionKey,previousResult,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginResolveServicePartition(This,name,partitionKeyType,partitionKey,previousResult,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndResolveServicePartition(This,context,result)	\
+    ( (This)->lpVtbl -> EndResolveServicePartition(This,context,result) ) 
+
+
+#define IFabricServiceManagementClient8_BeginGetServiceManifest(This,applicationTypeName,applicationTypeVersion,serviceManifestName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceManifest(This,applicationTypeName,applicationTypeVersion,serviceManifestName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndGetServiceManifest(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceManifest(This,context,result) ) 
+
+#define IFabricServiceManagementClient8_BeginUpdateService(This,name,serviceUpdateDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUpdateService(This,name,serviceUpdateDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndUpdateService(This,context)	\
+    ( (This)->lpVtbl -> EndUpdateService(This,context) ) 
+
+
+#define IFabricServiceManagementClient8_BeginRemoveReplica(This,description,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRemoveReplica(This,description,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndRemoveReplica(This,context)	\
+    ( (This)->lpVtbl -> EndRemoveReplica(This,context) ) 
+
+#define IFabricServiceManagementClient8_BeginRestartReplica(This,description,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRestartReplica(This,description,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndRestartReplica(This,context)	\
+    ( (This)->lpVtbl -> EndRestartReplica(This,context) ) 
+
+
+#define IFabricServiceManagementClient8_BeginRegisterServiceNotificationFilter(This,description,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRegisterServiceNotificationFilter(This,description,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndRegisterServiceNotificationFilter(This,context,filterId)	\
+    ( (This)->lpVtbl -> EndRegisterServiceNotificationFilter(This,context,filterId) ) 
+
+#define IFabricServiceManagementClient8_BeginUnregisterServiceNotificationFilter(This,filterId,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUnregisterServiceNotificationFilter(This,filterId,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndUnregisterServiceNotificationFilter(This,context)	\
+    ( (This)->lpVtbl -> EndUnregisterServiceNotificationFilter(This,context) ) 
+
+
+#define IFabricServiceManagementClient8_BeginDeleteService2(This,deleteDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginDeleteService2(This,deleteDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndDeleteService2(This,context)	\
+    ( (This)->lpVtbl -> EndDeleteService2(This,context) ) 
+
+
+#define IFabricServiceManagementClient8_BeginCreateServiceFromTemplate2(This,serviceFromTemplateDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginCreateServiceFromTemplate2(This,serviceFromTemplateDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndCreateServiceFromTemplate2(This,context)	\
+    ( (This)->lpVtbl -> EndCreateServiceFromTemplate2(This,context) ) 
+
+
+#define IFabricServiceManagementClient8_BeginReportCompletion(This,description,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginReportCompletion(This,description,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndReportCompletion(This,context)	\
+    ( (This)->lpVtbl -> EndReportCompletion(This,context) ) 
+
+
+#define IFabricServiceManagementClient8_BeginDisableService(This,serviceNameUri,disableServiceFlag,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginDisableService(This,serviceNameUri,disableServiceFlag,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndDisableService(This,context)	\
+    ( (This)->lpVtbl -> EndDisableService(This,context) ) 
+
+#define IFabricServiceManagementClient8_BeginEnableService(This,serviceNameUri,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginEnableService(This,serviceNameUri,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricServiceManagementClient8_EndEnableService(This,context)	\
+    ( (This)->lpVtbl -> EndEnableService(This,context) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricServiceManagementClient8_INTERFACE_DEFINED__ */
 
 
 #ifndef __IFabricServiceGroupManagementClient_INTERFACE_DEFINED__
@@ -19086,6 +19551,796 @@ EXTERN_C const IID IID_IFabricClusterManagementClient15;
 #endif 	/* __IFabricClusterManagementClient15_INTERFACE_DEFINED__ */
 
 
+#ifndef __IFabricClusterManagementClient16_INTERFACE_DEFINED__
+#define __IFabricClusterManagementClient16_INTERFACE_DEFINED__
+
+/* interface IFabricClusterManagementClient16 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricClusterManagementClient16;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("a5fb109d-6553-46cf-8016-d919aab3b737")
+    IFabricClusterManagementClient16 : public IFabricClusterManagementClient15
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginDeactivateNode2( 
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ FABRIC_NODE_DEACTIVATION_INTENT intent,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [in] */ LPCWSTR description,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndDeactivateNode2( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricClusterManagementClient16Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricClusterManagementClient16 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricClusterManagementClient16 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginNodeStateRemoved )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndNodeStateRemoved )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRecoverPartitions )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRecoverPartitions )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginDeactivateNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ FABRIC_NODE_DEACTIVATION_INTENT intent,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndDeactivateNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginActivateNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndActivateNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginProvisionFabric )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR codeFilepath,
+            /* [in] */ LPCWSTR clusterManifestFilepath,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndProvisionFabric )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUpgradeFabric )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_UPGRADE_DESCRIPTION *upgradeDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUpgradeFabric )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetFabricUpgradeProgress )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetFabricUpgradeProgress )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricUpgradeProgressResult2 **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginMoveNextFabricUpgradeDomain )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricUpgradeProgressResult2 *progress,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndMoveNextFabricUpgradeDomain )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginMoveNextFabricUpgradeDomain2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nextUpgradeDomain,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndMoveNextFabricUpgradeDomain2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUnprovisionFabric )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR codeVersion,
+            /* [in] */ LPCWSTR configVersion,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUnprovisionFabric )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetClusterManifest )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetClusterManifest )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRecoverPartition )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ FABRIC_PARTITION_ID partitionId,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRecoverPartition )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRecoverServicePartitions )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ FABRIC_URI serviceName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRecoverServicePartitions )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRecoverSystemPartitions )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRecoverSystemPartitions )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUpdateFabricUpgrade )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_UPGRADE_UPDATE_DESCRIPTION *description,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUpdateFabricUpgrade )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginStopNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_STOP_NODE_DESCRIPTION *stopNodeDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndStopNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRestartNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_RESTART_NODE_DESCRIPTION *restartNodeDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRestartNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginStartNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_START_NODE_DESCRIPTION *startNodeDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndStartNode )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *CopyClusterPackage )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR imageStoreConnectionString,
+            /* [in] */ LPCWSTR clusterManifestPath,
+            /* [in] */ LPCWSTR clusterManifestPathInImageStore,
+            /* [in] */ LPCWSTR codePackagePath,
+            /* [in] */ LPCWSTR codePackagePathInImageStore);
+        
+        HRESULT ( STDMETHODCALLTYPE *RemoveClusterPackage )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR imageStoreConnectionString,
+            /* [in] */ LPCWSTR clusterManifestPathInImageStore,
+            /* [in] */ LPCWSTR codePackagePathInImageStore);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRollbackFabricUpgrade )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRollbackFabricUpgrade )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginResetPartitionLoad )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ FABRIC_PARTITION_ID partitionId,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndResetPartitionLoad )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginToggleVerboseServicePlacementHealthReporting )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ BOOLEAN enabled,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndToggleVerboseServicePlacementHealthReporting )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUpgradeConfiguration )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_START_UPGRADE_DESCRIPTION *startUpgradeDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUpgradeConfiguration )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetClusterConfigurationUpgradeStatus )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetClusterConfigurationUpgradeStatus )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricOrchestrationUpgradeStatusResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetClusterConfiguration )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetClusterConfiguration )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetUpgradesPendingApproval )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetUpgradesPendingApproval )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginStartApprovedUpgrades )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndStartApprovedUpgrades )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetClusterManifest2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_CLUSTER_MANIFEST_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetClusterManifest2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetUpgradeOrchestrationServiceState )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetUpgradeOrchestrationServiceState )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginSetUpgradeOrchestrationServiceState )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR state,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndSetUpgradeOrchestrationServiceState )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricUpgradeOrchestrationServiceStateResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetClusterConfiguration2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR apiVersion,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetClusterConfiguration2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginAddConfigurationParameterOverrides )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ const FABRIC_CONFIGURATION_PARAMETER_OVERRIDE_LIST *configurationOverrideList,
+            /* [in] */ BOOLEAN force,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndAddConfigurationParameterOverrides )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRemoveConfigurationOverrides )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRemoveConfigurationOverrides )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetConfigurationOverrides )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetConfigurationOverrides )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetGetConfigurationOverridesListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUpdatePartitionLoad )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_UPDATE_PARTITION_LOAD_QUERY_DESCRIPTION *partitionMetricLoadDescriptionList,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUpdatePartitionLoad )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricUpdatePartitionLoadResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginAddNodeTags )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ const FABRIC_STRING_LIST *nodeTagsList,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndAddNodeTags )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRemoveNodeTags )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ const FABRIC_STRING_LIST *nodeTagsList,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRemoveNodeTags )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginValidateFabricUpgrade )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_UPGRADE_DESCRIPTION *upgradeDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndValidateFabricUpgrade )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricValidateFabricUpgradeResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginUpdatePartitionMoveCost )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ const FABRIC_UPDATE_PARTITION_MOVE_COST_QUERY_DESCRIPTION *partitionMoveCostDescriptionList,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndUpdatePartitionMoveCost )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricUpdatePartitionMoveCostResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginDeactivateNode2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ FABRIC_NODE_DEACTIVATION_INTENT intent,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [in] */ LPCWSTR description,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndDeactivateNode2 )( 
+            IFabricClusterManagementClient16 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        END_INTERFACE
+    } IFabricClusterManagementClient16Vtbl;
+
+    interface IFabricClusterManagementClient16
+    {
+        CONST_VTBL struct IFabricClusterManagementClient16Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricClusterManagementClient16_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricClusterManagementClient16_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricClusterManagementClient16_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricClusterManagementClient16_BeginNodeStateRemoved(This,nodeName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginNodeStateRemoved(This,nodeName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndNodeStateRemoved(This,context)	\
+    ( (This)->lpVtbl -> EndNodeStateRemoved(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginRecoverPartitions(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRecoverPartitions(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRecoverPartitions(This,context)	\
+    ( (This)->lpVtbl -> EndRecoverPartitions(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginDeactivateNode(This,nodeName,intent,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginDeactivateNode(This,nodeName,intent,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndDeactivateNode(This,context)	\
+    ( (This)->lpVtbl -> EndDeactivateNode(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginActivateNode(This,nodeName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginActivateNode(This,nodeName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndActivateNode(This,context)	\
+    ( (This)->lpVtbl -> EndActivateNode(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginProvisionFabric(This,codeFilepath,clusterManifestFilepath,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginProvisionFabric(This,codeFilepath,clusterManifestFilepath,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndProvisionFabric(This,context)	\
+    ( (This)->lpVtbl -> EndProvisionFabric(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginUpgradeFabric(This,upgradeDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUpgradeFabric(This,upgradeDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndUpgradeFabric(This,context)	\
+    ( (This)->lpVtbl -> EndUpgradeFabric(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginGetFabricUpgradeProgress(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetFabricUpgradeProgress(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetFabricUpgradeProgress(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetFabricUpgradeProgress(This,context,result) ) 
+
+#define IFabricClusterManagementClient16_BeginMoveNextFabricUpgradeDomain(This,progress,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginMoveNextFabricUpgradeDomain(This,progress,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndMoveNextFabricUpgradeDomain(This,context)	\
+    ( (This)->lpVtbl -> EndMoveNextFabricUpgradeDomain(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginMoveNextFabricUpgradeDomain2(This,nextUpgradeDomain,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginMoveNextFabricUpgradeDomain2(This,nextUpgradeDomain,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndMoveNextFabricUpgradeDomain2(This,context)	\
+    ( (This)->lpVtbl -> EndMoveNextFabricUpgradeDomain2(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginUnprovisionFabric(This,codeVersion,configVersion,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUnprovisionFabric(This,codeVersion,configVersion,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndUnprovisionFabric(This,context)	\
+    ( (This)->lpVtbl -> EndUnprovisionFabric(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginGetClusterManifest(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetClusterManifest(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetClusterManifest(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetClusterManifest(This,context,result) ) 
+
+#define IFabricClusterManagementClient16_BeginRecoverPartition(This,partitionId,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRecoverPartition(This,partitionId,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRecoverPartition(This,context)	\
+    ( (This)->lpVtbl -> EndRecoverPartition(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginRecoverServicePartitions(This,serviceName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRecoverServicePartitions(This,serviceName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRecoverServicePartitions(This,context)	\
+    ( (This)->lpVtbl -> EndRecoverServicePartitions(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginRecoverSystemPartitions(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRecoverSystemPartitions(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRecoverSystemPartitions(This,context)	\
+    ( (This)->lpVtbl -> EndRecoverSystemPartitions(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginUpdateFabricUpgrade(This,description,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUpdateFabricUpgrade(This,description,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndUpdateFabricUpgrade(This,context)	\
+    ( (This)->lpVtbl -> EndUpdateFabricUpgrade(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginStopNode(This,stopNodeDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginStopNode(This,stopNodeDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndStopNode(This,context)	\
+    ( (This)->lpVtbl -> EndStopNode(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginRestartNode(This,restartNodeDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRestartNode(This,restartNodeDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRestartNode(This,context)	\
+    ( (This)->lpVtbl -> EndRestartNode(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginStartNode(This,startNodeDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginStartNode(This,startNodeDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndStartNode(This,context)	\
+    ( (This)->lpVtbl -> EndStartNode(This,context) ) 
+
+#define IFabricClusterManagementClient16_CopyClusterPackage(This,imageStoreConnectionString,clusterManifestPath,clusterManifestPathInImageStore,codePackagePath,codePackagePathInImageStore)	\
+    ( (This)->lpVtbl -> CopyClusterPackage(This,imageStoreConnectionString,clusterManifestPath,clusterManifestPathInImageStore,codePackagePath,codePackagePathInImageStore) ) 
+
+#define IFabricClusterManagementClient16_RemoveClusterPackage(This,imageStoreConnectionString,clusterManifestPathInImageStore,codePackagePathInImageStore)	\
+    ( (This)->lpVtbl -> RemoveClusterPackage(This,imageStoreConnectionString,clusterManifestPathInImageStore,codePackagePathInImageStore) ) 
+
+
+#define IFabricClusterManagementClient16_BeginRollbackFabricUpgrade(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRollbackFabricUpgrade(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRollbackFabricUpgrade(This,context)	\
+    ( (This)->lpVtbl -> EndRollbackFabricUpgrade(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginResetPartitionLoad(This,partitionId,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginResetPartitionLoad(This,partitionId,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndResetPartitionLoad(This,context)	\
+    ( (This)->lpVtbl -> EndResetPartitionLoad(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginToggleVerboseServicePlacementHealthReporting(This,enabled,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginToggleVerboseServicePlacementHealthReporting(This,enabled,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndToggleVerboseServicePlacementHealthReporting(This,context)	\
+    ( (This)->lpVtbl -> EndToggleVerboseServicePlacementHealthReporting(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginUpgradeConfiguration(This,startUpgradeDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUpgradeConfiguration(This,startUpgradeDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndUpgradeConfiguration(This,context)	\
+    ( (This)->lpVtbl -> EndUpgradeConfiguration(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginGetClusterConfigurationUpgradeStatus(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetClusterConfigurationUpgradeStatus(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetClusterConfigurationUpgradeStatus(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetClusterConfigurationUpgradeStatus(This,context,result) ) 
+
+#define IFabricClusterManagementClient16_BeginGetClusterConfiguration(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetClusterConfiguration(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetClusterConfiguration(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetClusterConfiguration(This,context,result) ) 
+
+#define IFabricClusterManagementClient16_BeginGetUpgradesPendingApproval(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetUpgradesPendingApproval(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetUpgradesPendingApproval(This,context)	\
+    ( (This)->lpVtbl -> EndGetUpgradesPendingApproval(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginStartApprovedUpgrades(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginStartApprovedUpgrades(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndStartApprovedUpgrades(This,context)	\
+    ( (This)->lpVtbl -> EndStartApprovedUpgrades(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginGetClusterManifest2(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetClusterManifest2(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetClusterManifest2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetClusterManifest2(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginGetUpgradeOrchestrationServiceState(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetUpgradeOrchestrationServiceState(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetUpgradeOrchestrationServiceState(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetUpgradeOrchestrationServiceState(This,context,result) ) 
+
+#define IFabricClusterManagementClient16_BeginSetUpgradeOrchestrationServiceState(This,state,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginSetUpgradeOrchestrationServiceState(This,state,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndSetUpgradeOrchestrationServiceState(This,context,result)	\
+    ( (This)->lpVtbl -> EndSetUpgradeOrchestrationServiceState(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginGetClusterConfiguration2(This,apiVersion,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetClusterConfiguration2(This,apiVersion,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetClusterConfiguration2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetClusterConfiguration2(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginAddConfigurationParameterOverrides(This,nodeName,configurationOverrideList,force,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginAddConfigurationParameterOverrides(This,nodeName,configurationOverrideList,force,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndAddConfigurationParameterOverrides(This,context)	\
+    ( (This)->lpVtbl -> EndAddConfigurationParameterOverrides(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginRemoveConfigurationOverrides(This,nodeName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRemoveConfigurationOverrides(This,nodeName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRemoveConfigurationOverrides(This,context)	\
+    ( (This)->lpVtbl -> EndRemoveConfigurationOverrides(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginGetConfigurationOverrides(This,nodeName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetConfigurationOverrides(This,nodeName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndGetConfigurationOverrides(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetConfigurationOverrides(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginUpdatePartitionLoad(This,partitionMetricLoadDescriptionList,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUpdatePartitionLoad(This,partitionMetricLoadDescriptionList,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndUpdatePartitionLoad(This,context,result)	\
+    ( (This)->lpVtbl -> EndUpdatePartitionLoad(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginAddNodeTags(This,nodeName,nodeTagsList,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginAddNodeTags(This,nodeName,nodeTagsList,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndAddNodeTags(This,context)	\
+    ( (This)->lpVtbl -> EndAddNodeTags(This,context) ) 
+
+#define IFabricClusterManagementClient16_BeginRemoveNodeTags(This,nodeName,nodeTagsList,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRemoveNodeTags(This,nodeName,nodeTagsList,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndRemoveNodeTags(This,context)	\
+    ( (This)->lpVtbl -> EndRemoveNodeTags(This,context) ) 
+
+
+#define IFabricClusterManagementClient16_BeginValidateFabricUpgrade(This,upgradeDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginValidateFabricUpgrade(This,upgradeDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndValidateFabricUpgrade(This,context,result)	\
+    ( (This)->lpVtbl -> EndValidateFabricUpgrade(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginUpdatePartitionMoveCost(This,partitionMoveCostDescriptionList,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginUpdatePartitionMoveCost(This,partitionMoveCostDescriptionList,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricClusterManagementClient16_EndUpdatePartitionMoveCost(This,context,result)	\
+    ( (This)->lpVtbl -> EndUpdatePartitionMoveCost(This,context,result) ) 
+
+
+#define IFabricClusterManagementClient16_BeginDeactivateNode2(This,nodeName,intent,timeoutMilliseconds,callback,description,context)	\
+    ( (This)->lpVtbl -> BeginDeactivateNode2(This,nodeName,intent,timeoutMilliseconds,callback,description,context) ) 
+
+#define IFabricClusterManagementClient16_EndDeactivateNode2(This,context)	\
+    ( (This)->lpVtbl -> EndDeactivateNode2(This,context) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricClusterManagementClient16_INTERFACE_DEFINED__ */
+
+
 #ifndef __IFabricHealthClient_INTERFACE_DEFINED__
 #define __IFabricHealthClient_INTERFACE_DEFINED__
 
@@ -27044,6 +28299,677 @@ EXTERN_C const IID IID_IFabricQueryClient12;
 
 
 #endif 	/* __IFabricQueryClient12_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricQueryClient13_INTERFACE_DEFINED__
+#define __IFabricQueryClient13_INTERFACE_DEFINED__
+
+/* interface IFabricQueryClient13 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricQueryClient13;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("df4b78ee-61a7-4e64-a359-555333d5f7dd")
+    IFabricQueryClient13 : public IFabricQueryClient12
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginGetBlockList( 
+            /* [in] */ const FABRIC_BLOCK_LIST_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndGetBlockList( 
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetBlockListResult **result) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricQueryClient13Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricQueryClient13 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricQueryClient13 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetNodeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_NODE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetNodeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetNodeListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetApplicationTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetApplicationTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetApplicationTypeListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_TYPE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetServiceTypeListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetApplicationList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_APPLICATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetApplicationList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetApplicationListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetServiceListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetPartitionList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetPartitionList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetPartitionListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetReplicaList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetReplicaList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetReplicaListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedApplicationList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_DEPLOYED_APPLICATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedApplicationList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedApplicationListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedServicePackageList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_DEPLOYED_SERVICE_PACKAGE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedServicePackageList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedServicePackageListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedServiceTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_DEPLOYED_SERVICE_TYPE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedServiceTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedServiceTypeListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedCodePackageList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_DEPLOYED_CODE_PACKAGE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedCodePackageList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedCodePackageListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedReplicaList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_DEPLOYED_SERVICE_REPLICA_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedReplicaList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedReplicaListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedReplicaDetail )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_DEPLOYED_SERVICE_REPLICA_DETAIL_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedReplicaDetail )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedServiceReplicaDetailResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetClusterLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetClusterLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetClusterLoadInformationResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetPartitionLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_PARTITION_LOAD_INFORMATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetPartitionLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetPartitionLoadInformationResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetProvisionedFabricCodeVersionList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_PROVISIONED_CODE_VERSION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetProvisionedFabricCodeVersionList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetProvisionedCodeVersionListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetProvisionedFabricConfigVersionList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_PROVISIONED_CONFIG_VERSION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetProvisionedFabricConfigVersionList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetProvisionedConfigVersionListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetNodeLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_NODE_LOAD_INFORMATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetNodeLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetNodeLoadInformationResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetReplicaLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_REPLICA_LOAD_INFORMATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetReplicaLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetReplicaLoadInformationResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceGroupMemberList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_GROUP_MEMBER_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceGroupMemberList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetServiceGroupMemberListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceGroupMemberTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_GROUP_MEMBER_TYPE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceGroupMemberTypeList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetServiceGroupMemberTypeListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetUnplacedReplicaInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_UNPLACED_REPLICA_INFORMATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetUnplacedReplicaInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetUnplacedReplicaInformationResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetNodeList2 )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetNodeListResult2 **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetApplicationList2 )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetApplicationListResult2 **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceList2 )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetServiceListResult2 **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetPartitionList2 )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetPartitionListResult2 **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetReplicaList2 )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetReplicaListResult2 **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetApplicationLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_APPLICATION_LOAD_INFORMATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetApplicationLoadInformation )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetApplicationLoadInformationResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetServiceName )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_SERVICE_NAME_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetServiceName )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetServiceNameResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetApplicationName )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_APPLICATION_NAME_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetApplicationName )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetApplicationNameResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetApplicationTypePagedList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const PAGED_FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetApplicationTypePagedList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetApplicationTypePagedListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedApplicationPagedList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_PAGED_DEPLOYED_APPLICATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedApplicationPagedList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedApplicationPagedListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetDeployedServicePackagePagedList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_PAGED_DEPLOYED_SERVICE_PACKAGE_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetDeployedServicePackagePagedList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetDeployedServicePackagePagedListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetLoadedPartitionInfoList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_LOADED_PARTITION_INFORMATION_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetLoadedPartitionInfoList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetGetLoadedPartitionInfoListResult **result);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetBlockList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ const FABRIC_BLOCK_LIST_QUERY_DESCRIPTION *queryDescription,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetBlockList )( 
+            IFabricQueryClient13 * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricGetBlockListResult **result);
+        
+        END_INTERFACE
+    } IFabricQueryClient13Vtbl;
+
+    interface IFabricQueryClient13
+    {
+        CONST_VTBL struct IFabricQueryClient13Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricQueryClient13_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricQueryClient13_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricQueryClient13_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricQueryClient13_BeginGetNodeList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetNodeList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetNodeList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetNodeList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetApplicationTypeList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetApplicationTypeList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetApplicationTypeList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetApplicationTypeList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetServiceTypeList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceTypeList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetServiceTypeList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceTypeList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetApplicationList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetApplicationList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetApplicationList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetApplicationList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetServiceList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetServiceList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetPartitionList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetPartitionList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetPartitionList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetPartitionList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetReplicaList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetReplicaList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetReplicaList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetReplicaList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetDeployedApplicationList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedApplicationList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedApplicationList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedApplicationList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetDeployedServicePackageList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedServicePackageList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedServicePackageList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedServicePackageList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetDeployedServiceTypeList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedServiceTypeList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedServiceTypeList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedServiceTypeList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetDeployedCodePackageList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedCodePackageList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedCodePackageList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedCodePackageList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetDeployedReplicaList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedReplicaList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedReplicaList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedReplicaList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetDeployedReplicaDetail(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedReplicaDetail(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedReplicaDetail(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedReplicaDetail(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetClusterLoadInformation(This,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetClusterLoadInformation(This,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetClusterLoadInformation(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetClusterLoadInformation(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetPartitionLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetPartitionLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetPartitionLoadInformation(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetPartitionLoadInformation(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetProvisionedFabricCodeVersionList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetProvisionedFabricCodeVersionList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetProvisionedFabricCodeVersionList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetProvisionedFabricCodeVersionList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetProvisionedFabricConfigVersionList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetProvisionedFabricConfigVersionList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetProvisionedFabricConfigVersionList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetProvisionedFabricConfigVersionList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetNodeLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetNodeLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetNodeLoadInformation(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetNodeLoadInformation(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetReplicaLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetReplicaLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetReplicaLoadInformation(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetReplicaLoadInformation(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetServiceGroupMemberList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceGroupMemberList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetServiceGroupMemberList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceGroupMemberList(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetServiceGroupMemberTypeList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceGroupMemberTypeList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetServiceGroupMemberTypeList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceGroupMemberTypeList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetUnplacedReplicaInformation(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetUnplacedReplicaInformation(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetUnplacedReplicaInformation(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetUnplacedReplicaInformation(This,context,result) ) 
+
+
+#define IFabricQueryClient13_EndGetNodeList2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetNodeList2(This,context,result) ) 
+
+#define IFabricQueryClient13_EndGetApplicationList2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetApplicationList2(This,context,result) ) 
+
+#define IFabricQueryClient13_EndGetServiceList2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceList2(This,context,result) ) 
+
+#define IFabricQueryClient13_EndGetPartitionList2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetPartitionList2(This,context,result) ) 
+
+#define IFabricQueryClient13_EndGetReplicaList2(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetReplicaList2(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetApplicationLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetApplicationLoadInformation(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetApplicationLoadInformation(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetApplicationLoadInformation(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetServiceName(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetServiceName(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetServiceName(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetServiceName(This,context,result) ) 
+
+#define IFabricQueryClient13_BeginGetApplicationName(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetApplicationName(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetApplicationName(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetApplicationName(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetApplicationTypePagedList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetApplicationTypePagedList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetApplicationTypePagedList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetApplicationTypePagedList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetDeployedApplicationPagedList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedApplicationPagedList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedApplicationPagedList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedApplicationPagedList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetDeployedServicePackagePagedList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetDeployedServicePackagePagedList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetDeployedServicePackagePagedList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetDeployedServicePackagePagedList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetLoadedPartitionInfoList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetLoadedPartitionInfoList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetLoadedPartitionInfoList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetLoadedPartitionInfoList(This,context,result) ) 
+
+
+#define IFabricQueryClient13_BeginGetBlockList(This,queryDescription,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetBlockList(This,queryDescription,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricQueryClient13_EndGetBlockList(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetBlockList(This,context,result) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricQueryClient13_INTERFACE_DEFINED__ */
 
 
 #ifndef __IFabricInfrastructureServiceClient_INTERFACE_DEFINED__
@@ -37142,6 +39068,92 @@ EXTERN_C const IID IID_IFabricUpdatePartitionMoveCostResult;
 
 
 #endif 	/* __IFabricUpdatePartitionMoveCostResult_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricGetBlockListResult_INTERFACE_DEFINED__
+#define __IFabricGetBlockListResult_INTERFACE_DEFINED__
+
+/* interface IFabricGetBlockListResult */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricGetBlockListResult;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("9d91d558-7514-4555-3334-ecc15927e9c3")
+    IFabricGetBlockListResult : public IUnknown
+    {
+    public:
+        virtual const FABRIC_BLOCK_LIST_QUERY_RESULT_LIST *STDMETHODCALLTYPE get_GetBlockList( void) = 0;
+        
+        virtual const FABRIC_PAGING_STATUS *STDMETHODCALLTYPE get_PagingStatus( void) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricGetBlockListResultVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricGetBlockListResult * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricGetBlockListResult * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricGetBlockListResult * This);
+        
+        const FABRIC_BLOCK_LIST_QUERY_RESULT_LIST *( STDMETHODCALLTYPE *get_GetBlockList )( 
+            IFabricGetBlockListResult * This);
+        
+        const FABRIC_PAGING_STATUS *( STDMETHODCALLTYPE *get_PagingStatus )( 
+            IFabricGetBlockListResult * This);
+        
+        END_INTERFACE
+    } IFabricGetBlockListResultVtbl;
+
+    interface IFabricGetBlockListResult
+    {
+        CONST_VTBL struct IFabricGetBlockListResultVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricGetBlockListResult_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricGetBlockListResult_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricGetBlockListResult_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricGetBlockListResult_get_GetBlockList(This)	\
+    ( (This)->lpVtbl -> get_GetBlockList(This) ) 
+
+#define IFabricGetBlockListResult_get_PagingStatus(This)	\
+    ( (This)->lpVtbl -> get_PagingStatus(This) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricGetBlockListResult_INTERFACE_DEFINED__ */
 
 
 EXTERN_C const CLSID CLSID_FabricClient;

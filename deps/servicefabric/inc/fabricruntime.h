@@ -46,6 +46,13 @@ typedef interface IFabricRuntime IFabricRuntime;
 #endif 	/* __IFabricRuntime_FWD_DEFINED__ */
 
 
+#ifndef __IFabricRuntime2_FWD_DEFINED__
+#define __IFabricRuntime2_FWD_DEFINED__
+typedef interface IFabricRuntime2 IFabricRuntime2;
+
+#endif 	/* __IFabricRuntime2_FWD_DEFINED__ */
+
+
 #ifndef __IFabricProcessExitHandler_FWD_DEFINED__
 #define __IFabricProcessExitHandler_FWD_DEFINED__
 typedef interface IFabricProcessExitHandler IFabricProcessExitHandler;
@@ -149,6 +156,27 @@ typedef interface IFabricStateProvider IFabricStateProvider;
 typedef interface IFabricStateReplicator IFabricStateReplicator;
 
 #endif 	/* __IFabricStateReplicator_FWD_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServiceFactory_FWD_DEFINED__
+#define __IFabricSelfReconfiguringServiceFactory_FWD_DEFINED__
+typedef interface IFabricSelfReconfiguringServiceFactory IFabricSelfReconfiguringServiceFactory;
+
+#endif 	/* __IFabricSelfReconfiguringServiceFactory_FWD_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServiceInstance_FWD_DEFINED__
+#define __IFabricSelfReconfiguringServiceInstance_FWD_DEFINED__
+typedef interface IFabricSelfReconfiguringServiceInstance IFabricSelfReconfiguringServiceInstance;
+
+#endif 	/* __IFabricSelfReconfiguringServiceInstance_FWD_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServicePartition_FWD_DEFINED__
+#define __IFabricSelfReconfiguringServicePartition_FWD_DEFINED__
+typedef interface IFabricSelfReconfiguringServicePartition IFabricSelfReconfiguringServicePartition;
+
+#endif 	/* __IFabricSelfReconfiguringServicePartition_FWD_DEFINED__ */
 
 
 #ifndef __IFabricReplicator_FWD_DEFINED__
@@ -492,6 +520,13 @@ typedef interface IFabricRuntime IFabricRuntime;
 #endif 	/* __IFabricRuntime_FWD_DEFINED__ */
 
 
+#ifndef __IFabricRuntime2_FWD_DEFINED__
+#define __IFabricRuntime2_FWD_DEFINED__
+typedef interface IFabricRuntime2 IFabricRuntime2;
+
+#endif 	/* __IFabricRuntime2_FWD_DEFINED__ */
+
+
 #ifndef __IFabricStatelessServiceFactory_FWD_DEFINED__
 #define __IFabricStatelessServiceFactory_FWD_DEFINED__
 typedef interface IFabricStatelessServiceFactory IFabricStatelessServiceFactory;
@@ -581,6 +616,27 @@ typedef interface IFabricStatefulServicePartition2 IFabricStatefulServicePartiti
 typedef interface IFabricStatefulServicePartition3 IFabricStatefulServicePartition3;
 
 #endif 	/* __IFabricStatefulServicePartition3_FWD_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServiceFactory_FWD_DEFINED__
+#define __IFabricSelfReconfiguringServiceFactory_FWD_DEFINED__
+typedef interface IFabricSelfReconfiguringServiceFactory IFabricSelfReconfiguringServiceFactory;
+
+#endif 	/* __IFabricSelfReconfiguringServiceFactory_FWD_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServiceInstance_FWD_DEFINED__
+#define __IFabricSelfReconfiguringServiceInstance_FWD_DEFINED__
+typedef interface IFabricSelfReconfiguringServiceInstance IFabricSelfReconfiguringServiceInstance;
+
+#endif 	/* __IFabricSelfReconfiguringServiceInstance_FWD_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServicePartition_FWD_DEFINED__
+#define __IFabricSelfReconfiguringServicePartition_FWD_DEFINED__
+typedef interface IFabricSelfReconfiguringServicePartition IFabricSelfReconfiguringServicePartition;
+
+#endif 	/* __IFabricSelfReconfiguringServicePartition_FWD_DEFINED__ */
 
 
 #ifndef __IFabricStateReplicator_FWD_DEFINED__
@@ -1137,6 +1193,10 @@ extern "C"{
 
 
 
+
+
+
+
 extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0000_v0_0_c_ifspec;
 extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0000_v0_0_s_ifspec;
 
@@ -1149,6 +1209,10 @@ extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0000_v0_0_s_ifspec;
 
 
 #pragma pack(push, 8)
+
+
+
+
 
 
 
@@ -1417,6 +1481,202 @@ EXTERN_C const IID IID_IFabricRuntime;
 #endif 	/* __IFabricRuntime_INTERFACE_DEFINED__ */
 
 
+#ifndef __IFabricRuntime2_INTERFACE_DEFINED__
+#define __IFabricRuntime2_INTERFACE_DEFINED__
+
+/* interface IFabricRuntime2 */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricRuntime2;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("2eb1046c-6fc9-494b-bd03-d9764be209fd")
+    IFabricRuntime2 : public IFabricRuntime
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginRegisterSelfReconfiguringServiceFactory( 
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricSelfReconfiguringServiceFactory *factory,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndRegisterSelfReconfiguringServiceFactory( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE RegisterSelfReconfiguringServiceFactory( 
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricSelfReconfiguringServiceFactory *factory) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricRuntime2Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricRuntime2 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricRuntime2 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricRuntime2 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRegisterStatelessServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricStatelessServiceFactory *factory,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRegisterStatelessServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *RegisterStatelessServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricStatelessServiceFactory *factory);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRegisterStatefulServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricStatefulServiceFactory *factory,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRegisterStatefulServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *RegisterStatefulServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricStatefulServiceFactory *factory);
+        
+        HRESULT ( STDMETHODCALLTYPE *CreateServiceGroupFactoryBuilder )( 
+            IFabricRuntime2 * This,
+            /* [retval][out] */ IFabricServiceGroupFactoryBuilder **builder);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRegisterServiceGroupFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR groupServiceType,
+            /* [in] */ IFabricServiceGroupFactory *factory,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRegisterServiceGroupFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *RegisterServiceGroupFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR groupServiceType,
+            /* [in] */ IFabricServiceGroupFactory *factory);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginRegisterSelfReconfiguringServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricSelfReconfiguringServiceFactory *factory,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndRegisterSelfReconfiguringServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        HRESULT ( STDMETHODCALLTYPE *RegisterSelfReconfiguringServiceFactory )( 
+            IFabricRuntime2 * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ IFabricSelfReconfiguringServiceFactory *factory);
+        
+        END_INTERFACE
+    } IFabricRuntime2Vtbl;
+
+    interface IFabricRuntime2
+    {
+        CONST_VTBL struct IFabricRuntime2Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricRuntime2_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricRuntime2_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricRuntime2_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricRuntime2_BeginRegisterStatelessServiceFactory(This,serviceTypeName,factory,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRegisterStatelessServiceFactory(This,serviceTypeName,factory,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricRuntime2_EndRegisterStatelessServiceFactory(This,context)	\
+    ( (This)->lpVtbl -> EndRegisterStatelessServiceFactory(This,context) ) 
+
+#define IFabricRuntime2_RegisterStatelessServiceFactory(This,serviceTypeName,factory)	\
+    ( (This)->lpVtbl -> RegisterStatelessServiceFactory(This,serviceTypeName,factory) ) 
+
+#define IFabricRuntime2_BeginRegisterStatefulServiceFactory(This,serviceTypeName,factory,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRegisterStatefulServiceFactory(This,serviceTypeName,factory,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricRuntime2_EndRegisterStatefulServiceFactory(This,context)	\
+    ( (This)->lpVtbl -> EndRegisterStatefulServiceFactory(This,context) ) 
+
+#define IFabricRuntime2_RegisterStatefulServiceFactory(This,serviceTypeName,factory)	\
+    ( (This)->lpVtbl -> RegisterStatefulServiceFactory(This,serviceTypeName,factory) ) 
+
+#define IFabricRuntime2_CreateServiceGroupFactoryBuilder(This,builder)	\
+    ( (This)->lpVtbl -> CreateServiceGroupFactoryBuilder(This,builder) ) 
+
+#define IFabricRuntime2_BeginRegisterServiceGroupFactory(This,groupServiceType,factory,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRegisterServiceGroupFactory(This,groupServiceType,factory,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricRuntime2_EndRegisterServiceGroupFactory(This,context)	\
+    ( (This)->lpVtbl -> EndRegisterServiceGroupFactory(This,context) ) 
+
+#define IFabricRuntime2_RegisterServiceGroupFactory(This,groupServiceType,factory)	\
+    ( (This)->lpVtbl -> RegisterServiceGroupFactory(This,groupServiceType,factory) ) 
+
+
+#define IFabricRuntime2_BeginRegisterSelfReconfiguringServiceFactory(This,serviceTypeName,factory,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginRegisterSelfReconfiguringServiceFactory(This,serviceTypeName,factory,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricRuntime2_EndRegisterSelfReconfiguringServiceFactory(This,context)	\
+    ( (This)->lpVtbl -> EndRegisterSelfReconfiguringServiceFactory(This,context) ) 
+
+#define IFabricRuntime2_RegisterSelfReconfiguringServiceFactory(This,serviceTypeName,factory)	\
+    ( (This)->lpVtbl -> RegisterSelfReconfiguringServiceFactory(This,serviceTypeName,factory) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricRuntime2_INTERFACE_DEFINED__ */
+
+
 #ifndef __IFabricProcessExitHandler_INTERFACE_DEFINED__
 #define __IFabricProcessExitHandler_INTERFACE_DEFINED__
 
@@ -1514,7 +1774,7 @@ EXTERN_C const IID IID_IFabricStatelessServiceFactory;
             /* [in] */ LPCWSTR serviceTypeName,
             /* [in] */ FABRIC_URI serviceName,
             /* [in] */ ULONG initializationDataLength,
-            /* [size_is][in] */ const byte *initializationData,
+            /* [size_is][in] */ const BYTE *initializationData,
             /* [in] */ FABRIC_PARTITION_ID partitionId,
             /* [in] */ FABRIC_INSTANCE_ID instanceId,
             /* [retval][out] */ IFabricStatelessServiceInstance **serviceInstance) = 0;
@@ -1545,7 +1805,7 @@ EXTERN_C const IID IID_IFabricStatelessServiceFactory;
             /* [in] */ LPCWSTR serviceTypeName,
             /* [in] */ FABRIC_URI serviceName,
             /* [in] */ ULONG initializationDataLength,
-            /* [size_is][in] */ const byte *initializationData,
+            /* [size_is][in] */ const BYTE *initializationData,
             /* [in] */ FABRIC_PARTITION_ID partitionId,
             /* [in] */ FABRIC_INSTANCE_ID instanceId,
             /* [retval][out] */ IFabricStatelessServiceInstance **serviceInstance);
@@ -2198,7 +2458,7 @@ EXTERN_C const IID IID_IFabricStatefulServiceFactory;
             /* [in] */ LPCWSTR serviceTypeName,
             /* [in] */ FABRIC_URI serviceName,
             /* [in] */ ULONG initializationDataLength,
-            /* [size_is][in] */ const byte *initializationData,
+            /* [size_is][in] */ const BYTE *initializationData,
             /* [in] */ FABRIC_PARTITION_ID partitionId,
             /* [in] */ FABRIC_REPLICA_ID replicaId,
             /* [retval][out] */ IFabricStatefulServiceReplica **serviceReplica) = 0;
@@ -2229,7 +2489,7 @@ EXTERN_C const IID IID_IFabricStatefulServiceFactory;
             /* [in] */ LPCWSTR serviceTypeName,
             /* [in] */ FABRIC_URI serviceName,
             /* [in] */ ULONG initializationDataLength,
-            /* [size_is][in] */ const byte *initializationData,
+            /* [size_is][in] */ const BYTE *initializationData,
             /* [in] */ FABRIC_PARTITION_ID partitionId,
             /* [in] */ FABRIC_REPLICA_ID replicaId,
             /* [retval][out] */ IFabricStatefulServiceReplica **serviceReplica);
@@ -3279,6 +3539,412 @@ EXTERN_C const IID IID_IFabricStateReplicator;
 
 
 #endif 	/* __IFabricStateReplicator_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServiceFactory_INTERFACE_DEFINED__
+#define __IFabricSelfReconfiguringServiceFactory_INTERFACE_DEFINED__
+
+/* interface IFabricSelfReconfiguringServiceFactory */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricSelfReconfiguringServiceFactory;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("7edf5508-44c2-4f41-b594-1a8ba19882a5")
+    IFabricSelfReconfiguringServiceFactory : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE CreateInstance( 
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ FABRIC_URI serviceName,
+            /* [in] */ ULONG initializationDataLength,
+            /* [size_is][in] */ const BYTE *initializationData,
+            /* [in] */ FABRIC_PARTITION_ID partitionId,
+            /* [in] */ FABRIC_INSTANCE_ID instanceId,
+            /* [retval][out] */ IFabricSelfReconfiguringServiceInstance **serviceInstance) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricSelfReconfiguringServiceFactoryVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricSelfReconfiguringServiceFactory * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricSelfReconfiguringServiceFactory * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricSelfReconfiguringServiceFactory * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *CreateInstance )( 
+            IFabricSelfReconfiguringServiceFactory * This,
+            /* [in] */ LPCWSTR serviceTypeName,
+            /* [in] */ FABRIC_URI serviceName,
+            /* [in] */ ULONG initializationDataLength,
+            /* [size_is][in] */ const BYTE *initializationData,
+            /* [in] */ FABRIC_PARTITION_ID partitionId,
+            /* [in] */ FABRIC_INSTANCE_ID instanceId,
+            /* [retval][out] */ IFabricSelfReconfiguringServiceInstance **serviceInstance);
+        
+        END_INTERFACE
+    } IFabricSelfReconfiguringServiceFactoryVtbl;
+
+    interface IFabricSelfReconfiguringServiceFactory
+    {
+        CONST_VTBL struct IFabricSelfReconfiguringServiceFactoryVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricSelfReconfiguringServiceFactory_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricSelfReconfiguringServiceFactory_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricSelfReconfiguringServiceFactory_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricSelfReconfiguringServiceFactory_CreateInstance(This,serviceTypeName,serviceName,initializationDataLength,initializationData,partitionId,instanceId,serviceInstance)	\
+    ( (This)->lpVtbl -> CreateInstance(This,serviceTypeName,serviceName,initializationDataLength,initializationData,partitionId,instanceId,serviceInstance) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricSelfReconfiguringServiceFactory_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServiceInstance_INTERFACE_DEFINED__
+#define __IFabricSelfReconfiguringServiceInstance_INTERFACE_DEFINED__
+
+/* interface IFabricSelfReconfiguringServiceInstance */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricSelfReconfiguringServiceInstance;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("d1dcb0dd-431a-4ae6-99ed-e241aa123a43")
+    IFabricSelfReconfiguringServiceInstance : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginOpen( 
+            /* [in] */ FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE openMode,
+            /* [in] */ IFabricSelfReconfiguringServicePartition *partition,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndOpen( 
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **serviceAddress) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE RequestConfiguration( 
+            /* [in] */ const FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST *configurationRequest) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE RequestConfigurationChange( 
+            /* [in] */ const FABRIC_SELF_RECONFIGURING_CONFIGURATION_CHANGE_REQUEST *configurationChangeRequest) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginClose( 
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndClose( 
+            /* [in] */ IFabricAsyncOperationContext *context) = 0;
+        
+        virtual void STDMETHODCALLTYPE Abort( void) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricSelfReconfiguringServiceInstanceVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricSelfReconfiguringServiceInstance * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricSelfReconfiguringServiceInstance * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginOpen )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE openMode,
+            /* [in] */ IFabricSelfReconfiguringServicePartition *partition,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndOpen )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricStringResult **serviceAddress);
+        
+        HRESULT ( STDMETHODCALLTYPE *RequestConfiguration )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ const FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST *configurationRequest);
+        
+        HRESULT ( STDMETHODCALLTYPE *RequestConfigurationChange )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ const FABRIC_SELF_RECONFIGURING_CONFIGURATION_CHANGE_REQUEST *configurationChangeRequest);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginClose )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndClose )( 
+            IFabricSelfReconfiguringServiceInstance * This,
+            /* [in] */ IFabricAsyncOperationContext *context);
+        
+        void ( STDMETHODCALLTYPE *Abort )( 
+            IFabricSelfReconfiguringServiceInstance * This);
+        
+        END_INTERFACE
+    } IFabricSelfReconfiguringServiceInstanceVtbl;
+
+    interface IFabricSelfReconfiguringServiceInstance
+    {
+        CONST_VTBL struct IFabricSelfReconfiguringServiceInstanceVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricSelfReconfiguringServiceInstance_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricSelfReconfiguringServiceInstance_BeginOpen(This,openMode,partition,callback,context)	\
+    ( (This)->lpVtbl -> BeginOpen(This,openMode,partition,callback,context) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_EndOpen(This,context,serviceAddress)	\
+    ( (This)->lpVtbl -> EndOpen(This,context,serviceAddress) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_RequestConfiguration(This,configurationRequest)	\
+    ( (This)->lpVtbl -> RequestConfiguration(This,configurationRequest) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_RequestConfigurationChange(This,configurationChangeRequest)	\
+    ( (This)->lpVtbl -> RequestConfigurationChange(This,configurationChangeRequest) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_BeginClose(This,callback,context)	\
+    ( (This)->lpVtbl -> BeginClose(This,callback,context) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_EndClose(This,context)	\
+    ( (This)->lpVtbl -> EndClose(This,context) ) 
+
+#define IFabricSelfReconfiguringServiceInstance_Abort(This)	\
+    ( (This)->lpVtbl -> Abort(This) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricSelfReconfiguringServiceInstance_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricSelfReconfiguringServicePartition_INTERFACE_DEFINED__
+#define __IFabricSelfReconfiguringServicePartition_INTERFACE_DEFINED__
+
+/* interface IFabricSelfReconfiguringServicePartition */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricSelfReconfiguringServicePartition;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("35e3b088-ce7d-4d89-b4b5-fafbe8d8aa3e")
+    IFabricSelfReconfiguringServicePartition : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE GetPartitionInfo( 
+            /* [retval][out] */ const FABRIC_SERVICE_PARTITION_INFORMATION **bufferedValue) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportLoad( 
+            /* [in] */ ULONG metricCount,
+            /* [size_is][in] */ const FABRIC_LOAD_METRIC *metrics) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportFault( 
+            /* [in] */ FABRIC_FAULT_TYPE faultType) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportMoveCost( 
+            /* [in] */ FABRIC_MOVE_COST moveCost) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportInstanceHealth( 
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportPartitionHealth( 
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportInstanceHealth2( 
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo,
+            /* [in] */ const FABRIC_HEALTH_REPORT_SEND_OPTIONS *sendOptions) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportPartitionHealth2( 
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo,
+            /* [in] */ const FABRIC_HEALTH_REPORT_SEND_OPTIONS *sendOptions) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ReportConfiguration( 
+            /* [in] */ const FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT *configurationReport) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricSelfReconfiguringServicePartitionVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricSelfReconfiguringServicePartition * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricSelfReconfiguringServicePartition * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetPartitionInfo )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [retval][out] */ const FABRIC_SERVICE_PARTITION_INFORMATION **bufferedValue);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportLoad )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ ULONG metricCount,
+            /* [size_is][in] */ const FABRIC_LOAD_METRIC *metrics);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportFault )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ FABRIC_FAULT_TYPE faultType);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportMoveCost )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ FABRIC_MOVE_COST moveCost);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportInstanceHealth )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportPartitionHealth )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportInstanceHealth2 )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo,
+            /* [in] */ const FABRIC_HEALTH_REPORT_SEND_OPTIONS *sendOptions);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportPartitionHealth2 )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ const FABRIC_HEALTH_INFORMATION *healthInfo,
+            /* [in] */ const FABRIC_HEALTH_REPORT_SEND_OPTIONS *sendOptions);
+        
+        HRESULT ( STDMETHODCALLTYPE *ReportConfiguration )( 
+            IFabricSelfReconfiguringServicePartition * This,
+            /* [in] */ const FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT *configurationReport);
+        
+        END_INTERFACE
+    } IFabricSelfReconfiguringServicePartitionVtbl;
+
+    interface IFabricSelfReconfiguringServicePartition
+    {
+        CONST_VTBL struct IFabricSelfReconfiguringServicePartitionVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricSelfReconfiguringServicePartition_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricSelfReconfiguringServicePartition_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricSelfReconfiguringServicePartition_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricSelfReconfiguringServicePartition_GetPartitionInfo(This,bufferedValue)	\
+    ( (This)->lpVtbl -> GetPartitionInfo(This,bufferedValue) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportLoad(This,metricCount,metrics)	\
+    ( (This)->lpVtbl -> ReportLoad(This,metricCount,metrics) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportFault(This,faultType)	\
+    ( (This)->lpVtbl -> ReportFault(This,faultType) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportMoveCost(This,moveCost)	\
+    ( (This)->lpVtbl -> ReportMoveCost(This,moveCost) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportInstanceHealth(This,healthInfo)	\
+    ( (This)->lpVtbl -> ReportInstanceHealth(This,healthInfo) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportPartitionHealth(This,healthInfo)	\
+    ( (This)->lpVtbl -> ReportPartitionHealth(This,healthInfo) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportInstanceHealth2(This,healthInfo,sendOptions)	\
+    ( (This)->lpVtbl -> ReportInstanceHealth2(This,healthInfo,sendOptions) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportPartitionHealth2(This,healthInfo,sendOptions)	\
+    ( (This)->lpVtbl -> ReportPartitionHealth2(This,healthInfo,sendOptions) ) 
+
+#define IFabricSelfReconfiguringServicePartition_ReportConfiguration(This,configurationReport)	\
+    ( (This)->lpVtbl -> ReportConfiguration(This,configurationReport) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricSelfReconfiguringServicePartition_INTERFACE_DEFINED__ */
 
 
 #ifndef __IFabricReplicator_INTERFACE_DEFINED__
@@ -13259,14 +13925,14 @@ EXTERN_C const IID IID_IFabricSecondaryEventHandler;
 #endif 	/* __IFabricSecondaryEventHandler_INTERFACE_DEFINED__ */
 
 
-/* interface __MIDL_itf_fabricruntime_0000_0080 */
+/* interface __MIDL_itf_fabricruntime_0000_0084 */
 /* [local] */ 
 
 typedef HRESULT (*FnFabricMain)(IFabricRuntime * runtime, IFabricCodePackageActivationContext * activationContext);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0080_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0080_v0_0_s_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0084_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_fabricruntime_0000_0084_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 
