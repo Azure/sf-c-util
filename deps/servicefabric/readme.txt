@@ -8,11 +8,15 @@ How to build:
 or
 2) type "build Release" to get the release-amd64 target
 
-If initial "build" fails, re-run it until it stops failing.
-
 More information for the future readers:
 
-Here's where SF's Official build pipeline is:
+Debug build took: Time Elapsed 00:39:44.46
+
+Release build took: 00:48:42.33
+
+CPU used was: Intel(R) Core(TM) i9-10900X CPU @ 3.70GHz
+
+SF's Official build pipeline is called "WindowsFabric-Onebranch-Official" and is located here:
 
 https://msazure.visualstudio.com/One/_build?definitionId=186717&_a=summary
 
