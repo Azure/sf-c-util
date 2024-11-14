@@ -1194,6 +1194,13 @@ typedef interface IFabricGetBlockListResult IFabricGetBlockListResult;
 #endif 	/* __IFabricGetBlockListResult_FWD_DEFINED__ */
 
 
+#ifndef __IFabricManagedIdentityClient_FWD_DEFINED__
+#define __IFabricManagedIdentityClient_FWD_DEFINED__
+typedef interface IFabricManagedIdentityClient IFabricManagedIdentityClient;
+
+#endif 	/* __IFabricManagedIdentityClient_FWD_DEFINED__ */
+
+
 #ifndef __FabricClient_FWD_DEFINED__
 #define __FabricClient_FWD_DEFINED__
 
@@ -2340,6 +2347,20 @@ typedef interface IFabricSecretReferencesResult IFabricSecretReferencesResult;
 #endif 	/* __IFabricSecretReferencesResult_FWD_DEFINED__ */
 
 
+#ifndef __IFabricManagedIdentityTokenServiceDescription_FWD_DEFINED__
+#define __IFabricManagedIdentityTokenServiceDescription_FWD_DEFINED__
+typedef interface IFabricManagedIdentityTokenServiceDescription IFabricManagedIdentityTokenServiceDescription;
+
+#endif 	/* __IFabricManagedIdentityTokenServiceDescription_FWD_DEFINED__ */
+
+
+#ifndef __IFabricManagedIdentityClient_FWD_DEFINED__
+#define __IFabricManagedIdentityClient_FWD_DEFINED__
+typedef interface IFabricManagedIdentityClient IFabricManagedIdentityClient;
+
+#endif 	/* __IFabricManagedIdentityClient_FWD_DEFINED__ */
+
+
 #ifndef __IFabricSecretStoreClient_FWD_DEFINED__
 #define __IFabricSecretStoreClient_FWD_DEFINED__
 typedef interface IFabricSecretStoreClient IFabricSecretStoreClient;
@@ -2597,6 +2618,7 @@ extern "C"{
 
 
 
+
 extern RPC_IF_HANDLE __MIDL_itf_fabricclient_0000_0000_v0_0_c_ifspec;
 extern RPC_IF_HANDLE __MIDL_itf_fabricclient_0000_0000_v0_0_s_ifspec;
 
@@ -2609,6 +2631,7 @@ extern RPC_IF_HANDLE __MIDL_itf_fabricclient_0000_0000_v0_0_s_ifspec;
 
 
 #pragma pack(push, 8)
+
 
 
 
@@ -39156,6 +39179,104 @@ EXTERN_C const IID IID_IFabricGetBlockListResult;
 #endif 	/* __IFabricGetBlockListResult_INTERFACE_DEFINED__ */
 
 
+#ifndef __IFabricManagedIdentityClient_INTERFACE_DEFINED__
+#define __IFabricManagedIdentityClient_INTERFACE_DEFINED__
+
+/* interface IFabricManagedIdentityClient */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricManagedIdentityClient;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("dfb1ea92-11ac-4a1e-82ad-d543a6fac1ed")
+    IFabricManagedIdentityClient : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE BeginGetTokenServiceDescription( 
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE EndGetTokenServiceDescription( 
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricManagedIdentityTokenServiceDescription **result) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricManagedIdentityClientVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricManagedIdentityClient * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricManagedIdentityClient * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricManagedIdentityClient * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *BeginGetTokenServiceDescription )( 
+            IFabricManagedIdentityClient * This,
+            /* [in] */ LPCWSTR nodeName,
+            /* [in] */ DWORD timeoutMilliseconds,
+            /* [in] */ IFabricAsyncOperationCallback *callback,
+            /* [retval][out] */ IFabricAsyncOperationContext **context);
+        
+        HRESULT ( STDMETHODCALLTYPE *EndGetTokenServiceDescription )( 
+            IFabricManagedIdentityClient * This,
+            /* [in] */ IFabricAsyncOperationContext *context,
+            /* [retval][out] */ IFabricManagedIdentityTokenServiceDescription **result);
+        
+        END_INTERFACE
+    } IFabricManagedIdentityClientVtbl;
+
+    interface IFabricManagedIdentityClient
+    {
+        CONST_VTBL struct IFabricManagedIdentityClientVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricManagedIdentityClient_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricManagedIdentityClient_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricManagedIdentityClient_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricManagedIdentityClient_BeginGetTokenServiceDescription(This,nodeName,timeoutMilliseconds,callback,context)	\
+    ( (This)->lpVtbl -> BeginGetTokenServiceDescription(This,nodeName,timeoutMilliseconds,callback,context) ) 
+
+#define IFabricManagedIdentityClient_EndGetTokenServiceDescription(This,context,result)	\
+    ( (This)->lpVtbl -> EndGetTokenServiceDescription(This,context,result) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricManagedIdentityClient_INTERFACE_DEFINED__ */
+
+
 EXTERN_C const CLSID CLSID_FabricClient;
 
 #ifdef __cplusplus
@@ -40409,6 +40530,84 @@ EXTERN_C const IID IID_IFabricPartitionQuorumLossProgressResult;
 
 
 #endif 	/* __IFabricPartitionQuorumLossProgressResult_INTERFACE_DEFINED__ */
+
+
+#ifndef __IFabricManagedIdentityTokenServiceDescription_INTERFACE_DEFINED__
+#define __IFabricManagedIdentityTokenServiceDescription_INTERFACE_DEFINED__
+
+/* interface IFabricManagedIdentityTokenServiceDescription */
+/* [uuid][local][object] */ 
+
+
+EXTERN_C const IID IID_IFabricManagedIdentityTokenServiceDescription;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("e293bb4d-e830-4f1d-ad22-fc17ca4dd45a")
+    IFabricManagedIdentityTokenServiceDescription : public IUnknown
+    {
+    public:
+        virtual const FABRIC_MANAGED_IDENTITY_TOKEN_SERVICE_DESCRIPTION *STDMETHODCALLTYPE get_TokenServiceDescription( void) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IFabricManagedIdentityTokenServiceDescriptionVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFabricManagedIdentityTokenServiceDescription * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFabricManagedIdentityTokenServiceDescription * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFabricManagedIdentityTokenServiceDescription * This);
+        
+        const FABRIC_MANAGED_IDENTITY_TOKEN_SERVICE_DESCRIPTION *( STDMETHODCALLTYPE *get_TokenServiceDescription )( 
+            IFabricManagedIdentityTokenServiceDescription * This);
+        
+        END_INTERFACE
+    } IFabricManagedIdentityTokenServiceDescriptionVtbl;
+
+    interface IFabricManagedIdentityTokenServiceDescription
+    {
+        CONST_VTBL struct IFabricManagedIdentityTokenServiceDescriptionVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFabricManagedIdentityTokenServiceDescription_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFabricManagedIdentityTokenServiceDescription_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFabricManagedIdentityTokenServiceDescription_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFabricManagedIdentityTokenServiceDescription_get_TokenServiceDescription(This)	\
+    ( (This)->lpVtbl -> get_TokenServiceDescription(This) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFabricManagedIdentityTokenServiceDescription_INTERFACE_DEFINED__ */
 
 
 /* Additional Prototypes for ALL interfaces */

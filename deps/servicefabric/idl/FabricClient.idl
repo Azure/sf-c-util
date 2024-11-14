@@ -91,6 +91,7 @@ interface IFabricTestManagementClient3;
 interface IFabricFaultManagementClient;
 interface IFabricFaultManagementClient2;
 interface IFabricFaultManagementClient3;
+interface IFabricManagedIdentityClient;
 interface IFabricNetworkManagementClient;
 interface IFabricServiceDescriptionResult;
 interface IFabricServiceGroupDescriptionResult;
@@ -362,6 +363,7 @@ library FabricClientLib
     interface IFabricGetGetLoadedPartitionInfoListResult;
     interface IFabricUpdatePartitionMoveCostResult;
     interface IFabricGetBlockListResult;
+    interface IFabricManagedIdentityClient;
 
     // ----------------------------------------------------------------------------
     // coclass definitions
@@ -441,6 +443,7 @@ library FabricClientLib
         interface IFabricFaultManagementClient3;
         interface IFabricNetworkManagementClient;
         interface IFabricSecretStoreClient;
+        interface IFabricManagedIdentityClient;
     }
 
     [
@@ -3158,6 +3161,25 @@ interface IFabricSecretsResult : IUnknown
 interface IFabricSecretReferencesResult : IUnknown
 {
     [] const FABRIC_SECRET_REFERENCE_LIST * get_SecretReferences();
+}
+
+[object, local, uuid(e293bb4d-e830-4f1d-ad22-fc17ca4dd45a)]
+interface IFabricManagedIdentityTokenServiceDescription : IUnknown
+{
+    [] const FABRIC_MANAGED_IDENTITY_TOKEN_SERVICE_DESCRIPTION * get_TokenServiceDescription();
+}
+
+[object, local, uuid(dfb1ea92-11ac-4a1e-82ad-d543a6fac1ed)]
+interface IFabricManagedIdentityClient : IUnknown
+{
+    [] HRESULT BeginGetTokenServiceDescription(
+        [in] LPCWSTR nodeName,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [out, retval] IFabricAsyncOperationContext ** context);
+    [] HRESULT EndGetTokenServiceDescription(
+        [in] IFabricAsyncOperationContext * context,
+        [out, retval] IFabricManagedIdentityTokenServiceDescription ** result);
 }
 
 [object, local, uuid(38c4c723-3815-49d8-bdf2-68bfb536b8c9)]

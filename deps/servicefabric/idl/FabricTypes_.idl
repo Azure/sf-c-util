@@ -30,6 +30,7 @@ library FabricType_Lib
     typedef LONGLONG FABRIC_STATE_PROVIDER_ID;
     typedef GUID FABRIC_BACKUP_OPERATION_ID;
     typedef GUID FABRIC_RESTORE_OPERATION_ID;
+    typedef GUID FABRIC_BRS_OPERATION_ID;
 
     // ----------------------------------------------------------------------------
     // Constants
@@ -1283,6 +1284,12 @@ library FabricType_Lib
         void                                        *Reserved;
     }FABRIC_BACKUP_STORE_MANAGED_IDENTITY_AZURE_STORAGE_INFORMATION;
 
+    typedef struct FABRIC_BACKUP_STORE_MANAGED_IDENTITY_AZURE_STORAGE_INFORMATION_EX1
+    {
+        GUID ManagedIdentityClientId;
+        void* Reserved;
+    } FABRIC_BACKUP_STORE_MANAGED_IDENTITY_AZURE_STORAGE_INFORMATION_EX1;
+
     typedef struct FABRIC_BACKUP_POLICY
     {
         LPCWSTR                                         Name;
@@ -1365,12 +1372,24 @@ library FabricType_Lib
         void*                       Reserved;
     } FABRIC_BACKUP_UPLOAD_INFO;
 
+    typedef struct FABRIC_BACKUP_UPLOAD_INFO_EX1
+    {
+        FABRIC_BRS_OPERATION_ID  OperationId;
+        void*                    Reserved;
+    } FABRIC_BACKUP_UPLOAD_INFO_EX1;
+
     typedef struct FABRIC_BACKUP_DOWNLOAD_INFO
     {
         const FABRIC_STRING_LIST*   BackupLocations;
         LPCWSTR                     DestinationRootPath;
         void*                       Reserved;
     } FABRIC_BACKUP_DOWNLOAD_INFO;
+
+    typedef struct FABRIC_BACKUP_DOWNLOAD_INFO_EX1
+    {
+        FABRIC_BRS_OPERATION_ID  OperationId;
+        void*                    Reserved;
+    } FABRIC_BACKUP_DOWNLOAD_INFO_EX1;
 
     [v1_enum, uuid(06341b35-92fd-45ab-8fd8-59620cbdf9b2)]
     typedef enum FABRIC_CONTAINER_ISOLATION_MODE
