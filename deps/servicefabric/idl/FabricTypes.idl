@@ -396,10 +396,34 @@ library FabricTypeLib
 
         FABRIC_E_SKIP_RESTORE_OPERATION = FABRIC_E_BACKUP_NOT_FOUND + 1,
 
+        FABRIC_E_STORE_OUT_OF_SESSIONS = FABRIC_E_SKIP_RESTORE_OPERATION + 1,
+
+        FABRIC_E_RESTORE_WAITING_FOR_USER_INTERVENTION = FABRIC_E_STORE_OUT_OF_SESSIONS + 1,
+
+        FABRIC_E_DATABASE_FILES_CORRUPTED = FABRIC_E_RESTORE_WAITING_FOR_USER_INTERVENTION + 1,
+
+        FABRIC_E_INSUFFICIENT_MAX_LOAD_CAPACITY = FABRIC_E_DATABASE_FILES_CORRUPTED + 1,
+
+        FABRIC_E_STORE_DISK_ERROR = FABRIC_E_INSUFFICIENT_MAX_LOAD_CAPACITY + 1,
+
+        FABRIC_E_SERVICE_ALREADY_IN_REQUESTED_STATE = FABRIC_E_STORE_DISK_ERROR + 1,
+
+        FABRIC_E_DISABLE_ENABLE_SERVICE_FEATURE_DISABLED = FABRIC_E_SERVICE_ALREADY_IN_REQUESTED_STATE + 1,
+
+        FABRIC_E_MAX_ALLOWED_DISABLED_SERVICES_REACHED = FABRIC_E_DISABLE_ENABLE_SERVICE_FEATURE_DISABLED + 1,
+
+        FABRIC_E_SERVICE_DISABLED = FABRIC_E_MAX_ALLOWED_DISABLED_SERVICES_REACHED + 1,
+
+        FABRIC_E_SERVICE_DISABLE_IN_PROGRESS = FABRIC_E_SERVICE_DISABLED + 1,
+
+        FABRIC_E_STORE_OUT_OF_LONG_VALUE_IDS = FABRIC_E_SERVICE_DISABLE_IN_PROGRESS + 1,
+
+        FABRIC_E_STORE_OUT_OF_INSTANCES = FABRIC_E_STORE_OUT_OF_LONG_VALUE_IDS + 1,
+
         // IMPORTANT NOTE: NTSTATUS in \src\prod\src\data\statuscodes\SfStatus.mc must match with the Error Codes defined here.
         // If you are adding a new error code, make sure to also add it in SfStatus.mc.
         // For more information see https://dev.azure.com/msazure/ServiceFabric/_wiki/wikis/SF-Wiki/90071/Native-Replicator-Stack.md?anchor=how-to-add-a-new-ntstatus%3F "How to Add A New NTStatus".
-        FABRIC_E_LAST_USED_FACILITY_SF_HRESULT = FABRIC_E_SKIP_RESTORE_OPERATION,
+        FABRIC_E_LAST_USED_FACILITY_SF_HRESULT = FABRIC_E_STORE_OUT_OF_INSTANCES,
 
         FABRIC_E_FACILITY_SF_LAST_HRESULT = 0x87b0ffff
 
@@ -413,6 +437,8 @@ library FabricTypeLib
         FABRIC_CLIENT_ROLE_USER = 0x0001,
 
         FABRIC_CLIENT_ROLE_ADMIN = 0x0002,
+
+        FABRIC_CLIENT_ROLE_ELEVATED_ADMIN = 0x0004,
 
     } FABRIC_CLIENT_ROLE;
 
@@ -429,7 +455,11 @@ library FabricTypeLib
 
         FABRIC_QUERY_SERVICE_STATUS_CREATING = 0x0004,
 
-        FABRIC_QUERY_SERVICE_STATUS_FAILED = 0x0005
+        FABRIC_QUERY_SERVICE_STATUS_FAILED = 0x0005,
+
+        FABRIC_QUERY_SERVICE_STATUS_DISABLING = 0x0006,
+
+        FABRIC_QUERY_SERVICE_STATUS_DISABLED = 0x0007
 
     } FABRIC_QUERY_SERVICE_STATUS;
 
@@ -484,7 +514,9 @@ library FabricTypeLib
 
         FABRIC_SERVICE_KIND_STATELESS = 0x0001,
 
-        FABRIC_SERVICE_KIND_STATEFUL = 0x0002
+        FABRIC_SERVICE_KIND_STATEFUL = 0x0002,
+
+        FABRIC_SERVICE_KIND_SELF_RECONFIGURING = 0x0003,
 
     } FABRIC_SERVICE_KIND;
 
@@ -514,7 +546,11 @@ library FabricTypeLib
 
         FABRIC_QUERY_SERVICE_PARTITION_STATUS_RECONFIGURING = 0x0004,
 
-        FABRIC_QUERY_SERVICE_PARTITION_STATUS_DELETING = 0x0005
+        FABRIC_QUERY_SERVICE_PARTITION_STATUS_DELETING = 0x0005,
+
+        FABRIC_QUERY_SERVICE_PARTITION_STATUS_DISABLING = 0x0006,
+
+        FABRIC_QUERY_SERVICE_PARTITION_STATUS_DISABLED = 0x0007
 
     } FABRIC_QUERY_SERVICE_PARTITION_STATUS;
 
@@ -961,6 +997,8 @@ library FabricTypeLib
 
         FABRIC_HEALTH_REPORT_KIND_CLUSTER = 0x0009,
 
+        FABRIC_HEALTH_REPORT_KIND_SELF_RECONFIGURING_SERVICE_INSTANCE = 0x000A,
+
     } FABRIC_HEALTH_REPORT_KIND;
 
     [v1_enum, uuid(018988E7-8BBD-489F-BEAC-40C40E77B3C4)]
@@ -1088,7 +1126,9 @@ library FabricTypeLib
 
         FABRIC_SERVICE_ROLE_STATEFUL_PRIMARY_AUXILIARY = 0x0004,
 
-        FABRIC_SERVICE_ROLE_STATEFUL_AUXILIARY = 0x0005
+        FABRIC_SERVICE_ROLE_STATEFUL_AUXILIARY = 0x0005,
+
+        FABRIC_SERVICE_ROLE_SELF_RECONFIGURING = 0x0006,
 
     } FABRIC_SERVICE_ENDPOINT_ROLE;
 
@@ -1154,6 +1194,8 @@ library FabricTypeLib
 
         FABRIC_SERVICE_DESCRIPTION_KIND_STATEFUL = 0x0002,
 
+        FABRIC_SERVICE_DESCRIPTION_KIND_SELF_RECONFIGURING = 0x0003,
+
     } FABRIC_SERVICE_DESCRIPTION_KIND;
 
     [v1_enum, uuid(33aca70a-7b83-4ba5-b780-3b34bee8c087)]
@@ -1167,7 +1209,8 @@ library FabricTypeLib
         FABRIC_STATEFUL_SERVICE_SETTINGS_DROP_SOURCE_REPLICA_ON_MOVE = 0x0010,
         FABRIC_STATEFUL_SERVICE_SETTINGS_IS_SINGLETON_REPLICA_MOVE_ALLOWED_DURING_UPGRADE	= 0x0020,
         FABRIC_STATEFUL_SERVICE_SETTINGS_RESTORE_REPLICA_LOCATION_AFTER_UPGRADE	= 0x0040,
-        FABRIC_STATEFUL_SERVICE_SETTINGS_AUXILIARY_REPLICA_COUNT = 0x0080
+        FABRIC_STATEFUL_SERVICE_SETTINGS_AUXILIARY_REPLICA_COUNT = 0x0080,
+        FABRIC_STATEFUL_SERVICE_SETTINGS_SERVICE_SENSITIVITY = 0x0100
 
     } FABRIC_STATEFUL_SERVICE_FAILOVER_SETTINGS_FLAGS;
 
@@ -1224,9 +1267,39 @@ library FabricTypeLib
         FABRIC_STATEFUL_SERVICE_RESTORE_REPLICA_LOCATION_AFTER_UPGRADE = 0x8000,
         FABRIC_STATEFUL_SERVICE_TAGS_REQUIRED_TO_PLACE = 0x10000,
         FABRIC_STATEFUL_SERVICE_TAGS_REQUIRED_TO_RUN = 0x20000,
-        FABRIC_STATEFUL_SERVICE_AUXILIARY_REPLICA_COUNT = 0x40000
+        FABRIC_STATEFUL_SERVICE_AUXILIARY_REPLICA_COUNT = 0x40000,
+        FABRIC_STATEFUL_SERVICE_SERVICE_SENSITIVITY = 0x80000
 
     } FABRIC_STATEFUL_SERVICE_UPDATE_DESCRIPTION_FLAGS;
+
+    // -- BEGIN self reconfiguring data types
+
+    [v1_enum, uuid(cad07520-2813-4ac8-90b2-7b1b2aec1c7f)]
+    typedef enum FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE
+    {
+        FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE_INVALID  = 0x0000,
+        FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE_NEW      = 0x0001,
+        FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE_EXISTING = 0x0002
+    } FABRIC_SELF_RECONFIGURING_INSTANCE_OPEN_MODE;
+
+    [v1_enum, uuid(e1f99cf1-55a4-4797-a2b8-c8a5a89bb6e5)]
+    typedef enum FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE
+    {
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE_INVALID = 0x0000,
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE_INITIAL = 0x0001,
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE_MEMBER  = 0x0002,
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE_NONE    = 0x0003
+    } FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE;    
+
+    [v1_enum, uuid(52cb6b21-9f0c-412b-a644-0d6e65c6a6a0)]
+    typedef enum FABRIC_SELF_RECONFIGURING_INSTANCE_ACTIVATION_STATE
+    {
+        FABRIC_SELF_RECONFIGURATION_STATUS_INVALID     = 0x0000,
+        FABRIC_SELF_RECONFIGURATION_STATUS_ACTIVATED   = 0x0001,
+        FABRIC_SELF_RECONFIGURATION_STATUS_DEACTIVATED = 0x0002,
+    } FABRIC_SELF_RECONFIGURING_INSTANCE_ACTIVATION_STATE;
+
+    // -- END self reconfiguring data types
 
     [v1_enum, uuid(89fee5c1-2016-4e70-9902-d8957f0b8c73)]
     typedef enum FABRIC_SERVICE_NOTIFICATION_FILTER_FLAGS
@@ -1291,6 +1364,19 @@ library FabricTypeLib
         FABRIC_MONITORED_UPGRADE_FAILURE_ACTION_MANUAL = 0x0002,
 
     } FABRIC_MONITORED_UPGRADE_FAILURE_ACTION;
+
+    [v1_enum, uuid(7b04d70a-763d-4a0b-97c6-b9b905550d24)]
+    typedef enum FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE
+    {
+        FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE_INVALID = 0x0000,
+
+        FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE_WAIT_DURATION = 0x0001,
+
+        FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE_STABLE_DURATION = 0x0002,
+
+        FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE_RETRY = 0x0003,
+
+    } FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE;
 
     [v1_enum, uuid(2eaccf3b-ccde-49a5-bb2d-4223eed3cbda)]
     typedef enum FABRIC_ROLLING_UPGRADE_UPDATE_FLAGS
@@ -1460,6 +1546,15 @@ library FabricTypeLib
         FABRIC_NODE_DEACTIVATION_INTENT_REMOVE_NODE = 0x0004,
 
     } FABRIC_NODE_DEACTIVATION_INTENT;
+
+    [v1_enum, uuid(fc80e723-d9cc-426c-3e7d-62f776bbb3f8)]
+    typedef enum FABRIC_SERVICE_DISABLE_FLAG
+    {
+        FABRIC_SERVICE_DISABLE_FLAG_INVALID = 0x0000,
+
+        FABRIC_SERVICE_DISABLE_FLAG_REMOVE_DATA = 0x0001,
+
+    } FABRIC_SERVICE_DISABLE_FLAG;
 
     [v1_enum, uuid(7d2464bb-cefe-4f39-9a0b-fa3d8e1cc348)]
     typedef enum FABRIC_APPLICATION_TYPE_STATUS
@@ -2300,6 +2395,7 @@ library FabricTypeLib
         FABRIC_SERVICE_LOAD_METRIC_WEIGHT Weight;
         ULONG PrimaryDefaultLoad;
         ULONG SecondaryDefaultLoad;
+        // "Reserved" points to AuxiliaryDefaultLoad struct (EX1) below
         void * Reserved;
 
     } FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION;
@@ -2307,9 +2403,18 @@ library FabricTypeLib
     typedef struct FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION_EX1
     {
         ULONG AuxiliaryDefaultLoad;
+        // "Reserved" points to MaximumLoad struct (EX2) below
         void * Reserved;
 
     } FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION_EX1;
+
+    typedef struct FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION_EX2
+    {
+        ULONG MaximumLoad;
+        // "Reserved" for future extension
+        void * Reserved;
+
+    } FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION_EX2;
 
     typedef struct FABRIC_PARTITION_SELECTOR
     {
@@ -2852,6 +2957,84 @@ library FabricTypeLib
         void * Reserved;
 
     } FABRIC_STATEFUL_SERVICE_TYPE_DESCRIPTION_EX1;
+
+    // -- BEGIN self reconfiguring data types
+
+    // TODO [nsinlock]: We will need to revisit the service type description. There is no
+    // authoritative definition for this type yet.
+
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_TYPE_DESCRIPTION
+    {
+        // [stateful] + [stateless]
+        LPCWSTR ServiceTypeName;
+        LPCWSTR PlacementConstraints;
+        const FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION_LIST* LoadMetrics;
+        const FABRIC_SERVICE_TYPE_DESCRIPTION_EXTENSION_LIST* Extensions;
+        FABRIC_SERVICE_PLACEMENT_POLICY_LIST* PolicyList;
+
+        // [stateless]
+        // BOOLEAN UseImplicitHost;
+
+        void* Reserved;
+
+    } FABRIC_SELF_RECONFIGURING_SERVICE_TYPE_DESCRIPTION;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT_ID
+    {
+        LONGLONG SequenceNumber;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT_ID;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST_ID
+    {
+        LONGLONG GenerationNumber;
+        LONGLONG SequenceNumber;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST_ID;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_INSTANCE_INFORMATION
+    {
+        FABRIC_INSTANCE_ID InstanceId;
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE Role;
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ACTIVATION_STATE ActivationState;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_INSTANCE_INFORMATION;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT
+    {
+        FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST_ID RequestId;
+        FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT_ID ReportId;
+        ULONG InstanceCount;
+        [size_is(InstanceCount)] const FABRIC_SELF_RECONFIGURING_INSTANCE_INFORMATION * Instances;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST
+    {
+        FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST_ID RequestId;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_INSTANCE_CHANGE_REQUEST
+    {
+        FABRIC_INSTANCE_ID InstanceId;
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE Role;
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ROLE RequestedRole;
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ACTIVATION_STATE ActivationState;
+        FABRIC_SELF_RECONFIGURING_INSTANCE_ACTIVATION_STATE RequestedActivationState;
+        LPCWSTR Endpoints;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_INSTANCE_CHANGE_REQUEST;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_CONFIGURATION_CHANGE_REQUEST
+    {
+        FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST_ID RequestId;
+        ULONG InstanceCount;
+        [size_is(InstanceCount)] const FABRIC_SELF_RECONFIGURING_INSTANCE_CHANGE_REQUEST * Instances;
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_CONFIGURATION_CHANGE_REQUEST;
+
+    // -- END self reconfiguring data types
 
     typedef struct FABRIC_SERVICE_GROUP_TYPE_MEMBER_DESCRIPTION
     {
@@ -3424,6 +3607,15 @@ library FabricTypeLib
         void * Reserved;
     } FABRIC_SERVICE_TAGS_DESCRIPTION;
 
+    typedef struct SERVICE_SENSITIVITY_DESCRIPTION
+    {
+        ULONG PrimaryDefaultSensitivity;
+        ULONG SecondaryDefaultSensitivity;
+        ULONG AuxiliaryDefaultSensitivity;
+        BOOLEAN IsMaximumSensitivity;
+        void *Reserved;
+    } SERVICE_SENSITIVITY_DESCRIPTION;
+
     typedef struct FABRIC_STATELESS_SERVICE_FAILOVER_SETTINGS
     {
         DWORD Flags;
@@ -3652,8 +3844,16 @@ library FabricTypeLib
     typedef struct FABRIC_STATEFUL_SERVICE_FAILOVER_SETTINGS_EX5
     {
         LONG AuxiliaryReplicaCount;
+        // "Reserved" points to EX6 below
         void * Reserved;
     } FABRIC_STATEFUL_SERVICE_FAILOVER_SETTINGS_EX5;
+
+    typedef struct FABRIC_STATEFUL_SERVICE_FAILOVER_SETTINGS_EX6
+    {
+        SERVICE_SENSITIVITY_DESCRIPTION * ServiceSensitivityDescription;
+        // "Reserved" for future extension 
+        void * Reserved;
+    } FABRIC_STATEFUL_SERVICE_FAILOVER_SETTINGS_EX6;
 
     // Used with DescriptionType = FABRIC_SERVICE_DESCRIPTION_KIND_STATEFUL
     typedef struct FABRIC_STATEFUL_SERVICE_DESCRIPTION_EX1
@@ -3773,8 +3973,145 @@ library FabricTypeLib
     typedef struct FABRIC_STATEFUL_SERVICE_UPDATE_DESCRIPTION_EX11
     {
         LONG AuxiliaryReplicaCount;
+        // "Reserved" points to EX12 below
         void * Reserved;
     } FABRIC_STATEFUL_SERVICE_UPDATE_DESCRIPTION_EX11;
+
+    typedef struct FABRIC_STATEFUL_SERVICE_UPDATE_DESCRIPTION_EX12
+    {
+        SERVICE_SENSITIVITY_DESCRIPTION * ServiceSensitivityDescription;
+        // "Reserved" for future extension
+        void * Reserved;
+    } FABRIC_STATEFUL_SERVICE_UPDATE_DESCRIPTION_EX12;
+
+    // -- BEGIN self reconfiguring data types
+
+    // TODO [matthewzhu]: Figure out which fields we really need for the self-reconfiguring data types.
+    // These were cobbled together from the corresponding stateful and stateless data types.
+    // The source of each field is annotated below; some are commented out pending further analysis.
+
+    typedef struct SELF_RECONFIGURING_INSTANCE_LIFECYCLE_DESCRIPTION
+    {
+        // [stateful] + [stateless]
+        BOOLEAN IsRestoreReplicaLocationAfterUpgradeSpecified;
+        BOOLEAN RestoreReplicaLocationAfterUpgrade;
+
+        // [stateful] -- TODO
+        // BOOLEAN IsIsSingletonReplicaMoveAllowedDuringUpgradeSpecified;
+        // BOOLEAN IsSingletonReplicaMoveAllowedDuringUpgrade;
+
+        void * Reserved;
+    } SELF_RECONFIGURING_INSTANCE_LIFECYCLE_DESCRIPTION;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_FAILOVER_SETTINGS
+    {
+        // [stateful] + [stateless]
+        DWORD Flags;
+
+        SELF_RECONFIGURING_INSTANCE_LIFECYCLE_DESCRIPTION * InstanceLifecycleDescription;
+
+        // [stateless] -- TODO
+        // INSTANCE_LIFECYCLE_DESCRIPTION * InstanceLifecycleDescription;
+        DWORD InstanceRestartWaitDurationSeconds;
+        // DWORD InstanceCloseDelayDurationSeconds;
+
+        // [stateful] -- TODO
+        // REPLICA_LIFECYCLE_DESCRIPTION * ReplicaLifecycleDescription;
+        // DWORD ReplicaRestartWaitDurationSeconds;
+        // DWORD QuorumLossWaitDurationSeconds;
+        // DWORD StandByReplicaKeepDurationSeconds;
+        // DWORD ServicePlacementTimeLimitSeconds;
+        // BOOLEAN DropSourceReplicaOnMove;
+        // LONG AuxiliaryReplicaCount;
+
+        void * Reserved;
+    } FABRIC_SELF_RECONFIGURING_SERVICE_FAILOVER_SETTINGS;
+
+    // Used with DescriptionType = FABRIC_SERVICE_DESCRIPTION_KIND_SELF_RECONFIGURING
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_DESCRIPTION
+    {
+        // [stateful] + [stateless]
+        FABRIC_URI ApplicationName;
+        FABRIC_URI ServiceName;
+        LPCWSTR ServiceTypeName;
+        ULONG InitializationDataSize;
+        [size_is(InitializationDataSize)] BYTE * InitializationData;
+        FABRIC_PARTITION_SCHEME PartitionScheme;
+        void * PartitionSchemeDescription;
+        LPCWSTR PlacementConstraints;
+        ULONG CorrelationCount;
+        [size_is(CorrelationCount)] FABRIC_SERVICE_CORRELATION_DESCRIPTION * Correlations;
+        ULONG MetricCount;
+        [size_is(MetricCount)] FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION * Metrics;
+        FABRIC_SERVICE_PLACEMENT_POLICY_LIST * PolicyList;
+        BOOLEAN IsDefaultMoveCostSpecified;
+        FABRIC_MOVE_COST DefaultMoveCost;
+        FABRIC_SERVICE_PACKAGE_ACTIVATION_MODE ServicePackageActivationMode;
+        LPCWSTR ServiceDnsName;
+        ULONG ScalingPolicyCount;
+        [size_is(ScalingPolicyCount)] FABRIC_SERVICE_SCALING_POLICY * ServiceScalingPolicies;
+        FABRIC_SERVICE_TAGS_DESCRIPTION *TagsDescription;
+
+        FABRIC_SELF_RECONFIGURING_SERVICE_FAILOVER_SETTINGS * FailoverSettings;
+
+        // [stateless] -- TODO
+        // FABRIC_STATELESS_SERVICE_FAILOVER_SETTINGS * FailoverSettings;
+        LONG MinInstanceCount;
+        // LONG MinInstancePercentage;
+        LONG InstanceCount;
+
+        // [stateful]
+        // FABRIC_STATEFUL_SERVICE_FAILOVER_SETTINGS * FailoverSettings;
+        // LONG TargetReplicaSetSize;
+        // LONG MinReplicaSetSize;
+        // BOOLEAN HasPersistedState;
+
+        void *Reserved;
+    } FABRIC_SELF_RECONFIGURING_SERVICE_DESCRIPTION;
+
+    // Used with DescriptionType = FABRIC_SERVICE_DESCRIPTION_KIND_SELF_RECONFIGURING
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_UPDATE_DESCRIPTION
+    {
+        // [stateful] + [stateless]
+        DWORD Flags;
+        LPCWSTR PlacementConstraints;
+        FABRIC_SERVICE_PLACEMENT_POLICY_LIST * PolicyList;
+        ULONG CorrelationCount;
+        [size_is(CorrelationCount)] FABRIC_SERVICE_CORRELATION_DESCRIPTION * Correlations;
+        ULONG MetricCount;
+        [size_is(MetricCount)] FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION * Metrics;
+        FABRIC_MOVE_COST DefaultMoveCost;
+        FABRIC_SERVICE_PARTITION_KIND RepartitionKind;
+        void * RepartitionDescription;
+        ULONG ScalingPolicyCount;
+        [size_is(ScalingPolicyCount)] FABRIC_SERVICE_SCALING_POLICY * ServiceScalingPolicies;
+        LPCWSTR ServiceDnsName;
+        FABRIC_SERVICE_TAGS_DESCRIPTION *TagsDescription;
+
+        // [stateless] -- TODO
+        // INSTANCE_LIFECYCLE_DESCRIPTION * InstanceLifecycleDescription;
+        LONG InstanceCount;
+        LONG MinInstanceCount;
+        // LONG MinInstancePercentage;
+        // DWORD InstanceCloseDelayDurationSeconds;
+        DWORD InstanceRestartWaitDurationSeconds;
+
+        // [stateful] -- TODO
+        // REPLICA_LIFECYCLE_DESCRIPTION * ReplicaLifecycleDescription;
+        // LONG TargetReplicaSetSize;
+        // LONG MinReplicaSetSize;
+        // DWORD ReplicaRestartWaitDurationSeconds;
+        // DWORD QuorumLossWaitDurationSeconds;
+        // DWORD StandByReplicaKeepDurationSeconds;
+        // DWORD ServicePlacementTimeLimitSeconds;
+        // BOOLEAN DropSourceReplicaOnMove;
+        // LONG AuxiliaryReplicaCount;
+
+        void *Reserved;
+
+    } FABRIC_SELF_RECONFIGURING_SERVICE_UPDATE_DESCRIPTION;
+
+    // -- END self reconfiguring data types
 
     typedef struct FABRIC_NAMED_REPARTITION_DESCRIPTION
     {
@@ -4135,7 +4472,7 @@ library FabricTypeLib
         LPCWSTR ServiceType;
         FABRIC_URI ServiceName;
         ULONG InitializationDataSize;
-        [size_is(InitializationDataSize)]const byte* InitializationData;
+        [size_is(InitializationDataSize)]const BYTE* InitializationData;
         ULONG MetricCount;
         [size_is(MetricCount)] FABRIC_SERVICE_LOAD_METRIC_DESCRIPTION * Metrics;
         void * Reserved;
@@ -4252,7 +4589,7 @@ library FabricTypeLib
         LPCWSTR DbFolderPath;
         LONG LogFileSizeInKB;
         LONG LogBufferSizeInKB;
-        LONG MaxCursors;
+        LONG MaxCursors; // This setting is no longer configurable. The maximum value allowed by ESE (MAX_INT) is used.
         LONG MaxVerPages;
         LONG MaxAsyncCommitDelayInMilliseconds;
         void * Reserved;
@@ -4292,22 +4629,22 @@ library FabricTypeLib
     typedef struct FABRIC_ESE_LOCAL_STORE_SETTINGS_EX3
     {
         LONG MaxDefragFrequencyInMinutes;
-        LONG DefragThresholdInMB;
-        LONG DatabasePageSizeInKB;
+        LONG DefragThresholdInMB; // This setting is no longer used as Defragmentation happens regularly.
+        LONG DatabasePageSizeInKB; // This setting is no longer configurable. The optimal value determined internally is used.
         void * Reserved;
 
     } FABRIC_ESE_LOCAL_STORE_SETTINGS_EX3;
 
     typedef struct FABRIC_ESE_LOCAL_STORE_SETTINGS_EX4
     {
-        LONG CompactionThresholdInMB;
+        LONG CompactionThresholdInMB; // This setting is no longer used. FreePageSizeThresholdInPercent should be used to determine auto-compaction. 
         void * Reserved;
 
     } FABRIC_ESE_LOCAL_STORE_SETTINGS_EX4;
 
     typedef struct FABRIC_ESE_LOCAL_STORE_SETTINGS_EX5
     {
-        LONG IntrinsicValueThresholdInBytes;
+        LONG IntrinsicValueThresholdInBytes; // This setting is no longer configurable. The optimal value determined internally is used.
         void * Reserved;
 
     } FABRIC_ESE_LOCAL_STORE_SETTINGS_EX5;
@@ -4330,8 +4667,8 @@ library FabricTypeLib
 
     typedef struct FABRIC_ESE_LOCAL_STORE_SETTINGS_EX8
     {
-        LONG FreePageSizeThresholdInMB;
-        LONG CompactionProbabilityInPercent;
+        LONG FreePageSizeThresholdInMB; // This setting is no longer used. FreePageSizeThresholdInPercent should be used to determine auto-compaction. 
+        LONG CompactionProbabilityInPercent; // This setting is no longer used. FreePageSizeThresholdInPercent should be used to determine auto-compaction. 
         void * Reserved;
 
     } FABRIC_ESE_LOCAL_STORE_SETTINGS_EX8;
@@ -4474,6 +4811,12 @@ library FabricTypeLib
         FABRIC_NODE_DEACTIVATION_INTENT Intent;
         void * Reserved;
     } FABRIC_NODE_DEACTIVATION_TASK;
+
+    typedef struct FABRIC_NODE_DEACTIVATION_TASK_EX1
+    {
+        LPCWSTR Description;
+        void * Reserved;
+    } FABRIC_NODE_DEACTIVATION_TASK_EX1;
 
     typedef struct FABRIC_NODE_DEACTIVATION_TASK_LIST
     {
@@ -5147,6 +5490,13 @@ library FabricTypeLib
 
     } FABRIC_STATEFUL_SERVICE_REPLICA_QUERY_RESULT_ITEM;
 
+    typedef struct FABRIC_STATEFUL_SERVICE_REPLICA_QUERY_RESULT_ITEM_EX1
+    {
+        FABRIC_REPLICA_ROLE PreviousReplicaRole;
+        void * Reserved;
+
+    } FABRIC_STATEFUL_SERVICE_REPLICA_QUERY_RESULT_ITEM_EX1;
+
     typedef struct FABRIC_STATELESS_SERVICE_INSTANCE_QUERY_RESULT_ITEM
     {
         FABRIC_INSTANCE_ID InstanceId;
@@ -5201,13 +5551,6 @@ library FabricTypeLib
         void * Reserved;
 
     } FABRIC_DEPLOYED_APPLICATION_QUERY_RESULT_ITEM_EX2;
-
-    typedef struct FABRIC_DEPLOYED_APPLICATION_QUERY_RESULT_ITEM_EX3
-    {
-        LPCWSTR ApplicationTypeVersion;
-        void * Reserved;
-        
-    } FABRIC_DEPLOYED_APPLICATION_QUERY_RESULT_ITEM_EX3;
 
     typedef struct FABRIC_DEPLOYED_APPLICATION_QUERY_RESULT_LIST
     {
@@ -5828,6 +6171,34 @@ library FabricTypeLib
         void * Reserved;
     } FABRIC_LOADED_PARTITION_INFORMATION_QUERY_DESCRIPTION;
 
+    typedef struct FABRIC_BLOCK_LIST_QUERY_RESULT_ITEM {
+        LPCWSTR NodeName;
+        void * Reserved;
+    } FABRIC_BLOCK_LIST_QUERY_RESULT_ITEM;
+
+    typedef struct FABRIC_BLOCK_LIST_QUERY_RESULT_LIST
+    {
+        ULONG Count;
+        [size_is(Count)] const FABRIC_BLOCK_LIST_QUERY_RESULT_ITEM * Items;
+    } FABRIC_BLOCK_LIST_QUERY_RESULT_LIST;
+
+    [v1_enum, uuid(555333ae-9908-409a-9810-6526afed1ac8)]
+    typedef enum FABRIC_BLOCK_LIST_TYPE
+    {
+        FABRIC_BLOCK_LIST_TYPE_SERVICE = 0x0000,
+        FABRIC_BLOCK_LIST_TYPE_OVERALL = 0x0001,
+        FABRIC_BLOCK_LIST_TYPE_PREFERRED_PRIMARY = 0x0002,
+        FABRIC_BLOCK_LIST_TYPE_PLACEMENT_TAGS = 0x0003,
+        FABRIC_BLOCK_LIST_TYPE_RUNNING_TAGS = 0x0004
+    } FABRIC_BLOCK_LIST_TYPE;
+
+    typedef struct FABRIC_BLOCK_LIST_QUERY_DESCRIPTION {
+        FABRIC_URI ServiceName;
+        FABRIC_BLOCK_LIST_TYPE type;
+        FABRIC_QUERY_PAGING_DESCRIPTION * PagingDescription;
+        void * Reserved;
+    } FABRIC_BLOCK_LIST_QUERY_DESCRIPTION;
+
     // ------------------------------------------------------------------------
     // Node and Code Package control description Structures
     // ------------------------------------------------------------------------
@@ -6171,6 +6542,15 @@ library FabricTypeLib
 
     } FABRIC_STATEFUL_SERVICE_REPLICA_HEALTH_REPORT;
 
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH_REPORT
+    {
+        FABRIC_PARTITION_ID PartitionId;
+        FABRIC_INSTANCE_ID InstanceId;
+        const FABRIC_HEALTH_INFORMATION * HealthInformation;
+        void * Reserved;
+
+    } FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH_REPORT;
+
     typedef struct FABRIC_PARTITION_HEALTH_REPORT
     {
         FABRIC_PARTITION_ID PartitionId;
@@ -6377,9 +6757,18 @@ library FabricTypeLib
     typedef struct FABRIC_PARTITION_LOAD_INFORMATION_EX1
     {
         FABRIC_LOAD_METRIC_REPORT_LIST * AuxiliaryLoadMetricReports;
+        // "Reserved" points to EX2 below
         void * Reserved;
 
     } FABRIC_PARTITION_LOAD_INFORMATION_EX1;
+
+    typedef struct FABRIC_PARTITION_LOAD_INFORMATION_EX2
+    {
+        FABRIC_LOAD_METRIC_REPORT_LIST * MaximumLoadMetricReports;
+        // "Reserved" for future extension
+        void * Reserved;
+
+    } FABRIC_PARTITION_LOAD_INFORMATION_EX2;
 
     typedef struct FABRIC_REPLICA_LOAD_INFORMATION
     {
@@ -6432,8 +6821,16 @@ library FabricTypeLib
     {
         FABRIC_METRIC_LOAD_DESCRIPTION_LIST * AuxiliaryReplicasLoadEntries;
         FABRIC_REPLICA_METRIC_LOAD_DESCRIPTION_LIST * AuxiliaryReplicaLoadEntriesPerNode;
+        // "Reserved" points to EX2 below
         void * Reserved;
     } FABRIC_PARTITION_METRIC_LOAD_DESCRIPTION_EX1;
+
+    typedef struct FABRIC_PARTITION_METRIC_LOAD_DESCRIPTION_EX2
+    {
+        FABRIC_METRIC_LOAD_DESCRIPTION_LIST * MaximumReplicaLoadEntries;
+        // "Reserved" for future extension
+        void * Reserved;
+    } FABRIC_PARTITION_METRIC_LOAD_DESCRIPTION_EX2;
 
     typedef struct FABRIC_PARTITION_METRIC_LOAD_DESCRIPTION_LIST
     {
@@ -6769,6 +7166,17 @@ library FabricTypeLib
 
     } FABRIC_STATELESS_SERVICE_INSTANCE_HEALTH_EX1;
 
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH
+    {
+        FABRIC_PARTITION_ID PartitionId;
+        FABRIC_INSTANCE_ID InstanceId;
+        FABRIC_HEALTH_STATE AggregatedHealthState;
+        const FABRIC_HEALTH_EVENT_LIST * HealthEvents;
+        const FABRIC_HEALTH_EVALUATION_LIST * UnhealthyEvaluations;
+        void * Reserved;
+
+    } FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH;
+
     typedef struct FABRIC_REPLICA_HEALTH_STATE
     {
         FABRIC_SERVICE_KIND Kind;
@@ -6814,6 +7222,22 @@ library FabricTypeLib
         void * Reserved;
 
     } FABRIC_STATEFUL_SERVICE_REPLICA_HEALTH_STATE_EX1;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH_STATE
+    {
+        FABRIC_PARTITION_ID PartitionId;
+        FABRIC_INSTANCE_ID InstanceId;
+        FABRIC_HEALTH_STATE AggregatedHealthState;
+        void * Reserved;
+
+    } FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH_STATE;
+
+    typedef struct FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH_STATE_EX1
+    {
+        const FABRIC_HEALTH_EVALUATION_LIST * UnhealthyEvaluations;
+        void * Reserved;
+
+    } FABRIC_SELF_RECONFIGURING_SERVICE_INSTANCE_HEALTH_STATE_EX1;
 
     typedef struct FABRIC_PARTITION_HEALTH
     {
@@ -7495,6 +7919,15 @@ library FabricTypeLib
         void * Reserved;
 
     } FABRIC_APPLICATION_UPGRADE_PROGRESS_EX2;
+    
+    typedef struct FABRIC_APPLICATION_UPGRADE_PROGRESS_EX3
+    {
+        DWORD HealthCheckElapsedTime;
+        FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE HealthCheckPhase;
+        LONGLONG HealthCheckFlips;
+        void * Reserved;
+
+    } FABRIC_APPLICATION_UPGRADE_PROGRESS_EX3;
 
     typedef struct FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION_BASE
     {
@@ -7569,6 +8002,15 @@ library FabricTypeLib
         void * Reserved;
 
     } FABRIC_UPGRADE_PROGRESS_EX1;
+    
+    typedef struct FABRIC_UPGRADE_PROGRESS_EX2
+    {
+        DWORD HealthCheckElapsedTime;
+        FABRIC_MONITORED_UPGRADE_HEALTH_CHECK_PHASE HealthCheckPhase;
+        LONGLONG HealthCheckFlips;
+        void * Reserved;
+
+    } FABRIC_UPGRADE_PROGRESS_EX2;
 
     typedef struct FABRIC_PACKAGE_SHARING_POLICY
     {
@@ -8784,6 +9226,23 @@ library FabricTypeLib
         ULONG Count;
         [size_is(Count)] FABRIC_SECRET_REFERENCE * Items;
     } FABRIC_SECRET_REFERENCE_LIST;
+
+    /// <summary>
+    /// Type representing metadata associated with the ManagedIdentityTokenService; assists callers
+    /// with discovery of the service endpoint and server credentials.
+    /// </summary>
+    typedef struct FABRIC_MANAGED_IDENTITY_TOKEN_SERVICE_DESCRIPTION
+    {
+        BOOLEAN IsTokenServiceEnabled;
+        BOOLEAN IsClusterIdentityEnabled;
+        LPCWSTR ApplicationTokenEndpoint;
+        LPCWSTR SystemTokenEndpoint;
+        LPCWSTR ClusterIdentityObjectId;
+        LPCWSTR RemoteTokenEndpoint;
+        LPCWSTR ServerCertificateThumbprint;
+
+        void * Reserved;
+    } FABRIC_MANAGED_IDENTITY_TOKEN_SERVICE_DESCRIPTION;
 
     [v1_enum, uuid(276C58B4-828F-4638-8971-9B42A0BEE932)]
     typedef enum FABRIC_CODE_PACKAGE_EVENT_TYPE

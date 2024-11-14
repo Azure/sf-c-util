@@ -33,6 +33,7 @@ interface IFabricServiceManagementClient4;
 interface IFabricServiceManagementClient5;
 interface IFabricServiceManagementClient6;
 interface IFabricServiceManagementClient7;
+interface IFabricServiceManagementClient8;
 interface IFabricServiceGroupManagementClient;
 interface IFabricServiceGroupManagementClient2;
 interface IFabricServiceGroupManagementClient3;
@@ -63,6 +64,7 @@ interface IFabricClusterManagementClient12;
 interface IFabricClusterManagementClient13;
 interface IFabricClusterManagementClient14;
 interface IFabricClusterManagementClient15;
+interface IFabricClusterManagementClient16;
 interface IFabricHealthClient;
 interface IFabricHealthClient2;
 interface IFabricHealthClient3;
@@ -79,6 +81,7 @@ interface IFabricQueryClient9;
 interface IFabricQueryClient10;
 interface IFabricQueryClient11;
 interface IFabricQueryClient12;
+interface IFabricQueryClient13;
 interface IFabricInfrastructureServiceClient;
 interface IFabricRepairManagementClient;
 interface IFabricRepairManagementClient2;
@@ -88,6 +91,7 @@ interface IFabricTestManagementClient3;
 interface IFabricFaultManagementClient;
 interface IFabricFaultManagementClient2;
 interface IFabricFaultManagementClient3;
+interface IFabricManagedIdentityClient;
 interface IFabricNetworkManagementClient;
 interface IFabricServiceDescriptionResult;
 interface IFabricServiceGroupDescriptionResult;
@@ -179,7 +183,7 @@ interface IFabricUpdatePartitionLoadResult;
 interface IFabricGetGetLoadedPartitionInfoListResult;
 interface IFabricValidateFabricUpgradeResult;
 interface IFabricUpdatePartitionMoveCostResult;
-
+interface IFabricGetBlockListResult;
 [
     uuid(31e3a54f-57f2-4453-b38e-bfa90b505231),
     version(1.0),
@@ -206,6 +210,7 @@ library FabricClientLib
     interface IFabricServiceManagementClient5;
     interface IFabricServiceManagementClient6;
     interface IFabricServiceManagementClient7;
+    interface IFabricServiceManagementClient8;
     interface IFabricServiceGroupManagementClient;
     interface IFabricServiceGroupManagementClient2;
     interface IFabricServiceGroupManagementClient3;
@@ -236,6 +241,7 @@ library FabricClientLib
     interface IFabricClusterManagementClient13;
     interface IFabricClusterManagementClient14;
     interface IFabricClusterManagementClient15;
+    interface IFabricClusterManagementClient16;
     interface IFabricHealthClient;
     interface IFabricHealthClient2;
     interface IFabricHealthClient3;
@@ -252,6 +258,7 @@ library FabricClientLib
     interface IFabricQueryClient10;
     interface IFabricQueryClient11;
     interface IFabricQueryClient12;
+    interface IFabricQueryClient13;
     interface IFabricInfrastructureServiceClient;
     interface IFabricRepairManagementClient;
     interface IFabricRepairManagementClient2;
@@ -355,6 +362,8 @@ library FabricClientLib
     interface IFabricUpdatePartitionLoadResult;
     interface IFabricGetGetLoadedPartitionInfoListResult;
     interface IFabricUpdatePartitionMoveCostResult;
+    interface IFabricGetBlockListResult;
+    interface IFabricManagedIdentityClient;
 
     // ----------------------------------------------------------------------------
     // coclass definitions
@@ -374,6 +383,7 @@ library FabricClientLib
         interface IFabricServiceManagementClient5;
         interface IFabricServiceManagementClient6;
         interface IFabricServiceManagementClient7;
+        interface IFabricServiceManagementClient8;
         interface IFabricServiceGroupManagementClient;
         interface IFabricServiceGroupManagementClient2;
         interface IFabricServiceGroupManagementClient3;
@@ -404,6 +414,7 @@ library FabricClientLib
         interface IFabricClusterManagementClient13;
         interface IFabricClusterManagementClient14;
         interface IFabricClusterManagementClient15;
+        interface IFabricClusterManagementClient16;
         interface IFabricHealthClient;
         interface IFabricHealthClient2;
         interface IFabricHealthClient3;
@@ -420,6 +431,7 @@ library FabricClientLib
         interface IFabricQueryClient10;
         interface IFabricQueryClient11;
         interface IFabricQueryClient12;
+        interface IFabricQueryClient13;
         interface IFabricInfrastructureServiceClient;
         interface IFabricRepairManagementClient;
         interface IFabricRepairManagementClient2;
@@ -431,6 +443,7 @@ library FabricClientLib
         interface IFabricFaultManagementClient3;
         interface IFabricNetworkManagementClient;
         interface IFabricSecretStoreClient;
+        interface IFabricManagedIdentityClient;
     }
 
     [
@@ -831,6 +844,29 @@ interface IFabricServiceManagementClient7 : IFabricServiceManagementClient6
         [out, retval] IFabricAsyncOperationContext ** context);
 
     [] HRESULT EndReportCompletion(
+        [in] IFabricAsyncOperationContext * context);
+}
+
+[object, local, uuid(27309db9-61a7-ae11-967a-bbff7d5a5460)]
+interface IFabricServiceManagementClient8 : IFabricServiceManagementClient7
+{
+    [] HRESULT BeginDisableService(
+        [in] const FABRIC_URI serviceNameUri,
+        [in] const FABRIC_SERVICE_DISABLE_FLAG disableServiceFlag,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [out, retval] IFabricAsyncOperationContext ** context);
+
+    [] HRESULT EndDisableService(
+        [in] IFabricAsyncOperationContext * context);
+
+    [] HRESULT BeginEnableService(
+        [in] const FABRIC_URI serviceNameUri,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [out, retval] IFabricAsyncOperationContext ** context);
+
+    [] HRESULT EndEnableService(
         [in] IFabricAsyncOperationContext * context);
 }
 
@@ -1532,6 +1568,19 @@ interface IFabricClusterManagementClient15 : IFabricClusterManagementClient14
         [out, retval] IFabricUpdatePartitionMoveCostResult ** result);
 }
 
+[object, local, uuid(a5fb109d-6553-46cf-8016-d919aab3b737)] interface IFabricClusterManagementClient16 : IFabricClusterManagementClient15
+{
+    [] HRESULT BeginDeactivateNode2(
+        [in] LPCWSTR nodeName,
+        [in] FABRIC_NODE_DEACTIVATION_INTENT intent,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [in] LPCWSTR description,
+        [out, retval] IFabricAsyncOperationContext **context);
+    [] HRESULT EndDeactivateNode2(
+        [in] IFabricAsyncOperationContext * context);
+};
+
 [object, local, uuid(3d00d0be-7014-41da-9c5b-0a9ef46e2a43)]
 interface IFabricHealthClient : IUnknown
 {
@@ -2046,6 +2095,19 @@ interface IFabricQueryClient12 : IFabricQueryClient11
     [] HRESULT EndGetLoadedPartitionInfoList(
         [in] IFabricAsyncOperationContext * context,
         [out, retval] IFabricGetGetLoadedPartitionInfoListResult ** result);
+}
+
+[object, local, uuid(df4b78ee-61a7-4e64-a359-555333d5f7dd)]
+interface IFabricQueryClient13 : IFabricQueryClient12
+{
+    [] HRESULT BeginGetBlockList(
+        [in] const FABRIC_BLOCK_LIST_QUERY_DESCRIPTION * queryDescription,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [out, retval] IFabricAsyncOperationContext ** context);
+    [] HRESULT EndGetBlockList(
+        [in] IFabricAsyncOperationContext * context,
+        [out, retval] IFabricGetBlockListResult ** result);
 }
 
 [object, local, uuid(a0cfbc71-184b-443b-b102-4b6d0a7cbc49)]
@@ -3101,6 +3163,25 @@ interface IFabricSecretReferencesResult : IUnknown
     [] const FABRIC_SECRET_REFERENCE_LIST * get_SecretReferences();
 }
 
+[object, local, uuid(e293bb4d-e830-4f1d-ad22-fc17ca4dd45a)]
+interface IFabricManagedIdentityTokenServiceDescription : IUnknown
+{
+    [] const FABRIC_MANAGED_IDENTITY_TOKEN_SERVICE_DESCRIPTION * get_TokenServiceDescription();
+}
+
+[object, local, uuid(dfb1ea92-11ac-4a1e-82ad-d543a6fac1ed)]
+interface IFabricManagedIdentityClient : IUnknown
+{
+    [] HRESULT BeginGetTokenServiceDescription(
+        [in] LPCWSTR nodeName,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [out, retval] IFabricAsyncOperationContext ** context);
+    [] HRESULT EndGetTokenServiceDescription(
+        [in] IFabricAsyncOperationContext * context,
+        [out, retval] IFabricManagedIdentityTokenServiceDescription ** result);
+}
+
 [object, local, uuid(38c4c723-3815-49d8-bdf2-68bfb536b8c9)]
 interface IFabricSecretStoreClient : IUnknown
 {
@@ -3195,5 +3276,12 @@ interface IFabricGetGetConfigurationOverridesListResult : IUnknown
 interface IFabricGetGetLoadedPartitionInfoListResult : IUnknown
 {
     [] const FABRIC_LOADED_PARTITION_INFORMATION_QUERY_RESULT_LIST * get_GetLoadedPartitionInfoList();
+    [] const FABRIC_PAGING_STATUS * get_PagingStatus();
+}
+
+[object, local, uuid(9d91d558-7514-4555-3334-ecc15927e9c3)]
+interface IFabricGetBlockListResult : IUnknown
+{
+    [] const FABRIC_BLOCK_LIST_QUERY_RESULT_LIST * get_GetBlockList();
     [] const FABRIC_PAGING_STATUS * get_PagingStatus();
 }
