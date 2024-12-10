@@ -197,7 +197,7 @@ The macro `H_FABRIC_DEFINE_API_WITH_RESULTS` adds the optional parameter `perman
 
 **SRS_H_FABRIC_MACRO_GENERATOR_02_010: [** If the call succeeds then `H_FABRIC_API(IFABRIC_METHOD_NAME)` shall succeed and return. **]**
 
-**SRS_H_FABRIC_MACRO_GENERATOR_02_011: [** If the result is `FABRIC_E_OBJECT_CLOSED`, `FABRIC_E_GATEWAY_NOT_REACHABLE` or `E_ABORT` then `H_FABRIC_API(IFABRIC_METHOD_NAME)` shall create a new instance of `IFABRIC_INTERFACE_NAME`. **]**
+**SRS_H_FABRIC_MACRO_GENERATOR_02_011: [** If the result is `FABRIC_E_OBJECT_CLOSED`, `FABRIC_E_GATEWAY_NOT_REACHABLE`, `FABRIC_E_TIMEOUT` or `E_ABORT` then `H_FABRIC_API(IFABRIC_METHOD_NAME)` shall create a new instance of `IFABRIC_INTERFACE_NAME`. **]**
 
 **SRS_H_FABRIC_MACRO_GENERATOR_02_012: [** If creating the new instance of `IFABRIC_INTERFACE_NAME` fails then `H_FABRIC_API(IFABRIC_METHOD_NAME)` shall retry using the existing `IFABRIC_INTERFACE_NAME`. **]**
 

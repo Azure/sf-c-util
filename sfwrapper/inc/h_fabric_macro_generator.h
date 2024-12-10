@@ -238,8 +238,10 @@ HRESULT H_FABRIC_API(IFABRIC_METHOD_NAME)(H_FABRIC_HANDLE(IFABRIC_INTERFACE_NAME
                 LogHRESULTError(hr, "failure in " MU_TOSTRING(IFABRIC_METHOD_NAME) "(handle->This=%p, ...)",                                                                                \
                     handle->This);                                                                                                                                                          \
                                                                                                                                                                                             \
-                /*Codes_SRS_H_FABRIC_MACRO_GENERATOR_02_011: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/ \
-                if ((hr == E_ABORT) || (hr == FABRIC_E_OBJECT_CLOSED) || (hr == FABRIC_E_GATEWAY_NOT_REACHABLE))                                                                            \
+                /*Codes_SRS_H_FABRIC_MACRO_GENERATOR_02_011: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE, FABRIC_E_TIMEOUT or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/ \
+                /* FABRIC_E_TIMEOUT was observed in certain cases, such as RestartPartition. We should retry by creating a new client and trying the call again, */                         \
+                /* up to the timeout specified in the H_FABRIC_HANDLE. */                                                                                                                   \
+                if ((hr == E_ABORT) || (hr == FABRIC_E_OBJECT_CLOSED) || (hr == FABRIC_E_GATEWAY_NOT_REACHABLE) || (hr == FABRIC_E_TIMEOUT))                                                \
                 {                                                                                                                                                                           \
                     IFABRIC_INTERFACE_NAME* newInstance = NULL;                                                                                                                             \
                                                                                                                                                                                             \
