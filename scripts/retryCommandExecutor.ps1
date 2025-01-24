@@ -1,30 +1,32 @@
 # Copyright (C) Microsoft Corporation. All rights reserved.
+#This script runs a command with retry logic, handling specific errors, ignoring others, and considering timeout settings to ensure robust execution.
+<#
+ Example:
+ Execute-WithRetry -Command {
+     # Removing application fabric:/AAA
+     Remove-ServiceFabricApplication fabric:/AAA -ForceRemove -Force
+ } -Conditions @("FabricTransientException") -IgnoreConditions @("FabricElementNotFoundException")
+
+Define the conditions to handle
+$conditions = @("FabricTransientException", "AnotherTransientException")
+
+Define the conditions to ignore
+$ignoreConditions = @("FabricElementNotFoundException", "AnotherElementNotFoundException")
+
+Example: List of conditions/IgnoreConditions.
+Execute-WithRetry -Command {
+   # Removing application fabric:/BBB
+   Remove-ServiceFabricApplication fabric:/BBB -ForceRemove -Force
+} -Conditions $conditions -IgnoreConditions $ignoreConditions
+
+Example: If no conditions are specified, handle all exceptions.
+Execute-WithRetry -Command {
+    # Removing application fabric:/CCC
+  Remove-ServiceFabricApplication fabric:/CCC -ForceRemove -Force
+ }
+#>
+
 # Define the maximum retry duration and the initial delay between retries
-
-# Example:
-# Execute-WithRetry -Command { 
-#     # Removing application fabric:/AAA
-#     Remove-ServiceFabricApplication fabric:/AAA -ForceRemove -Force 
-# } -Conditions @("FabricTransientException") -IgnoreConditions @("FabricElementNotFoundException")
-
-# Define the conditions to handle
-# $conditions = @("FabricTransientException", "AnotherTransientException")
-
-# Define the conditions to ignore
-# $ignoreConditions = @("FabricElementNotFoundException", "AnotherElementNotFoundException")
-
-# Example: List of conditions/IgnoreConditions.
-# Execute-WithRetry -Command { 
-#     # Removing application fabric:/BBB
-#     Remove-ServiceFabricApplication fabric:/BBB -ForceRemove -Force 
-# } -Conditions $conditions -IgnoreConditions $ignoreConditions
-
-# Example: If no conditions are specified, handle all exceptions.
-# Execute-WithRetry -Command { 
-#     # Removing application fabric:/CCC
-#     Remove-ServiceFabricApplication fabric:/CCC -ForceRemove -Force 
-# } 
-
 $maxRetryDuration = 60 # in seconds
 $initialRetryDelay = 10 # in seconds
 
