@@ -1,12 +1,6 @@
 # Copyright (C) Microsoft Corporation. All rights reserved.
 #This script runs a command with retry logic, handling specific errors, ignoring others, and considering timeout settings to ensure robust execution.
 <#
- Example:
- Execute-WithRetry -Command {
-     # Removing application fabric:/AAA
-     Remove-ServiceFabricApplication fabric:/AAA -ForceRemove -Force
- } -Conditions @("FabricTransientException") -IgnoreConditions @("FabricElementNotFoundException")
-
 Define the conditions to handle
 $conditions = @("FabricTransientException", "AnotherTransientException")
 
@@ -15,26 +9,33 @@ $ignoreConditions = @("FabricElementNotFoundException", "AnotherElementNotFoundE
 
 Example: List of conditions/IgnoreConditions.
 Execute-WithRetry -Command {
-   # Removing application fabric:/BBB
-   Remove-ServiceFabricApplication fabric:/BBB -ForceRemove -Force
+   # Removing application fabric:/AAA
+   Remove-ServiceFabricApplication fabric:/AAA -ForceRemove -Force
 } -Conditions $conditions -IgnoreConditions $ignoreConditions
 
-Example: If no conditions are specified, handle all exceptions.
-Execute-WithRetry -Command {
+Example: If no conditions are specified, it will handle FabricTransientException exceptions only.
+Execute-WithRetry -Command { 
+    # Removing application fabric:/BBB
+    Remove-ServiceFabricApplication fabric:/BBB -ForceRemove -Force 
+}
+
+Example : If you want to handle all exceptions, then please override the -Conditions argument with an empty list.
+Execute-WithRetry -Command { 
     # Removing application fabric:/CCC
-  Remove-ServiceFabricApplication fabric:/CCC -ForceRemove -Force
- }
+    Remove-ServiceFabricApplication fabric:/CCC -ForceRemove -Force 
+}  -Conditions @()
+
 #>
 
 # Define the maximum retry duration and the initial delay between retries
 $maxRetryDuration = 60 # in seconds
-$initialRetryDelay = 10 # in seconds
+$initialRetryDelay = 5 # in seconds 
 
 # Function to execute a command with retry logic based on time and multiple conditions
 function Execute-WithRetry {
     param (
         [scriptblock]$Command,       # The command to execute
-        [string[]]$Conditions = @(), # The conditions to match exceptions against (optional)
+        [string[]]$Conditions = @("FabricTransientException"), # The conditions to match exceptions against (optional)
         [string[]]$IgnoreConditions = @() # The conditions to ignore and return immediately (optional)
     )
 
