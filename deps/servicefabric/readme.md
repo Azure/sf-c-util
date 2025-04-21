@@ -4,9 +4,30 @@ The .idls have been copied from `WindowsFabric\src\prod\src\idl\public` or from 
 
 The .h have been copies from `WindowsFabric\src\prod\src\prebuilt\sdk` or from `WindowsFabric\src\prod\src\prebuilt\internal` folders.
 
-The binary files in this folder have been copied from \\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0
+The binary files (.lib) in this folder have been copied from \\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0
 
 [how_to](doc/how_to.md) contains more information on how to retrieve the path above.
+
+Debug files:
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\InternalFabricUUID\InternalFabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\FabricUUID\FabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\FabricRuntime\FabricRuntime.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\FabricClient\FabricClient.lib"
+
+Release files:
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\InternalFabricUUID\InternalFabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricUUID\FabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricRuntime\FabricRuntime.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricClient\FabricClient.lib"
+
 
 How to build (should this ever be needed):
 1) in an admin cmd.exe (not the Visual Studio developer prompt), type "init.full.cmd" when in WindowsFabric repo root
