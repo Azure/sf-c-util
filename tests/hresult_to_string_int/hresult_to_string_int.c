@@ -13,7 +13,7 @@
 #include "sf_c_util/hresult_to_string.h"
 
 /*this is E_INVALIDARG*/
-#define TEST_HRESULT_E_INVALIDARG_DEFINE 0x80070057 
+#define TEST_HRESULT_E_INVALIDARG_DEFINE 0x80070057
 static const HRESULT TEST_HRESULT_E_INVALIDARG = TEST_HRESULT_E_INVALIDARG_DEFINE;
 
 /*this is FABRIC_E_COMMUNICATION_ERROR*/
@@ -104,9 +104,9 @@ TEST_FUNCTION(hresult_to_wstring_succeeds)
 
     ///act
     wchar_t* t = hresult_to_wstring(TEST_HRESULT_E_POINTER);
-    
+
     ///assert
-    ASSERT_IS_NOT_NULL(t); 
+    ASSERT_IS_NOT_NULL(t);
 
     ///cleanup
     free(t);

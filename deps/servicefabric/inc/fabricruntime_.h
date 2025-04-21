@@ -3,7 +3,7 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.01.0622 */
+ /* File created by MIDL compiler version 8.01.0628 */
 /* @@MIDL_FILE_HEADING(  ) */
 
 
@@ -35,6 +35,14 @@
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
+#endif
+
+#ifndef DECLSPEC_XFGVIRT
+#if defined(_CONTROL_FLOW_GUARD_XFG)
+#define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
+#else
+#define DECLSPEC_XFGVIRT(base, func)
+#endif
 #endif
 
 /* Forward Declarations */ 
@@ -370,18 +378,22 @@ EXTERN_C const IID IID_IFabricInternalBrokeredService;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalBrokeredService * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalBrokeredService * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalBrokeredService * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalBrokeredService, GetBrokeredService)
         HRESULT ( STDMETHODCALLTYPE *GetBrokeredService )( 
             IFabricInternalBrokeredService * This,
             /* [retval][out] */ IUnknown **service);
@@ -449,18 +461,22 @@ EXTERN_C const IID IID_IFabricDisposable;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricDisposable * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricDisposable * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricDisposable * This);
         
+        DECLSPEC_XFGVIRT(IFabricDisposable, Dispose)
         void ( STDMETHODCALLTYPE *Dispose )( 
             IFabricDisposable * This);
         
@@ -543,18 +559,22 @@ EXTERN_C const IID IID_IFabricCodePackageHost;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricCodePackageHost * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricCodePackageHost * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricCodePackageHost * This);
         
+        DECLSPEC_XFGVIRT(IFabricCodePackageHost, BeginActivate)
         HRESULT ( STDMETHODCALLTYPE *BeginActivate )( 
             IFabricCodePackageHost * This,
             /* [in] */ LPCWSTR codePackageId,
@@ -563,16 +583,19 @@ EXTERN_C const IID IID_IFabricCodePackageHost;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **operationContext);
         
+        DECLSPEC_XFGVIRT(IFabricCodePackageHost, EndActivate)
         HRESULT ( STDMETHODCALLTYPE *EndActivate )( 
             IFabricCodePackageHost * This,
             /* [in] */ IFabricAsyncOperationContext *operationContext);
         
+        DECLSPEC_XFGVIRT(IFabricCodePackageHost, BeginDeactivate)
         HRESULT ( STDMETHODCALLTYPE *BeginDeactivate )( 
             IFabricCodePackageHost * This,
             /* [in] */ LPCWSTR codePackageId,
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **operationContext);
         
+        DECLSPEC_XFGVIRT(IFabricCodePackageHost, EndDeactivate)
         HRESULT ( STDMETHODCALLTYPE *EndDeactivate )( 
             IFabricCodePackageHost * This,
             /* [in] */ IFabricAsyncOperationContext *operationContext);
@@ -649,18 +672,22 @@ EXTERN_C const IID IID_IFabricTransactionalReplicatorSettingsResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricTransactionalReplicatorSettingsResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricTransactionalReplicatorSettingsResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricTransactionalReplicatorSettingsResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricTransactionalReplicatorSettingsResult, get_TransactionalReplicatorSettings)
         const TRANSACTIONAL_REPLICATOR_SETTINGS *( STDMETHODCALLTYPE *get_TransactionalReplicatorSettings )( 
             IFabricTransactionalReplicatorSettingsResult * This);
         
@@ -729,28 +756,34 @@ EXTERN_C const IID IID_IFabricOperationDataStream2;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricOperationDataStream2 * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricOperationDataStream2 * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricOperationDataStream2 * This);
         
+        DECLSPEC_XFGVIRT(IFabricOperationDataStream, BeginGetNext)
         HRESULT ( STDMETHODCALLTYPE *BeginGetNext )( 
             IFabricOperationDataStream2 * This,
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricOperationDataStream, EndGetNext)
         HRESULT ( STDMETHODCALLTYPE *EndGetNext )( 
             IFabricOperationDataStream2 * This,
             /* [in] */ IFabricAsyncOperationContext *context,
             /* [retval][out] */ IFabricOperationData **operationData);
         
+        DECLSPEC_XFGVIRT(IFabricOperationDataStream2, EndGetNext2)
         HRESULT ( STDMETHODCALLTYPE *EndGetNext2 )( 
             IFabricOperationDataStream2 * This,
             /* [in] */ IFabricAsyncOperationContext *context,
@@ -891,29 +924,35 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricBackupRestoreAgent * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricBackupRestoreAgent * This);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, RegisterBackupRestoreReplica)
         HRESULT ( STDMETHODCALLTYPE *RegisterBackupRestoreReplica )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_PARTITION_ID __MIDL__IFabricBackupRestoreAgent0000,
             /* [in] */ FABRIC_REPLICA_ID __MIDL__IFabricBackupRestoreAgent0001,
             /* [in] */ IFabricBackupRestoreHandler *__MIDL__IFabricBackupRestoreAgent0002);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, UnregisterBackupRestoreReplica)
         HRESULT ( STDMETHODCALLTYPE *UnregisterBackupRestoreReplica )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_PARTITION_ID __MIDL__IFabricBackupRestoreAgent0003,
             /* [in] */ FABRIC_REPLICA_ID __MIDL__IFabricBackupRestoreAgent0004);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, BeginGetBackupSchedulePolicy)
         HRESULT ( STDMETHODCALLTYPE *BeginGetBackupSchedulePolicy )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_BACKUP_PARTITION_INFO *info,
@@ -921,11 +960,13 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, EndGetBackupSchedulePolicy)
         HRESULT ( STDMETHODCALLTYPE *EndGetBackupSchedulePolicy )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ IFabricAsyncOperationContext *context,
             /* [retval][out] */ IFabricGetBackupSchedulePolicyResult **policyResult);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, BeginGetRestorePointDetails)
         HRESULT ( STDMETHODCALLTYPE *BeginGetRestorePointDetails )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_BACKUP_PARTITION_INFO *info,
@@ -933,11 +974,13 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, EndGetRestorePointDetails)
         HRESULT ( STDMETHODCALLTYPE *EndGetRestorePointDetails )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ IFabricAsyncOperationContext *context,
             /* [retval][out] */ IFabricGetRestorePointDetailsResult **restorePointDetails);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, BeginReportBackupOperationResult)
         HRESULT ( STDMETHODCALLTYPE *BeginReportBackupOperationResult )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_BACKUP_OPERATION_RESULT *backupOperationResult,
@@ -945,10 +988,12 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, EndReportBackupOperationResult)
         HRESULT ( STDMETHODCALLTYPE *EndReportBackupOperationResult )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ IFabricAsyncOperationContext *context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, BeginReportRestoreOperationResult)
         HRESULT ( STDMETHODCALLTYPE *BeginReportRestoreOperationResult )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_RESTORE_OPERATION_RESULT *restoreOperationResult,
@@ -956,10 +1001,12 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, EndReportRestoreOperationResult)
         HRESULT ( STDMETHODCALLTYPE *EndReportRestoreOperationResult )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ IFabricAsyncOperationContext *context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, BeginUploadBackup)
         HRESULT ( STDMETHODCALLTYPE *BeginUploadBackup )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_BACKUP_UPLOAD_INFO *uploadInfo,
@@ -968,10 +1015,12 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, EndUploadBackup)
         HRESULT ( STDMETHODCALLTYPE *EndUploadBackup )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ IFabricAsyncOperationContext *context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, BeginDownloadBackup)
         HRESULT ( STDMETHODCALLTYPE *BeginDownloadBackup )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ FABRIC_BACKUP_DOWNLOAD_INFO *downloadInfo,
@@ -980,6 +1029,7 @@ EXTERN_C const IID IID_IFabricBackupRestoreAgent;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreAgent, EndDownloadBackup)
         HRESULT ( STDMETHODCALLTYPE *EndDownloadBackup )( 
             IFabricBackupRestoreAgent * This,
             /* [in] */ IFabricAsyncOperationContext *context);
@@ -1103,18 +1153,22 @@ EXTERN_C const IID IID_IFabricBackupRestoreHandler;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricBackupRestoreHandler * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricBackupRestoreHandler * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricBackupRestoreHandler * This);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreHandler, BeginUpdateBackupSchedulePolicy)
         HRESULT ( STDMETHODCALLTYPE *BeginUpdateBackupSchedulePolicy )( 
             IFabricBackupRestoreHandler * This,
             /* [in] */ FABRIC_BACKUP_POLICY *policy,
@@ -1122,10 +1176,12 @@ EXTERN_C const IID IID_IFabricBackupRestoreHandler;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreHandler, EndUpdateBackupSchedulePolicy)
         HRESULT ( STDMETHODCALLTYPE *EndUpdateBackupSchedulePolicy )( 
             IFabricBackupRestoreHandler * This,
             /* [in] */ IFabricAsyncOperationContext *context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreHandler, BeginPartitionBackupOperation)
         HRESULT ( STDMETHODCALLTYPE *BeginPartitionBackupOperation )( 
             IFabricBackupRestoreHandler * This,
             /* [in] */ FABRIC_BACKUP_OPERATION_ID operationId,
@@ -1134,6 +1190,7 @@ EXTERN_C const IID IID_IFabricBackupRestoreHandler;
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBackupRestoreHandler, EndPartitionBackupOperation)
         HRESULT ( STDMETHODCALLTYPE *EndPartitionBackupOperation )( 
             IFabricBackupRestoreHandler * This,
             /* [in] */ IFabricAsyncOperationContext *context);
@@ -1277,29 +1334,36 @@ EXTERN_C const IID IID_IFabricBatchOperation;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricBatchOperation * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricBatchOperation * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricBatchOperation * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperation, get_FirstSequenceNumber)
         FABRIC_SEQUENCE_NUMBER ( STDMETHODCALLTYPE *get_FirstSequenceNumber )( 
             IFabricBatchOperation * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperation, get_LastSequenceNumber)
         FABRIC_SEQUENCE_NUMBER ( STDMETHODCALLTYPE *get_LastSequenceNumber )( 
             IFabricBatchOperation * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperation, GetOperation)
         HRESULT ( STDMETHODCALLTYPE *GetOperation )( 
             IFabricBatchOperation * This,
             /* [in] */ FABRIC_SEQUENCE_NUMBER sequenceNumber,
             /* [retval][out] */ IFabricOperation **operation);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperation, Acknowledge)
         HRESULT ( STDMETHODCALLTYPE *Acknowledge )( 
             IFabricBatchOperation * This);
         
@@ -1382,24 +1446,30 @@ EXTERN_C const IID IID_IFabricBatchOperationData;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricBatchOperationData * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricBatchOperationData * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricBatchOperationData * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperationData, get_FirstSequenceNumber)
         FABRIC_SEQUENCE_NUMBER ( STDMETHODCALLTYPE *get_FirstSequenceNumber )( 
             IFabricBatchOperationData * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperationData, get_LastSequenceNumber)
         FABRIC_SEQUENCE_NUMBER ( STDMETHODCALLTYPE *get_LastSequenceNumber )( 
             IFabricBatchOperationData * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperationData, GetData)
         HRESULT ( STDMETHODCALLTYPE *GetData )( 
             IFabricBatchOperationData * This,
             /* [in] */ FABRIC_SEQUENCE_NUMBER sequenceNumber,
@@ -1481,23 +1551,28 @@ EXTERN_C const IID IID_IFabricBatchOperationStream;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricBatchOperationStream * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricBatchOperationStream * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricBatchOperationStream * This);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperationStream, BeginGetBatchOperation)
         HRESULT ( STDMETHODCALLTYPE *BeginGetBatchOperation )( 
             IFabricBatchOperationStream * This,
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricBatchOperationStream, EndGetBatchOperation)
         HRESULT ( STDMETHODCALLTYPE *EndGetBatchOperation )( 
             IFabricBatchOperationStream * This,
             /* [in] */ IFabricAsyncOperationContext *context,
@@ -1585,37 +1660,45 @@ EXTERN_C const IID IID_IFabricInternalStateReplicator;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalStateReplicator * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalStateReplicator * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalStateReplicator * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStateReplicator, ReserveSequenceNumber)
         HRESULT ( STDMETHODCALLTYPE *ReserveSequenceNumber )( 
             IFabricInternalStateReplicator * This,
             /* [in] */ BOOLEAN alwaysReserveWhenPrimary,
             /* [retval][out] */ FABRIC_SEQUENCE_NUMBER *sequenceNumber);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStateReplicator, BeginReplicateBatch)
         HRESULT ( STDMETHODCALLTYPE *BeginReplicateBatch )( 
             IFabricInternalStateReplicator * This,
             /* [in] */ IFabricBatchOperationData *operationData,
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStateReplicator, EndReplicateBatch)
         HRESULT ( STDMETHODCALLTYPE *EndReplicateBatch )( 
             IFabricInternalStateReplicator * This,
             /* [in] */ IFabricAsyncOperationContext *context);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStateReplicator, GetBatchReplicationStream)
         HRESULT ( STDMETHODCALLTYPE *GetBatchReplicationStream )( 
             IFabricInternalStateReplicator * This,
             /* [retval][out] */ IFabricBatchOperationStream **stream);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStateReplicator, GetReplicationQueueCounters)
         HRESULT ( STDMETHODCALLTYPE *GetReplicationQueueCounters )( 
             IFabricInternalStateReplicator * This,
             /* [out] */ FABRIC_INTERNAL_REPLICATION_QUEUE_COUNTERS *counters);
@@ -1696,18 +1779,22 @@ EXTERN_C const IID IID_IFabricInternalReplicator;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalReplicator * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalReplicator * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalReplicator * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalReplicator, GetReplicatorStatus)
         HRESULT ( STDMETHODCALLTYPE *GetReplicatorStatus )( 
             IFabricInternalReplicator * This,
             /* [retval][out] */ IFabricGetReplicatorStatusResult **result);
@@ -1773,15 +1860,18 @@ EXTERN_C const IID IID_IFabricStateProviderSupportsCopyUntilLatestLsn;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricStateProviderSupportsCopyUntilLatestLsn * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricStateProviderSupportsCopyUntilLatestLsn * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricStateProviderSupportsCopyUntilLatestLsn * This);
         
@@ -1846,18 +1936,22 @@ EXTERN_C const IID IID_IFabricInternalStatefulServiceReplica;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalStatefulServiceReplica * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalStatefulServiceReplica * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalStatefulServiceReplica * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStatefulServiceReplica, GetStatus)
         HRESULT ( STDMETHODCALLTYPE *GetStatus )( 
             IFabricInternalStatefulServiceReplica * This,
             /* [retval][out] */ IFabricStatefulServiceReplicaStatusResult **result);
@@ -1927,22 +2021,27 @@ EXTERN_C const IID IID_IFabricInternalStatefulServiceReplica2;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalStatefulServiceReplica2 * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalStatefulServiceReplica2 * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalStatefulServiceReplica2 * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStatefulServiceReplica, GetStatus)
         HRESULT ( STDMETHODCALLTYPE *GetStatus )( 
             IFabricInternalStatefulServiceReplica2 * This,
             /* [retval][out] */ IFabricStatefulServiceReplicaStatusResult **result);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStatefulServiceReplica2, UpdateInitializationData)
         HRESULT ( STDMETHODCALLTYPE *UpdateInitializationData )( 
             IFabricInternalStatefulServiceReplica2 * This,
             /* [in] */ ULONG bufferSize,
@@ -2015,18 +2114,22 @@ EXTERN_C const IID IID_IFabricStatefulServiceReplicaStatusResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricStatefulServiceReplicaStatusResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricStatefulServiceReplicaStatusResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricStatefulServiceReplicaStatusResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricStatefulServiceReplicaStatusResult, get_Result)
         const FABRIC_REPLICA_STATUS_QUERY_RESULT *( STDMETHODCALLTYPE *get_Result )( 
             IFabricStatefulServiceReplicaStatusResult * This);
         
@@ -2093,18 +2196,22 @@ EXTERN_C const IID IID_IFabricKeyValueStoreReplicaSettingsResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricKeyValueStoreReplicaSettingsResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricKeyValueStoreReplicaSettingsResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricKeyValueStoreReplicaSettingsResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricKeyValueStoreReplicaSettingsResult, get_Settings)
         const FABRIC_KEY_VALUE_STORE_REPLICA_SETTINGS *( STDMETHODCALLTYPE *get_Settings )( 
             IFabricKeyValueStoreReplicaSettingsResult * This);
         
@@ -2171,18 +2278,22 @@ EXTERN_C const IID IID_IFabricKeyValueStoreReplicaSettings_V2Result;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricKeyValueStoreReplicaSettings_V2Result * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricKeyValueStoreReplicaSettings_V2Result * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricKeyValueStoreReplicaSettings_V2Result * This);
         
+        DECLSPEC_XFGVIRT(IFabricKeyValueStoreReplicaSettings_V2Result, get_Settings)
         const FABRIC_KEY_VALUE_STORE_REPLICA_SETTINGS_V2 *( STDMETHODCALLTYPE *get_Settings )( 
             IFabricKeyValueStoreReplicaSettings_V2Result * This);
         
@@ -2249,18 +2360,22 @@ EXTERN_C const IID IID_IFabricSharedLogSettingsResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricSharedLogSettingsResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricSharedLogSettingsResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricSharedLogSettingsResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricSharedLogSettingsResult, get_Settings)
         const KTLLOGGER_SHARED_LOG_SETTINGS *( STDMETHODCALLTYPE *get_Settings )( 
             IFabricSharedLogSettingsResult * This);
         
@@ -2332,18 +2447,22 @@ EXTERN_C const IID IID_IFabricInternalManagedReplicator;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalManagedReplicator * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalManagedReplicator * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalManagedReplicator * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalManagedReplicator, BeginReplicate2)
         HRESULT ( STDMETHODCALLTYPE *BeginReplicate2 )( 
             IFabricInternalManagedReplicator * This,
             /* [in] */ ULONG bufferCount,
@@ -2415,18 +2534,22 @@ EXTERN_C const IID IID_IFabricTransactionalReplicatorRuntimeConfigurations;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricTransactionalReplicatorRuntimeConfigurations * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricTransactionalReplicatorRuntimeConfigurations * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricTransactionalReplicatorRuntimeConfigurations * This);
         
+        DECLSPEC_XFGVIRT(IFabricTransactionalReplicatorRuntimeConfigurations, get_WorkDirectory)
         LPCWSTR ( STDMETHODCALLTYPE *get_WorkDirectory )( 
             IFabricTransactionalReplicatorRuntimeConfigurations * This);
         
@@ -2495,18 +2618,22 @@ EXTERN_C const IID IID_IFabricStateProvider2Factory;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricStateProvider2Factory * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricStateProvider2Factory * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricStateProvider2Factory * This);
         
+        DECLSPEC_XFGVIRT(IFabricStateProvider2Factory, Create)
         HRESULT ( STDMETHODCALLTYPE *Create )( 
             IFabricStateProvider2Factory * This,
             /* [in] */ const FABRIC_STATE_PROVIDER_FACTORY_ARGUMENTS *factoryArguments,
@@ -2581,23 +2708,28 @@ EXTERN_C const IID IID_IFabricDataLossHandler;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricDataLossHandler * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricDataLossHandler * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricDataLossHandler * This);
         
+        DECLSPEC_XFGVIRT(IFabricDataLossHandler, BeginOnDataLoss)
         HRESULT ( STDMETHODCALLTYPE *BeginOnDataLoss )( 
             IFabricDataLossHandler * This,
             /* [in] */ IFabricAsyncOperationCallback *callback,
             /* [retval][out] */ IFabricAsyncOperationContext **context);
         
+        DECLSPEC_XFGVIRT(IFabricDataLossHandler, EndOnDataLoss)
         HRESULT ( STDMETHODCALLTYPE *EndOnDataLoss )( 
             IFabricDataLossHandler * This,
             /* [in] */ IFabricAsyncOperationContext *context,
@@ -2689,18 +2821,22 @@ EXTERN_C const IID IID_IFabricInternalStatefulServicePartition;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricInternalStatefulServicePartition * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricInternalStatefulServicePartition * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricInternalStatefulServicePartition * This);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStatefulServicePartition, CreateTransactionalReplicator)
         HRESULT ( STDMETHODCALLTYPE *CreateTransactionalReplicator )( 
             IFabricInternalStatefulServicePartition * This,
             /* [in] */ IFabricStateProvider2Factory *stateProviderFactory,
@@ -2711,6 +2847,7 @@ EXTERN_C const IID IID_IFabricInternalStatefulServicePartition;
             /* [out] */ IFabricPrimaryReplicator **primaryReplicator,
             /* [retval][out] */ void **transactionalReplicator);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStatefulServicePartition, CreateTransactionalReplicatorInternal)
         HRESULT ( STDMETHODCALLTYPE *CreateTransactionalReplicatorInternal )( 
             IFabricInternalStatefulServicePartition * This,
             /* [in] */ IFabricTransactionalReplicatorRuntimeConfigurations *runtimeConfigurations,
@@ -2722,6 +2859,7 @@ EXTERN_C const IID IID_IFabricInternalStatefulServicePartition;
             /* [out] */ IFabricPrimaryReplicator **primaryReplicator,
             /* [retval][out] */ void **transactionalReplicator);
         
+        DECLSPEC_XFGVIRT(IFabricInternalStatefulServicePartition, GetKtlSystem)
         HRESULT ( STDMETHODCALLTYPE *GetKtlSystem )( 
             IFabricInternalStatefulServicePartition * This,
             /* [retval][out] */ void **ktlSystem);
@@ -2796,18 +2934,22 @@ EXTERN_C const IID IID_IFabricTransactionalReplicator;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricTransactionalReplicator * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricTransactionalReplicator * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricTransactionalReplicator * This);
         
+        DECLSPEC_XFGVIRT(IFabricTransactionalReplicator, UpdateReplicatorSettings)
         HRESULT ( STDMETHODCALLTYPE *UpdateReplicatorSettings )( 
             IFabricTransactionalReplicator * This,
             /* [in] */ const FABRIC_REPLICATOR_SETTINGS *replicatorSettings);
@@ -2875,18 +3017,22 @@ EXTERN_C const IID IID_IFabricGetBackupSchedulePolicyResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricGetBackupSchedulePolicyResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricGetBackupSchedulePolicyResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricGetBackupSchedulePolicyResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricGetBackupSchedulePolicyResult, get_BackupSchedulePolicy)
         const FABRIC_BACKUP_POLICY *( STDMETHODCALLTYPE *get_BackupSchedulePolicy )( 
             IFabricGetBackupSchedulePolicyResult * This);
         
@@ -2953,18 +3099,22 @@ EXTERN_C const IID IID_IFabricGetRestorePointDetailsResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricGetRestorePointDetailsResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricGetRestorePointDetailsResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricGetRestorePointDetailsResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricGetRestorePointDetailsResult, get_RestorePointDetails)
         const FABRIC_RESTORE_POINT_DETAILS *( STDMETHODCALLTYPE *get_RestorePointDetails )( 
             IFabricGetRestorePointDetailsResult * This);
         

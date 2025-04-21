@@ -3,7 +3,7 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.01.0622 */
+ /* File created by MIDL compiler version 8.01.0628 */
 /* @@MIDL_FILE_HEADING(  ) */
 
 
@@ -31,6 +31,14 @@
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
+#endif
+
+#ifndef DECLSPEC_XFGVIRT
+#if defined(_CONTROL_FLOW_GUARD_XFG)
+#define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
+#else
+#define DECLSPEC_XFGVIRT(base, func)
+#endif
 #endif
 
 /* Forward Declarations */ 
@@ -156,7 +164,8 @@ enum FABRIC_TRANSACTIONAL_REPLICATOR_SETTINGS_FLAGS
         FABRIC_TRANSACTIONAL_REPLICATOR_LOG_TRUNCATION_INTERVAL_SECONDS	= 0x80000,
         FABRIC_TRANSACTIONAL_REPLICATOR_COPY_BATCH_SIZE_IN_KB	= 0x100000,
         FABRIC_TRANSACTIONAL_REPLICATOR_LOGGING_ENGINE	= 0x200000,
-        FABRIC_TRANSACTIONAL_REPLICATOR_EXTENTLOGGER_SETTINGS	= 0x400000
+        FABRIC_TRANSACTIONAL_REPLICATOR_EXTENTLOGGER_SETTINGS	= 0x400000,
+        FABRIC_TRANSACTIONAL_REPLICATOR_ALLOW_CHECKPOINT_DURING_BUILD	= 0x800000
     } 	FABRIC_TRANSACTIONAL_REPLICATOR_SETTINGS_FLAGS;
 
 typedef /* [uuid][v1_enum] */  DECLSPEC_UUID("fc85d8d9-8b38-4670-a488-c2ce9e06881d") 
