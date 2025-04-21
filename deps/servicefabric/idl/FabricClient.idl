@@ -34,6 +34,7 @@ interface IFabricServiceManagementClient5;
 interface IFabricServiceManagementClient6;
 interface IFabricServiceManagementClient7;
 interface IFabricServiceManagementClient8;
+interface IFabricServiceManagementClient9;
 interface IFabricServiceGroupManagementClient;
 interface IFabricServiceGroupManagementClient2;
 interface IFabricServiceGroupManagementClient3;
@@ -211,6 +212,7 @@ library FabricClientLib
     interface IFabricServiceManagementClient6;
     interface IFabricServiceManagementClient7;
     interface IFabricServiceManagementClient8;
+    interface IFabricServiceManagementClient9;
     interface IFabricServiceGroupManagementClient;
     interface IFabricServiceGroupManagementClient2;
     interface IFabricServiceGroupManagementClient3;
@@ -384,6 +386,7 @@ library FabricClientLib
         interface IFabricServiceManagementClient6;
         interface IFabricServiceManagementClient7;
         interface IFabricServiceManagementClient8;
+        interface IFabricServiceManagementClient9;
         interface IFabricServiceGroupManagementClient;
         interface IFabricServiceGroupManagementClient2;
         interface IFabricServiceGroupManagementClient3;
@@ -867,6 +870,19 @@ interface IFabricServiceManagementClient8 : IFabricServiceManagementClient7
         [out, retval] IFabricAsyncOperationContext ** context);
 
     [] HRESULT EndEnableService(
+        [in] IFabricAsyncOperationContext * context);
+}
+
+[object, local, uuid(b5ae51b2-62e1-4bd8-bd7e-f47a96b8de96)]
+interface IFabricServiceManagementClient9 : IFabricServiceManagementClient8
+{
+    [] HRESULT BeginDisableService2(
+        [in] const FABRIC_DISABLE_SERVICE_DESCRIPTION * disableDescription,
+        [in] DWORD timeoutMilliseconds,
+        [in] IFabricAsyncOperationCallback * callback,
+        [out, retval] IFabricAsyncOperationContext ** context);
+
+    [] HRESULT EndDisableService2(
         [in] IFabricAsyncOperationContext * context);
 }
 
@@ -2292,7 +2308,7 @@ interface IFabricFaultManagementClient3 : IFabricFaultManagementClient2
 interface IFabricTestManagementClient : IUnknown
 {
     [] HRESULT BeginStartPartitionDataLoss(
-        [in] const FABRIC_START_PARTITION_DATA_LOSS_DESCRIPTION * invokeDataLossDescription,
+        [in] const FABRIC_START_PARTITION_DATA_LOSS_DESCRIPTION * description,
         [in] DWORD timeoutMilliseconds,
         [in] IFabricAsyncOperationCallback * callback,
         [out, retval] IFabricAsyncOperationContext ** context);
@@ -2309,7 +2325,7 @@ interface IFabricTestManagementClient : IUnknown
         [out, retval] IFabricPartitionDataLossProgressResult ** result);
 
     [] HRESULT BeginStartPartitionQuorumLoss(
-        [in] const FABRIC_START_PARTITION_QUORUM_LOSS_DESCRIPTION * invokeQuorumLossDescription,
+        [in] const FABRIC_START_PARTITION_QUORUM_LOSS_DESCRIPTION * description,
         [in] DWORD timeoutMilliseconds,
         [in] IFabricAsyncOperationCallback * callback,
         [out, retval] IFabricAsyncOperationContext ** context);
@@ -2325,9 +2341,9 @@ interface IFabricTestManagementClient : IUnknown
         [in] IFabricAsyncOperationContext * context,
         [out, retval] IFabricPartitionQuorumLossProgressResult ** result);
 
-    // Restart Partition
+    // Partition restart
     [] HRESULT BeginStartPartitionRestart(
-        [in] const FABRIC_START_PARTITION_RESTART_DESCRIPTION * restartPartitionDescription,
+        [in] const FABRIC_START_PARTITION_RESTART_DESCRIPTION * description,
         [in] DWORD timeoutMilliseconds,
         [in] IFabricAsyncOperationCallback * callback,
         [out, retval] IFabricAsyncOperationContext ** context);
@@ -2353,7 +2369,7 @@ interface IFabricTestManagementClient : IUnknown
         [out, retval] IFabricTestCommandStatusResult ** result);
 
     [] HRESULT BeginCancelTestCommand(
-        [in] const FABRIC_CANCEL_TEST_COMMAND_DESCRIPTION * invokeDataLossDescription,
+        [in] const FABRIC_CANCEL_TEST_COMMAND_DESCRIPTION * description,
         [in] DWORD timeoutMilliseconds,
         [in] IFabricAsyncOperationCallback * callback,
         [out, retval] IFabricAsyncOperationContext ** context);
@@ -2366,7 +2382,7 @@ interface IFabricTestManagementClient2 : IFabricTestManagementClient
 {
     // Chaos
     [] HRESULT BeginStartChaos(
-        [in] const FABRIC_START_CHAOS_DESCRIPTION * restartPartitionDescription,
+        [in] const FABRIC_START_CHAOS_DESCRIPTION * description,
         [in] DWORD timeoutMilliseconds,
         [in] IFabricAsyncOperationCallback * callback,
         [out, retval] IFabricAsyncOperationContext ** context);

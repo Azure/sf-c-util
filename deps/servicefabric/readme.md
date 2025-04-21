@@ -1,8 +1,8 @@
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-The binary files in this folder have been copied from \\reddog\Builds\branches\git_windowsfabric_release_10_1_cu6\10.1.2493.9590
+The binary files in this folder have been copied from \\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0
 
-(the link comes from the build https://dev.azure.com/msazure/One/_build/results?buildId=106042459&view=results of WindowsFabric repo (https://msazure.visualstudio.com/One/_git/WindowsFabric) at SHA 77a6e674d662afb1bc7755f6cf6ddea7ff9bc476  tag: release/10.1/cu6 as a "BuildDropLocation")
+[how_to](doc/how_to.md) contains more information on how to retrieve the path above.
 
 How to build (should this ever be needed):
 1) in an admin cmd.exe (not the Visual Studio developer prompt), type "init.full.cmd" when in WindowsFabric repo root

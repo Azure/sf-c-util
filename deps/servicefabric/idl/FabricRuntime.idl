@@ -37,6 +37,7 @@ interface IFabricStatefulServicePartition2;
 interface IFabricStatefulServicePartition3;
 
 interface IFabricSelfReconfiguringServiceFactory;
+interface IFabricSelfReconfiguringConfigurationChangeRequest;
 interface IFabricSelfReconfiguringServiceInstance;
 interface IFabricSelfReconfiguringServicePartition;
 
@@ -146,6 +147,7 @@ library FabricRuntimeLib
     interface IFabricStateReplicator;
 
     interface IFabricSelfReconfiguringServiceFactory;
+    interface IFabricSelfReconfiguringConfigurationChangeRequest;
     interface IFabricSelfReconfiguringServiceInstance;
     interface IFabricSelfReconfiguringServicePartition;
 
@@ -635,6 +637,12 @@ interface IFabricSelfReconfiguringServiceFactory : IUnknown
         [out, retval] IFabricSelfReconfiguringServiceInstance ** serviceInstance);
 }
 
+[object, local, uuid(90c010de-f86f-4aa1-87a3-915879c9901c)] 
+interface IFabricSelfReconfiguringConfigurationChangeRequest : IUnknown
+{
+    [] const FABRIC_SELF_RECONFIGURING_CONFIGURATION_CHANGE_REQUEST * get_ConfigurationChangeRequest();
+}
+
 [object, local, uuid(d1dcb0dd-431a-4ae6-99ed-e241aa123a43)]
 interface IFabricSelfReconfiguringServiceInstance : IUnknown
 {
@@ -652,7 +660,7 @@ interface IFabricSelfReconfiguringServiceInstance : IUnknown
         [in] const FABRIC_SELF_RECONFIGURING_CONFIGURATION_REQUEST * configurationRequest);
 
     [] HRESULT RequestConfigurationChange(
-        [in] const FABRIC_SELF_RECONFIGURING_CONFIGURATION_CHANGE_REQUEST * configurationChangeRequest);
+        [in] IFabricSelfReconfiguringConfigurationChangeRequest * configurationChangeRequest);
 
     [] HRESULT BeginClose(
         [in] IFabricAsyncOperationCallback * callback,
@@ -681,18 +689,12 @@ interface IFabricSelfReconfiguringServicePartition : IUnknown
         [in] FABRIC_MOVE_COST moveCost);
 
     [] HRESULT ReportInstanceHealth(
-        [in] const FABRIC_HEALTH_INFORMATION * healthInfo);
+        [in] const FABRIC_HEALTH_INFORMATION * healthInfo,
+        [in /*optional*/] const FABRIC_HEALTH_REPORT_SEND_OPTIONS * sendOptions);
 
     [] HRESULT ReportPartitionHealth(
-        [in] const FABRIC_HEALTH_INFORMATION * healthInfo);
-
-    [] HRESULT ReportInstanceHealth2(
         [in] const FABRIC_HEALTH_INFORMATION * healthInfo,
-        [in] const FABRIC_HEALTH_REPORT_SEND_OPTIONS * sendOptions);
-
-    [] HRESULT ReportPartitionHealth2(
-        [in] const FABRIC_HEALTH_INFORMATION * healthInfo,
-        [in] const FABRIC_HEALTH_REPORT_SEND_OPTIONS * sendOptions);
+        [in /*optional*/] const FABRIC_HEALTH_REPORT_SEND_OPTIONS * sendOptions);
 
     [] HRESULT ReportConfiguration(
         [in] const FABRIC_SELF_RECONFIGURING_CONFIGURATION_REPORT * configurationReport);
