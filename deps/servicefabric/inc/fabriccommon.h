@@ -3,7 +3,7 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.01.0622 */
+ /* File created by MIDL compiler version 8.01.0628 */
 /* @@MIDL_FILE_HEADING(  ) */
 
 
@@ -35,6 +35,14 @@
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
+#endif
+
+#ifndef DECLSPEC_XFGVIRT
+#if defined(_CONTROL_FLOW_GUARD_XFG)
+#define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
+#else
+#define DECLSPEC_XFGVIRT(base, func)
+#endif
 #endif
 
 /* Forward Declarations */ 
@@ -184,18 +192,22 @@ EXTERN_C const IID IID_IFabricAsyncOperationCallback;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricAsyncOperationCallback * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricAsyncOperationCallback * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricAsyncOperationCallback * This);
         
+        DECLSPEC_XFGVIRT(IFabricAsyncOperationCallback, Invoke)
         void ( STDMETHODCALLTYPE *Invoke )( 
             IFabricAsyncOperationCallback * This,
             /* [in] */ IFabricAsyncOperationContext *context);
@@ -270,28 +282,35 @@ EXTERN_C const IID IID_IFabricAsyncOperationContext;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricAsyncOperationContext * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricAsyncOperationContext * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricAsyncOperationContext * This);
         
+        DECLSPEC_XFGVIRT(IFabricAsyncOperationContext, IsCompleted)
         BOOLEAN ( STDMETHODCALLTYPE *IsCompleted )( 
             IFabricAsyncOperationContext * This);
         
+        DECLSPEC_XFGVIRT(IFabricAsyncOperationContext, CompletedSynchronously)
         BOOLEAN ( STDMETHODCALLTYPE *CompletedSynchronously )( 
             IFabricAsyncOperationContext * This);
         
+        DECLSPEC_XFGVIRT(IFabricAsyncOperationContext, get_Callback)
         HRESULT ( STDMETHODCALLTYPE *get_Callback )( 
             IFabricAsyncOperationContext * This,
             /* [retval][out] */ IFabricAsyncOperationCallback **callback);
         
+        DECLSPEC_XFGVIRT(IFabricAsyncOperationContext, Cancel)
         HRESULT ( STDMETHODCALLTYPE *Cancel )( 
             IFabricAsyncOperationContext * This);
         
@@ -367,18 +386,22 @@ EXTERN_C const IID IID_IFabricStringResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricStringResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricStringResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricStringResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricStringResult, get_String)
         LPCWSTR ( STDMETHODCALLTYPE *get_String )( 
             IFabricStringResult * This);
         
@@ -447,18 +470,22 @@ EXTERN_C const IID IID_IFabricStringListResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricStringListResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricStringListResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricStringListResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricStringListResult, GetStrings)
         HRESULT ( STDMETHODCALLTYPE *GetStrings )( 
             IFabricStringListResult * This,
             /* [out] */ ULONG *itemCount,
@@ -527,18 +554,22 @@ EXTERN_C const IID IID_IFabricGetReplicatorStatusResult;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IFabricGetReplicatorStatusResult * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IFabricGetReplicatorStatusResult * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IFabricGetReplicatorStatusResult * This);
         
+        DECLSPEC_XFGVIRT(IFabricGetReplicatorStatusResult, get_ReplicatorStatus)
         const FABRIC_REPLICATOR_STATUS_QUERY_RESULT *( STDMETHODCALLTYPE *get_ReplicatorStatus )( 
             IFabricGetReplicatorStatusResult * This);
         
