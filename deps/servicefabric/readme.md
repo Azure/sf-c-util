@@ -1,5 +1,9 @@
 Copyright (C) Microsoft Corporation. All rights reserved.
 
+The .idls have been copied from `WindowsFabric\src\prod\src\idl\public` or from `WindowsFabric\src\prod\src\idl\internal` folders.
+
+The .h have been copies from `WindowsFabric\src\prod\src\prebuilt\sdk` or from `WindowsFabric\src\prod\src\prebuilt\internal` folders.
+
 The binary files in this folder have been copied from \\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0
 
 [how_to](doc/how_to.md) contains more information on how to retrieve the path above.
