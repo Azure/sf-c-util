@@ -97,7 +97,7 @@ add_subdirectory(deps/servicefabric)
 if((CMAKE_GENERATOR MATCHES "Visual Studio") AND (${run_traceability}))
     #add traceability custom target
     add_custom_target(sf_c_util_traceability ALL
-        COMMAND traceabilitytool -buildcheck -e ${CMAKE_CURRENT_LIST_DIR}/deps -i ${CMAKE_CURRENT_LIST_DIR})
+        COMMAND traceabilitytool -buildcheck -e ${CMAKE_CURRENT_LIST_DIR}/deps -e ${CMAKE_CURRENT_LIST_DIR}/.github -i ${CMAKE_CURRENT_LIST_DIR})
     add_dependencies(sf_c_util_traceability traceabilitytool)
 endif()
 
