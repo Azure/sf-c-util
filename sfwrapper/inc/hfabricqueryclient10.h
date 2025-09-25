@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef H_FABRIC_QUERY_CLIENT10_H
 #define H_FABRIC_QUERY_CLIENT10_H
@@ -285,4 +285,3 @@ extern "C" {
 
 
 #endif /*H_FABRIC_QUERY_CLIENT10_H*/
-

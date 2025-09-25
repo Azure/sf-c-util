@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef H_FABRIC_MACRO_GENERATOR_H
 #define H_FABRIC_MACRO_GENERATOR_H
@@ -454,4 +454,3 @@ void H_FABRIC_HANDLE_DESTROY(IFABRIC_INTERFACE_NAME)(H_FABRIC_HANDLE(IFABRIC_INT
 
 
 #endif /*H_FABRIC_MACRO_GENERATOR_H*/
-

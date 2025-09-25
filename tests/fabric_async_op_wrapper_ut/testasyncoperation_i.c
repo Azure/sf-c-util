@@ -1,4 +1,4 @@
-
+﻿
 
 /* this ALWAYS GENERATED file contains the IIDs and CLSIDs */
 
@@ -72,6 +72,3 @@ MIDL_DEFINE_GUID(IID, IID_ITestAsyncOperation,0x5F5898FA,0x7BB0,0x49F0,0x81,0xD1
 #ifdef __cplusplus
 }
 #endif
-
-
-

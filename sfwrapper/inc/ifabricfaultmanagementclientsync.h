@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef IFABRICFAULTMANAGEMENTCLIENTSYNC_H
 #define IFABRICFAULTMANAGEMENTCLIENTSYNC_H
@@ -51,4 +51,3 @@ extern "C" {
 
 
 #endif /*IFABRICFAULTMANAGEMENTCLIENTSYNC_H*/
-

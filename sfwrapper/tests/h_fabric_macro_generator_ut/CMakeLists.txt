@@ -1,4 +1,4 @@
-#Copyright (c) Microsoft. All rights reserved.
+﻿#Copyright (c) Microsoft. All rights reserved.
 
 set(theseTestsName h_fabric_macro_generator_ut)
 
@@ -18,4 +18,5 @@ ifabriczzzz.h
 hfabriczzzz.h
 )
 
-build_test_artifacts(${theseTestsName} "tests/sf_wrapper" ADDITIONAL_LIBS sfwrapper c_pal c_pal_reals c_util_reals)
+build_test_artifacts(${theseTestsName} "tests/sf_wrapper" ADDITIONAL_LIBS sfwrapper c_pal c_pal_reals c_util_reals
+    ENABLE_TEST_FILES_PRECOMPILED_HEADERS "${CMAKE_CURRENT_LIST_DIR}/h_fabric_macro_generator_ut_pch.h")

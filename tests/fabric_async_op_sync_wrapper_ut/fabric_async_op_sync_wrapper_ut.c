@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft. All rights reserved.
+﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include <stdlib.h>
@@ -43,7 +43,6 @@
 #undef ENABLE_MOCKS
 
 #include "real_gballoc_hl.h"
-
 
 #include "test_fabric_async_operation_sync_wrapper.h"
 
