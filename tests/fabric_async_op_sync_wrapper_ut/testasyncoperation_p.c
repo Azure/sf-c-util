@@ -1,4 +1,4 @@
-
+﻿
 
 /* this ALWAYS GENERATED file contains the proxy stub code */
 
@@ -185,4 +185,3 @@ const ExtendedProxyFileInfo testasyncoperation_ProxyFileInfo =
 
 
 #endif /* defined(_M_AMD64)*/
-

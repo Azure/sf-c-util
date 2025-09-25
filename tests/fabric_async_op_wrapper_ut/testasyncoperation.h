@@ -1,4 +1,4 @@
-
+﻿
 
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
@@ -247,5 +247,3 @@ EXTERN_C const IID IID_ITestAsyncOperation;
 #endif
 
 #endif
-
-

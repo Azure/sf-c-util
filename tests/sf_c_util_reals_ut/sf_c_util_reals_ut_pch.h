@@ -8,9 +8,10 @@
 #include "testrunnerswitcher.h"
 
 #define REGISTER_GLOBAL_MOCK_HOOK(original, real) \
+    (original == real) ? (void)0 : (void)1;
 
 #define REGISTER_GLOBAL_MOCK_FAIL_RETURN(X, return_value) \
-
+    (X == NULL) ? (void)0 : (void)1;
 
 #include "real_hresult_to_string.h"
 #include "real_fc_parameter_argc_argv.h"

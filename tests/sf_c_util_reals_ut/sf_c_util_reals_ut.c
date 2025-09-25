@@ -3,9 +3,6 @@
 
 #include "sf_c_util_reals_ut_pch.h"
 
-    (original == real) ? (void)0 : (void)1;
-    (X == NULL) ? (void)0 : (void)1;
-
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
 // this test makes sure that the mappings work

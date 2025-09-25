@@ -43,15 +43,3 @@
 #include "test_sf_service_config.h"
 
 #include "sf_c_util/sf_service_config.h"
-
-
-
-
-
-
-
-
-// Also test that the generated code can be mocked
-
-#define ENABLE_MOCKS
-#include "umock_c/umock_c_prod.h"

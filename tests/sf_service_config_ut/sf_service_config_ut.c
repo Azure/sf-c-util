@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
-
 #include "sf_service_config_ut_pch.h"
+#undef ENABLE_MOCKS_DECL
+
+#define ENABLE_MOCKS
+#include "umock_c/umock_c_prod.h"
 
 CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );

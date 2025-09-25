@@ -2,8 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "fabric_op_completed_sync_ctx_ut_pch.h"
+#undef ENABLE_MOCKS_DECL
 
+#define ENABLE_MOCKS
+#include "umock_c/umock_c_prod.h"
 DEFINE_COM_WRAPPER_OBJECT(TEST_CALLBACK_HANDLE, TEST_CALLBACK_HANDLE_INTERFACES);
+#undef ENABLE_MOCKS
 
 static IFabricAsyncOperationCallback* test_callback_com;
 

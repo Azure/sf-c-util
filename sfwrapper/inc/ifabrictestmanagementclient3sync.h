@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef IFABRICTESTMANAGEMENTCLIENT3SYNC_H
 #define IFABRICTESTMANAGEMENTCLIENT3SYNC_H
@@ -78,4 +78,3 @@ extern "C" {
 
 
 #endif /*IFABRICTESTMANAGEMENTCLIENT3SYNC_H*/
-

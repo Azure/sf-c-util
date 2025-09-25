@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef IFABRICZZZZSYNC_H
 #define IFABRICZZZZSYNC_H
@@ -44,4 +44,3 @@ extern "C" {
 
 
 #endif /*IFABRICZZZZSYNC_H*/
-

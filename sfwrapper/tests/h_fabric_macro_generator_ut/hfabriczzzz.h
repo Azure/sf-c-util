@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef HFABRICZZZZ_H
 #define HFABRICZZZZ_H
@@ -55,4 +55,3 @@ extern "C" {
 
 
 #endif /*HFABRICZZZZ_H*/
-

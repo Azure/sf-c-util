@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include <stddef.h>
@@ -158,4 +158,3 @@ void FABRIC_CONFIGURATION_SECTION_LIST_free(FABRIC_CONFIGURATION_SECTION_LIST* f
     }
     free((void*)fabric_configuration_section_list->Items);
 }
-

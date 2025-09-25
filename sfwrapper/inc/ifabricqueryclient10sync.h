@@ -1,4 +1,4 @@
-// Copyright (C) Microsoft Corporation. All rights reserved.
+﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 
 #ifndef IFABRICQUERYCLIENT10SYNC_H
 #define IFABRICQUERYCLIENT10SYNC_H
@@ -195,4 +195,3 @@ extern "C" {
 
 
 #endif /*IFABRICQUERYCLIENT10SYNC_H*/
-
