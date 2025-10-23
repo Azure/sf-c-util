@@ -1,10 +1,9 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
 
 #include "sf_service_config_ut_pch.h"
 #undef ENABLE_MOCKS_DECL
 
-#define ENABLE_MOCKS
-#include "umock_c/umock_c_prod.h"
+#include "umock_c/umock_c_ENABLE_MOCKS.h" // ============================== ENABLE_MOCKS
 
 CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );
@@ -68,7 +67,7 @@ TEST_SF_SERVICE_CONFIG_DEFINE_EXPECTED_CALL_HELPERS(my_config, expected_config_p
 
 DECLARE_SF_SERVICE_CONFIG(my_mocked_config, MY_MOCKED_CONFIG_TEST_PARAMS)
 
-#undef ENABLE_MOCKS
+#include "umock_c/umock_c_DISABLE_MOCKS.h" // ============================== DISABLE_MOCKS
 
 MU_DEFINE_ENUM_STRINGS(UMOCK_C_ERROR_CODE, UMOCK_C_ERROR_CODE_VALUES)
 
