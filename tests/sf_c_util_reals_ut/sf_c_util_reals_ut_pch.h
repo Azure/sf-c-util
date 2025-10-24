@@ -1,7 +1,10 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // Precompiled header for sf_c_util_reals_ut
+
+#ifndef SF_C_UTIL_REALS_UT_PCH_H
+#define SF_C_UTIL_REALS_UT_PCH_H
 
 #include <stddef.h>                   // for NULL
 
@@ -38,3 +41,5 @@
 #include "sf_c_util/fabric_string_list_result.h"
 #include "sf_c_util/fc_erd_argc_argv.h"
 #include "sf_c_util/fc_erdl_argc_argv.h"
+
+#endif // SF_C_UTIL_REALS_UT_PCH_H

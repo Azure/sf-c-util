@@ -1,7 +1,9 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-
+// Copyright (c) Microsoft. All rights reserved.
 
 // Precompiled header for sf_service_config_ut
+
+#ifndef SF_SERVICE_CONFIG_UT_PCH_H
+#define SF_SERVICE_CONFIG_UT_PCH_H
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -21,14 +23,14 @@
 #include "umock_c/umocktypes_wcharptr.h"
 #include "umock_c/umock_c_negative_tests.h"
 
-#define ENABLE_MOCKS
+#include "umock_c/umock_c_ENABLE_MOCKS.h" // ============================== ENABLE_MOCKS
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 #include "c_pal/string_utils.h"
 #include "c_util/rc_string.h"
 #include "c_pal/thandle.h"
 #include "sf_c_util/configuration_reader.h"
-#undef ENABLE_MOCKS
+#include "umock_c/umock_c_DISABLE_MOCKS.h" // ============================== DISABLE_MOCKS
 
 // Must include umock_c_prod so mocks are not expanded in real_rc_string
 #include "umock_c/umock_c_prod.h"
@@ -43,3 +45,5 @@
 #include "test_sf_service_config.h"
 
 #include "sf_c_util/sf_service_config.h"
+
+#endif // SF_SERVICE_CONFIG_UT_PCH_H
