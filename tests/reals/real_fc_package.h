@@ -14,11 +14,14 @@
 #define REGISTER_FABRIC_CONFIGURATION_PACKAGE_GLOBAL_MOCK_HOOK() \
     MU_FOR_EACH_1(R2, \
         fc_package_create, \
-        fc_package_destroy,   \
+        fc_package_destroy, \
+        IFabricConfigurationPackage_get_Description, \
         IFabricConfigurationPackage_get_Path, \
+        IFabricConfigurationPackage_get_Settings, \
         IFabricConfigurationPackage_GetSection, \
         IFabricConfigurationPackage_GetValue, \
-        IFabricConfigurationPackage_DecryptValue \
+        IFabricConfigurationPackage_DecryptValue, \
+        IFabricConfigurationPackage_to_ARGC_ARGV \
 )
 
 #include "sf_c_util/fc_package.h"
@@ -39,5 +42,7 @@ HRESULT real_IFabricConfigurationPackage_GetValue(FC_PACKAGE_HANDLE fc_package_h
 HRESULT real_IFabricConfigurationPackage_DecryptValue(FC_PACKAGE_HANDLE fc_package_handle,
     /* [in] */ LPCWSTR encryptedValue,
     /* [retval][out] */ IFabricStringResult** decryptedValue);
+
+int real_IFabricConfigurationPackage_to_ARGC_ARGV(IFabricConfigurationPackage* iFabricConfigurationPackage, int* argc, char*** argv);
 
 #endif //REAL_FABRIC_CONFIGURATION_PACKAGE_ARGC_ARGV_H
