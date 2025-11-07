@@ -22,7 +22,7 @@ typedef struct FABRIC_ASYNC_OP_CB_TAG
     void* user_invoke_cb_context;
 } FABRIC_ASYNC_OP_CB;
 
-IMPLEMENT_MOCKABLE_FUNCTION(, FABRIC_ASYNC_OP_CB_HANDLE, fabric_async_op_cb_create, USER_INVOKE_CB, user_invoke_cb, void*, user_invoke_cb_context)
+FABRIC_ASYNC_OP_CB_HANDLE fabric_async_op_cb_create(USER_INVOKE_CB user_invoke_cb, void* user_invoke_cb_context)
 {
     FABRIC_ASYNC_OP_CB_HANDLE result;
 
@@ -58,7 +58,7 @@ all_ok:
     return result;
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_async_op_cb_destroy, FABRIC_ASYNC_OP_CB_HANDLE, fabric_async_op_cb)
+void fabric_async_op_cb_destroy(FABRIC_ASYNC_OP_CB_HANDLE fabric_async_op_cb)
 {
     if (fabric_async_op_cb == NULL)
     {
@@ -72,7 +72,7 @@ IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_async_op_cb_destroy, FABRIC_ASYNC_OP_
     }
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_async_op_cb_Invoke, FABRIC_ASYNC_OP_CB_HANDLE, fabric_async_op_cb, IFabricAsyncOperationContext*, context)
+void fabric_async_op_cb_Invoke(FABRIC_ASYNC_OP_CB_HANDLE fabric_async_op_cb, IFabricAsyncOperationContext* context)
 {
     if (fabric_async_op_cb == NULL)
     {
