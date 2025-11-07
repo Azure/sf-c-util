@@ -18,7 +18,7 @@ typedef struct FABRIC_OP_COMPLETED_SYNC_CTX_TAG
     IFabricAsyncOperationCallback* callback;
 } FABRIC_OP_COMPLETED_SYNC_CTX;
 
-IMPLEMENT_MOCKABLE_FUNCTION(, FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE, fabric_op_completed_sync_ctx_create, IFabricAsyncOperationCallback*, callback)
+FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx_create(IFabricAsyncOperationCallback* callback)
 {
     FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE result;
 
@@ -52,7 +52,7 @@ all_ok:
     return result;
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_op_completed_sync_ctx_destroy, FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE, fabric_op_completed_sync_ctx)
+void fabric_op_completed_sync_ctx_destroy(FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx)
 {
     if (fabric_op_completed_sync_ctx == NULL)
     {
@@ -68,7 +68,7 @@ IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_op_completed_sync_ctx_destroy, FABRIC
     }
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, BOOLEAN, fabric_op_completed_sync_ctx_IsCompleted, FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE, fabric_op_completed_sync_ctx)
+BOOLEAN fabric_op_completed_sync_ctx_IsCompleted(FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx)
 {
     BOOLEAN result;
 
@@ -87,7 +87,7 @@ IMPLEMENT_MOCKABLE_FUNCTION(, BOOLEAN, fabric_op_completed_sync_ctx_IsCompleted,
     return result;
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, BOOLEAN, fabric_op_completed_sync_ctx_CompletedSynchronously, FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE, fabric_op_completed_sync_ctx)
+BOOLEAN fabric_op_completed_sync_ctx_CompletedSynchronously(FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx)
 {
     BOOLEAN result;
 
@@ -106,7 +106,7 @@ IMPLEMENT_MOCKABLE_FUNCTION(, BOOLEAN, fabric_op_completed_sync_ctx_CompletedSyn
     return result;
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, HRESULT, fabric_op_completed_sync_ctx_get_Callback, FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE, fabric_op_completed_sync_ctx, IFabricAsyncOperationCallback**, callback)
+HRESULT fabric_op_completed_sync_ctx_get_Callback(FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx, IFabricAsyncOperationCallback** callback)
 {
     HRESULT result;
 
@@ -137,7 +137,7 @@ IMPLEMENT_MOCKABLE_FUNCTION(, HRESULT, fabric_op_completed_sync_ctx_get_Callback
     return result;
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, HRESULT, fabric_op_completed_sync_ctx_Cancel, FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE, fabric_op_completed_sync_ctx)
+HRESULT fabric_op_completed_sync_ctx_Cancel(FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx)
 {
     HRESULT result;
 

@@ -19,7 +19,7 @@ typedef struct FABRIC_STRING_RESULT_TAG
     wchar_t string_result[];
 } FABRIC_STRING_RESULT;
 
-IMPLEMENT_MOCKABLE_FUNCTION(, FABRIC_STRING_RESULT_HANDLE, fabric_string_result_create, const wchar_t*, string_result)
+FABRIC_STRING_RESULT_HANDLE fabric_string_result_create(const wchar_t* string_result)
 {
     FABRIC_STRING_RESULT_HANDLE result;
 
@@ -65,7 +65,7 @@ all_ok:
     return result;
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_string_result_destroy, FABRIC_STRING_RESULT_HANDLE, fabric_string_result)
+void fabric_string_result_destroy(FABRIC_STRING_RESULT_HANDLE fabric_string_result)
 {
     if (fabric_string_result == NULL)
     {
@@ -79,7 +79,7 @@ IMPLEMENT_MOCKABLE_FUNCTION(, void, fabric_string_result_destroy, FABRIC_STRING_
     }
 }
 
-IMPLEMENT_MOCKABLE_FUNCTION(, LPCWSTR, fabric_string_result_get_String, FABRIC_STRING_RESULT_HANDLE, fabric_string_result)
+LPCWSTR fabric_string_result_get_String(FABRIC_STRING_RESULT_HANDLE fabric_string_result)
 {
     LPCWSTR result;
 
