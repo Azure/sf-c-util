@@ -1,4 +1,4 @@
-﻿
+
 
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
@@ -49,7 +49,7 @@
 #define __ITestAsyncOperation_FWD_DEFINED__
 typedef interface ITestAsyncOperation ITestAsyncOperation;
 
-#endif 	/* __ITestAsyncOperation_FWD_DEFINED__ */
+#endif     /* __ITestAsyncOperation_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -122,7 +122,7 @@ EXTERN_C const IID IID_ITestAsyncOperation;
     };
     
     
-#else 	/* C style interface */
+#else     /* C style interface */
 
     typedef struct ITestAsyncOperationVtbl
     {
@@ -195,49 +195,49 @@ EXTERN_C const IID IID_ITestAsyncOperation;
 #ifdef COBJMACROS
 
 
-#define ITestAsyncOperation_QueryInterface(This,riid,ppvObject)	\
+#define ITestAsyncOperation_QueryInterface(This,riid,ppvObject)    \
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ITestAsyncOperation_AddRef(This)	\
+#define ITestAsyncOperation_AddRef(This)    \
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ITestAsyncOperation_Release(This)	\
+#define ITestAsyncOperation_Release(This)    \
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ITestAsyncOperation_BeginTestOperation(This,arg1,callback,context)	\
+#define ITestAsyncOperation_BeginTestOperation(This,arg1,callback,context)    \
     ( (This)->lpVtbl -> BeginTestOperation(This,arg1,callback,context) ) 
 
-#define ITestAsyncOperation_EndTestOperation(This,context,operation_result_1,operation_result_2)	\
+#define ITestAsyncOperation_EndTestOperation(This,context,operation_result_1,operation_result_2)    \
     ( (This)->lpVtbl -> EndTestOperation(This,context,operation_result_1,operation_result_2) ) 
 
-#define ITestAsyncOperation_BeginTestOperationWithNoBeginArgs(This,callback,context)	\
+#define ITestAsyncOperation_BeginTestOperationWithNoBeginArgs(This,callback,context)    \
     ( (This)->lpVtbl -> BeginTestOperationWithNoBeginArgs(This,callback,context) ) 
 
-#define ITestAsyncOperation_EndTestOperationWithNoBeginArgs(This,context,operation_result_1,operation_result_2)	\
+#define ITestAsyncOperation_EndTestOperationWithNoBeginArgs(This,context,operation_result_1,operation_result_2)    \
     ( (This)->lpVtbl -> EndTestOperationWithNoBeginArgs(This,context,operation_result_1,operation_result_2) ) 
 
-#define ITestAsyncOperation_BeginTestOperationWithNoEndArgs(This,arg1,callback,context)	\
+#define ITestAsyncOperation_BeginTestOperationWithNoEndArgs(This,arg1,callback,context)    \
     ( (This)->lpVtbl -> BeginTestOperationWithNoEndArgs(This,arg1,callback,context) ) 
 
-#define ITestAsyncOperation_EndTestOperationWithNoEndArgs(This,context)	\
+#define ITestAsyncOperation_EndTestOperationWithNoEndArgs(This,context)    \
     ( (This)->lpVtbl -> EndTestOperationWithNoEndArgs(This,context) ) 
 
-#define ITestAsyncOperation_BeginTestOperationWithNoArgs(This,callback,context)	\
+#define ITestAsyncOperation_BeginTestOperationWithNoArgs(This,callback,context)    \
     ( (This)->lpVtbl -> BeginTestOperationWithNoArgs(This,callback,context) ) 
 
-#define ITestAsyncOperation_EndTestOperationWithNoArgs(This,context)	\
+#define ITestAsyncOperation_EndTestOperationWithNoArgs(This,context)    \
     ( (This)->lpVtbl -> EndTestOperationWithNoArgs(This,context) ) 
 
 #endif /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#endif     /* C style interface */
 
 
 
 
-#endif 	/* __ITestAsyncOperation_INTERFACE_DEFINED__ */
+#endif     /* __ITestAsyncOperation_INTERFACE_DEFINED__ */
 
 
 /* Additional Prototypes for ALL interfaces */
