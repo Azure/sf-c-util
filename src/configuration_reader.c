@@ -122,7 +122,7 @@ int configuration_reader_get_uint8_t(IFabricCodePackageActivationContext* activa
             uint64_t temp = wcstoull(wchar_value, &end_ptr, 10);
             if (end_ptr == wchar_value)
             {
-                /*Codes_SRS_CONFIGURATION_READER_42_021: [ If there are any other failures then configuration_reader_get_uint32_t shall fail and return a non-zero value. ]*/
+                /*Codes_SRS_CONFIGURATION_READER_01_010: [ If there are any other failures then configuration_reader_get_uint8_t shall fail and return a non-zero value. ]*/
                 LogError("failure in wcstoull(%ls): subject sequence is empty or does not have the expected form (config_package_name:%ls, section_name:%ls, parameter_name:%ls)",
                     wchar_value, config_package_name, section_name, parameter_name);
                 result = MU_FAILURE;
