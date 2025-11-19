@@ -73,7 +73,7 @@ H_FABRIC_HANDLE_STRUCT_TYPE(IFABRIC_INTERFACE_NAME)             \
 /*expands to something that can be placed in a MOCKABLE_FUNCTION argument list*/
 #define ARGS_MOCKABLE_FUNCTION_ARG(arg_type, arg_name) , arg_type, arg_name
 
-#define ARGS_MOCKABLE_FUNCTION_PROXY(arg) MU_C1(MU_C2(ARGS_MOCKABLE_FUNCTION_, arg))
+#define ARGS_MOCKABLE_FUNCTION_PROXY(arg) MU_C2(ARGS_MOCKABLE_FUNCTION_, arg)
 
 /*... has the form ARG(type1, name1), ARG(type2, name2),...*/
 #define ARGS_MOCKABLE_FUNCTION_IN_ARGS(...) \
