@@ -1,4 +1,4 @@
-﻿
+
 
 /* this ALWAYS GENERATED file contains the proxy stub code */
 
@@ -90,7 +90,7 @@ static const testasyncoperation_MIDL_PROC_FORMAT_STRING testasyncoperation__MIDL
         0,
         {
 
-			0x0
+            0x0
         }
     };
 
@@ -98,9 +98,9 @@ static const testasyncoperation_MIDL_TYPE_FORMAT_STRING testasyncoperation__MIDL
     {
         0,
         {
-			NdrFcShort( 0x0 ),	/* 0 */
+            NdrFcShort( 0x0 ),    /* 0 */
 
-			0x0
+            0x0
         }
     };
 
@@ -156,7 +156,7 @@ PCInterfaceName const _testasyncoperation_InterfaceNamesList[] =
 };
 
 
-#define _testasyncoperation_CHECK_IID(n)	IID_GENERIC_CHECK_IID( _testasyncoperation, pIID, n)
+#define _testasyncoperation_CHECK_IID(n)    IID_GENERIC_CHECK_IID( _testasyncoperation, pIID, n)
 
 int __stdcall _testasyncoperation_IID_Lookup( const IID * pIID, int * pIndex )
 {
