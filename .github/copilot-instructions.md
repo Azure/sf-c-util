@@ -90,17 +90,17 @@ Follow standard Azure C library SRS patterns for all modules:
 - **`deps/servicefabric/`**: Service Fabric SDK headers and IDL files
 
 ## External Dependencies
-**CRITICAL**: Follow coding standards in `deps/c-build-tools/.github/general_coding_instructions.md`.
+**CRITICAL**: Follow coding standards in #file:../deps/c-build-tools/.github/general_coding_instructions.md.
 Leverage patterns from:
-- `deps/c-build-tools/.github/copilot-instructions.md` (CMake functions, pipeline templates, quality gates)
-- `deps/c-pal/.github/copilot-instructions.md` (THANDLE, reference counting, platform abstraction)
-- `deps/c-util/.github/copilot-instructions.md` (RC_STRING, async operations, collections)
-- `deps/c-logging/.github/copilot-instructions.md` (structured logging, ETW support)
-- `deps/com-wrapper/.github/copilot-instructions.md` (COM interface wrapping)
-- `deps/macro-utils-c/.github/copilot-instructions.md` (metaprogramming, code generation)
-- `deps/umock-c/.github/copilot-instructions.md` (unit test mocking patterns)
-- `deps/ctest/.github/copilot-instructions.md` (test execution framework)
-- `deps/c-testrunnerswitcher/.github/copilot-instructions.md` (test runner abstraction)
+- #file:../deps/c-build-tools/.github/copilot-instructions.md (CMake functions, pipeline templates, quality gates)
+- #file:../deps/c-pal/.github/copilot-instructions.md (THANDLE, reference counting, platform abstraction)
+- #file:../deps/c-util/.github/copilot-instructions.md (RC_STRING, async operations, collections)
+- #file:../deps/c-logging/.github/copilot-instructions.md (structured logging, ETW support)
+- #file:../deps/com-wrapper/.github/copilot-instructions.md (COM interface wrapping)
+- #file:../deps/macro-utils-c/.github/copilot-instructions.md (metaprogramming, code generation)
+- #file:../deps/umock-c/.github/copilot-instructions.md (unit test mocking patterns)
+- #file:../deps/ctest/.github/copilot-instructions.md (test execution framework)
+- #file:../deps/c-testrunnerswitcher/.github/copilot-instructions.md (test runner abstraction)
 
 This library enables C applications to use Service Fabric APIs through familiar C patterns while maintaining COM interface compatibility.
 
