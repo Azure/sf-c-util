@@ -128,7 +128,7 @@ char* hresult_to_string(malloc_t the_malloc, free_t the_free, HRESULT hr)
                                 0,
                                 (LPVOID)result, N_MAX_CHARACTERS, NULL) != 0)
                             {
-                                /*Codes_SRS_HRESULT_TO_STRING_02_006: [ If a module can decode hresult then that value shall be returned. */
+                                /*Codes_SRS_HRESULT_TO_STRING_02_006: [ If a module can decode hresult then that value shall be returned. ] */
                                 break;
                             }
                             else
