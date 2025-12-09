@@ -22,6 +22,7 @@
 
 #include "c_util/rc_string.h"
 #include "c_pal/thandle.h"
+#include "c_pal/srw_lock_ll.h"
 
 #include "c_pal/string_utils.h"
 
@@ -58,6 +59,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_CREATE(name) MU_C2(name, _configuration_create)
 /*Codes_SRS_SF_SERVICE_CONFIG_42_043: [ SF_SERVICE_CONFIG_GETTER shall expand to the name of the getter function for the configuration module and the given param by concatenating the name, the string _configuration_get, and the param. ]*/
 #define SF_SERVICE_CONFIG_GETTER(name, param) MU_C3(name, _configuration_get_, param)
+/*Codes_SRS_SF_SERVICE_CONFIG_88_001: [ SF_SERVICE_CONFIG_REFRESH shall expand to the name of the refresh function for the configuration module by appending the suffix _configuration_refresh. ]*/
+#define SF_SERVICE_CONFIG_REFRESH(name) MU_C2(name, _configuration_refresh)
 
 // Helpers to declare parameters
 
@@ -75,11 +78,17 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define DECLARE_SF_SERVICE_CONFIG_GETTERS(name, ...) \
     SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_2(DECLARE_SF_SERVICE_CONFIG_GETTER, name, dummy, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
 
+// Declare refresh function
+/*Codes_SRS_SF_SERVICE_CONFIG_88_003: [ DECLARE_SF_SERVICE_CONFIG_REFRESH shall generate a mockable refresh function SF_SERVICE_CONFIG_REFRESH(name) which takes a THANDLE and returns int. ]*/
+#define DECLARE_SF_SERVICE_CONFIG_REFRESH(name) \
+    MOCKABLE_FUNCTION(, int, SF_SERVICE_CONFIG_REFRESH(name), THANDLE(SF_SERVICE_CONFIG(name)), handle);
+
 // Declare configuration (for header)
 
 #define DECLARE_SF_SERVICE_CONFIG(name, ...) \
     DECLARE_SF_SERVICE_CONFIG_HANDLE(name) \
-    DECLARE_SF_SERVICE_CONFIG_GETTERS(name, __VA_ARGS__)
+    DECLARE_SF_SERVICE_CONFIG_GETTERS(name, __VA_ARGS__) \
+    DECLARE_SF_SERVICE_CONFIG_REFRESH(name)
 
 // Define configuration (for .c file)
 
@@ -96,11 +105,16 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     /*Codes_SRS_SF_SERVICE_CONFIG_42_006: [ DECLARE_SF_SERVICE_CONFIG shall generate the implementation of the getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/ \
     SF_SERVICE_CONFIG_EXPANDED_MU_FOR_EACH_2_KEEP_1(SF_SERVICE_CONFIG_DEFINE_GETTER, name, SF_SERVICE_CONFIG_EXPAND_PARAMS(__VA_ARGS__))
 
+// Define refresh function
+#define DEFINE_SF_SERVICE_CONFIG_REFRESH(name, ...) \
+    SF_SERVICE_CONFIG_DEFINE_REFRESH(name, __VA_ARGS__)
+
 // Define configuration (for .c file)
 
 #define DEFINE_SF_SERVICE_CONFIG(name, sf_config_name, sf_parameters_section_name, ...) \
     DEFINE_SF_SERVICE_CONFIG_HANDLE(name, sf_config_name, sf_parameters_section_name,  __VA_ARGS__) \
-    DEFINE_SF_SERVICE_CONFIG_GETTERS(name, __VA_ARGS__)
+    DEFINE_SF_SERVICE_CONFIG_GETTERS(name, __VA_ARGS__) \
+    DEFINE_SF_SERVICE_CONFIG_REFRESH(name, __VA_ARGS__)
 
 // Implementation details
 
@@ -171,6 +185,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define DEFINE_SF_SERVICE_CONFIG_STRUCT(name, sf_config_name, sf_parameters_section_name, ...) \
     typedef struct MU_C2(name, _TAG) \
         { \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_002: [ The SF_SERVICE_CONFIG(name) struct shall include an SRW_LOCK_LL lock field for thread-safe access. ]*/ \
+            SRW_LOCK_LL lock; \
             IFabricCodePackageActivationContext* activation_context; \
             const wchar_t* sf_config_name_string; \
             const wchar_t* sf_parameters_section_name_string; \
@@ -474,24 +490,35 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             else \
             { \
                 SF_SERVICE_CONFIG(name)* temp_config_obj = THANDLE_GET_T(SF_SERVICE_CONFIG(name))(temp_config); \
-                /*Codes_SRS_SF_SERVICE_CONFIG_42_011: [ SF_SERVICE_CONFIG_CREATE(name) shall call AddRef and store the activation_context. ]*/ \
-                temp_config_obj->activation_context = activation_context; \
-                (void)temp_config_obj->activation_context->lpVtbl->AddRef(temp_config_obj->activation_context); \
-                /*Codes_SRS_SF_SERVICE_CONFIG_42_012: [ SF_SERVICE_CONFIG_CREATE(name) shall store the sf_config_name and sf_parameters_section_name. ]*/ \
-                temp_config_obj->sf_config_name_string = sf_config_name; \
-                temp_config_obj->sf_parameters_section_name_string = sf_parameters_section_name; \
-                \
-                if (MU_C2(name, _read_all_config_values)(temp_config_obj) != 0) \
+                /*Codes_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/ \
+                if (srw_lock_ll_init(&temp_config_obj->lock) != 0) \
                 { \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_88_005: [ If srw_lock_ll_init fails then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+                    LogError("srw_lock_ll_init failed"); \
+                    THANDLE_FREE(SF_SERVICE_CONFIG(name))(temp_config_obj); \
                 } \
                 else \
                 { \
-                    THANDLE_INITIALIZE_MOVE(SF_SERVICE_CONFIG(name))(&result, &temp_config); \
-                    goto all_ok; \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_42_011: [ SF_SERVICE_CONFIG_CREATE(name) shall call AddRef and store the activation_context. ]*/ \
+                    temp_config_obj->activation_context = activation_context; \
+                    (void)temp_config_obj->activation_context->lpVtbl->AddRef(temp_config_obj->activation_context); \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_42_012: [ SF_SERVICE_CONFIG_CREATE(name) shall store the sf_config_name and sf_parameters_section_name. ]*/ \
+                    temp_config_obj->sf_config_name_string = sf_config_name; \
+                    temp_config_obj->sf_parameters_section_name_string = sf_parameters_section_name; \
+                    \
+                    if (MU_C2(name, _read_all_config_values)(temp_config_obj) != 0) \
+                    { \
+                        /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
+                    } \
+                    else \
+                    { \
+                        THANDLE_INITIALIZE_MOVE(SF_SERVICE_CONFIG(name))(&result, &temp_config); \
+                        goto all_ok; \
+                    } \
+                    (void)temp_config_obj->activation_context->lpVtbl->Release(temp_config_obj->activation_context); \
+                    srw_lock_ll_deinit(&temp_config_obj->lock); \
+                    THANDLE_FREE(SF_SERVICE_CONFIG(name))(temp_config_obj); \
                 } \
-                (void)temp_config_obj->activation_context->lpVtbl->Release(temp_config_obj->activation_context); \
-                THANDLE_FREE(SF_SERVICE_CONFIG(name))(temp_config_obj); \
             } \
         } \
     all_ok: \
@@ -532,6 +559,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
     static void MU_C2A(SF_SERVICE_CONFIG(name), _dispose)(SF_SERVICE_CONFIG(name)* handle) \
     { \
         MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(handle); \
+        /*Codes_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/ \
+        srw_lock_ll_deinit(&handle->lock); \
         /*Codes_SRS_SF_SERVICE_CONFIG_42_042: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall Release the activation_context. ]*/ \
         (void)handle->activation_context->lpVtbl->Release(handle->activation_context); \
     }
@@ -601,11 +630,51 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         } \
         else \
         { \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_007: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall acquire the shared SRW lock by calling srw_lock_ll_acquire_shared. ]*/ \
+            srw_lock_ll_acquire_shared(&((SF_SERVICE_CONFIG(name)*)handle)->lock); \
             /*Codes_SRS_SF_SERVICE_CONFIG_42_050: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall return the configuration value for field_name. ]*/ \
             SF_SERVICE_CONFIG_GETTER_DO_ASSIGN(field_type, result, handle->field_name); \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_008: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall release the shared SRW lock by calling srw_lock_ll_release_shared. ]*/ \
+            srw_lock_ll_release_shared(&((SF_SERVICE_CONFIG(name)*)handle)->lock); \
         } \
         return result; \
     } \
+
+// Refresh function
+
+#define SF_SERVICE_CONFIG_DEFINE_REFRESH(name, ...) \
+    int SF_SERVICE_CONFIG_REFRESH(name)(THANDLE(SF_SERVICE_CONFIG(name)) handle) \
+    { \
+        int result; \
+        if (handle == NULL) \
+        { \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_009: [ If handle is NULL then SF_SERVICE_CONFIG_REFRESH(name) shall fail and return a non-zero value. ]*/ \
+            LogError("Invalid args: THANDLE(" MU_TOSTRING(SF_SERVICE_CONFIG(name)) ") handle = %p", handle); \
+            result = MU_FAILURE; \
+        } \
+        else \
+        { \
+            SF_SERVICE_CONFIG(name)* handle_obj = THANDLE_GET_T(SF_SERVICE_CONFIG(name))(handle); \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_010: [ SF_SERVICE_CONFIG_REFRESH(name) shall acquire the exclusive SRW lock by calling srw_lock_ll_acquire_exclusive. ]*/ \
+            srw_lock_ll_acquire_exclusive(&handle_obj->lock); \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_011: [ SF_SERVICE_CONFIG_REFRESH(name) shall clean up the existing configuration field values. ]*/ \
+            MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(handle_obj); \
+            /*Codes_SRS_SF_SERVICE_CONFIG_88_012: [ SF_SERVICE_CONFIG_REFRESH(name) shall re-read all configuration values from the activation_context. ]*/ \
+            if (MU_C2(name, _read_all_config_values)(handle_obj) != 0) \
+            { \
+                /*Codes_SRS_SF_SERVICE_CONFIG_88_013: [ If re-reading any configuration value fails, SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive lock and return a non-zero value. ]*/ \
+                LogError("Failed to re-read configuration values"); \
+                result = MU_FAILURE; \
+            } \
+            else \
+            { \
+                /*Codes_SRS_SF_SERVICE_CONFIG_88_014: [ SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive SRW lock by calling srw_lock_ll_release_exclusive and return 0. ]*/ \
+                result = 0; \
+            } \
+            srw_lock_ll_release_exclusive(&handle_obj->lock); \
+        } \
+        return result; \
+    }
 
 #ifdef __cplusplus
 }

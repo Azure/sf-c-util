@@ -102,6 +102,8 @@ if((CMAKE_GENERATOR MATCHES "Visual Studio") AND (${run_traceability}))
 endif()
 
 set(sf_c_util_h_files
+    inc/sf_c_util/configuration_package_change_handler.h
+    inc/sf_c_util/configuration_package_change_handler_com.h
     inc/sf_c_util/configuration_reader.h
     inc/sf_c_util/fabric_async_op_cb.h
     inc/sf_c_util/fabric_async_op_cb_com.h
@@ -130,6 +132,7 @@ set(sf_c_util_h_files
 )
 
 set(sf_c_util_c_files
+    src/configuration_package_change_handler.c
     src/configuration_reader.c
     src/fabric_async_op_cb.c
     src/fabric_async_op_cb_com.c

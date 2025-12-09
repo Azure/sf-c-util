@@ -97,6 +97,7 @@ SF Config XML
 #define SF_SERVICE_CONFIG(name) MU_C2(name, _CONFIGURATION)
 #define SF_SERVICE_CONFIG_CREATE(name) MU_C2(name, _configuration_create)
 #define SF_SERVICE_CONFIG_GETTER(name, param) MU_C3(name, _configuration_get_, param)
+#define SF_SERVICE_CONFIG_REFRESH(name) MU_C2(name, _configuration_refresh)
 
 #define DECLARE_SF_SERVICE_CONFIG_HANDLE(name, ...) \
     //...
@@ -161,6 +162,8 @@ The `sf_parameters_section_name` argument must be a wide string for the section 
 
 **SRS_SF_SERVICE_CONFIG_42_004: [** `DEFINE_SF_SERVICE_CONFIG` shall generate the `SF_SERVICE_CONFIG(name)` struct. **]**
 
+**SRS_SF_SERVICE_CONFIG_88_002: [** The `SF_SERVICE_CONFIG(name)` struct shall include an `SRW_LOCK_LL lock` field for thread-safe access. **]**
+
 **SRS_SF_SERVICE_CONFIG_42_005: [** `DEFINE_SF_SERVICE_CONFIG` shall generate the implementation of `SF_SERVICE_CONFIG_CREATE(name)`. **]**
 
 **SRS_SF_SERVICE_CONFIG_42_006: [** `DECLARE_SF_SERVICE_CONFIG` shall generate the implementation of the getter functions `SF_SERVICE_CONFIG_GETTER(name, param)` for each of the configurations provided. **]**
@@ -194,6 +197,10 @@ THANDLE(SF_SERVICE_CONFIG(name)) SF_SERVICE_CONFIG_CREATE(name)(IFabricCodePacka
 **SRS_SF_SERVICE_CONFIG_42_010: [** `SF_SERVICE_CONFIG_CREATE(name)` shall allocate the `THANDLE(SF_SERVICE_CONFIG(name))` with `MU_C2A(SF_SERVICE_CONFIG(name), _dispose)` as the dispose function. **]**
 
 **SRS_SF_SERVICE_CONFIG_42_011: [** `SF_SERVICE_CONFIG_CREATE(name)` shall call `AddRef` and store the `activation_context`. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_004: [** `SF_SERVICE_CONFIG_CREATE(name)` shall call `srw_lock_ll_init` to initialize the SRW lock. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_005: [** If `srw_lock_ll_init` fails then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
 
 **SRS_SF_SERVICE_CONFIG_42_012: [** `SF_SERVICE_CONFIG_CREATE(name)` shall store the `sf_config_name` and `sf_parameters_section_name`. **]**
 
@@ -269,6 +276,8 @@ The dispose function is called when the last `THANDLE` reference is released.
 
  - **SRS_SF_SERVICE_CONFIG_42_040: [** If the type is `thandle_rc_string` then `MU_C2A(SF_SERVICE_CONFIG(name), _dispose)` shall assign the `THANDLE` to `NULL`. **]**
 
+**SRS_SF_SERVICE_CONFIG_88_006: [** `MU_C2A(SF_SERVICE_CONFIG(name), _dispose)` shall call `srw_lock_ll_deinit` to deinitialize the SRW lock. **]**
+
 **SRS_SF_SERVICE_CONFIG_42_042: [** `MU_C2A(SF_SERVICE_CONFIG(name), _dispose)` shall `Release` the `activation_context`. **]**
 
 ### SF_SERVICE_CONFIG_GETTER
@@ -303,4 +312,38 @@ Each getter function returns the value read from the config. The integer values 
 
 **SRS_SF_SERVICE_CONFIG_42_049: [** If the type is `thandle_rc_string` then the returned value will be set using `THANDLE_INITIALIZE` and the caller will have a reference they must free. **]**
 
+**SRS_SF_SERVICE_CONFIG_88_007: [** `SF_SERVICE_CONFIG_GETTER(name, field_name)` shall acquire the shared SRW lock by calling `srw_lock_ll_acquire_shared`. **]**
+
 **SRS_SF_SERVICE_CONFIG_42_050: [** `SF_SERVICE_CONFIG_GETTER(name, field_name)` shall return the configuration value for `field_name`. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_008: [** `SF_SERVICE_CONFIG_GETTER(name, field_name)` shall release the shared SRW lock by calling `srw_lock_ll_release_shared`. **]**
+
+### SF_SERVICE_CONFIG_REFRESH
+
+```c
+#define SF_SERVICE_CONFIG_REFRESH(name) MU_C2(name, _configuration_refresh)
+```
+
+Get the name of the function to refresh the configuration, e.g. `MY_configuration_refresh`.
+
+**SRS_SF_SERVICE_CONFIG_88_001: [** `SF_SERVICE_CONFIG_REFRESH` shall expand to the name of the refresh function for the configuration module by appending the suffix `_configuration_refresh`. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_003: [** `DECLARE_SF_SERVICE_CONFIG_REFRESH` shall generate a mockable refresh function `SF_SERVICE_CONFIG_REFRESH(name)` which takes a `THANDLE` and returns `int`. **]**
+
+```c
+int SF_SERVICE_CONFIG_REFRESH(name)(THANDLE(SF_SERVICE_CONFIG(name)) handle)
+```
+
+The refresh function re-reads all configuration values from the Service Fabric activation context, updating the stored values. This allows configuration to be updated at runtime without recreating the config handle.
+
+**SRS_SF_SERVICE_CONFIG_88_009: [** If `handle` is `NULL` then `SF_SERVICE_CONFIG_REFRESH(name)` shall fail and return a non-zero value. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_010: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall acquire the exclusive SRW lock by calling `srw_lock_ll_acquire_exclusive`. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_011: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall clean up the existing configuration field values. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_012: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall re-read all configuration values from the `activation_context`. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_013: [** If re-reading any configuration value fails, `SF_SERVICE_CONFIG_REFRESH(name)` shall release the exclusive lock and return a non-zero value. **]**
+
+**SRS_SF_SERVICE_CONFIG_88_014: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall release the exclusive SRW lock by calling `srw_lock_ll_release_exclusive` and return 0. **]**
