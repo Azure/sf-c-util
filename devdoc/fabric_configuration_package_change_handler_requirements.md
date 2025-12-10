@@ -86,11 +86,9 @@ MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_on_package
     IFabricConfigurationPackage*, configPackage);
 ```
 
-`fabric_configuration_package_change_handler_on_package_added` is called when a configuration package is added.
+`fabric_configuration_package_change_handler_on_package_added` is called when a configuration package is added. This notification is ignored.
 
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [** If `handle` is `NULL`, `fabric_configuration_package_change_handler_on_package_added` shall return. **]**
-
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [** `fabric_configuration_package_change_handler_on_package_added` shall call the `on_configuration_changed` callback with `previous_config_package` set to `NULL` and `new_config_package` set to `configPackage`. **]**
+**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [** `fabric_configuration_package_change_handler_on_package_added` shall do nothing. **]**
 
 ## fabric_configuration_package_change_handler_on_package_removed
 
@@ -101,11 +99,9 @@ MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_on_package
     IFabricConfigurationPackage*, configPackage);
 ```
 
-`fabric_configuration_package_change_handler_on_package_removed` is called when a configuration package is removed.
+`fabric_configuration_package_change_handler_on_package_removed` is called when a configuration package is removed. This notification is ignored.
 
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [** If `handle` is `NULL`, `fabric_configuration_package_change_handler_on_package_removed` shall return. **]**
-
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [** `fabric_configuration_package_change_handler_on_package_removed` shall call the `on_configuration_changed` callback with `previous_config_package` set to `configPackage` and `new_config_package` set to `NULL`. **]**
+**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [** `fabric_configuration_package_change_handler_on_package_removed` shall do nothing. **]**
 
 ## fabric_configuration_package_change_handler_on_package_modified
 
@@ -119,6 +115,6 @@ MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_on_package
 
 `fabric_configuration_package_change_handler_on_package_modified` is called when a configuration package is modified.
 
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [** If `handle` is `NULL`, `fabric_configuration_package_change_handler_on_package_modified` shall return. **]**
+**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [** If `handle` is `NULL`, `fabric_configuration_package_change_handler_on_package_modified` shall return. **]**
 
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [** `fabric_configuration_package_change_handler_on_package_modified` shall call the `on_configuration_changed` callback with `previous_config_package` set to `previousConfigPackage` and `new_config_package` set to `configPackage`. **]**
+**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [** `fabric_configuration_package_change_handler_on_package_modified` shall call the `on_configuration_changed` callback with `previous_config_package` set to `previousConfigPackage` and `new_config_package` set to `configPackage`. **]**

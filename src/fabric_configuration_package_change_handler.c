@@ -83,17 +83,10 @@ void fabric_configuration_package_change_handler_on_package_added(
     IFabricCodePackageActivationContext* source,
     IFabricConfigurationPackage* configPackage)
 {
-    if (handle == NULL)
-    {
-        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_added shall return. ]*/
-        LogError("Invalid arguments: FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle=%p, IFabricCodePackageActivationContext* source=%p, IFabricConfigurationPackage* configPackage=%p",
-            handle, source, configPackage);
-    }
-    else
-    {
-        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ fabric_configuration_package_change_handler_on_package_added shall call the on_configuration_changed callback with previous_config_package set to NULL and new_config_package set to configPackage. ]*/
-        handle->on_configuration_changed(handle->context, source, NULL, configPackage);
-    }
+    /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ fabric_configuration_package_change_handler_on_package_added shall do nothing. ]*/
+    (void)handle;
+    (void)source;
+    (void)configPackage;
 }
 
 void fabric_configuration_package_change_handler_on_package_removed(
@@ -101,17 +94,10 @@ void fabric_configuration_package_change_handler_on_package_removed(
     IFabricCodePackageActivationContext* source,
     IFabricConfigurationPackage* configPackage)
 {
-    if (handle == NULL)
-    {
-        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_removed shall return. ]*/
-        LogError("Invalid arguments: FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle=%p, IFabricCodePackageActivationContext* source=%p, IFabricConfigurationPackage* configPackage=%p",
-            handle, source, configPackage);
-    }
-    else
-    {
-        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ fabric_configuration_package_change_handler_on_package_removed shall call the on_configuration_changed callback with previous_config_package set to configPackage and new_config_package set to NULL. ]*/
-        handle->on_configuration_changed(handle->context, source, configPackage, NULL);
-    }
+    /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ fabric_configuration_package_change_handler_on_package_removed shall do nothing. ]*/
+    (void)handle;
+    (void)source;
+    (void)configPackage;
 }
 
 void fabric_configuration_package_change_handler_on_package_modified(
@@ -122,13 +108,13 @@ void fabric_configuration_package_change_handler_on_package_modified(
 {
     if (handle == NULL)
     {
-        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_modified shall return. ]*/
+        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_modified shall return. ]*/
         LogError("Invalid arguments: FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle=%p, IFabricCodePackageActivationContext* source=%p, IFabricConfigurationPackage* previousConfigPackage=%p, IFabricConfigurationPackage* configPackage=%p",
             handle, source, previousConfigPackage, configPackage);
     }
     else
     {
-        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [ fabric_configuration_package_change_handler_on_package_modified shall call the on_configuration_changed callback with previous_config_package set to previousConfigPackage and new_config_package set to configPackage. ]*/
+        /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ fabric_configuration_package_change_handler_on_package_modified shall call the on_configuration_changed callback with previous_config_package set to previousConfigPackage and new_config_package set to configPackage. ]*/
         handle->on_configuration_changed(handle->context, source, previousConfigPackage, configPackage);
     }
 }

@@ -201,8 +201,28 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_destroy_frees_the_memo
 
 /* fabric_configuration_package_change_handler_on_package_added */
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_added shall return. ]*/
-TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_added_with_NULL_handle_returns)
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ fabric_configuration_package_change_handler_on_package_added shall do nothing. ]*/
+TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_added_does_nothing)
+{
+    // arrange
+    void* test_context = (void*)0x4242;
+    FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = fabric_configuration_package_change_handler_create(test_on_configuration_changed, test_context);
+    ASSERT_IS_NOT_NULL(handle);
+    umock_c_reset_all_calls();
+
+    // act
+    fabric_configuration_package_change_handler_on_package_added(handle, test_activation_context, test_config_package);
+
+    // assert
+    ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    fabric_configuration_package_change_handler_destroy(handle);
+}
+
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ fabric_configuration_package_change_handler_on_package_added shall do nothing. ]*/
+TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_added_with_NULL_handle_does_nothing)
 {
     // arrange
 
@@ -213,8 +233,10 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_added_with_
     ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
 }
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ fabric_configuration_package_change_handler_on_package_added shall call the on_configuration_changed callback with previous_config_package set to NULL and new_config_package set to configPackage. ]*/
-TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_added_calls_callback)
+/* fabric_configuration_package_change_handler_on_package_removed */
+
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ fabric_configuration_package_change_handler_on_package_removed shall do nothing. ]*/
+TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_removed_does_nothing)
 {
     // arrange
     void* test_context = (void*)0x4242;
@@ -222,27 +244,19 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_added_calls
     ASSERT_IS_NOT_NULL(handle);
     umock_c_reset_all_calls();
 
-    STRICT_EXPECTED_CALL(test_on_configuration_changed(test_context, test_activation_context, NULL, test_config_package));
-
     // act
-    fabric_configuration_package_change_handler_on_package_added(handle, test_activation_context, test_config_package);
+    fabric_configuration_package_change_handler_on_package_removed(handle, test_activation_context, test_config_package);
 
     // assert
-    ASSERT_ARE_EQUAL(int, 1, g_on_configuration_changed_call_count);
-    ASSERT_ARE_EQUAL(void_ptr, test_context, g_on_configuration_changed_context);
-    ASSERT_ARE_EQUAL(void_ptr, test_activation_context, g_on_configuration_changed_source);
-    ASSERT_IS_NULL(g_on_configuration_changed_previous);
-    ASSERT_ARE_EQUAL(void_ptr, test_config_package, g_on_configuration_changed_new);
+    ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     // cleanup
     fabric_configuration_package_change_handler_destroy(handle);
 }
 
-/* fabric_configuration_package_change_handler_on_package_removed */
-
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_removed shall return. ]*/
-TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_removed_with_NULL_handle_returns)
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ fabric_configuration_package_change_handler_on_package_removed shall do nothing. ]*/
+TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_removed_with_NULL_handle_does_nothing)
 {
     // arrange
 
@@ -253,35 +267,9 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_removed_wit
     ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
 }
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ fabric_configuration_package_change_handler_on_package_removed shall call the on_configuration_changed callback with previous_config_package set to configPackage and new_config_package set to NULL. ]*/
-TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_removed_calls_callback)
-{
-    // arrange
-    void* test_context = (void*)0x4242;
-    FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = fabric_configuration_package_change_handler_create(test_on_configuration_changed, test_context);
-    ASSERT_IS_NOT_NULL(handle);
-    umock_c_reset_all_calls();
-
-    STRICT_EXPECTED_CALL(test_on_configuration_changed(test_context, test_activation_context, test_config_package, NULL));
-
-    // act
-    fabric_configuration_package_change_handler_on_package_removed(handle, test_activation_context, test_config_package);
-
-    // assert
-    ASSERT_ARE_EQUAL(int, 1, g_on_configuration_changed_call_count);
-    ASSERT_ARE_EQUAL(void_ptr, test_context, g_on_configuration_changed_context);
-    ASSERT_ARE_EQUAL(void_ptr, test_activation_context, g_on_configuration_changed_source);
-    ASSERT_ARE_EQUAL(void_ptr, test_config_package, g_on_configuration_changed_previous);
-    ASSERT_IS_NULL(g_on_configuration_changed_new);
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    // cleanup
-    fabric_configuration_package_change_handler_destroy(handle);
-}
-
 /* fabric_configuration_package_change_handler_on_package_modified */
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_modified shall return. ]*/
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If handle is NULL, fabric_configuration_package_change_handler_on_package_modified shall return. ]*/
 TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_modified_with_NULL_handle_returns)
 {
     // arrange
@@ -293,7 +281,7 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_modified_wi
     ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
 }
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [ fabric_configuration_package_change_handler_on_package_modified shall call the on_configuration_changed callback with previous_config_package set to previousConfigPackage and new_config_package set to configPackage. ]*/
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ fabric_configuration_package_change_handler_on_package_modified shall call the on_configuration_changed callback with previous_config_package set to previousConfigPackage and new_config_package set to configPackage. ]*/
 TEST_FUNCTION(fabric_configuration_package_change_handler_on_package_modified_calls_callback)
 {
     // arrange
