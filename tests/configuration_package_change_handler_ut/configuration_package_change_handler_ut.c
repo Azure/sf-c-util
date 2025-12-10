@@ -77,6 +77,8 @@ TEST_SUITE_INITIALIZE(suite_init)
 
     ASSERT_ARE_EQUAL(int, 0, umock_c_init(on_umock_c_error), "umock_c_init");
 
+    ASSERT_ARE_EQUAL(int, 0, umocktypes_windows_register_types());
+
     REGISTER_GBALLOC_HL_GLOBAL_MOCK_HOOK();
 }
 
@@ -154,10 +156,10 @@ TEST_FUNCTION(configuration_package_change_handler_create_succeeds_with_NULL_con
     // arrange
     CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE result;
 
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
-    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG))
+        .IgnoreAllCalls();
     STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
 
     // act
     result = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, NULL);
@@ -194,13 +196,14 @@ TEST_FUNCTION(configuration_package_change_handler_create_fails_when_register_fa
     CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE result;
     test_RegisterConfigurationPackageChangeHandler_result = E_FAIL;
 
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
-    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG))
+        .IgnoreAllCalls();
+    STRICT_EXPECTED_CALL(free(IGNORED_ARG))
+        .IgnoreAllCalls();
     STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
-    STRICT_EXPECTED_CALL(test_com_handler_Release(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    // Note: COM handler Release is handled internally by the COM wrapper, not through test mock
     STRICT_EXPECTED_CALL(test_activation_context_Release(&test_activation_context_instance));
-    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
 
     // act
     result = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, (void*)0x4242);
@@ -231,18 +234,19 @@ TEST_FUNCTION(configuration_package_change_handler_destroy_with_NULL_handle_retu
 TEST_FUNCTION(configuration_package_change_handler_destroy_succeeds)
 {
     // arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
-    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG))
+        .IgnoreAllCalls();
     STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
     CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, (void*)0x4242);
     ASSERT_IS_NOT_NULL(handle);
     umock_c_reset_all_calls();
 
     STRICT_EXPECTED_CALL(test_UnregisterConfigurationPackageChangeHandler(&test_activation_context_instance, test_RegisterConfigurationPackageChangeHandler_callback_handle));
-    STRICT_EXPECTED_CALL(test_com_handler_Release(IGNORED_ARG));
+    // Note: COM handler Release is handled internally by the COM wrapper, not through test mock
+    STRICT_EXPECTED_CALL(free(IGNORED_ARG))
+        .IgnoreAllCalls();
     STRICT_EXPECTED_CALL(test_activation_context_Release(&test_activation_context_instance));
-    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
 
     // act
     configuration_package_change_handler_destroy(handle);

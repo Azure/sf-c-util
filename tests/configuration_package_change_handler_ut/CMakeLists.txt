@@ -21,5 +21,5 @@ set(${theseTestsName}_h_files
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util com_wrapper debug FabricUUIDD optimized FabricUUID c_pal_reals
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS sf_c_util c_util com_wrapper debug FabricUUIDD optimized FabricUUID c_pal_reals
     ENABLE_TEST_FILES_PRECOMPILED_HEADERS "${CMAKE_CURRENT_LIST_DIR}/configuration_package_change_handler_ut_pch.h")
