@@ -187,6 +187,28 @@ TEST_FUNCTION(configuration_package_change_handler_create_fails_when_malloc_fail
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If any error occurs, configuration_package_change_handler_create shall fail and return NULL. ]*/
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ If RegisterConfigurationPackageChangeHandler fails, configuration_package_change_handler_create shall release the COM wrapper and free resources. ]*/
+TEST_FUNCTION(configuration_package_change_handler_create_fails_when_register_fails)
+{
+    // arrange
+    CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE result;
+    test_RegisterConfigurationPackageChangeHandler_result = E_FAIL;
+
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(test_com_handler_Release(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
+
+    // act
+    result = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, (void*)0x4242);
+
+    // assert
+    ASSERT_IS_NULL(result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
 /* configuration_package_change_handler_destroy */
 
 /* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [ If handle is NULL, configuration_package_change_handler_destroy shall return. ]*/
@@ -196,6 +218,31 @@ TEST_FUNCTION(configuration_package_change_handler_destroy_with_NULL_handle_retu
 
     // act
     configuration_package_change_handler_destroy(NULL);
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [ configuration_package_change_handler_destroy shall unregister from Service Fabric by calling activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler with the stored callback handle. ]*/
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_015: [ configuration_package_change_handler_destroy shall call Release on the stored activation_context. ]*/
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_016: [ configuration_package_change_handler_destroy shall free the handler structure. ]*/
+TEST_FUNCTION(configuration_package_change_handler_destroy_succeeds)
+{
+    // arrange
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
+    CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, (void*)0x4242);
+    ASSERT_IS_NOT_NULL(handle);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(test_UnregisterConfigurationPackageChangeHandler(&test_activation_context_instance, test_RegisterConfigurationPackageChangeHandler_callback_handle));
+    STRICT_EXPECTED_CALL(test_activation_context_Release(&test_activation_context_instance));
+    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
+
+    // act
+    configuration_package_change_handler_destroy(handle);
 
     // assert
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
@@ -215,6 +262,36 @@ TEST_FUNCTION(configuration_package_change_handler_on_package_added_with_NULL_ha
     ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
 }
 
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_018: [ configuration_package_change_handler_on_package_added shall call the on_configuration_changed callback with previous_config_package set to NULL and new_config_package set to configPackage. ]*/
+TEST_FUNCTION(configuration_package_change_handler_on_package_added_calls_callback)
+{
+    // arrange
+    void* test_context = (void*)0x4242;
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
+    CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, test_context);
+    ASSERT_IS_NOT_NULL(handle);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(test_on_configuration_changed(test_context, test_activation_context, NULL, test_config_package));
+
+    // act
+    configuration_package_change_handler_on_package_added(handle, test_activation_context, test_config_package);
+
+    // assert
+    ASSERT_ARE_EQUAL(int, 1, g_on_configuration_changed_call_count);
+    ASSERT_ARE_EQUAL(void_ptr, test_context, g_on_configuration_changed_context);
+    ASSERT_ARE_EQUAL(void_ptr, test_activation_context, g_on_configuration_changed_source);
+    ASSERT_IS_NULL(g_on_configuration_changed_previous);
+    ASSERT_ARE_EQUAL(void_ptr, test_config_package, g_on_configuration_changed_new);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    configuration_package_change_handler_destroy(handle);
+}
+
 /* configuration_package_change_handler_on_package_removed */
 
 /* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_019: [ If handle is NULL, configuration_package_change_handler_on_package_removed shall return. ]*/
@@ -229,6 +306,36 @@ TEST_FUNCTION(configuration_package_change_handler_on_package_removed_with_NULL_
     ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
 }
 
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_020: [ configuration_package_change_handler_on_package_removed shall call the on_configuration_changed callback with previous_config_package set to configPackage and new_config_package set to NULL. ]*/
+TEST_FUNCTION(configuration_package_change_handler_on_package_removed_calls_callback)
+{
+    // arrange
+    void* test_context = (void*)0x4242;
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
+    CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, test_context);
+    ASSERT_IS_NOT_NULL(handle);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(test_on_configuration_changed(test_context, test_activation_context, test_config_package, NULL));
+
+    // act
+    configuration_package_change_handler_on_package_removed(handle, test_activation_context, test_config_package);
+
+    // assert
+    ASSERT_ARE_EQUAL(int, 1, g_on_configuration_changed_call_count);
+    ASSERT_ARE_EQUAL(void_ptr, test_context, g_on_configuration_changed_context);
+    ASSERT_ARE_EQUAL(void_ptr, test_activation_context, g_on_configuration_changed_source);
+    ASSERT_ARE_EQUAL(void_ptr, test_config_package, g_on_configuration_changed_previous);
+    ASSERT_IS_NULL(g_on_configuration_changed_new);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    configuration_package_change_handler_destroy(handle);
+}
+
 /* configuration_package_change_handler_on_package_modified */
 
 /* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_021: [ If handle is NULL, configuration_package_change_handler_on_package_modified shall return. ]*/
@@ -241,6 +348,36 @@ TEST_FUNCTION(configuration_package_change_handler_on_package_modified_with_NULL
 
     // assert
     ASSERT_ARE_EQUAL(int, 0, g_on_configuration_changed_call_count);
+}
+
+/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_022: [ configuration_package_change_handler_on_package_modified shall call the on_configuration_changed callback with previous_config_package set to previousConfigPackage and new_config_package set to configPackage. ]*/
+TEST_FUNCTION(configuration_package_change_handler_on_package_modified_calls_callback)
+{
+    // arrange
+    void* test_context = (void*)0x4242;
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); // COM wrapper allocation
+    STRICT_EXPECTED_CALL(test_RegisterConfigurationPackageChangeHandler(&test_activation_context_instance, IGNORED_ARG, IGNORED_ARG));
+    STRICT_EXPECTED_CALL(test_activation_context_AddRef(&test_activation_context_instance));
+    CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle = configuration_package_change_handler_create(&test_activation_context_instance, test_on_configuration_changed, test_context);
+    ASSERT_IS_NOT_NULL(handle);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(test_on_configuration_changed(test_context, test_activation_context, test_previous_config_package, test_config_package));
+
+    // act
+    configuration_package_change_handler_on_package_modified(handle, test_activation_context, test_previous_config_package, test_config_package);
+
+    // assert
+    ASSERT_ARE_EQUAL(int, 1, g_on_configuration_changed_call_count);
+    ASSERT_ARE_EQUAL(void_ptr, test_context, g_on_configuration_changed_context);
+    ASSERT_ARE_EQUAL(void_ptr, test_activation_context, g_on_configuration_changed_source);
+    ASSERT_ARE_EQUAL(void_ptr, test_previous_config_package, g_on_configuration_changed_previous);
+    ASSERT_ARE_EQUAL(void_ptr, test_config_package, g_on_configuration_changed_new);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    configuration_package_change_handler_destroy(handle);
 }
 
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)

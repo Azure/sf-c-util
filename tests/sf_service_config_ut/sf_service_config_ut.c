@@ -928,4 +928,185 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_rc_string_with_NULL_returns_NULL)
     THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
 }
 
+//
+// SF_SERVICE_CONFIG_REFRESH
+//
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_001: [ SF_SERVICE_CONFIG_REFRESH shall expand to the name of the refresh function for the configuration module by appending the suffix _configuration_refresh. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_macro_expands_to_name)
+{
+    // arrange
+
+    // act
+    const char* name = MU_TOSTRING(SF_SERVICE_CONFIG_REFRESH(name));
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, "name_configuration_refresh", name);
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_003: [ DECLARE_SF_SERVICE_CONFIG_REFRESH shall generate a mockable refresh function SF_SERVICE_CONFIG_REFRESH(name) which takes a THANDLE and returns int. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_is_mockable)
+{
+    // arrange
+    STRICT_EXPECTED_CALL(SF_SERVICE_CONFIG_REFRESH(my_mocked_config)(IGNORED_ARG))
+        .SetReturn(0);
+
+    // act
+    int result = SF_SERVICE_CONFIG_REFRESH(my_mocked_config)((SF_SERVICE_CONFIG(my_mocked_config)*)0xffff);
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(int, 0, result);
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_009: [ If handle is NULL then SF_SERVICE_CONFIG_REFRESH(name) shall fail and return a non-zero value. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_with_NULL_handle_fails)
+{
+    // arrange
+
+    // act
+    int result = SF_SERVICE_CONFIG_REFRESH(my_config)(NULL);
+
+    // assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_010: [ SF_SERVICE_CONFIG_REFRESH(name) shall acquire the exclusive SRW lock by calling srw_lock_ll_acquire_exclusive. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_011: [ SF_SERVICE_CONFIG_REFRESH(name) shall clean up the existing configuration field values. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_012: [ SF_SERVICE_CONFIG_REFRESH(name) shall re-read all configuration values from the activation_context. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_014: [ SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive SRW lock by calling srw_lock_ll_release_exclusive and return 0. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_succeeds)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+    ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_exclusive(IGNORED_ARG));
+    TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(my_config)();
+    // Re-read all configuration values
+    MU_FOR_EACH_1_KEEP_1(TEST_SF_SERVICE_CONFIG_SETUP_EXPECTATION, my_config, MY_CONFIG_TEST_PARAMS);
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_exclusive(IGNORED_ARG));
+
+    // act
+    int result = SF_SERVICE_CONFIG_REFRESH(my_config)(config);
+
+    // assert
+    ASSERT_ARE_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_013: [ If re-reading any configuration value fails, SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive lock and return a non-zero value. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_re_read_fails_releases_lock_and_returns_failure)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+    ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_exclusive(IGNORED_ARG));
+    TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(my_config)();
+    // Make the first config read fail
+    STRICT_EXPECTED_CALL(configuration_reader_get_uint64_t(IGNORED_ARG, IGNORED_ARG, IGNORED_ARG, IGNORED_ARG, IGNORED_ARG))
+        .SetReturn(MU_FAILURE);
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_exclusive(IGNORED_ARG));
+
+    // act
+    int result = SF_SERVICE_CONFIG_REFRESH(my_config)(config);
+
+    // assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+}
+
+//
+// SRW Lock tests
+//
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_002: [ The SF_SERVICE_CONFIG(name) struct shall include an SRW_LOCK_LL lock field for thread-safe access. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_calls_srw_lock_ll_init)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+
+    // act
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+
+    // assert
+    ASSERT_IS_NOT_NULL(config);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_005: [ If srw_lock_ll_init fails then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_when_srw_lock_ll_init_fails_returns_NULL)
+{
+    // arrange
+    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_init(IGNORED_ARG))
+        .SetReturn(MU_FAILURE);
+    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
+
+    // act
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+
+    // assert
+    ASSERT_IS_NULL(config);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_dispose_calls_srw_lock_ll_deinit)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+    ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    TEST_SF_SERVICE_CONFIG_EXPECT_DESTROY(my_config)();
+
+    // act
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+
+    // assert
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_88_007: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall acquire the shared SRW lock by calling srw_lock_ll_acquire_shared. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_008: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall release the shared SRW lock by calling srw_lock_ll_release_shared. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_acquires_and_releases_shared_lock)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+    ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
+
+    // act
+    uint64_t result = SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config);
+
+    // assert
+    ASSERT_ARE_EQUAL(uint64_t, TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(parameter_1), result);
+    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+
+    // cleanup
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+}
+
 END_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
