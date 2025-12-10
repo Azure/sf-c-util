@@ -109,6 +109,8 @@ set(sf_c_util_h_files
     inc/sf_c_util/fabric_async_op_cb_com.h
     inc/sf_c_util/fabric_async_op_wrapper.h
     inc/sf_c_util/fabric_async_op_sync_wrapper.h
+    inc/sf_c_util/fabric_configuration_package_change_handler.h
+    inc/sf_c_util/fabric_configuration_package_change_handler_com.h
     inc/sf_c_util/fabric_op_completed_sync_ctx.h
     inc/sf_c_util/fabric_op_completed_sync_ctx_com.h
     inc/sf_c_util/fabric_string_result.h
@@ -136,6 +138,8 @@ set(sf_c_util_c_files
     src/configuration_reader.c
     src/fabric_async_op_cb.c
     src/fabric_async_op_cb_com.c
+    src/fabric_configuration_package_change_handler.c
+    src/fabric_configuration_package_change_handler_com.c
     src/fabric_op_completed_sync_ctx.c
     src/fabric_op_completed_sync_ctx_com.c
     src/fabric_string_result.c

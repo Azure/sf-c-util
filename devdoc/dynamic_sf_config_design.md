@@ -149,21 +149,37 @@ static void MU_C2A(SF_SERVICE_CONFIG(name), _dispose)(SF_SERVICE_CONFIG(name)* h
 
 ---
 
-## Component 2: `configuration_package_change_handler`
+## Component 2: Configuration Package Change Handler Architecture
+
+### Overview
+
+The configuration package change handler functionality is split into three separate units for clean separation of concerns and improved testability:
+
+1. **`fabric_configuration_package_change_handler`** - Core logic that handles the three Service Fabric callback types (OnPackageAdded, OnPackageRemoved, OnPackageModified) and aggregates them into a single user callback
+2. **`fabric_configuration_package_change_handler_com`** - COM wrapper implementation that exposes the core logic as an `IFabricConfigurationPackageChangeHandler` COM interface
+3. **`configuration_package_change_handler`** - High-level convenience module that creates the handler, COM wrapper, and registers with Service Fabric
 
 ### Purpose
 
-Provides a simplified interface to receive notifications when Service Fabric configuration packages change. This component:
-- Implements `IFabricConfigurationPackageChangeHandler` COM interface
-- Aggregates the three callback types (Added, Removed, Modified) into a single user callback
-- Manages registration/unregistration with Service Fabric
+This architecture provides:
+- Clean separation between business logic and COM infrastructure
+- Easy unit testing of core logic without COM dependencies
+- Reusable COM wrapper that can be tested independently
+- Simple high-level API for users who want one-call setup
 
-### API Design
+---
+
+### Unit 1: `fabric_configuration_package_change_handler` (Core Logic)
+
+#### Purpose
+Implements the core callback aggregation logic. Takes the three Service Fabric callback types and converts them to a single unified callback.
+
+#### API Design
 
 ```c
-// configuration_package_change_handler.h
+// fabric_configuration_package_change_handler.h
 
-typedef struct CONFIGURATION_PACKAGE_CHANGE_HANDLER_TAG* CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE;
+typedef struct FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_TAG* FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE;
 
 // Callback type for configuration changes
 typedef void (*ON_CONFIGURATION_CHANGED)(
@@ -173,7 +189,110 @@ typedef void (*ON_CONFIGURATION_CHANGED)(
     IFabricConfigurationPackage* new_config_package        // NULL for Removed
 );
 
-MOCKABLE_FUNCTION(, CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, 
+MOCKABLE_FUNCTION(, FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE,
+    fabric_configuration_package_change_handler_create,
+    ON_CONFIGURATION_CHANGED, on_configuration_changed,
+    void*, context);
+
+MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_destroy,
+    FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, handle);
+
+// Called by COM wrapper when Service Fabric notifies of package changes
+MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_on_package_added,
+    FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, handle,
+    IFabricCodePackageActivationContext*, source,
+    IFabricConfigurationPackage*, configPackage);
+
+MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_on_package_removed,
+    FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, handle,
+    IFabricCodePackageActivationContext*, source,
+    IFabricConfigurationPackage*, configPackage);
+
+MOCKABLE_FUNCTION(, void, fabric_configuration_package_change_handler_on_package_modified,
+    FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, handle,
+    IFabricCodePackageActivationContext*, source,
+    IFabricConfigurationPackage*, previousConfigPackage,
+    IFabricConfigurationPackage*, configPackage);
+```
+
+#### Internal Structure
+
+```c
+typedef struct FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_TAG
+{
+    ON_CONFIGURATION_CHANGED on_configuration_changed;
+    void* context;
+} FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER;
+```
+
+#### Behavior
+
+- **Create**: Allocates handler, stores callback and context
+- **Destroy**: Frees handler
+- **on_package_added**: Calls user callback with `previous = NULL`, `new = configPackage`
+- **on_package_removed**: Calls user callback with `previous = configPackage`, `new = NULL`
+- **on_package_modified**: Calls user callback with both packages
+
+---
+
+### Unit 2: `fabric_configuration_package_change_handler_com` (COM Wrapper)
+
+#### Purpose
+Provides the COM wrapper definition that exposes `FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE` as `IFabricConfigurationPackageChangeHandler`.
+
+#### API Design
+
+```c
+// fabric_configuration_package_change_handler_com.h
+
+#include "fabric_configuration_package_change_handler.h"
+#include "com_wrapper/com_wrapper.h"
+
+#define FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE_INTERFACES \
+    COM_WRAPPER_INTERFACE(IUnknown, \
+        COM_WRAPPER_IUNKNOWN_APIS() \
+    ), \
+    COM_WRAPPER_INTERFACE(IFabricConfigurationPackageChangeHandler, \
+        COM_WRAPPER_IUNKNOWN_APIS(), \
+        COM_WRAPPER_FUNCTION_WRAPPER(void, fabric_configuration_package_change_handler_on_package_added, \
+            IFabricCodePackageActivationContext*, source, \
+            IFabricConfigurationPackage*, configPackage), \
+        COM_WRAPPER_FUNCTION_WRAPPER(void, fabric_configuration_package_change_handler_on_package_removed, \
+            IFabricCodePackageActivationContext*, source, \
+            IFabricConfigurationPackage*, configPackage), \
+        COM_WRAPPER_FUNCTION_WRAPPER(void, fabric_configuration_package_change_handler_on_package_modified, \
+            IFabricCodePackageActivationContext*, source, \
+            IFabricConfigurationPackage*, previousConfigPackage, \
+            IFabricConfigurationPackage*, configPackage) \
+    )
+
+DECLARE_COM_WRAPPER_OBJECT(FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE_INTERFACES);
+```
+
+#### Source File
+
+```c
+// fabric_configuration_package_change_handler_com.c
+#include "fabric_configuration_package_change_handler_com.h"
+
+DEFINE_COM_WRAPPER_OBJECT(FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE_INTERFACES);
+```
+
+---
+
+### Unit 3: `configuration_package_change_handler` (High-Level API)
+
+#### Purpose
+Provides a simple one-call interface that creates the core handler, wraps it with COM, and registers with Service Fabric.
+
+#### API Design
+
+```c
+// configuration_package_change_handler.h
+
+typedef struct CONFIGURATION_PACKAGE_CHANGE_HANDLER_TAG* CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE;
+
+MOCKABLE_FUNCTION(, CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE,
     configuration_package_change_handler_create,
     IFabricCodePackageActivationContext*, activation_context,
     ON_CONFIGURATION_CHANGED, on_configuration_changed,
@@ -183,69 +302,34 @@ MOCKABLE_FUNCTION(, void, configuration_package_change_handler_destroy,
     CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, handle);
 ```
 
-### Internal Structure
+#### Internal Structure
 
 ```c
 typedef struct CONFIGURATION_PACKAGE_CHANGE_HANDLER_TAG
 {
     IFabricCodePackageActivationContext* activation_context;
     LONGLONG callback_handle;
-    ON_CONFIGURATION_CHANGED on_configuration_changed;
-    void* context;
+    IFabricConfigurationPackageChangeHandler* com_handler;
 } CONFIGURATION_PACKAGE_CHANGE_HANDLER;
 ```
 
-### COM Interface Implementation
+#### Behavior
 
-The module will implement `IFabricConfigurationPackageChangeHandler` using the `com-wrapper` pattern:
-
-```c
-// configuration_package_change_handler_com.h
-
-#define CONFIGURATION_PACKAGE_CHANGE_HANDLER_COM_INTERFACES \
-    COM_WRAPPER_INTERFACE(IUnknown, \
-        COM_WRAPPER_IUNKNOWN_APIS() \
-    ), \
-    COM_WRAPPER_INTERFACE(IFabricConfigurationPackageChangeHandler, \
-        COM_WRAPPER_IUNKNOWN_APIS(), \
-        COM_WRAPPER_FUNCTION_WRAPPER(void, configuration_package_change_handler_on_package_added, \
-            IFabricCodePackageActivationContext*, source, \
-            IFabricConfigurationPackage*, configPackage), \
-        COM_WRAPPER_FUNCTION_WRAPPER(void, configuration_package_change_handler_on_package_removed, \
-            IFabricCodePackageActivationContext*, source, \
-            IFabricConfigurationPackage*, configPackage), \
-        COM_WRAPPER_FUNCTION_WRAPPER(void, configuration_package_change_handler_on_package_modified, \
-            IFabricCodePackageActivationContext*, source, \
-            IFabricConfigurationPackage*, previousConfigPackage, \
-            IFabricConfigurationPackage*, configPackage) \
-    )
-
-DECLARE_COM_WRAPPER_OBJECT(CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, CONFIGURATION_PACKAGE_CHANGE_HANDLER_COM_INTERFACES);
-```
-
-### Behavior
-
-#### Create Function
+##### Create Function
 1. Validate all parameters
 2. Allocate handler structure
-3. Store activation_context (AddRef)
-4. Store callback and context
-5. Create COM wrapper
-6. Register with Service Fabric using `IFabricCodePackageActivationContext::RegisterConfigurationPackageChangeHandler`
-7. Store returned callback handle
-8. Return handle on success, NULL on failure
+3. Create `FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE` using `fabric_configuration_package_change_handler_create`
+4. Create COM wrapper using `COM_WRAPPER_CREATE`
+5. Register with Service Fabric using `activation_context->lpVtbl->RegisterConfigurationPackageChangeHandler`
+6. Store callback handle and COM handler reference
+7. AddRef on activation_context
+8. Return handle on success, NULL on failure with cleanup
 
-#### COM Callback Functions
-Each callback (OnPackageAdded, OnPackageRemoved, OnPackageModified) will:
-1. Call the user's `ON_CONFIGURATION_CHANGED` callback with appropriate parameters:
-   - **Added**: `previous_config_package = NULL`, `new_config_package = configPackage`
-   - **Removed**: `previous_config_package = configPackage`, `new_config_package = NULL`
-   - **Modified**: `previous_config_package = previousConfigPackage`, `new_config_package = configPackage`
-
-#### Destroy Function
-1. Unregister using `IFabricCodePackageActivationContext::UnregisterConfigurationPackageChangeHandler`
-2. Release activation_context
-3. Free handler structure
+##### Destroy Function
+1. Unregister using `activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler`
+2. Release COM handler (which will destroy the core handler)
+3. Release activation_context
+4. Free handler structure
 
 ---
 
@@ -255,24 +339,25 @@ Each callback (OnPackageAdded, OnPackageRemoved, OnPackageModified) will:
 - `inc/sf_c_util/sf_service_config.h` - Add SRW lock, refresh function, and lock-protected getters
 
 ### New Header Files
-- `inc/sf_c_util/configuration_package_change_handler.h` - Change handler API
-- `inc/sf_c_util/configuration_package_change_handler_com.h` - COM wrapper definition
+- `inc/sf_c_util/fabric_configuration_package_change_handler.h` - Core handler API (Unit 1)
+- `inc/sf_c_util/fabric_configuration_package_change_handler_com.h` - COM wrapper definition (Unit 2)
+- `inc/sf_c_util/configuration_package_change_handler.h` - High-level convenience API (Unit 3)
 
 ### New Source Files
-- `src/configuration_package_change_handler.c` - Change handler implementation
-- `src/configuration_package_change_handler_com.c` - COM wrapper implementation
+- `src/fabric_configuration_package_change_handler.c` - Core handler implementation (Unit 1)
+- `src/fabric_configuration_package_change_handler_com.c` - COM wrapper implementation (Unit 2)
+- `src/configuration_package_change_handler.c` - High-level API implementation (Unit 3)
 
 ### Modified Requirement Documents
 - `devdoc/sf_service_config_requirements.md` - Add requirements for SRW lock and refresh
 
 ### New Requirement Documents
-- `devdoc/configuration_package_change_handler_requirements.md`
+- `devdoc/fabric_configuration_package_change_handler_requirements.md` - Core handler requirements
+- `devdoc/configuration_package_change_handler_requirements.md` - High-level API requirements
 
 ### New Test Files
-- `tests/configuration_package_change_handler_ut/` - Unit tests for change handler
-
-### Modified Test Files
-- `tests/sf_service_config_ut/` - Add tests for refresh function and lock behavior
+- `tests/fabric_configuration_package_change_handler_ut/` - Unit tests for core handler (Unit 1)
+- `tests/configuration_package_change_handler_ut/` - Unit tests for high-level API (Unit 3)
 
 ---
 

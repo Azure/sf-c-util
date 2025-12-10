@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-// Precompiled header for configuration_package_change_handler_ut
+// Precompiled header for fabric_configuration_package_change_handler_ut
 
-#ifndef CONFIGURATION_PACKAGE_CHANGE_HANDLER_UT_PCH_H
-#define CONFIGURATION_PACKAGE_CHANGE_HANDLER_UT_PCH_H
+#ifndef FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_UT_PCH_H
+#define FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_UT_PCH_H
 
 #include <stdlib.h>
-
-#include "windows.h"
-
-#include "fabricruntime.h"
 
 #include "macro_utils/macro_utils.h"
 
@@ -26,14 +22,10 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 
-#include "com_wrapper/com_wrapper.h"
-
 #include "umock_c/umock_c_DISABLE_MOCKS.h" // ============================== DISABLE_MOCKS
 
 #include "real_gballoc_hl.h"
 
 #include "sf_c_util/fabric_configuration_package_change_handler.h"
-#include "sf_c_util/fabric_configuration_package_change_handler_com.h"
-#include "sf_c_util/configuration_package_change_handler.h"
 
-#endif // CONFIGURATION_PACKAGE_CHANGE_HANDLER_UT_PCH_H
+#endif // FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_UT_PCH_H

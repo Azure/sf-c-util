@@ -9,11 +9,14 @@ ${theseTestsName}.c
 
 set(${theseTestsName}_c_files
 ../../src/configuration_package_change_handler.c
+../../src/fabric_configuration_package_change_handler.c
+../../src/fabric_configuration_package_change_handler_com.c
 )
 
 set(${theseTestsName}_h_files
 ../../inc/sf_c_util/configuration_package_change_handler.h
-../../inc/sf_c_util/configuration_package_change_handler_com.h
+../../inc/sf_c_util/fabric_configuration_package_change_handler.h
+../../inc/sf_c_util/fabric_configuration_package_change_handler_com.h
 )
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
