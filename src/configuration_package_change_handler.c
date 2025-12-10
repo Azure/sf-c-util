@@ -54,6 +54,7 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
         result = malloc(sizeof(CONFIGURATION_PACKAGE_CHANGE_HANDLER));
         if (result == NULL)
         {
+            /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If any error occurs, configuration_package_change_handler_create shall fail and return NULL. ]*/
             LogError("malloc failed");
         }
         else
@@ -64,14 +65,14 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
                 context);
             if (fabric_handler == NULL)
             {
-                /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [ If fabric_configuration_package_change_handler_create fails, configuration_package_change_handler_create shall free the allocated memory and return NULL. ]*/
+                /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If any error occurs, configuration_package_change_handler_create shall fail and return NULL. ]*/
                 LogError("fabric_configuration_package_change_handler_create failed");
                 free(result);
                 result = NULL;
             }
             else
             {
-                /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_007: [ configuration_package_change_handler_create shall create a COM wrapper for IFabricConfigurationPackageChangeHandler using COM_WRAPPER_CREATE with the FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE. ]*/
+                /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [ configuration_package_change_handler_create shall create a COM wrapper for IFabricConfigurationPackageChangeHandler using COM_WRAPPER_CREATE with the FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE. ]*/
                 IFabricConfigurationPackageChangeHandler* com_handler = COM_WRAPPER_CREATE(
                     FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE,
                     IFabricConfigurationPackageChangeHandler,
@@ -79,7 +80,7 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
                     fabric_configuration_package_change_handler_destroy);
                 if (com_handler == NULL)
                 {
-                    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_008: [ If COM_WRAPPER_CREATE fails, configuration_package_change_handler_create shall destroy the fabric handler, free the allocated memory, and return NULL. ]*/
+                    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If any error occurs, configuration_package_change_handler_create shall fail and return NULL. ]*/
                     LogError("COM_WRAPPER_CREATE failed");
                     fabric_configuration_package_change_handler_destroy(fabric_handler);
                     free(result);
@@ -87,20 +88,20 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
                 }
                 else
                 {
-                    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ configuration_package_change_handler_create shall call AddRef on activation_context to take a reference. ]*/
+                    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_007: [ configuration_package_change_handler_create shall call AddRef on activation_context to take a reference. ]*/
                     (void)activation_context->lpVtbl->AddRef(activation_context);
                     result->activation_context = activation_context;
                     result->com_handler = com_handler;
 
                     LONGLONG callback_handle;
-                    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ configuration_package_change_handler_create shall register the COM handler with Service Fabric by calling activation_context->lpVtbl->RegisterConfigurationPackageChangeHandler. ]*/
+                    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_008: [ configuration_package_change_handler_create shall register the COM handler with Service Fabric by calling activation_context->lpVtbl->RegisterConfigurationPackageChangeHandler. ]*/
                     HRESULT hr = activation_context->lpVtbl->RegisterConfigurationPackageChangeHandler(
                         activation_context,
                         com_handler,
                         &callback_handle);
                     if (FAILED(hr))
                     {
-                        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If RegisterConfigurationPackageChangeHandler fails, configuration_package_change_handler_create shall release the COM wrapper, call Release on the activation context, and free all resources. ]*/
+                        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If any error occurs, configuration_package_change_handler_create shall fail and return NULL. ]*/
                         LogHRESULTError(hr, "RegisterConfigurationPackageChangeHandler failed");
                         (void)com_handler->lpVtbl->Release(com_handler);
                         (void)activation_context->lpVtbl->Release(activation_context);
@@ -109,10 +110,10 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
                     }
                     else
                     {
-                        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ configuration_package_change_handler_create shall store the callback handle returned by RegisterConfigurationPackageChangeHandler. ]*/
+                        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [ configuration_package_change_handler_create shall store the callback handle returned by RegisterConfigurationPackageChangeHandler. ]*/
                         result->callback_handle = callback_handle;
 
-                        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [ configuration_package_change_handler_create shall succeed and return the handler. ]*/
+                        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [ configuration_package_change_handler_create shall succeed and return the handler. ]*/
                         goto all_ok;
                     }
                 }
@@ -128,12 +129,12 @@ void configuration_package_change_handler_destroy(CONFIGURATION_PACKAGE_CHANGE_H
 {
     if (handle == NULL)
     {
-        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [ If handle is NULL, configuration_package_change_handler_destroy shall return. ]*/
+        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [ If handle is NULL, configuration_package_change_handler_destroy shall return. ]*/
         LogError("Invalid arguments: CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE handle=%p", handle);
     }
     else
     {
-        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_015: [ configuration_package_change_handler_destroy shall unregister from Service Fabric by calling activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler with the stored callback handle. ]*/
+        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [ configuration_package_change_handler_destroy shall unregister from Service Fabric by calling activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler with the stored callback handle. ]*/
         HRESULT hr = handle->activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler(
             handle->activation_context,
             handle->callback_handle);
@@ -142,13 +143,13 @@ void configuration_package_change_handler_destroy(CONFIGURATION_PACKAGE_CHANGE_H
             LogHRESULTError(hr, "UnregisterConfigurationPackageChangeHandler failed");
         }
 
-        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_016: [ configuration_package_change_handler_destroy shall call Release on the COM wrapper (which will trigger destruction of the underlying fabric handler). ]*/
+        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [ configuration_package_change_handler_destroy shall call Release on the COM wrapper (which will trigger destruction of the underlying fabric handler). ]*/
         (void)handle->com_handler->lpVtbl->Release(handle->com_handler);
 
-        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_017: [ configuration_package_change_handler_destroy shall call Release on the stored activation_context. ]*/
+        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_015: [ configuration_package_change_handler_destroy shall call Release on the stored activation_context. ]*/
         (void)handle->activation_context->lpVtbl->Release(handle->activation_context);
 
-        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_018: [ configuration_package_change_handler_destroy shall free the handler structure. ]*/
+        /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_016: [ configuration_package_change_handler_destroy shall free the handler structure. ]*/
         free(handle);
     }
 }

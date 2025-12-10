@@ -53,21 +53,17 @@ MOCKABLE_FUNCTION(, CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, configuration_p
 
 **SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [** `configuration_package_change_handler_create` shall call `fabric_configuration_package_change_handler_create` with the `on_configuration_changed` callback and `context` to create the core handler. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [** If `fabric_configuration_package_change_handler_create` fails, `configuration_package_change_handler_create` shall free the allocated memory and return `NULL`. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [** `configuration_package_change_handler_create` shall create a COM wrapper for `IFabricConfigurationPackageChangeHandler` using `COM_WRAPPER_CREATE` with the `FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE`. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_007: [** `configuration_package_change_handler_create` shall create a COM wrapper for `IFabricConfigurationPackageChangeHandler` using `COM_WRAPPER_CREATE` with the `FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE`. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_007: [** `configuration_package_change_handler_create` shall call `AddRef` on `activation_context` to take a reference. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_008: [** If `COM_WRAPPER_CREATE` fails, `configuration_package_change_handler_create` shall destroy the fabric handler, free the allocated memory, and return `NULL`. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_008: [** `configuration_package_change_handler_create` shall register the COM handler with Service Fabric by calling `activation_context->lpVtbl->RegisterConfigurationPackageChangeHandler`. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [** `configuration_package_change_handler_create` shall call `AddRef` on `activation_context` to take a reference. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_009: [** `configuration_package_change_handler_create` shall store the callback handle returned by `RegisterConfigurationPackageChangeHandler`. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [** `configuration_package_change_handler_create` shall register the COM handler with Service Fabric by calling `activation_context->lpVtbl->RegisterConfigurationPackageChangeHandler`. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_010: [** `configuration_package_change_handler_create` shall succeed and return the handler. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [** If `RegisterConfigurationPackageChangeHandler` fails, `configuration_package_change_handler_create` shall release the COM wrapper, call `Release` on the activation context, and free all resources. **]**
-
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [** `configuration_package_change_handler_create` shall store the callback handle returned by `RegisterConfigurationPackageChangeHandler`. **]**
-
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [** `configuration_package_change_handler_create` shall succeed and return the handler. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [** If any error occurs, `configuration_package_change_handler_create` shall fail and return `NULL`. **]**
 
 ## configuration_package_change_handler_destroy
 
@@ -78,12 +74,12 @@ MOCKABLE_FUNCTION(, void, configuration_package_change_handler_destroy,
 
 `configuration_package_change_handler_destroy` unregisters from Service Fabric notifications and frees all resources.
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [** If `handle` is `NULL`, `configuration_package_change_handler_destroy` shall return. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_012: [** If `handle` is `NULL`, `configuration_package_change_handler_destroy` shall return. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_015: [** `configuration_package_change_handler_destroy` shall unregister from Service Fabric by calling `activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler` with the stored callback handle. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_013: [** `configuration_package_change_handler_destroy` shall unregister from Service Fabric by calling `activation_context->lpVtbl->UnregisterConfigurationPackageChangeHandler` with the stored callback handle. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_016: [** `configuration_package_change_handler_destroy` shall call `Release` on the COM wrapper (which will trigger destruction of the underlying fabric handler). **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_014: [** `configuration_package_change_handler_destroy` shall call `Release` on the COM wrapper (which will trigger destruction of the underlying fabric handler). **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_017: [** `configuration_package_change_handler_destroy` shall call `Release` on the stored `activation_context`. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_015: [** `configuration_package_change_handler_destroy` shall call `Release` on the stored `activation_context`. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_018: [** `configuration_package_change_handler_destroy` shall free the handler structure. **]**
+**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_016: [** `configuration_package_change_handler_destroy` shall free the handler structure. **]**
