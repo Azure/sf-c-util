@@ -128,7 +128,8 @@
     { \
         STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); \
         /*Codes_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/ \
-        STRICT_EXPECTED_CALL(srw_lock_ll_init(IGNORED_ARG)); \
+        STRICT_EXPECTED_CALL(srw_lock_ll_init(IGNORED_ARG)) \
+            .CallCannotFail(); \
         STRICT_EXPECTED_CALL(MU_C2A(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name), _AddRef)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name))) \
             .CallCannotFail(); \
         MU_FOR_EACH_1_KEEP_1(TEST_SF_SERVICE_CONFIG_SETUP_EXPECTATION, name, __VA_ARGS__); \
@@ -137,7 +138,8 @@
     { \
         STRICT_EXPECTED_CALL(malloc(IGNORED_ARG)); \
         /*Codes_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/ \
-        STRICT_EXPECTED_CALL(srw_lock_ll_init(IGNORED_ARG)); \
+        STRICT_EXPECTED_CALL(srw_lock_ll_init(IGNORED_ARG)) \
+            .CallCannotFail(); \
         STRICT_EXPECTED_CALL(MU_C2A(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name), _AddRef)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name))) \
             .CallCannotFail(); \
         /* Counter for the up_to_index check */ \
@@ -146,9 +148,9 @@
         /* Every string that was successful will need to be freed */ \
         expectation_counter = 0; \
         MU_FOR_EACH_1(TEST_SF_SERVICE_CONFIG_SETUP_EXPECTATION_FREE_IF_LESS, __VA_ARGS__); \
+        /* In CREATE failure path: Release comes before srw_lock_ll_deinit */ \
         STRICT_EXPECTED_CALL(MU_C2A(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name), _Release)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name))) \
             .CallCannotFail(); \
-        /*Codes_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/ \
         STRICT_EXPECTED_CALL(srw_lock_ll_deinit(IGNORED_ARG)); \
         STRICT_EXPECTED_CALL(free(IGNORED_ARG)); \
     } \
@@ -158,9 +160,9 @@
     } \
     static void TEST_SF_SERVICE_CONFIG_EXPECT_DESTROY(name)(void) \
     { \
+        TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(name)(); \
         /*Codes_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/ \
         STRICT_EXPECTED_CALL(srw_lock_ll_deinit(IGNORED_ARG)); \
-        TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(name)(); \
         STRICT_EXPECTED_CALL(MU_C2A(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name), _Release)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(name))) \
             .CallCannotFail(); \
         STRICT_EXPECTED_CALL(free(IGNORED_ARG)); \

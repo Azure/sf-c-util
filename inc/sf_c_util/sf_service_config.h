@@ -491,34 +491,26 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             { \
                 SF_SERVICE_CONFIG(name)* temp_config_obj = THANDLE_GET_T(SF_SERVICE_CONFIG(name))(temp_config); \
                 /*Codes_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/ \
-                if (srw_lock_ll_init(&temp_config_obj->lock) != 0) \
+                (void)srw_lock_ll_init(&temp_config_obj->lock); \
+                /*Codes_SRS_SF_SERVICE_CONFIG_42_011: [ SF_SERVICE_CONFIG_CREATE(name) shall call AddRef and store the activation_context. ]*/ \
+                temp_config_obj->activation_context = activation_context; \
+                (void)temp_config_obj->activation_context->lpVtbl->AddRef(temp_config_obj->activation_context); \
+                /*Codes_SRS_SF_SERVICE_CONFIG_42_012: [ SF_SERVICE_CONFIG_CREATE(name) shall store the sf_config_name and sf_parameters_section_name. ]*/ \
+                temp_config_obj->sf_config_name_string = sf_config_name; \
+                temp_config_obj->sf_parameters_section_name_string = sf_parameters_section_name; \
+                \
+                if (MU_C2(name, _read_all_config_values)(temp_config_obj) != 0) \
                 { \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_88_005: [ If srw_lock_ll_init fails then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
-                    LogError("srw_lock_ll_init failed"); \
-                    THANDLE_FREE(SF_SERVICE_CONFIG(name))(temp_config_obj); \
+                    /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
                 } \
                 else \
                 { \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_42_011: [ SF_SERVICE_CONFIG_CREATE(name) shall call AddRef and store the activation_context. ]*/ \
-                    temp_config_obj->activation_context = activation_context; \
-                    (void)temp_config_obj->activation_context->lpVtbl->AddRef(temp_config_obj->activation_context); \
-                    /*Codes_SRS_SF_SERVICE_CONFIG_42_012: [ SF_SERVICE_CONFIG_CREATE(name) shall store the sf_config_name and sf_parameters_section_name. ]*/ \
-                    temp_config_obj->sf_config_name_string = sf_config_name; \
-                    temp_config_obj->sf_parameters_section_name_string = sf_parameters_section_name; \
-                    \
-                    if (MU_C2(name, _read_all_config_values)(temp_config_obj) != 0) \
-                    { \
-                        /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
-                    } \
-                    else \
-                    { \
-                        THANDLE_INITIALIZE_MOVE(SF_SERVICE_CONFIG(name))(&result, &temp_config); \
-                        goto all_ok; \
-                    } \
-                    (void)temp_config_obj->activation_context->lpVtbl->Release(temp_config_obj->activation_context); \
-                    srw_lock_ll_deinit(&temp_config_obj->lock); \
-                    THANDLE_FREE(SF_SERVICE_CONFIG(name))(temp_config_obj); \
+                    THANDLE_INITIALIZE_MOVE(SF_SERVICE_CONFIG(name))(&result, &temp_config); \
+                    goto all_ok; \
                 } \
+                (void)temp_config_obj->activation_context->lpVtbl->Release(temp_config_obj->activation_context); \
+                srw_lock_ll_deinit(&temp_config_obj->lock); \
+                THANDLE_FREE(SF_SERVICE_CONFIG(name))(temp_config_obj); \
             } \
         } \
     all_ok: \

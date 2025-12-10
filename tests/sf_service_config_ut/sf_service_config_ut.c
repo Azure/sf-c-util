@@ -731,6 +731,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_bool_with_true_value_returns_true)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     bool result = SF_SERVICE_CONFIG_GETTER(my_config, some_flag)(config);
@@ -751,6 +755,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_bool_with_false_value_returns_false)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     bool result = SF_SERVICE_CONFIG_GETTER(my_config, some_flag)(config);
@@ -771,6 +779,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_uint32_t_returns_value)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     uint32_t result = SF_SERVICE_CONFIG_GETTER(my_config, parameter_3)(config);
@@ -791,6 +803,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_uint64_t_returns_value)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     uint64_t result = SF_SERVICE_CONFIG_GETTER(my_config, parameter_2)(config);
@@ -811,6 +827,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_const_char_returns_string)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     const char* result = SF_SERVICE_CONFIG_GETTER(my_config, string_option)(config);
@@ -831,6 +851,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_optional_const_char_empty_returns_NUL
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     const char* result = SF_SERVICE_CONFIG_GETTER(my_config, string_option_optional)(config);
@@ -851,6 +875,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_const_wchar_returns_string)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     const wchar_t* result = SF_SERVICE_CONFIG_GETTER(my_config, wide_string_option)(config);
@@ -871,6 +899,10 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_optional_const_wchar_empty_returns_NU
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
+
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     const wchar_t* result = SF_SERVICE_CONFIG_GETTER(my_config, wide_string_option_optional)(config);
@@ -891,8 +923,11 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_rc_string_returns_string)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
 
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
     STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(string_option_in_thandle).x));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     THANDLE(RC_STRING) result = SF_SERVICE_CONFIG_GETTER(my_config, string_option_in_thandle)(config);
@@ -914,8 +949,11 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_rc_string_with_NULL_returns_NULL)
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    umock_c_reset_all_calls();
 
+    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
     STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL));
+    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
 
     // act
     THANDLE(RC_STRING) result = SF_SERVICE_CONFIG_GETTER(my_config, string_option_in_thandle_optional)(config);
@@ -1015,6 +1053,11 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_re_read_fails_releases_lock_and_ret
     // Make the first config read fail
     STRICT_EXPECTED_CALL(configuration_reader_get_uint64_t(IGNORED_ARG, IGNORED_ARG, IGNORED_ARG, IGNORED_ARG, IGNORED_ARG))
         .SetReturn(MU_FAILURE);
+    // After failure, remaining thandle_rc_string fields still get initialized to NULL
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // string_option_in_thandle
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // string_option_in_thandle_optional
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // a_secret
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // another_secret
     STRICT_EXPECTED_CALL(srw_lock_ll_release_exclusive(IGNORED_ARG));
 
     // act
@@ -1048,23 +1091,6 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_calls_srw_lock_ll_init)
 
     // cleanup
     THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
-}
-
-/*Tests_SRS_SF_SERVICE_CONFIG_88_005: [ If srw_lock_ll_init fails then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/
-TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_when_srw_lock_ll_init_fails_returns_NULL)
-{
-    // arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(srw_lock_ll_init(IGNORED_ARG))
-        .SetReturn(MU_FAILURE);
-    STRICT_EXPECTED_CALL(free(IGNORED_ARG));
-
-    // act
-    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
-
-    // assert
-    ASSERT_IS_NULL(config);
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
 /*Tests_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/

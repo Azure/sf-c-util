@@ -200,8 +200,6 @@ THANDLE(SF_SERVICE_CONFIG(name)) SF_SERVICE_CONFIG_CREATE(name)(IFabricCodePacka
 
 **SRS_SF_SERVICE_CONFIG_88_004: [** `SF_SERVICE_CONFIG_CREATE(name)` shall call `srw_lock_ll_init` to initialize the SRW lock. **]**
 
-**SRS_SF_SERVICE_CONFIG_88_005: [** If `srw_lock_ll_init` fails then `SF_SERVICE_CONFIG_CREATE(name)` shall fail and return `NULL`. **]**
-
 **SRS_SF_SERVICE_CONFIG_42_012: [** `SF_SERVICE_CONFIG_CREATE(name)` shall store the `sf_config_name` and `sf_parameters_section_name`. **]**
 
 **SRS_SF_SERVICE_CONFIG_42_013: [** For each configuration value with name `config_name`: **]**
