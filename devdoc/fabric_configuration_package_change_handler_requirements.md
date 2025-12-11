@@ -58,7 +58,7 @@ MOCKABLE_FUNCTION(, FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, fabric_c
 
 **SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_003: [** `fabric_configuration_package_change_handler_create` shall allocate memory for the handler structure. **]**
 
-**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [** If memory allocation fails, `fabric_configuration_package_change_handler_create` shall fail and return `NULL`. **]**
+**SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [** If any error occurs, `fabric_configuration_package_change_handler_create` shall fail and return `NULL`. **]**
 
 **SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [** `fabric_configuration_package_change_handler_create` shall store the `on_configuration_changed` callback and `context`. **]**
 
