@@ -35,8 +35,6 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
 {
     CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE result;
 
-    /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_003: [ context is allowed to be NULL. ]*/
-
     if (
         /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_001: [ If activation_context is NULL, configuration_package_change_handler_create shall fail and return NULL. ]*/
         (activation_context == NULL) ||

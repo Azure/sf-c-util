@@ -47,8 +47,6 @@ MOCKABLE_FUNCTION(, CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE, configuration_p
 
 **SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_002: [** If `on_configuration_changed` is `NULL`, `configuration_package_change_handler_create` shall fail and return `NULL`. **]**
 
-**SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_003: [** `context` is allowed to be `NULL`. **]**
-
 **SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [** `configuration_package_change_handler_create` shall allocate memory for the handler structure. **]**
 
 **SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [** `configuration_package_change_handler_create` shall call `fabric_configuration_package_change_handler_create` with the `on_configuration_changed` callback and `context` to create the core handler. **]**

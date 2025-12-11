@@ -143,7 +143,6 @@ TEST_FUNCTION(configuration_package_change_handler_create_with_NULL_callback_fai
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
-/* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_003: [ context is allowed to be NULL. ]*/
 /* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ configuration_package_change_handler_create shall allocate memory for the handler structure. ]*/
 /* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ configuration_package_change_handler_create shall call fabric_configuration_package_change_handler_create with the on_configuration_changed callback and context to create the core handler. ]*/
 /* Tests_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [ configuration_package_change_handler_create shall create a COM wrapper for IFabricConfigurationPackageChangeHandler using COM_WRAPPER_CREATE with the FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE. ]*/
