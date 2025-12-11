@@ -44,12 +44,12 @@ FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE fabric_configuration_package_
         result = malloc(sizeof(FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER));
         if (result == NULL)
         {
-            /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ fabric_configuration_package_change_handler_create shall store the on_configuration_changed callback and context.]*/
+            /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ If memory allocation fails, fabric_configuration_package_change_handler_create shall fail and return NULL. ]*/
             LogError("malloc failed");
         }
         else
         {
-            /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ If memory allocation fails, fabric_configuration_package_change_handler_create shall fail and return NULL.]*/
+            /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ fabric_configuration_package_change_handler_create shall store the on_configuration_changed callback and context. ]*/
             result->on_configuration_changed = on_configuration_changed;
             result->context = context;
 
