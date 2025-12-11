@@ -27,6 +27,7 @@
 #include "c_pal/gballoc_hl.h"
 #include "c_pal/gballoc_hl_redirect.h"
 #include "c_pal/string_utils.h"
+#include "c_pal/srw_lock_ll.h"
 #include "c_util/rc_string.h"
 #include "c_pal/thandle.h"
 #include "sf_c_util/configuration_reader.h"
