@@ -34,7 +34,7 @@ FABRIC_OP_COMPLETED_SYNC_CTX_HANDLE fabric_op_completed_sync_ctx_create(IFabricA
         if (result == NULL)
         {
             /* Codes_SRS_FABRIC_OP_COMPLETED_SYNC_CTX_01_004: [ If any error occurs, fabric_op_completed_sync_ctx_create shall fail and return NULL. ]*/
-            LogError("malloc failed");
+            LogError("malloc(sizeof(FABRIC_OP_COMPLETED_SYNC_CTX)=%zu) failed", sizeof(FABRIC_OP_COMPLETED_SYNC_CTX));
         }
         else
         {

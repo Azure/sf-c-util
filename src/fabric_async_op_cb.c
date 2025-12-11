@@ -41,7 +41,7 @@ FABRIC_ASYNC_OP_CB_HANDLE fabric_async_op_cb_create(USER_INVOKE_CB user_invoke_c
         if (result == NULL)
         {
             /* Codes_SRS_FABRIC_ASYNC_OP_CB_01_004: [ If any error occurs, fabric_async_op_cb_create shall fail and return NULL. ]*/
-            LogError("malloc failed");
+            LogError("malloc(sizeof(FABRIC_ASYNC_OP_CB)=%zu) failed", sizeof(FABRIC_ASYNC_OP_CB));
         }
         else
         {

@@ -45,7 +45,7 @@ FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE fabric_configuration_package_
         if (result == NULL)
         {
             /*Codes_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ If any error occurs, fabric_configuration_package_change_handler_create shall fail and return NULL. ]*/
-            LogError("malloc failed");
+            LogError("malloc(sizeof(FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER)=%zu) failed", sizeof(FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER));
         }
         else
         {

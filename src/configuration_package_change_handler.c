@@ -55,7 +55,7 @@ CONFIGURATION_PACKAGE_CHANGE_HANDLER_HANDLE configuration_package_change_handler
         if (result == NULL)
         {
             /*Codes_SRS_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_011: [ If any error occurs, configuration_package_change_handler_create shall fail and return NULL. ]*/
-            LogError("malloc failed");
+            LogError("malloc(sizeof(CONFIGURATION_PACKAGE_CHANGE_HANDLER)=%zu) failed", sizeof(CONFIGURATION_PACKAGE_CHANGE_HANDLER));
         }
         else
         {
