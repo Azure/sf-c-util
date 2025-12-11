@@ -83,7 +83,7 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_create_with_NULL_callb
 
 /* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_002: [ context is allowed to be NULL. ]*/
 /* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_003: [ fabric_configuration_package_change_handler_create shall allocate memory for the handler structure. ]*/
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ fabric_configuration_package_change_handler_create shall store the on_configuration_changed callback and context. ]*/
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ If memory allocation fails, fabric_configuration_package_change_handler_create shall fail and return NULL.]*/
 /* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [ fabric_configuration_package_change_handler_create shall succeed and return the handler. ]*/
 TEST_FUNCTION(fabric_configuration_package_change_handler_create_succeeds_with_NULL_context)
 {
@@ -104,7 +104,7 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_create_succeeds_with_N
 }
 
 /* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_003: [ fabric_configuration_package_change_handler_create shall allocate memory for the handler structure. ]*/
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ fabric_configuration_package_change_handler_create shall store the on_configuration_changed callback and context. ]*/
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_004: [ If memory allocation fails, fabric_configuration_package_change_handler_create shall fail and return NULL.]*/
 /* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_006: [ fabric_configuration_package_change_handler_create shall succeed and return the handler. ]*/
 TEST_FUNCTION(fabric_configuration_package_change_handler_create_succeeds_with_context)
 {
@@ -125,7 +125,7 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_create_succeeds_with_c
     fabric_configuration_package_change_handler_destroy(result);
 }
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ If any error occurs, fabric_configuration_package_change_handler_create shall fail and return NULL. ]*/
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ fabric_configuration_package_change_handler_create shall store the on_configuration_changed callback and context.]*/
 TEST_FUNCTION(fabric_configuration_package_change_handler_create_fails_when_malloc_fails)
 {
     // arrange
@@ -142,7 +142,7 @@ TEST_FUNCTION(fabric_configuration_package_change_handler_create_fails_when_mall
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 }
 
-/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ If any error occurs, fabric_configuration_package_change_handler_create shall fail and return NULL. ]*/
+/* Tests_SRS_FABRIC_CONFIGURATION_PACKAGE_CHANGE_HANDLER_88_005: [ fabric_configuration_package_change_handler_create shall store the on_configuration_changed callback and context.]*/
 TEST_FUNCTION(when_underlying_calls_fail_fabric_configuration_package_change_handler_create_also_fails)
 {
     // arrange
