@@ -225,6 +225,8 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_activation_context_fails)
         /*Tests_SRS_SF_SERVICE_CONFIG_42_027: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_wchar_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_030: [ If the type is thandle_rc_string then: ]*/
         /*Tests_SRS_SF_SERVICE_CONFIG_42_031: [ SF_SERVICE_CONFIG_CREATE(name) shall call configuration_reader_get_thandle_rc_string with the activation_context, sf_config_name, sf_parameters_section_name, and SF_SERVICE_CONFIG_PARAMETER_NAME_config_name. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_002: [ The SF_SERVICE_CONFIG(name) struct shall include an SRW_LOCK_LL lock field for thread-safe access. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_normal_values_for_all_types_succeeds)
 {
     // arrange
@@ -507,6 +509,7 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_with_NULL_required_thandle_rcstring_fails
     /*Tests_SRS_SF_SERVICE_CONFIG_42_038: [ If the type is wchar_ptr then MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall free the string. ]*/
     /*Tests_SRS_SF_SERVICE_CONFIG_42_040: [ If the type is thandle_rc_string then MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall assign the THANDLE to NULL. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_42_042: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall Release the activation_context. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_Dispose_frees_all_strings)
 {
     // arrange
@@ -724,6 +727,8 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_thandle_rc_string_with_NULL_handle_re
 
 /*Tests_SRS_SF_SERVICE_CONFIG_42_003: [ DECLARE_SF_SERVICE_CONFIG_GETTERS shall generate mockable getter functions SF_SERVICE_CONFIG_GETTER(name, param) for each of the configurations provided. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_42_050: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall return the configuration value for field_name. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_007: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall acquire the shared SRW lock by calling srw_lock_ll_acquire_shared. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_88_008: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall release the shared SRW lock by calling srw_lock_ll_release_shared. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_for_bool_with_true_value_returns_true)
 {
     // arrange
@@ -1065,70 +1070,6 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_re_read_fails_releases_lock_and_ret
 
     // assert
     ASSERT_ARE_NOT_EQUAL(int, 0, result);
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    // cleanup
-    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
-}
-
-//
-// SRW Lock tests
-//
-
-/*Tests_SRS_SF_SERVICE_CONFIG_88_002: [ The SF_SERVICE_CONFIG(name) struct shall include an SRW_LOCK_LL lock field for thread-safe access. ]*/
-/*Tests_SRS_SF_SERVICE_CONFIG_88_004: [ SF_SERVICE_CONFIG_CREATE(name) shall call srw_lock_ll_init to initialize the SRW lock. ]*/
-TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_calls_srw_lock_ll_init)
-{
-    // arrange
-    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
-
-    // act
-    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
-
-    // assert
-    ASSERT_IS_NOT_NULL(config);
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    // cleanup
-    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
-}
-
-/*Tests_SRS_SF_SERVICE_CONFIG_88_006: [ MU_C2A(SF_SERVICE_CONFIG(name), _dispose) shall call srw_lock_ll_deinit to deinitialize the SRW lock. ]*/
-TEST_FUNCTION(SF_SERVICE_CONFIG_dispose_calls_srw_lock_ll_deinit)
-{
-    // arrange
-    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
-    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
-    ASSERT_IS_NOT_NULL(config);
-    umock_c_reset_all_calls();
-
-    TEST_SF_SERVICE_CONFIG_EXPECT_DESTROY(my_config)();
-
-    // act
-    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
-
-    // assert
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-}
-
-/*Tests_SRS_SF_SERVICE_CONFIG_88_007: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall acquire the shared SRW lock by calling srw_lock_ll_acquire_shared. ]*/
-/*Tests_SRS_SF_SERVICE_CONFIG_88_008: [ SF_SERVICE_CONFIG_GETTER(name, field_name) shall release the shared SRW lock by calling srw_lock_ll_release_shared. ]*/
-TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_acquires_and_releases_shared_lock)
-{
-    // arrange
-    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
-    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
-    ASSERT_IS_NOT_NULL(config);
-    umock_c_reset_all_calls();
-
-    STRICT_EXPECTED_CALL(srw_lock_ll_acquire_shared(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(srw_lock_ll_release_shared(IGNORED_ARG));
-
-    // act
-    uint64_t result = SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config);
-
-    // assert
-    ASSERT_ARE_EQUAL(uint64_t, TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(parameter_1), result);
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     // cleanup
