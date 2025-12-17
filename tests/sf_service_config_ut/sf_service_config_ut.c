@@ -129,7 +129,8 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
     TEST_SF_SERVICE_CONFIG_CLEANUP(MY_CONFIG_TEST_PARAMS);
 }
 
-TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_is_mockable)
+// This test has no SRS requirements because it only verifies the API is mockable
+TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_is_mockable) // no-srs
 {
     // arrange
     STRICT_EXPECTED_CALL(SF_SERVICE_CONFIG_CREATE(my_mocked_config)(IGNORED_ARG))
@@ -143,7 +144,8 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_CREATE_is_mockable)
     ASSERT_ARE_EQUAL(void_ptr, (void*)0xABCD, (void*)result);
 }
 
-TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_is_mockable)
+// This test has no SRS requirements because it only verifies the API is mockable
+TEST_FUNCTION(SF_SERVICE_CONFIG_GETTER_is_mockable) // no-srs
 {
     // arrange
     STRICT_EXPECTED_CALL(SF_SERVICE_CONFIG_GETTER(my_mocked_config, mocked_parameter_2)(IGNORED_ARG))
