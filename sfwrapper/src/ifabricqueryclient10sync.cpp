@@ -260,7 +260,7 @@ HRESULT FQC10_GetNodeList(IFabricQueryClient10* This,
     DWORD timeoutMilliseconds,
     IFabricGetNodeListResult** fabricGetNodeListResult)
 {
-    LogInfo("FQC10_GetNodeList called with This=%p, queryDescription=%" PRI_FABRIC_NODE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetNodeListResult=%p",
+    LogVerbose("FQC10_GetNodeList called with This=%p, queryDescription=%" PRI_FABRIC_NODE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetNodeListResult=%p",
         This, FABRIC_NODE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetNodeListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetNodeList, &IFabricQueryClient10::EndGetNodeList,
@@ -274,7 +274,7 @@ HRESULT FQC10_GetNodeList(IFabricQueryClient10* This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetNodeList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetNodeList returning");
     }
     return hresult;
 }
@@ -285,7 +285,7 @@ HRESULT FQC10_GetApplicationTypeList(
     DWORD timeoutMilliseconds,
     IFabricGetApplicationTypeListResult **fabricGetApplicationTypeListResult)
 {
-    LogInfo("FQC10_GetApplicationTypeList called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetApplicationTypeListResult=%p",
+    LogVerbose("FQC10_GetApplicationTypeList called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetApplicationTypeListResult=%p",
         This, FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetApplicationTypeListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetApplicationTypeList, &IFabricQueryClient10::EndGetApplicationTypeList,
@@ -299,7 +299,7 @@ HRESULT FQC10_GetApplicationTypeList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetApplicationTypeList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetApplicationTypeList returning");
     }
     return hresult;
 }
@@ -309,7 +309,7 @@ HRESULT FQC10_GetServiceTypeList(IFabricQueryClient10* This,
     DWORD timeoutMilliseconds,
     IFabricGetServiceTypeListResult **fabricGetServiceTypeListResult)
 {
-    LogInfo("FQC10_GetServiceTypeList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetServiceTypeListResult=%p",
+    LogVerbose("FQC10_GetServiceTypeList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetServiceTypeListResult=%p",
         This, FABRIC_SERVICE_TYPE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetServiceTypeListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetServiceTypeList, &IFabricQueryClient10::EndGetServiceTypeList,
@@ -323,7 +323,7 @@ HRESULT FQC10_GetServiceTypeList(IFabricQueryClient10* This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetServiceTypeList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetServiceTypeList returning");
     }
     return hresult;
 }
@@ -333,7 +333,7 @@ HRESULT FQC10_GetApplicationList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetApplicationListResult **fabricGetApplicationListResult)
 {
-    LogInfo("FQC10_GetApplicationList called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetApplicationListResult=%p",
+    LogVerbose("FQC10_GetApplicationList called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetApplicationListResult=%p",
         This, FABRIC_APPLICATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetApplicationListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetApplicationList, &IFabricQueryClient10::EndGetApplicationList,
@@ -347,7 +347,7 @@ HRESULT FQC10_GetApplicationList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetApplicationList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetApplicationList returning");
     }
     return hresult;
 }
@@ -357,7 +357,7 @@ HRESULT FQC10_GetServiceList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetServiceListResult** fabricGetServiceListResult)
 {
-    LogInfo("FQC10_GetServiceList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetServiceListResult=%p",
+    LogVerbose("FQC10_GetServiceList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetServiceListResult=%p",
         This, FABRIC_SERVICE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetServiceListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetServiceList, &IFabricQueryClient10::EndGetServiceList,
@@ -371,7 +371,7 @@ HRESULT FQC10_GetServiceList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetServiceList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetServiceList returning");
     }
     return hresult;
 }
@@ -381,7 +381,7 @@ HRESULT FQC10_GetPartitionList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetPartitionListResult** fabricGetPartitionListResult)
 {
-    LogInfo("FQC10_GetPartitionList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetPartitionListResult=%p",
+    LogVerbose("FQC10_GetPartitionList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetPartitionListResult=%p",
         This, FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetPartitionListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetPartitionList, &IFabricQueryClient10::EndGetPartitionList,
@@ -395,7 +395,7 @@ HRESULT FQC10_GetPartitionList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetPartitionList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetPartitionList returning");
     }
     return hresult;
 }
@@ -405,7 +405,7 @@ HRESULT FQC10_GetReplicaList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetReplicaListResult** fabricGetReplicaListResult)
 {
-    LogInfo("FQC10_GetReplicaList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetReplicaListResult=%p",
+    LogVerbose("FQC10_GetReplicaList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetReplicaListResult=%p",
         This, FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetReplicaListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetReplicaList, &IFabricQueryClient10::EndGetReplicaList,
@@ -419,7 +419,7 @@ HRESULT FQC10_GetReplicaList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetReplicaList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetReplicaList returning");
     }
     return hresult;
 }
@@ -429,7 +429,7 @@ HRESULT FQC10_GetDeployedApplicationList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetDeployedApplicationListResult** fabricGetDeployedApplicationListResult)
 {
-    LogInfo("FQC10_GetDeployedApplicationList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedApplicationListResult=%p",
+    LogVerbose("FQC10_GetDeployedApplicationList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedApplicationListResult=%p",
         This, FABRIC_DEPLOYED_APPLICATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetDeployedApplicationListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedApplicationList, &IFabricQueryClient10::EndGetDeployedApplicationList,
@@ -443,7 +443,7 @@ HRESULT FQC10_GetDeployedApplicationList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedApplicationList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedApplicationList returning");
     }
     return hresult;
 }
@@ -453,7 +453,7 @@ HRESULT FQC10_GetDeployedServicePackageList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetDeployedServicePackageListResult** fabricGetDeployedServicePackageListResult)
 {
-    LogInfo("FQC10_GetDeployedServicePackageList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_PACKAGE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedServicePackageListResult=%p",
+    LogVerbose("FQC10_GetDeployedServicePackageList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_PACKAGE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedServicePackageListResult=%p",
         This, FABRIC_DEPLOYED_SERVICE_PACKAGE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetDeployedServicePackageListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedServicePackageList, &IFabricQueryClient10::EndGetDeployedServicePackageList,
@@ -467,7 +467,7 @@ HRESULT FQC10_GetDeployedServicePackageList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedServicePackageList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedServicePackageList returning");
     }
     return hresult;
 }
@@ -477,7 +477,7 @@ HRESULT FQC10_GetDeployedServiceTypeList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetDeployedServiceTypeListResult** fabricGetDeployedServiceTypeListResult)
 {
-    LogInfo("FQC10_GetDeployedServiceTypeList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedServiceTypeListResult=%p",
+    LogVerbose("FQC10_GetDeployedServiceTypeList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedServiceTypeListResult=%p",
         This, FABRIC_DEPLOYED_SERVICE_TYPE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetDeployedServiceTypeListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedServiceTypeList, &IFabricQueryClient10::EndGetDeployedServiceTypeList,
@@ -491,7 +491,7 @@ HRESULT FQC10_GetDeployedServiceTypeList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedServiceTypeList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedServiceTypeList returning");
     }
     return hresult;
 }
@@ -501,7 +501,7 @@ HRESULT FQC10_GetDeployedCodePackageList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetDeployedCodePackageListResult** fabricGetDeployedCodePackageListResult)
 {
-    LogInfo("FQC10_GetDeployedCodePackageList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_CODE_PACKAGE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedCodePackageListResult=%p",
+    LogVerbose("FQC10_GetDeployedCodePackageList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_CODE_PACKAGE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedCodePackageListResult=%p",
         This, FABRIC_DEPLOYED_CODE_PACKAGE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetDeployedCodePackageListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedCodePackageList, &IFabricQueryClient10::EndGetDeployedCodePackageList,
@@ -515,7 +515,7 @@ HRESULT FQC10_GetDeployedCodePackageList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedCodePackageList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedCodePackageList returning");
     }
     return hresult;
 }
@@ -525,7 +525,7 @@ HRESULT FQC10_GetDeployedReplicaList(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetDeployedReplicaListResult** fabricGetDeployedReplicaListResult)
 {
-    LogInfo("FQC10_GetDeployedReplicaList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_REPLICA_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedReplicaListResult=%p",
+    LogVerbose("FQC10_GetDeployedReplicaList called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_REPLICA_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", fabricGetDeployedReplicaListResult=%p",
         This, FABRIC_DEPLOYED_SERVICE_REPLICA_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, fabricGetDeployedReplicaListResult);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedReplicaList, &IFabricQueryClient10::EndGetDeployedReplicaList,
@@ -539,7 +539,7 @@ HRESULT FQC10_GetDeployedReplicaList(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedReplicaList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedReplicaList returning");
     }
     return hresult;
 }
@@ -550,7 +550,7 @@ HRESULT FQC10_GetDeployedReplicaDetail(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetDeployedServiceReplicaDetailResult **result)
 {
-    LogInfo("FQC10_GetDeployedReplicaDetail called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_REPLICA_DETAIL_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetDeployedReplicaDetail called with This=%p, queryDescription=%" PRI_FABRIC_DEPLOYED_SERVICE_REPLICA_DETAIL_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_DEPLOYED_SERVICE_REPLICA_DETAIL_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedReplicaDetail, &IFabricQueryClient10::EndGetDeployedReplicaDetail,
@@ -565,7 +565,7 @@ HRESULT FQC10_GetDeployedReplicaDetail(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedReplicaDetail returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedReplicaDetail returning");
     }
     return hresult;
 }
@@ -575,7 +575,7 @@ HRESULT FQC10_GetClusterLoadInformation(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetClusterLoadInformationResult **result)
 {
-    LogInfo("FQC10_GetClusterLoadInformation called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetClusterLoadInformation called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetClusterLoadInformation, &IFabricQueryClient10::EndGetClusterLoadInformation,
@@ -589,7 +589,7 @@ HRESULT FQC10_GetClusterLoadInformation(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetClusterLoadInformation returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetClusterLoadInformation returning");
     }
     return hresult;
 }
@@ -600,7 +600,7 @@ HRESULT FQC10_GetPartitionLoadInformation(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetPartitionLoadInformationResult **result)
 {
-    LogInfo("FQC10_GetPartitionLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_PARTITION_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetPartitionLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_PARTITION_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_PARTITION_LOAD_INFORMATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetPartitionLoadInformation, &IFabricQueryClient10::EndGetPartitionLoadInformation,
@@ -615,7 +615,7 @@ HRESULT FQC10_GetPartitionLoadInformation(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetPartitionLoadInformation returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetPartitionLoadInformation returning");
     }
     return hresult;
 }
@@ -626,7 +626,7 @@ HRESULT FQC10_GetProvisionedFabricCodeVersionList(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetProvisionedCodeVersionListResult **result)
 {
-    LogInfo("FQC10_GetProvisionedFabricCodeVersionList called with This=%p, queryDescription=%" PRI_FABRIC_PROVISIONED_CODE_VERSION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetProvisionedFabricCodeVersionList called with This=%p, queryDescription=%" PRI_FABRIC_PROVISIONED_CODE_VERSION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_PROVISIONED_CODE_VERSION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetProvisionedFabricCodeVersionList, &IFabricQueryClient10::EndGetProvisionedFabricCodeVersionList,
@@ -641,7 +641,7 @@ HRESULT FQC10_GetProvisionedFabricCodeVersionList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetProvisionedFabricCodeVersionList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetProvisionedFabricCodeVersionList returning");
     }
     return hresult;
 }
@@ -652,7 +652,7 @@ HRESULT FQC10_GetProvisionedFabricConfigVersionList(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetProvisionedConfigVersionListResult **result)
 {
-    LogInfo("FQC10_GetProvisionedFabricConfigVersionList called with This=%p, queryDescription=%" PRI_FABRIC_PROVISIONED_CONFIG_VERSION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetProvisionedFabricConfigVersionList called with This=%p, queryDescription=%" PRI_FABRIC_PROVISIONED_CONFIG_VERSION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_PROVISIONED_CONFIG_VERSION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetProvisionedFabricConfigVersionList, &IFabricQueryClient10::EndGetProvisionedFabricConfigVersionList,
@@ -667,7 +667,7 @@ HRESULT FQC10_GetProvisionedFabricConfigVersionList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetProvisionedFabricConfigVersionList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetProvisionedFabricConfigVersionList returning");
     }
     return hresult;
 }
@@ -678,7 +678,7 @@ HRESULT FQC10_GetNodeLoadInformation(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetNodeLoadInformationResult **result)
 {
-    LogInfo("FQC10_GetNodeLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_NODE_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetNodeLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_NODE_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_NODE_LOAD_INFORMATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetNodeLoadInformation, &IFabricQueryClient10::EndGetNodeLoadInformation,
@@ -693,7 +693,7 @@ HRESULT FQC10_GetNodeLoadInformation(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetNodeLoadInformation returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetNodeLoadInformation returning");
     }
     return hresult;
 }
@@ -704,7 +704,7 @@ HRESULT FQC10_GetReplicaLoadInformation(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetReplicaLoadInformationResult **result)
 {
-    LogInfo("FQC10_GetReplicaLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_REPLICA_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetReplicaLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_REPLICA_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_REPLICA_LOAD_INFORMATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetReplicaLoadInformation, &IFabricQueryClient10::EndGetReplicaLoadInformation,
@@ -719,7 +719,7 @@ HRESULT FQC10_GetReplicaLoadInformation(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetReplicaLoadInformation returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetReplicaLoadInformation returning");
     }
     return hresult;
 }
@@ -730,7 +730,7 @@ HRESULT FQC10_GetServiceGroupMemberList(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetServiceGroupMemberListResult **result)
 {
-    LogInfo("FQC10_GetServiceGroupMemberList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_GROUP_MEMBER_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetServiceGroupMemberList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_GROUP_MEMBER_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_SERVICE_GROUP_MEMBER_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetServiceGroupMemberList, &IFabricQueryClient10::EndGetServiceGroupMemberList,
@@ -745,7 +745,7 @@ HRESULT FQC10_GetServiceGroupMemberList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetServiceGroupMemberList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetServiceGroupMemberList returning");
     }
     return hresult;
 }
@@ -756,7 +756,7 @@ HRESULT FQC10_GetServiceGroupMemberTypeList(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetServiceGroupMemberTypeListResult **result) 
 {
-    LogInfo("FQC10_GetServiceGroupMemberTypeList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_GROUP_MEMBER_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetServiceGroupMemberTypeList called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_GROUP_MEMBER_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_SERVICE_GROUP_MEMBER_TYPE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetServiceGroupMemberTypeList, &IFabricQueryClient10::EndGetServiceGroupMemberTypeList,
@@ -771,7 +771,7 @@ HRESULT FQC10_GetServiceGroupMemberTypeList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetServiceGroupMemberTypeList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetServiceGroupMemberTypeList returning");
     }
     return hresult;
 }
@@ -783,7 +783,7 @@ HRESULT FQC10_GetUnplacedReplicaInformation(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetUnplacedReplicaInformationResult **result)
 {
-    LogInfo("FQC10_GetUnplacedReplicaInformation called with This=%p, queryDescription=%" PRI_FABRIC_UNPLACED_REPLICA_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetUnplacedReplicaInformation called with This=%p, queryDescription=%" PRI_FABRIC_UNPLACED_REPLICA_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_UNPLACED_REPLICA_INFORMATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetUnplacedReplicaInformation, &IFabricQueryClient10::EndGetUnplacedReplicaInformation,
@@ -798,7 +798,7 @@ HRESULT FQC10_GetUnplacedReplicaInformation(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetUnplacedReplicaInformation returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetUnplacedReplicaInformation returning");
     }
     return hresult;
 }
@@ -808,7 +808,7 @@ HRESULT FQC10_GetNodeList2(IFabricQueryClient10* This,
     DWORD timeoutMilliseconds,
     IFabricGetNodeListResult2** result)
 {
-    LogInfo("FQC10_GetNodeList2 called with This=%p, queryDescription=%" PRI_FABRIC_NODE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetNodeList2 called with This=%p, queryDescription=%" PRI_FABRIC_NODE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_NODE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetNodeList, &IFabricQueryClient10::EndGetNodeList2,
@@ -823,7 +823,7 @@ HRESULT FQC10_GetNodeList2(IFabricQueryClient10* This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetNodeList2 returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetNodeList2 returning");
     }
     return hresult;
 }
@@ -833,7 +833,7 @@ HRESULT FQC10_GetApplicationList2(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetApplicationListResult2 **result)
 {
-    LogInfo("FQC10_GetApplicationList2 called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetApplicationList2 called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_APPLICATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetApplicationList, &IFabricQueryClient10::EndGetApplicationList2,
@@ -848,7 +848,7 @@ HRESULT FQC10_GetApplicationList2(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetApplicationList2 returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetApplicationList2 returning");
     }
     return hresult;
 }
@@ -858,7 +858,7 @@ HRESULT FQC10_GetServiceList2(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetServiceListResult2** result)
 {
-    LogInfo("FQC10_GetServiceList2 called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetServiceList2 called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_SERVICE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetServiceList, &IFabricQueryClient10::EndGetServiceList2,
@@ -873,7 +873,7 @@ HRESULT FQC10_GetServiceList2(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetServiceList2 returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetServiceList2 returning");
     }
     return hresult;
 }
@@ -883,7 +883,7 @@ HRESULT FQC10_GetPartitionList2(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetPartitionListResult2** result)
 {
-    LogInfo("FQC10_GetPartitionList2 called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetPartitionList2 called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_SERVICE_PARTITION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetPartitionList, &IFabricQueryClient10::EndGetPartitionList2,
@@ -898,7 +898,7 @@ HRESULT FQC10_GetPartitionList2(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetPartitionList2 returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetPartitionList2 returning");
     }
     return hresult;
 }
@@ -908,7 +908,7 @@ HRESULT FQC10_GetReplicaList2(IFabricQueryClient10 * This,
     DWORD timeoutMilliseconds,
     IFabricGetReplicaListResult2** result)
 {
-    LogInfo("FQC10_GetReplicaList2 called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetReplicaList2 called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_SERVICE_REPLICA_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetReplicaList, &IFabricQueryClient10::EndGetReplicaList2,
@@ -923,7 +923,7 @@ HRESULT FQC10_GetReplicaList2(IFabricQueryClient10 * This,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetReplicaList2 returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetReplicaList2 returning");
     }
     return hresult;
 }
@@ -934,7 +934,7 @@ HRESULT FQC10_GetApplicationLoadInformation(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetApplicationLoadInformationResult **result)
 {
-    LogInfo("FQC10_GetApplicationLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetApplicationLoadInformation called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_LOAD_INFORMATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_APPLICATION_LOAD_INFORMATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetApplicationLoadInformation, &IFabricQueryClient10::EndGetApplicationLoadInformation,
@@ -949,7 +949,7 @@ HRESULT FQC10_GetApplicationLoadInformation(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetApplicationLoadInformation returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetApplicationLoadInformation returning");
     }
     return hresult;
 }
@@ -960,7 +960,7 @@ HRESULT FQC10_GetServiceName(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetServiceNameResult **result)
 {
-    LogInfo("FQC10_GetServiceName called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_NAME_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetServiceName called with This=%p, queryDescription=%" PRI_FABRIC_SERVICE_NAME_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_SERVICE_NAME_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetServiceName, &IFabricQueryClient10::EndGetServiceName,
@@ -975,7 +975,7 @@ HRESULT FQC10_GetServiceName(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetServiceName returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetServiceName returning");
     }
     return hresult;
 }
@@ -986,7 +986,7 @@ HRESULT FQC10_GetApplicationName(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetApplicationNameResult **result)
 {
-    LogInfo("FQC10_GetApplicationName called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_NAME_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetApplicationName called with This=%p, queryDescription=%" PRI_FABRIC_APPLICATION_NAME_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_APPLICATION_NAME_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetApplicationName, &IFabricQueryClient10::EndGetApplicationName,
@@ -1001,7 +1001,7 @@ HRESULT FQC10_GetApplicationName(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetApplicationName returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetApplicationName returning");
     }
     return hresult;
 }
@@ -1012,7 +1012,7 @@ HRESULT FQC10_GetApplicationTypePagedList(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetApplicationTypePagedListResult **result)
 {
-    LogInfo("FQC10_GetApplicationTypePagedList called with This=%p, queryDescription=%" PRI_PAGED_FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetApplicationTypePagedList called with This=%p, queryDescription=%" PRI_PAGED_FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, PAGED_FABRIC_APPLICATION_TYPE_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetApplicationTypePagedList, &IFabricQueryClient10::EndGetApplicationTypePagedList,
@@ -1027,7 +1027,7 @@ HRESULT FQC10_GetApplicationTypePagedList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetApplicationTypePagedList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetApplicationTypePagedList returning");
     }
     return hresult;
 }
@@ -1038,7 +1038,7 @@ HRESULT FQC10_GetDeployedApplicationPagedList(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricGetDeployedApplicationPagedListResult **result)
 {
-    LogInfo("FQC10_GetDeployedApplicationPagedList called with This=%p, queryDescription=%" PRI_FABRIC_PAGED_DEPLOYED_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FQC10_GetDeployedApplicationPagedList called with This=%p, queryDescription=%" PRI_FABRIC_PAGED_DEPLOYED_APPLICATION_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_PAGED_DEPLOYED_APPLICATION_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricQueryClient10::BeginGetDeployedApplicationPagedList, &IFabricQueryClient10::EndGetDeployedApplicationPagedList,
@@ -1053,7 +1053,7 @@ HRESULT FQC10_GetDeployedApplicationPagedList(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FQC10_GetDeployedApplicationPagedList returning");
+        LogHRESULTVerbose(hresult, "FQC10_GetDeployedApplicationPagedList returning");
     }
     return hresult;
 }

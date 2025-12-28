@@ -67,7 +67,7 @@ HRESULT FFMC_RestartNode(IFabricFaultManagementClient* client,
     DWORD timeoutMilliseconds,
     IFabricRestartNodeResult **fabricRestartNodeResult)
 {
-    LogInfo("FFMC_RestartNode called with client=%p, description=%" PRI_FABRIC_RESTART_NODE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricRestartNodeResult=%p",
+    LogVerbose("FFMC_RestartNode called with client=%p, description=%" PRI_FABRIC_RESTART_NODE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricRestartNodeResult=%p",
         client, FABRIC_RESTART_NODE_DESCRIPTION2_VALUES_OR_NULL(description), timeoutMilliseconds, fabricRestartNodeResult);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricFaultManagementClient::BeginRestartNode, &IFabricFaultManagementClient::EndRestartNode,
@@ -81,7 +81,7 @@ HRESULT FFMC_RestartNode(IFabricFaultManagementClient* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FFMC_RestartNode returning");
+        LogHRESULTVerbose(hresult, "FFMC_RestartNode returning");
     }
     return hresult;
 }
@@ -91,7 +91,7 @@ HRESULT FFMC_StartNode(IFabricFaultManagementClient* client,
     DWORD timeoutMilliseconds,
     IFabricStartNodeResult **fabricStartNodeResult)
 {
-    LogInfo("FFMC_StartNode called with client=%p, description=%" PRI_FABRIC_START_NODE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricStartNodeResult=%p",
+    LogVerbose("FFMC_StartNode called with client=%p, description=%" PRI_FABRIC_START_NODE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricStartNodeResult=%p",
         client, FABRIC_START_NODE_DESCRIPTION2_VALUES_OR_NULL(description), timeoutMilliseconds, fabricStartNodeResult);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricFaultManagementClient::BeginStartNode, &IFabricFaultManagementClient::EndStartNode,
@@ -105,7 +105,7 @@ HRESULT FFMC_StartNode(IFabricFaultManagementClient* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FFMC_StartNode returning");
+        LogHRESULTVerbose(hresult, "FFMC_StartNode returning");
     }
     return hresult;
 }
@@ -115,7 +115,7 @@ HRESULT FFMC_StopNode(IFabricFaultManagementClient* client,
     DWORD timeoutMilliseconds,
     IFabricStopNodeResult **fabricStopNodeResult)
 {
-    LogInfo("FFMC_StopNode called with client=%p, description=%" PRI_FABRIC_STOP_NODE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricStopNodeResult=%p",
+    LogVerbose("FFMC_StopNode called with client=%p, description=%" PRI_FABRIC_STOP_NODE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricStopNodeResult=%p",
         client, FABRIC_STOP_NODE_DESCRIPTION2_VALUES_OR_NULL(description), timeoutMilliseconds, fabricStopNodeResult);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricFaultManagementClient::BeginStopNode, &IFabricFaultManagementClient::EndStopNode,
@@ -129,7 +129,7 @@ HRESULT FFMC_StopNode(IFabricFaultManagementClient* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FFMC_StopNode returning");
+        LogHRESULTVerbose(hresult, "FFMC_StopNode returning");
     }
     return hresult;
 }
@@ -139,7 +139,7 @@ HRESULT FFMC_RestartDeployedCodePackage(IFabricFaultManagementClient* client,
     DWORD timeoutMilliseconds,
     IFabricRestartDeployedCodePackageResult **fabricRestartDeployedCodePackageResult)
 {
-    LogInfo("FFMC_RestartDeployedCodePackage called with client=%p, description=%" PRI_FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricRestartDeployedCodePackageResult=%p",
+    LogVerbose("FFMC_RestartDeployedCodePackage called with client=%p, description=%" PRI_FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricRestartDeployedCodePackageResult=%p",
         client, FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION2_VALUES_OR_NULL(description), timeoutMilliseconds, fabricRestartDeployedCodePackageResult);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricFaultManagementClient::BeginRestartDeployedCodePackage, &IFabricFaultManagementClient::EndRestartDeployedCodePackage,
@@ -153,7 +153,7 @@ HRESULT FFMC_RestartDeployedCodePackage(IFabricFaultManagementClient* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FFMC_RestartDeployedCodePackage returning");
+        LogHRESULTVerbose(hresult, "FFMC_RestartDeployedCodePackage returning");
     }
     return hresult;
 }
@@ -163,7 +163,7 @@ HRESULT FFMC_MovePrimary(IFabricFaultManagementClient* client,
     DWORD timeoutMilliseconds,
     IFabricMovePrimaryResult **fabricMovePrimaryResult)
 {
-    LogInfo("FFMC_MovePrimary called with client=%p, description=%" PRI_FABRIC_MOVE_PRIMARY_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricMovePrimaryResult=%p",
+    LogVerbose("FFMC_MovePrimary called with client=%p, description=%" PRI_FABRIC_MOVE_PRIMARY_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricMovePrimaryResult=%p",
         client, FABRIC_MOVE_PRIMARY_DESCRIPTION2_VALUES_OR_NULL(description), timeoutMilliseconds, fabricMovePrimaryResult);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricFaultManagementClient::BeginMovePrimary, &IFabricFaultManagementClient::EndMovePrimary,
@@ -177,7 +177,7 @@ HRESULT FFMC_MovePrimary(IFabricFaultManagementClient* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FFMC_MovePrimary returning");
+        LogHRESULTVerbose(hresult, "FFMC_MovePrimary returning");
     }
     return hresult;
 }
@@ -187,7 +187,7 @@ HRESULT FFMC_MoveSecondary(IFabricFaultManagementClient* client,
     DWORD timeoutMilliseconds,
     IFabricMoveSecondaryResult **fabricMoveSecondaryResult)
 {
-    LogInfo("FFMC_MoveSecondary called with client=%p, description=%" PRI_FABRIC_MOVE_SECONDARY_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricMoveSecondaryResult=%p",
+    LogVerbose("FFMC_MoveSecondary called with client=%p, description=%" PRI_FABRIC_MOVE_SECONDARY_DESCRIPTION2 ", timeoutMilliseconds=%" PRIu32 ", fabricMoveSecondaryResult=%p",
         client, FABRIC_MOVE_SECONDARY_DESCRIPTION2_VALUES_OR_NULL(description), timeoutMilliseconds, fabricMoveSecondaryResult);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricFaultManagementClient::BeginMoveSecondary, &IFabricFaultManagementClient::EndMoveSecondary,
@@ -201,7 +201,7 @@ HRESULT FFMC_MoveSecondary(IFabricFaultManagementClient* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FFMC_MoveSecondary returning");
+        LogHRESULTVerbose(hresult, "FFMC_MoveSecondary returning");
     }
     return hresult;
 }

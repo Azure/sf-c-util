@@ -95,7 +95,7 @@ HRESULT FCMC10_NodeStateRemoved(
     /* [in] */ LPCWSTR nodeName,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_NodeStateRemoved called with client=%p, nodeName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_NodeStateRemoved called with client=%p, nodeName=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, nodeName, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginNodeStateRemoved, &IFabricClusterManagementClient10::EndNodeStateRemoved,
@@ -108,7 +108,7 @@ HRESULT FCMC10_NodeStateRemoved(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_NodeStateRemoved returning");
+        LogHRESULTVerbose(result, "FCMC10_NodeStateRemoved returning");
     }
     return result;
 }
@@ -117,7 +117,7 @@ HRESULT FCMC10_RecoverPartitions(
     IFabricClusterManagementClient10* client,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_RecoverPartitions called with client=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_RecoverPartitions called with client=%p, timeoutMilliseconds=%" PRIu32 "",
         client, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginRecoverPartitions, &IFabricClusterManagementClient10::EndRecoverPartitions,
@@ -129,7 +129,7 @@ HRESULT FCMC10_RecoverPartitions(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RecoverPartitions returning");
+        LogHRESULTVerbose(result, "FCMC10_RecoverPartitions returning");
     }
     return result;
 }
@@ -140,7 +140,7 @@ HRESULT FCMC10_DeactivateNode(
     /* [in] */ FABRIC_NODE_DEACTIVATION_INTENT intent,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_DeactivateNode called with client=%p, nodeName=%ls, intent=%" PRI_MU_ENUM ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_DeactivateNode called with client=%p, nodeName=%ls, intent=%" PRI_MU_ENUM ", timeoutMilliseconds=%" PRIu32 "",
         client, nodeName, MU_ENUM_VALUE(FABRIC_NODE_DEACTIVATION_INTENT, intent), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginDeactivateNode, &IFabricClusterManagementClient10::EndDeactivateNode,
@@ -154,7 +154,7 @@ HRESULT FCMC10_DeactivateNode(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_DeactivateNode returning");
+        LogHRESULTVerbose(result, "FCMC10_DeactivateNode returning");
     }
     return result;
 }
@@ -164,7 +164,7 @@ HRESULT FCMC10_ActivateNode(
     /* [in] */ LPCWSTR nodeName,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_ActivateNode called with client=%p, nodeName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_ActivateNode called with client=%p, nodeName=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, nodeName, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginActivateNode, &IFabricClusterManagementClient10::EndActivateNode,
@@ -177,7 +177,7 @@ HRESULT FCMC10_ActivateNode(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_ActivateNode returning");
+        LogHRESULTVerbose(result, "FCMC10_ActivateNode returning");
     }
     return result;
 }
@@ -188,7 +188,7 @@ HRESULT FCMC10_ProvisionFabric(
     /* [in] */ LPCWSTR clusterManifestFilepath,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_ProvisionFabric called with client=%p, codeFilepath=%ls, clusterManifestFilepath=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_ProvisionFabric called with client=%p, codeFilepath=%ls, clusterManifestFilepath=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, codeFilepath, clusterManifestFilepath, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginProvisionFabric, &IFabricClusterManagementClient10::EndProvisionFabric,
@@ -202,7 +202,7 @@ HRESULT FCMC10_ProvisionFabric(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_ProvisionFabric returning");
+        LogHRESULTVerbose(result, "FCMC10_ProvisionFabric returning");
     }
     return result;
 }
@@ -212,7 +212,7 @@ HRESULT FCMC10_UpgradeFabric(
     /* [in] */ const FABRIC_UPGRADE_DESCRIPTION *upgradeDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_UpgradeFabric called with client=%p, upgradeDescription=%" PRI_FABRIC_UPGRADE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_UpgradeFabric called with client=%p, upgradeDescription=%" PRI_FABRIC_UPGRADE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, FABRIC_UPGRADE_DESCRIPTION_VALUES_OR_NULL(upgradeDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginUpgradeFabric, &IFabricClusterManagementClient10::EndUpgradeFabric,
@@ -225,7 +225,7 @@ HRESULT FCMC10_UpgradeFabric(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_UpgradeFabric returning");
+        LogHRESULTVerbose(result, "FCMC10_UpgradeFabric returning");
     }
     return result;
 }
@@ -235,7 +235,7 @@ HRESULT FCMC10_GetFabricUpgradeProgress(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricUpgradeProgressResult2 **result)
 {
-    LogInfo("FCMC10_GetFabricUpgradeProgress called with client=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetFabricUpgradeProgress called with client=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
         client, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricClusterManagementClient10::BeginGetFabricUpgradeProgress, &IFabricClusterManagementClient10::EndGetFabricUpgradeProgress,
@@ -248,7 +248,7 @@ HRESULT FCMC10_GetFabricUpgradeProgress(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetFabricUpgradeProgress returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetFabricUpgradeProgress returning");
     }
     return hresult;
 }
@@ -258,7 +258,7 @@ HRESULT FCMC10_MoveNextFabricUpgradeDomain(
     /* [in] */ IFabricUpgradeProgressResult2 *progress,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_MoveNextFabricUpgradeDomain called with client=%p, progress=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_MoveNextFabricUpgradeDomain called with client=%p, progress=%p, timeoutMilliseconds=%" PRIu32 "",
         client, progress, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginMoveNextFabricUpgradeDomain, &IFabricClusterManagementClient10::EndMoveNextFabricUpgradeDomain,
@@ -271,7 +271,7 @@ HRESULT FCMC10_MoveNextFabricUpgradeDomain(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_MoveNextFabricUpgradeDomain returning");
+        LogHRESULTVerbose(result, "FCMC10_MoveNextFabricUpgradeDomain returning");
     }
     return result;
 }
@@ -281,7 +281,7 @@ HRESULT FCMC10_MoveNextFabricUpgradeDomain2(
     /* [in] */ LPCWSTR nextUpgradeDomain,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_MoveNextFabricUpgradeDomain2 called with client=%p, nextUpgradeDomain=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_MoveNextFabricUpgradeDomain2 called with client=%p, nextUpgradeDomain=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, nextUpgradeDomain, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginMoveNextFabricUpgradeDomain2, &IFabricClusterManagementClient10::EndMoveNextFabricUpgradeDomain2,
@@ -294,7 +294,7 @@ HRESULT FCMC10_MoveNextFabricUpgradeDomain2(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_MoveNextFabricUpgradeDomain2 returning");
+        LogHRESULTVerbose(result, "FCMC10_MoveNextFabricUpgradeDomain2 returning");
     }
     return result;
 }
@@ -305,7 +305,7 @@ HRESULT FCMC10_UnprovisionFabric(
     /* [in] */ LPCWSTR configVersion,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_UnprovisionFabric called with client=%p, codeVersion=%ls, configVersion=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_UnprovisionFabric called with client=%p, codeVersion=%ls, configVersion=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, codeVersion, configVersion, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginUnprovisionFabric, &IFabricClusterManagementClient10::EndUnprovisionFabric,
@@ -319,7 +319,7 @@ HRESULT FCMC10_UnprovisionFabric(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_UnprovisionFabric returning");
+        LogHRESULTVerbose(result, "FCMC10_UnprovisionFabric returning");
     }
     return result;
 }
@@ -329,7 +329,7 @@ HRESULT FCMC10_GetClusterManifest(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FCMC10_GetClusterManifest called with client=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetClusterManifest called with client=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
         client, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricClusterManagementClient10::BeginGetClusterManifest, &IFabricClusterManagementClient10::EndGetClusterManifest,
@@ -342,7 +342,7 @@ HRESULT FCMC10_GetClusterManifest(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetClusterManifest returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetClusterManifest returning");
     }
     return hresult;
 }
@@ -352,7 +352,7 @@ HRESULT FCMC10_RecoverPartition(
     /* [in] */ FABRIC_PARTITION_ID partitionId,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_RecoverPartition called with client=%p, partitionId=%" PRI_GUID ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_RecoverPartition called with client=%p, partitionId=%" PRI_GUID ", timeoutMilliseconds=%" PRIu32 "",
         client, GUID_VALUES(partitionId), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginRecoverPartition, &IFabricClusterManagementClient10::EndRecoverPartition,
@@ -365,7 +365,7 @@ HRESULT FCMC10_RecoverPartition(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RecoverPartition returning");
+        LogHRESULTVerbose(result, "FCMC10_RecoverPartition returning");
     }
     return result;
 }
@@ -375,7 +375,7 @@ HRESULT FCMC10_RecoverServicePartitions(
     /* [in] */ FABRIC_URI serviceName,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_RecoverServicePartitions called with client=%p, serviceName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_RecoverServicePartitions called with client=%p, serviceName=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, serviceName, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginRecoverServicePartitions, &IFabricClusterManagementClient10::EndRecoverServicePartitions,
@@ -388,7 +388,7 @@ HRESULT FCMC10_RecoverServicePartitions(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RecoverServicePartitions returning");
+        LogHRESULTVerbose(result, "FCMC10_RecoverServicePartitions returning");
     }
     return result;
 }
@@ -397,7 +397,7 @@ HRESULT FCMC10_RecoverSystemPartitions(
     IFabricClusterManagementClient10* client,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_RecoverSystemPartitions called with client=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_RecoverSystemPartitions called with client=%p, timeoutMilliseconds=%" PRIu32 "",
         client, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginRecoverSystemPartitions, &IFabricClusterManagementClient10::EndRecoverSystemPartitions,
@@ -409,7 +409,7 @@ HRESULT FCMC10_RecoverSystemPartitions(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RecoverSystemPartitions returning");
+        LogHRESULTVerbose(result, "FCMC10_RecoverSystemPartitions returning");
     }
     return result;
 }
@@ -419,7 +419,7 @@ HRESULT FCMC10_UpdateFabricUpgrade(
     /* [in] */ const FABRIC_UPGRADE_UPDATE_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_UpdateFabricUpgrade called with client=%p, description=%" PRI_FABRIC_UPGRADE_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_UpdateFabricUpgrade called with client=%p, description=%" PRI_FABRIC_UPGRADE_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, FABRIC_UPGRADE_UPDATE_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginUpdateFabricUpgrade, &IFabricClusterManagementClient10::EndUpdateFabricUpgrade,
@@ -432,7 +432,7 @@ HRESULT FCMC10_UpdateFabricUpgrade(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_UpdateFabricUpgrade returning");
+        LogHRESULTVerbose(result, "FCMC10_UpdateFabricUpgrade returning");
     }
     return result;
 }
@@ -442,7 +442,7 @@ HRESULT FCMC10_StopNode(
     /* [in] */ const FABRIC_STOP_NODE_DESCRIPTION *stopNodeDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_StopNode called with client=%p, stopNodeDescription=%" PRI_FABRIC_STOP_NODE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_StopNode called with client=%p, stopNodeDescription=%" PRI_FABRIC_STOP_NODE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, FABRIC_STOP_NODE_DESCRIPTION_VALUES_OR_NULL(stopNodeDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginStopNode, &IFabricClusterManagementClient10::EndStopNode,
@@ -455,7 +455,7 @@ HRESULT FCMC10_StopNode(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_StopNode returning");
+        LogHRESULTVerbose(result, "FCMC10_StopNode returning");
     }
     return result;
 }
@@ -465,7 +465,7 @@ HRESULT FCMC10_RestartNode(
     /* [in] */ const FABRIC_RESTART_NODE_DESCRIPTION *restartNodeDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_RestartNode called with client=%p, restartNodeDescription=%" PRI_FABRIC_RESTART_NODE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_RestartNode called with client=%p, restartNodeDescription=%" PRI_FABRIC_RESTART_NODE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, FABRIC_RESTART_NODE_DESCRIPTION_VALUES_OR_NULL(restartNodeDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginRestartNode, &IFabricClusterManagementClient10::EndRestartNode,
@@ -478,7 +478,7 @@ HRESULT FCMC10_RestartNode(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RestartNode returning");
+        LogHRESULTVerbose(result, "FCMC10_RestartNode returning");
     }
     return result;
 }
@@ -488,7 +488,7 @@ HRESULT FCMC10_StartNode(
     /* [in] */ const FABRIC_START_NODE_DESCRIPTION *startNodeDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_StartNode called with client=%p, startNodeDescription=%" PRI_FABRIC_START_NODE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_StartNode called with client=%p, startNodeDescription=%" PRI_FABRIC_START_NODE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, FABRIC_START_NODE_DESCRIPTION_VALUES_OR_NULL(startNodeDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricClusterManagementClient10::BeginStartNode, &IFabricClusterManagementClient10::EndStartNode,
@@ -501,7 +501,7 @@ HRESULT FCMC10_StartNode(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_StartNode returning");
+        LogHRESULTVerbose(result, "FCMC10_StartNode returning");
     }
     return result;
 }
@@ -514,7 +514,7 @@ HRESULT FCMC10_CopyClusterPackage(
     /* [in] */ LPCWSTR codePackagePath,
     /* [in] */ LPCWSTR codePackagePathInImageStore)
 {
-    LogInfo("FCMC10_CopyClusterPackage called with This=%p, imageStoreConnectionString=%ls, clusterManifestPath=%ls, clusterManifestPathInImageStore=%ls, codePackagePath=%ls, codePackagePathInImageStore=%ls",
+    LogVerbose("FCMC10_CopyClusterPackage called with This=%p, imageStoreConnectionString=%ls, clusterManifestPath=%ls, clusterManifestPathInImageStore=%ls, codePackagePath=%ls, codePackagePathInImageStore=%ls",
         This, imageStoreConnectionString, clusterManifestPath, clusterManifestPathInImageStore, codePackagePath, codePackagePathInImageStore);
 
     HRESULT result = This->CopyClusterPackage(imageStoreConnectionString, clusterManifestPath, clusterManifestPathInImageStore, codePackagePath, codePackagePathInImageStore);
@@ -525,7 +525,7 @@ HRESULT FCMC10_CopyClusterPackage(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_CopyClusterPackage returning");
+        LogHRESULTVerbose(result, "FCMC10_CopyClusterPackage returning");
     }
     return result;
 }
@@ -536,7 +536,7 @@ HRESULT FCMC10_RemoveClusterPackage(
     /* [in] */ LPCWSTR clusterManifestPathInImageStore,
     /* [in] */ LPCWSTR codePackagePathInImageStore)
 {
-    LogInfo("FCMC10_RemoveClusterPackage called with This=%p, imageStoreConnectionString=%ls, clusterManifestPathInImageStore=%ls, codePackagePathInImageStore=%ls",
+    LogVerbose("FCMC10_RemoveClusterPackage called with This=%p, imageStoreConnectionString=%ls, clusterManifestPathInImageStore=%ls, codePackagePathInImageStore=%ls",
         This, imageStoreConnectionString, clusterManifestPathInImageStore, codePackagePathInImageStore);
 
     HRESULT result = This->RemoveClusterPackage(imageStoreConnectionString, clusterManifestPathInImageStore, codePackagePathInImageStore);
@@ -547,7 +547,7 @@ HRESULT FCMC10_RemoveClusterPackage(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RemoveClusterPackage returning");
+        LogHRESULTVerbose(result, "FCMC10_RemoveClusterPackage returning");
     }
     return result;
 }
@@ -556,7 +556,7 @@ HRESULT FCMC10_RollbackFabricUpgrade(
     IFabricClusterManagementClient10 * This,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_RollbackFabricUpgrade called with This=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_RollbackFabricUpgrade called with This=%p, timeoutMilliseconds=%" PRIu32 "",
         This, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricClusterManagementClient10::BeginRollbackFabricUpgrade, &IFabricClusterManagementClient10::EndRollbackFabricUpgrade,
@@ -569,7 +569,7 @@ HRESULT FCMC10_RollbackFabricUpgrade(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_RollbackFabricUpgrade returning");
+        LogHRESULTVerbose(result, "FCMC10_RollbackFabricUpgrade returning");
     }
     return result;
 }
@@ -579,7 +579,7 @@ HRESULT FCMC10_ResetPartitionLoad(
     /* [in] */ FABRIC_PARTITION_ID partitionId,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_ResetPartitionLoad called with This=%p, partitionId=%" PRI_GUID ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_ResetPartitionLoad called with This=%p, partitionId=%" PRI_GUID ", timeoutMilliseconds=%" PRIu32 "",
         This, GUID_VALUES(partitionId), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricClusterManagementClient10::BeginResetPartitionLoad, &IFabricClusterManagementClient10::EndResetPartitionLoad,
@@ -593,7 +593,7 @@ HRESULT FCMC10_ResetPartitionLoad(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_ResetPartitionLoad returning");
+        LogHRESULTVerbose(result, "FCMC10_ResetPartitionLoad returning");
     }
     return result;
 }
@@ -603,7 +603,7 @@ HRESULT FCMC10_ToggleVerboseServicePlacementHealthReporting(
     /* [in] */ BOOLEAN enabled,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_ToggleVerboseServicePlacementHealthReporting called with This=%p, enabled=%" PRI_BOOL ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_ToggleVerboseServicePlacementHealthReporting called with This=%p, enabled=%" PRI_BOOL ", timeoutMilliseconds=%" PRIu32 "",
         This, MU_BOOL_VALUE(enabled), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricClusterManagementClient10::BeginToggleVerboseServicePlacementHealthReporting, &IFabricClusterManagementClient10::EndToggleVerboseServicePlacementHealthReporting,
@@ -617,7 +617,7 @@ HRESULT FCMC10_ToggleVerboseServicePlacementHealthReporting(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_ToggleVerboseServicePlacementHealthReporting returning");
+        LogHRESULTVerbose(result, "FCMC10_ToggleVerboseServicePlacementHealthReporting returning");
     }
     return result;
 }
@@ -627,7 +627,7 @@ HRESULT FCMC10_UpgradeConfiguration(
     /* [in] */ const FABRIC_START_UPGRADE_DESCRIPTION *startUpgradeDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_UpgradeConfiguration called with This=%p, startUpgradeDescription=%" PRI_FABRIC_START_UPGRADE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_UpgradeConfiguration called with This=%p, startUpgradeDescription=%" PRI_FABRIC_START_UPGRADE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_START_UPGRADE_DESCRIPTION_VALUES_OR_NULL(startUpgradeDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricClusterManagementClient10::BeginUpgradeConfiguration, &IFabricClusterManagementClient10::EndUpgradeConfiguration,
@@ -641,7 +641,7 @@ HRESULT FCMC10_UpgradeConfiguration(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_UpgradeConfiguration returning");
+        LogHRESULTVerbose(result, "FCMC10_UpgradeConfiguration returning");
     }
     return result;
 }
@@ -651,7 +651,7 @@ HRESULT FCMC10_GetClusterConfigurationUpgradeStatus(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricOrchestrationUpgradeStatusResult **result)
 {
-    LogInfo("FCMC10_GetClusterConfigurationUpgradeStatus called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetClusterConfigurationUpgradeStatus called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricClusterManagementClient10::BeginGetClusterConfigurationUpgradeStatus, &IFabricClusterManagementClient10::EndGetClusterConfigurationUpgradeStatus,
@@ -664,7 +664,7 @@ HRESULT FCMC10_GetClusterConfigurationUpgradeStatus(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetClusterConfigurationUpgradeStatus returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetClusterConfigurationUpgradeStatus returning");
     }
     return hresult;
 }
@@ -674,7 +674,7 @@ HRESULT FCMC10_GetClusterConfiguration(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FCMC10_GetClusterConfiguration called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetClusterConfiguration called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricClusterManagementClient10::BeginGetClusterConfiguration, &IFabricClusterManagementClient10::EndGetClusterConfiguration,
@@ -687,7 +687,7 @@ HRESULT FCMC10_GetClusterConfiguration(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetClusterConfiguration returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetClusterConfiguration returning");
     }
     return hresult;
 }
@@ -696,7 +696,7 @@ HRESULT FCMC10_GetUpgradesPendingApproval(
     IFabricClusterManagementClient10 * This,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_GetUpgradesPendingApproval called with This=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_GetUpgradesPendingApproval called with This=%p, timeoutMilliseconds=%" PRIu32 "",
         This, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricClusterManagementClient10::BeginGetUpgradesPendingApproval, &IFabricClusterManagementClient10::EndGetUpgradesPendingApproval,
@@ -709,7 +709,7 @@ HRESULT FCMC10_GetUpgradesPendingApproval(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_GetUpgradesPendingApproval returning");
+        LogHRESULTVerbose(result, "FCMC10_GetUpgradesPendingApproval returning");
     }
     return result;
 }
@@ -718,7 +718,7 @@ HRESULT FCMC10_StartApprovedUpgrades(
     IFabricClusterManagementClient10 * This,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FCMC10_StartApprovedUpgrades called with This=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FCMC10_StartApprovedUpgrades called with This=%p, timeoutMilliseconds=%" PRIu32 "",
         This, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricClusterManagementClient10::BeginStartApprovedUpgrades, &IFabricClusterManagementClient10::EndStartApprovedUpgrades,
@@ -731,7 +731,7 @@ HRESULT FCMC10_StartApprovedUpgrades(
     }
     else
     {
-        LogHRESULTInfo(result, "FCMC10_StartApprovedUpgrades returning");
+        LogHRESULTVerbose(result, "FCMC10_StartApprovedUpgrades returning");
     }
     return result;
 }
@@ -742,7 +742,7 @@ HRESULT FCMC10_GetClusterManifest2(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FCMC10_GetClusterManifest2 called with This=%p, queryDescription=%" PRI_FABRIC_CLUSTER_MANIFEST_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetClusterManifest2 called with This=%p, queryDescription=%" PRI_FABRIC_CLUSTER_MANIFEST_QUERY_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, FABRIC_CLUSTER_MANIFEST_QUERY_DESCRIPTION_VALUES_OR_NULL(queryDescription), timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricClusterManagementClient10::BeginGetClusterManifest2, &IFabricClusterManagementClient10::EndGetClusterManifest2,
@@ -756,7 +756,7 @@ HRESULT FCMC10_GetClusterManifest2(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetClusterManifest2 returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetClusterManifest2 returning");
     }
     return hresult;
 }
@@ -766,7 +766,7 @@ HRESULT FCMC10_GetUpgradeOrchestrationServiceState(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FCMC10_GetUpgradeOrchestrationServiceState called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetUpgradeOrchestrationServiceState called with This=%p, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricClusterManagementClient10::BeginGetUpgradeOrchestrationServiceState, &IFabricClusterManagementClient10::EndGetUpgradeOrchestrationServiceState,
@@ -779,7 +779,7 @@ HRESULT FCMC10_GetUpgradeOrchestrationServiceState(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetUpgradeOrchestrationServiceState returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetUpgradeOrchestrationServiceState returning");
     }
     return hresult;
 }
@@ -790,7 +790,7 @@ HRESULT FCMC10_SetUpgradeOrchestrationServiceState(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricUpgradeOrchestrationServiceStateResult **result)
 {
-    LogInfo("FCMC10_SetUpgradeOrchestrationServiceState called with This=%p, state=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_SetUpgradeOrchestrationServiceState called with This=%p, state=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, state, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricClusterManagementClient10::BeginSetUpgradeOrchestrationServiceState, &IFabricClusterManagementClient10::EndSetUpgradeOrchestrationServiceState,
@@ -804,7 +804,7 @@ HRESULT FCMC10_SetUpgradeOrchestrationServiceState(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_SetUpgradeOrchestrationServiceState returning");
+        LogHRESULTVerbose(hresult, "FCMC10_SetUpgradeOrchestrationServiceState returning");
     }
     return hresult;
 }
@@ -815,7 +815,7 @@ HRESULT FCMC10_GetClusterConfiguration2(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FCMC10_GetClusterConfiguration2 called with This=%p, apiVersion=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FCMC10_GetClusterConfiguration2 called with This=%p, apiVersion=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, apiVersion, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricClusterManagementClient10::BeginGetClusterConfiguration2, &IFabricClusterManagementClient10::EndGetClusterConfiguration2,
@@ -829,7 +829,7 @@ HRESULT FCMC10_GetClusterConfiguration2(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FCMC10_GetClusterConfiguration2 returning");
+        LogHRESULTVerbose(hresult, "FCMC10_GetClusterConfiguration2 returning");
     }
     return hresult;
 }

@@ -87,7 +87,7 @@ HRESULT FSMC6_CreateService(IFabricServiceManagementClient6* client,
     const FABRIC_SERVICE_DESCRIPTION *description,
     DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_CreateService called with client=%p, description=%" PRI_FABRIC_SERVICE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_CreateService called with client=%p, description=%" PRI_FABRIC_SERVICE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, FABRIC_SERVICE_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricServiceManagementClient6::BeginCreateService, &IFabricServiceManagementClient6::EndCreateService, timeoutMilliseconds, description);
     if (FAILED(result))
@@ -96,7 +96,7 @@ HRESULT FSMC6_CreateService(IFabricServiceManagementClient6* client,
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_CreateService succeeded");
+        LogHRESULTVerbose(result, "FSMC6_CreateService succeeded");
     }
     return result;
 }
@@ -109,7 +109,7 @@ HRESULT FSMC6_CreateServiceFromTemplate(IFabricServiceManagementClient6* client,
     BYTE *InitializationData,
     DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_CreateServiceFromTemplate called with client=%p, applicationName=%ls, serviceName=%ls, serviceTypeName=%ls, InitializationDataSize=%" PRIu32 ", InitializationData=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_CreateServiceFromTemplate called with client=%p, applicationName=%ls, serviceName=%ls, serviceTypeName=%ls, InitializationDataSize=%" PRIu32 ", InitializationData=%p, timeoutMilliseconds=%" PRIu32 "",
         client, applicationName, serviceName, serviceTypeName, (uint32_t)InitializationDataSize, InitializationData, timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricServiceManagementClient6::BeginCreateServiceFromTemplate, &IFabricServiceManagementClient6::EndCreateServiceFromTemplate,
         timeoutMilliseconds,
@@ -124,7 +124,7 @@ HRESULT FSMC6_CreateServiceFromTemplate(IFabricServiceManagementClient6* client,
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_CreateServiceFromTemplate succeeded");
+        LogHRESULTVerbose(result, "FSMC6_CreateServiceFromTemplate succeeded");
     }
     return result;
 }
@@ -133,7 +133,7 @@ HRESULT FSMC6_DeleteService(IFabricServiceManagementClient6* client,
     FABRIC_URI name,
     DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_DeleteService called with client=%p, name=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_DeleteService called with client=%p, name=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, name, timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricServiceManagementClient6::BeginDeleteService, &IFabricServiceManagementClient6::EndDeleteService,
         timeoutMilliseconds,
@@ -144,7 +144,7 @@ HRESULT FSMC6_DeleteService(IFabricServiceManagementClient6* client,
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_DeleteService succeeded");
+        LogHRESULTVerbose(result, "FSMC6_DeleteService succeeded");
     }
     return result;
 }
@@ -154,7 +154,7 @@ HRESULT FSMC6_GetServiceDescription(IFabricServiceManagementClient6* client,
     DWORD timeoutMilliseconds,
     IFabricServiceDescriptionResult **result)
 {
-    LogInfo("FSMC6_GetServiceDescription called with client=%p, name=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_GetServiceDescription called with client=%p, name=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, name, timeoutMilliseconds);
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricServiceManagementClient6::BeginGetServiceDescription, &IFabricServiceManagementClient6::EndGetServiceDescription,
         timeoutMilliseconds,
@@ -166,7 +166,7 @@ HRESULT FSMC6_GetServiceDescription(IFabricServiceManagementClient6* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FSMC6_GetServiceDescription succeeded with result=%p", *result);
+        LogHRESULTVerbose(hresult, "FSMC6_GetServiceDescription succeeded with result=%p", *result);
     }
     return hresult;
 }
@@ -179,7 +179,7 @@ HRESULT FSMC6_RegisterServicePartitionResolutionChangeHandler(
     /* [in] */ IFabricServicePartitionResolutionChangeHandler *callback,
     /* [retval][out] */ LONGLONG *callbackHandle)
 {
-    LogInfo("FSMC6_RegisterServicePartitionResolutionChangeHandler called with This=%p, name=%ls, keyType=%" PRI_MU_ENUM ", partitionKey=%p, callback=%p",
+    LogVerbose("FSMC6_RegisterServicePartitionResolutionChangeHandler called with This=%p, name=%ls, keyType=%" PRI_MU_ENUM ", partitionKey=%p, callback=%p",
         This, name, MU_ENUM_VALUE(FABRIC_PARTITION_KEY_TYPE, keyType), partitionKey, callback);
     HRESULT result = This->RegisterServicePartitionResolutionChangeHandler(name, keyType, partitionKey, callback, callbackHandle);
     if (FAILED(result))
@@ -188,7 +188,7 @@ HRESULT FSMC6_RegisterServicePartitionResolutionChangeHandler(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_RegisterServicePartitionResolutionChangeHandler succeeded with callbackHandle=%" PRId64 "", *callbackHandle);
+        LogHRESULTVerbose(result, "FSMC6_RegisterServicePartitionResolutionChangeHandler succeeded with callbackHandle=%" PRId64 "", *callbackHandle);
     }
     return result;
 }
@@ -197,7 +197,7 @@ HRESULT FSMC6_UnregisterServicePartitionResolutionChangeHandler(
     IFabricServiceManagementClient6 * This,
     /* [in] */ LONGLONG callbackHandle)
 {
-    LogInfo("FSMC6_UnregisterServicePartitionResolutionChangeHandler called with This=%p, callbackHandle=%" PRId64 "",
+    LogVerbose("FSMC6_UnregisterServicePartitionResolutionChangeHandler called with This=%p, callbackHandle=%" PRId64 "",
         This, callbackHandle);
     HRESULT result = This->UnregisterServicePartitionResolutionChangeHandler(callbackHandle);
     if (FAILED(result))
@@ -206,7 +206,7 @@ HRESULT FSMC6_UnregisterServicePartitionResolutionChangeHandler(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_UnregisterServicePartitionResolutionChangeHandler succeeded");
+        LogHRESULTVerbose(result, "FSMC6_UnregisterServicePartitionResolutionChangeHandler succeeded");
     }
     return result;
 }
@@ -219,7 +219,7 @@ HRESULT FSMC6_ResolveServicePartition(IFabricServiceManagementClient6* client,
     DWORD timeoutMilliseconds,
     IFabricResolvedServicePartitionResult **resolveServicePartitionResult)
 {
-    LogInfo("FSMC6_ResolveServicePartition called with client=%p, name=%ls, partitionKeyType=%" PRI_MU_ENUM ", partitionKey=%p, previousResult=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_ResolveServicePartition called with client=%p, name=%ls, partitionKeyType=%" PRI_MU_ENUM ", partitionKey=%p, previousResult=%p, timeoutMilliseconds=%" PRIu32 "",
         client, name, MU_ENUM_VALUE(FABRIC_PARTITION_KEY_TYPE, partitionKeyType), partitionKey, previousResult, timeoutMilliseconds);
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricServiceManagementClient6::BeginResolveServicePartition, &IFabricServiceManagementClient6::EndResolveServicePartition,
         timeoutMilliseconds,
@@ -234,7 +234,7 @@ HRESULT FSMC6_ResolveServicePartition(IFabricServiceManagementClient6* client,
     }
     else
     {
-        LogHRESULTInfo(hresult, "FSMC6_ResolveServicePartition succeeded with resolveServicePartitionResult=%p", *resolveServicePartitionResult);
+        LogHRESULTVerbose(hresult, "FSMC6_ResolveServicePartition succeeded with resolveServicePartitionResult=%p", *resolveServicePartitionResult);
     }
     return hresult;
 }
@@ -247,7 +247,7 @@ HRESULT FSMC6_GetServiceManifest(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FSMC6_GetServiceManifest called with client=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, serviceManifestName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_GetServiceManifest called with client=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, serviceManifestName=%ls, timeoutMilliseconds=%" PRIu32 "",
         client, applicationTypeName, applicationTypeVersion, serviceManifestName, timeoutMilliseconds);
     HRESULT hresult = ServiceFabric_DoX(client, &IFabricServiceManagementClient6::BeginGetServiceManifest, &IFabricServiceManagementClient6::EndGetServiceManifest,
         timeoutMilliseconds,
@@ -261,7 +261,7 @@ HRESULT FSMC6_GetServiceManifest(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FSMC6_GetServiceManifest succeeded with result=%p", *result);
+        LogHRESULTVerbose(hresult, "FSMC6_GetServiceManifest succeeded with result=%p", *result);
     }
     return hresult;
 }
@@ -272,7 +272,7 @@ HRESULT FSMC6_UpdateService(
     /* [in] */ const FABRIC_SERVICE_UPDATE_DESCRIPTION *serviceUpdateDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_UpdateService called with client=%p, name=%ls, serviceUpdateDescription=%" PRI_FABRIC_SERVICE_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_UpdateService called with client=%p, name=%ls, serviceUpdateDescription=%" PRI_FABRIC_SERVICE_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         client, name, FABRIC_SERVICE_UPDATE_DESCRIPTION_VALUES_OR_NULL(serviceUpdateDescription), timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(client, &IFabricServiceManagementClient6::BeginUpdateService, &IFabricServiceManagementClient6::EndUpdateService,
         timeoutMilliseconds,
@@ -284,7 +284,7 @@ HRESULT FSMC6_UpdateService(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_UpdateService succeeded");
+        LogHRESULTVerbose(result, "FSMC6_UpdateService succeeded");
     }
     return result;
 }
@@ -294,7 +294,7 @@ HRESULT FSMC6_RemoveReplica(
     /* [in] */ const FABRIC_REMOVE_REPLICA_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_RemoveReplica called with This=%p, description=%" PRI_FABRIC_REMOVE_REPLICA_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_RemoveReplica called with This=%p, description=%" PRI_FABRIC_REMOVE_REPLICA_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_REMOVE_REPLICA_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricServiceManagementClient6::BeginRemoveReplica, &IFabricServiceManagementClient6::EndRemoveReplica,
         timeoutMilliseconds,
@@ -306,7 +306,7 @@ HRESULT FSMC6_RemoveReplica(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_RemoveReplica succeeded");
+        LogHRESULTVerbose(result, "FSMC6_RemoveReplica succeeded");
     }
     return result;
 }
@@ -316,7 +316,7 @@ HRESULT FSMC6_RestartReplica(
     /* [in] */ const FABRIC_RESTART_REPLICA_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_RestartReplica called with This=%p, description=%" PRI_FABRIC_RESTART_REPLICA_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_RestartReplica called with This=%p, description=%" PRI_FABRIC_RESTART_REPLICA_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_RESTART_REPLICA_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricServiceManagementClient6::BeginRestartReplica, &IFabricServiceManagementClient6::EndRestartReplica,
         timeoutMilliseconds,
@@ -328,7 +328,7 @@ HRESULT FSMC6_RestartReplica(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_RestartReplica succeeded");
+        LogHRESULTVerbose(result, "FSMC6_RestartReplica succeeded");
     }
     return result;
 }
@@ -339,7 +339,7 @@ HRESULT FSMC6_RegisterServiceNotificationFilter(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ LONGLONG *filterId)
 {
-    LogInfo("FSMC6_RegisterServiceNotificationFilter called with This=%p, description=%" PRI_FABRIC_SERVICE_NOTIFICATION_FILTER_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_RegisterServiceNotificationFilter called with This=%p, description=%" PRI_FABRIC_SERVICE_NOTIFICATION_FILTER_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_SERVICE_NOTIFICATION_FILTER_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricServiceManagementClient6::BeginRegisterServiceNotificationFilter, &IFabricServiceManagementClient6::EndRegisterServiceNotificationFilter,
         timeoutMilliseconds,
@@ -352,7 +352,7 @@ HRESULT FSMC6_RegisterServiceNotificationFilter(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FSMC6_RegisterServiceNotificationFilter succeeded with filterId=%" PRId64 "", *filterId);
+        LogHRESULTVerbose(hresult, "FSMC6_RegisterServiceNotificationFilter succeeded with filterId=%" PRId64 "", *filterId);
     }
     return hresult;
 }
@@ -362,7 +362,7 @@ HRESULT FSMC6_UnregisterServiceNotificationFilter(
     /* [in] */ LONGLONG filterId,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_UnregisterServiceNotificationFilter called with This=%p, filterId=%" PRId64 ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_UnregisterServiceNotificationFilter called with This=%p, filterId=%" PRId64 ", timeoutMilliseconds=%" PRIu32 "",
         This, filterId, timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricServiceManagementClient6::BeginUnregisterServiceNotificationFilter, &IFabricServiceManagementClient6::EndUnregisterServiceNotificationFilter,
         timeoutMilliseconds,
@@ -374,7 +374,7 @@ HRESULT FSMC6_UnregisterServiceNotificationFilter(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_UnregisterServiceNotificationFilter succeeded");
+        LogHRESULTVerbose(result, "FSMC6_UnregisterServiceNotificationFilter succeeded");
     }
     return result;
 }
@@ -384,7 +384,7 @@ HRESULT FSMC6_DeleteService2(
     /* [in] */ const FABRIC_DELETE_SERVICE_DESCRIPTION *deleteDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_DeleteService2 called with This=%p, deleteDescription=%" PRI_FABRIC_DELETE_SERVICE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_DeleteService2 called with This=%p, deleteDescription=%" PRI_FABRIC_DELETE_SERVICE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_DELETE_SERVICE_DESCRIPTION_VALUES_OR_NULL(deleteDescription), timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricServiceManagementClient6::BeginDeleteService2, &IFabricServiceManagementClient6::EndDeleteService2,
         timeoutMilliseconds,
@@ -396,7 +396,7 @@ HRESULT FSMC6_DeleteService2(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_DeleteService2 succeeded");
+        LogHRESULTVerbose(result, "FSMC6_DeleteService2 succeeded");
     }
     return result;
 }
@@ -406,7 +406,7 @@ HRESULT FSMC6_CreateServiceFromTemplate2(
     /* [in] */ const FABRIC_SERVICE_FROM_TEMPLATE_DESCRIPTION *serviceFromTemplateDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FSMC6_CreateServiceFromTemplate2 called with This=%p, serviceFromTemplateDescription=%" PRI_FABRIC_SERVICE_FROM_TEMPLATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FSMC6_CreateServiceFromTemplate2 called with This=%p, serviceFromTemplateDescription=%" PRI_FABRIC_SERVICE_FROM_TEMPLATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_SERVICE_FROM_TEMPLATE_DESCRIPTION_VALUES_OR_NULL(serviceFromTemplateDescription), timeoutMilliseconds);
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricServiceManagementClient6::BeginCreateServiceFromTemplate2, &IFabricServiceManagementClient6::EndCreateServiceFromTemplate2,
         timeoutMilliseconds,
@@ -418,7 +418,7 @@ HRESULT FSMC6_CreateServiceFromTemplate2(
     }
     else
     {
-        LogHRESULTInfo(result, "FSMC6_CreateServiceFromTemplate2 succeeded");
+        LogHRESULTVerbose(result, "FSMC6_CreateServiceFromTemplate2 succeeded");
     }
     return result;
 }

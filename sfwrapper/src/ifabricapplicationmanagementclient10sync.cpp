@@ -157,7 +157,7 @@ HRESULT FAMC10_ProvisionApplicationType(
     /* [in] */ LPCWSTR applicationBuildPath,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_ProvisionApplicationType called with This=%p, applicationBuildPath=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_ProvisionApplicationType called with This=%p, applicationBuildPath=%ls, timeoutMilliseconds=%" PRIu32 "",
         This, applicationBuildPath, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginProvisionApplicationType, &IFabricApplicationManagementClient10::EndProvisionApplicationType,
@@ -170,7 +170,7 @@ HRESULT FAMC10_ProvisionApplicationType(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_ProvisionApplicationType returning");
+        LogHRESULTVerbose(result, "FAMC10_ProvisionApplicationType returning");
     }
     return result;
 }
@@ -180,7 +180,7 @@ HRESULT FAMC10_CreateApplication(
     /* [in] */ const FABRIC_APPLICATION_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_CreateApplication called with This=%p, description=%" PRI_FABRIC_APPLICATION_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_CreateApplication called with This=%p, description=%" PRI_FABRIC_APPLICATION_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_APPLICATION_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginCreateApplication, &IFabricApplicationManagementClient10::EndCreateApplication,
@@ -193,7 +193,7 @@ HRESULT FAMC10_CreateApplication(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_CreateApplication returning");
+        LogHRESULTVerbose(result, "FAMC10_CreateApplication returning");
     }
     return result;
 }
@@ -203,7 +203,7 @@ HRESULT FAMC10_UpgradeApplication(
     /* [in] */ const FABRIC_APPLICATION_UPGRADE_DESCRIPTION *upgradeDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_UpgradeApplication called with This=%p, upgradeDescription=%" PRI_FABRIC_APPLICATION_UPGRADE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_UpgradeApplication called with This=%p, upgradeDescription=%" PRI_FABRIC_APPLICATION_UPGRADE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_APPLICATION_UPGRADE_DESCRIPTION_VALUES_OR_NULL(upgradeDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginUpgradeApplication, &IFabricApplicationManagementClient10::EndUpgradeApplication,
@@ -216,7 +216,7 @@ HRESULT FAMC10_UpgradeApplication(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_UpgradeApplication returning");
+        LogHRESULTVerbose(result, "FAMC10_UpgradeApplication returning");
     }
     return result;
 }
@@ -227,7 +227,7 @@ HRESULT FAMC10_GetApplicationUpgradeProgress(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricApplicationUpgradeProgressResult2 **result)
 {
-    LogInfo("FAMC10_GetApplicationUpgradeProgress called with This=%p, applicationName=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FAMC10_GetApplicationUpgradeProgress called with This=%p, applicationName=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, applicationName, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricApplicationManagementClient10::BeginGetApplicationUpgradeProgress, &IFabricApplicationManagementClient10::EndGetApplicationUpgradeProgress,
@@ -242,7 +242,7 @@ HRESULT FAMC10_GetApplicationUpgradeProgress(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FAMC10_GetApplicationUpgradeProgress returning");
+        LogHRESULTVerbose(hresult, "FAMC10_GetApplicationUpgradeProgress returning");
     }
     return hresult;
 }
@@ -252,7 +252,7 @@ HRESULT FAMC10_MoveNextApplicationUpgradeDomain(
     /* [in] */ IFabricApplicationUpgradeProgressResult2 *progress,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_MoveNextApplicationUpgradeDomain called with This=%p, progress=%p, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_MoveNextApplicationUpgradeDomain called with This=%p, progress=%p, timeoutMilliseconds=%" PRIu32 "",
         This, progress, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginMoveNextApplicationUpgradeDomain, &IFabricApplicationManagementClient10::EndMoveNextApplicationUpgradeDomain,
@@ -265,7 +265,7 @@ HRESULT FAMC10_MoveNextApplicationUpgradeDomain(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_MoveNextApplicationUpgradeDomain returning");
+        LogHRESULTVerbose(result, "FAMC10_MoveNextApplicationUpgradeDomain returning");
     }
     return result;
 }
@@ -275,7 +275,7 @@ HRESULT FAMC10_DeleteApplication(
     /* [in] */ FABRIC_URI applicationName,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_DeleteApplication called with This=%p, applicationName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_DeleteApplication called with This=%p, applicationName=%ls, timeoutMilliseconds=%" PRIu32 "",
         This, applicationName, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginDeleteApplication, &IFabricApplicationManagementClient10::EndDeleteApplication,
@@ -288,7 +288,7 @@ HRESULT FAMC10_DeleteApplication(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_DeleteApplication returning");
+        LogHRESULTVerbose(result, "FAMC10_DeleteApplication returning");
     }
     return result;
 }
@@ -299,7 +299,7 @@ HRESULT FAMC10_UnprovisionApplicationType(
     /* [in] */ LPCWSTR applicationTypeVersion,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_UnprovisionApplicationType called with This=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_UnprovisionApplicationType called with This=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, timeoutMilliseconds=%" PRIu32 "",
         This, applicationTypeName, applicationTypeVersion, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginUnprovisionApplicationType, &IFabricApplicationManagementClient10::EndUnprovisionApplicationType,
@@ -314,7 +314,7 @@ HRESULT FAMC10_UnprovisionApplicationType(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_UnprovisionApplicationType returning");
+        LogHRESULTVerbose(result, "FAMC10_UnprovisionApplicationType returning");
     }
     return result;
 }
@@ -326,7 +326,7 @@ HRESULT FAMC10_GetApplicationManifest(
     /* [in] */ DWORD timeoutMilliseconds,
     /* [retval][out] */ IFabricStringResult **result)
 {
-    LogInfo("FAMC10_GetApplicationManifest called with This=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
+    LogVerbose("FAMC10_GetApplicationManifest called with This=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, timeoutMilliseconds=%" PRIu32 ", result=%p",
         This, applicationTypeName, applicationTypeVersion, timeoutMilliseconds, result);
 
     HRESULT hresult = ServiceFabric_DoX(This, &IFabricApplicationManagementClient10::BeginGetApplicationManifest, &IFabricApplicationManagementClient10::EndGetApplicationManifest,
@@ -342,7 +342,7 @@ HRESULT FAMC10_GetApplicationManifest(
     }
     else
     {
-        LogHRESULTInfo(hresult, "FAMC10_GetApplicationManifest returning");
+        LogHRESULTVerbose(hresult, "FAMC10_GetApplicationManifest returning");
     }
     return hresult;
 }
@@ -353,7 +353,7 @@ HRESULT FAMC10_MoveNextApplicationUpgradeDomain2(
     /* [in] */ LPCWSTR nextUpgradeDomain,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_MoveNextApplicationUpgradeDomain2 called with This=%p, applicationName=%ls, nextUpgradeDomain=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_MoveNextApplicationUpgradeDomain2 called with This=%p, applicationName=%ls, nextUpgradeDomain=%ls, timeoutMilliseconds=%" PRIu32 "",
         This, applicationName, nextUpgradeDomain, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginMoveNextApplicationUpgradeDomain2, &IFabricApplicationManagementClient10::EndMoveNextApplicationUpgradeDomain2,
@@ -368,7 +368,7 @@ HRESULT FAMC10_MoveNextApplicationUpgradeDomain2(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_MoveNextApplicationUpgradeDomain2 returning");
+        LogHRESULTVerbose(result, "FAMC10_MoveNextApplicationUpgradeDomain2 returning");
     }
     return result;
 }
@@ -378,7 +378,7 @@ HRESULT FAMC10_UpdateApplicationUpgrade(
     /* [in] */ const FABRIC_APPLICATION_UPGRADE_UPDATE_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_UpdateApplicationUpgrade called with This=%p, description=%" PRI_FABRIC_APPLICATION_UPGRADE_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_UpdateApplicationUpgrade called with This=%p, description=%" PRI_FABRIC_APPLICATION_UPGRADE_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_APPLICATION_UPGRADE_UPDATE_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginUpdateApplicationUpgrade, &IFabricApplicationManagementClient10::EndUpdateApplicationUpgrade,
@@ -392,7 +392,7 @@ HRESULT FAMC10_UpdateApplicationUpgrade(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_UpdateApplicationUpgrade returning");
+        LogHRESULTVerbose(result, "FAMC10_UpdateApplicationUpgrade returning");
     }
     return result;
 }
@@ -402,7 +402,7 @@ HRESULT FAMC10_RestartDeployedCodePackage(
     /* [in] */ const FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION *restartCodePackageDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_RestartDeployedCodePackage called with This=%p, restartCodePackageDescription=%" PRI_FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_RestartDeployedCodePackage called with This=%p, restartCodePackageDescription=%" PRI_FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_RESTART_DEPLOYED_CODE_PACKAGE_DESCRIPTION_VALUES_OR_NULL(restartCodePackageDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginRestartDeployedCodePackage, &IFabricApplicationManagementClient10::EndRestartDeployedCodePackage,
@@ -416,7 +416,7 @@ HRESULT FAMC10_RestartDeployedCodePackage(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_RestartDeployedCodePackage returning");
+        LogHRESULTVerbose(result, "FAMC10_RestartDeployedCodePackage returning");
     }
     return result;
 }
@@ -427,7 +427,7 @@ HRESULT FAMC10_CopyApplicationPackage(
     /* [in] */ LPCWSTR applicationPackagePath,
     /* [in] */ LPCWSTR applicationPackagePathInImageStore)
 {
-    LogInfo("FAMC10_CopyApplicationPackage called with This=%p, imageStoreConnectionString=%ls, applicationPackagePath=%ls, applicationPackagePathInImageStore=%ls",
+    LogVerbose("FAMC10_CopyApplicationPackage called with This=%p, imageStoreConnectionString=%ls, applicationPackagePath=%ls, applicationPackagePathInImageStore=%ls",
         This, imageStoreConnectionString, applicationPackagePath, applicationPackagePathInImageStore);
 
     HRESULT result = This->CopyApplicationPackage(imageStoreConnectionString, applicationPackagePath, applicationPackagePathInImageStore);
@@ -438,7 +438,7 @@ HRESULT FAMC10_CopyApplicationPackage(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_CopyApplicationPackage returning");
+        LogHRESULTVerbose(result, "FAMC10_CopyApplicationPackage returning");
     }
     return result;
 }
@@ -448,7 +448,7 @@ HRESULT FAMC10_RemoveApplicationPackage(
     /* [in] */ LPCWSTR imageStoreConnectionString,
     /* [in] */ LPCWSTR applicationPackagePathInImageStore)
 {
-    LogInfo("FAMC10_RemoveApplicationPackage called with This=%p, imageStoreConnectionString=%ls, applicationPackagePathInImageStore=%ls",
+    LogVerbose("FAMC10_RemoveApplicationPackage called with This=%p, imageStoreConnectionString=%ls, applicationPackagePathInImageStore=%ls",
         This, imageStoreConnectionString, applicationPackagePathInImageStore);
 
     HRESULT result = This->RemoveApplicationPackage(imageStoreConnectionString, applicationPackagePathInImageStore);
@@ -459,7 +459,7 @@ HRESULT FAMC10_RemoveApplicationPackage(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_RemoveApplicationPackage returning");
+        LogHRESULTVerbose(result, "FAMC10_RemoveApplicationPackage returning");
     }
     return result;
 }
@@ -473,7 +473,7 @@ HRESULT FAMC10_DeployServicePackageToNode(
     /* [in] */ LPCWSTR nodeName,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_DeployServicePackageToNode called with This=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, serviceManifestName=%ls, sharingPolicy=%" PRI_FABRIC_PACKAGE_SHARING_POLICY_LIST ", nodeName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_DeployServicePackageToNode called with This=%p, applicationTypeName=%ls, applicationTypeVersion=%ls, serviceManifestName=%ls, sharingPolicy=%" PRI_FABRIC_PACKAGE_SHARING_POLICY_LIST ", nodeName=%ls, timeoutMilliseconds=%" PRIu32 "",
         This, applicationTypeName, applicationTypeVersion, serviceManifestName, FABRIC_PACKAGE_SHARING_POLICY_LIST_VALUES_OR_NULL(sharingPolicy), nodeName, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginDeployServicePackageToNode, &IFabricApplicationManagementClient10::EndDeployServicePackageToNode,
@@ -491,7 +491,7 @@ HRESULT FAMC10_DeployServicePackageToNode(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_DeployServicePackageToNode returning");
+        LogHRESULTVerbose(result, "FAMC10_DeployServicePackageToNode returning");
     }
     return result;
 }
@@ -501,7 +501,7 @@ HRESULT FAMC10_RollbackApplicationUpgrade(
     /* [in] */ FABRIC_URI applicationName,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_RollbackApplicationUpgrade called with This=%p, applicationName=%ls, timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_RollbackApplicationUpgrade called with This=%p, applicationName=%ls, timeoutMilliseconds=%" PRIu32 "",
         This, applicationName, timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginRollbackApplicationUpgrade, &IFabricApplicationManagementClient10::EndRollbackApplicationUpgrade,
@@ -515,7 +515,7 @@ HRESULT FAMC10_RollbackApplicationUpgrade(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_RollbackApplicationUpgrade returning");
+        LogHRESULTVerbose(result, "FAMC10_RollbackApplicationUpgrade returning");
     }
     return result;
 }
@@ -525,7 +525,7 @@ HRESULT FAMC10_UpdateApplication(
     /* [in] */ const FABRIC_APPLICATION_UPDATE_DESCRIPTION *applicationUpdateDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_UpdateApplication called with This=%p, applicationUpdateDescription=%" PRI_FABRIC_APPLICATION_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_UpdateApplication called with This=%p, applicationUpdateDescription=%" PRI_FABRIC_APPLICATION_UPDATE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_APPLICATION_UPDATE_DESCRIPTION_VALUES_OR_NULL(applicationUpdateDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginUpdateApplication, &IFabricApplicationManagementClient10::EndUpdateApplication,
@@ -539,7 +539,7 @@ HRESULT FAMC10_UpdateApplication(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_UpdateApplication returning");
+        LogHRESULTVerbose(result, "FAMC10_UpdateApplication returning");
     }
     return result;
 }
@@ -549,7 +549,7 @@ HRESULT FAMC10_DeleteApplication2(
     /* [in] */ const FABRIC_DELETE_APPLICATION_DESCRIPTION *deleteDescription,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_DeleteApplication2 called with This=%p, deleteDescription=%" PRI_FABRIC_DELETE_APPLICATION_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_DeleteApplication2 called with This=%p, deleteDescription=%" PRI_FABRIC_DELETE_APPLICATION_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_DELETE_APPLICATION_DESCRIPTION_VALUES_OR_NULL(deleteDescription), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginDeleteApplication2, &IFabricApplicationManagementClient10::EndDeleteApplication2,
@@ -563,7 +563,7 @@ HRESULT FAMC10_DeleteApplication2(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_DeleteApplication2 returning");
+        LogHRESULTVerbose(result, "FAMC10_DeleteApplication2 returning");
     }
     return result;
 }
@@ -573,7 +573,7 @@ HRESULT FAMC10_ProvisionApplicationType2(
     /* [in] */ const FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_ProvisionApplicationType2 called with This=%p, description=%" PRI_FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_ProvisionApplicationType2 called with This=%p, description=%" PRI_FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginProvisionApplicationType2, &IFabricApplicationManagementClient10::EndProvisionApplicationType2,
@@ -587,7 +587,7 @@ HRESULT FAMC10_ProvisionApplicationType2(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_ProvisionApplicationType2 returning");
+        LogHRESULTVerbose(result, "FAMC10_ProvisionApplicationType2 returning");
     }
     return result;
 }
@@ -597,7 +597,7 @@ HRESULT FAMC10_UnprovisionApplicationType2(
     /* [in] */ const FABRIC_UNPROVISION_APPLICATION_TYPE_DESCRIPTION *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_UnprovisionApplicationType2 called with This=%p, description=%" PRI_FABRIC_UNPROVISION_APPLICATION_TYPE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_UnprovisionApplicationType2 called with This=%p, description=%" PRI_FABRIC_UNPROVISION_APPLICATION_TYPE_DESCRIPTION ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_UNPROVISION_APPLICATION_TYPE_DESCRIPTION_VALUES_OR_NULL(description), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginUnprovisionApplicationType2, &IFabricApplicationManagementClient10::EndUnprovisionApplicationType2,
@@ -611,7 +611,7 @@ HRESULT FAMC10_UnprovisionApplicationType2(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_UnprovisionApplicationType2 returning");
+        LogHRESULTVerbose(result, "FAMC10_UnprovisionApplicationType2 returning");
     }
     return result;
 }
@@ -621,7 +621,7 @@ HRESULT FAMC10_ProvisionApplicationType3(
     /* [in] */ const FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION_BASE *description,
     /* [in] */ DWORD timeoutMilliseconds)
 {
-    LogInfo("FAMC10_ProvisionApplicationType3 called with This=%p, description=%" PRI_FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION_BASE ", timeoutMilliseconds=%" PRIu32 "",
+    LogVerbose("FAMC10_ProvisionApplicationType3 called with This=%p, description=%" PRI_FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION_BASE ", timeoutMilliseconds=%" PRIu32 "",
         This, FABRIC_PROVISION_APPLICATION_TYPE_DESCRIPTION_BASE_VALUES_OR_NULL(description), timeoutMilliseconds);
 
     HRESULT result = ServiceFabric_DoX_NoResult(This, &IFabricApplicationManagementClient10::BeginProvisionApplicationType3, &IFabricApplicationManagementClient10::EndProvisionApplicationType3,
@@ -635,7 +635,7 @@ HRESULT FAMC10_ProvisionApplicationType3(
     }
     else
     {
-        LogHRESULTInfo(result, "FAMC10_ProvisionApplicationType3 returning");
+        LogHRESULTVerbose(result, "FAMC10_ProvisionApplicationType3 returning");
     }
     return result;
 }
