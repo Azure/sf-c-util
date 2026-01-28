@@ -161,6 +161,7 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_to_ARGC_ARGV_succeeds_3)
 
 TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_1) /*an empty list produces an empty list*/
 {
+    // arrange
     int argc = 0;
     char** argv = NULL;
     ARGC_ARGV_DATA_RESULT result;
@@ -184,7 +185,7 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_
 
 TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_2) /*a list with 1 endpoint*/
 {
-    
+    // arrange
     char* argv[] =
     {
         SERVICE_ENDPOINT_RESOURCE,
@@ -223,7 +224,7 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_
 
 TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_3) /*a list with 2 endpoints*/
 {
-
+    // arrange
     char* argv[] =
     {
         SERVICE_ENDPOINT_RESOURCE,
@@ -274,7 +275,7 @@ TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_
 
 TEST_FUNCTION(FABRIC_ENDPOINT_RESOURCE_DESCRIPTION_LIST_from_ARGC_ARGV_succeeds_4) /*a list with 2 endpoints and some extraneous parameter still produces 2 lists*/
 {
-
+    // arrange
     char* argv[] =
     {
         SERVICE_ENDPOINT_RESOURCE,

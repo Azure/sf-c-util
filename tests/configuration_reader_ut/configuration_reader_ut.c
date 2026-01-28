@@ -271,6 +271,8 @@ TEST_FUNCTION(configuration_reader_get_uint64_t_with_empty_parameter_name_fails)
 /*Tests_SRS_CONFIGURATION_READER_42_005: [ If value is NULL then configuration_reader_get_uint64_t shall fail and return a non-zero value. ]*/
 TEST_FUNCTION(configuration_reader_get_uint64_t_with_null_value_fails)
 {
+    ///arrange
+
     ///act
     int result = configuration_reader_get_uint64_t(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
 
@@ -948,6 +950,8 @@ TEST_FUNCTION(configuration_reader_get_char_string_with_empty_parameter_name_fai
 /*Tests_SRS_CONFIGURATION_READER_42_027: [ If value is NULL then configuration_reader_get_char_string shall fail and return a non-zero value. ]*/
 TEST_FUNCTION(configuration_reader_get_char_string_with_null_value_fails)
 {
+    ///arrange
+
     ///act
     int result = configuration_reader_get_char_string(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
 
@@ -1139,6 +1143,8 @@ TEST_FUNCTION(configuration_reader_get_thandle_rc_string_with_empty_parameter_na
 /*Tests_SRS_CONFIGURATION_READER_42_047: [ If value is NULL then configuration_reader_get_thandle_rc_string shall fail and return a non-zero value. ]*/
 TEST_FUNCTION(configuration_reader_get_thandle_rc_string_with_null_value_fails)
 {
+    ///arrange
+
     ///act
     int result = configuration_reader_get_thandle_rc_string(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
 
@@ -1336,6 +1342,8 @@ TEST_FUNCTION(configuration_reader_get_wchar_string_with_empty_parameter_name_fa
 /*Tests_SRS_CONFIGURATION_READER_42_037: [ If value is NULL then configuration_reader_get_wchar_string shall fail and return a non-zero value. ]*/
 TEST_FUNCTION(configuration_reader_get_wchar_string_with_null_value_fails)
 {
+    ///arrange
+
     ///act
     int result = configuration_reader_get_wchar_string(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
 
@@ -1529,6 +1537,8 @@ TEST_FUNCTION(configuration_reader_get_bool_with_empty_parameter_name_fails)
 /*Tests_SRS_CONFIGURATION_READER_03_005: [ If value is NULL then configuration_reader_get_bool shall fail and return a non-zero value. ]*/
 TEST_FUNCTION(configuration_reader_get_bool_with_null_value_fails)
 {
+    ///arrange
+
     ///act
     int result = configuration_reader_get_bool(&test_fabric_code_package_activation_context, test_config_package_name, test_section_name, test_parameter_name, NULL);
 

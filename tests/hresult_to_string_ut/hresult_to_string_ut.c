@@ -118,6 +118,8 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
 /*Tests_SRS_HRESULT_TO_STRING_02_018: [ If the_malloc is NULL then hresult_to_string shall fail and return NULL. ]*/
 TEST_FUNCTION(hresult_to_string_with_the_malloc_NULL_fails)
 {
+    ///arrange
+
     ///act
     char* humanReadable = hresult_to_string(NULL, free, TEST_HRESULT);
 
@@ -129,6 +131,8 @@ TEST_FUNCTION(hresult_to_string_with_the_malloc_NULL_fails)
 /*Tests_SRS_HRESULT_TO_STRING_02_017: [ If the_free is NULL then hresult_to_string shall fail and return NULL. ]*/
 TEST_FUNCTION(hresult_to_string_with_the_free_NULL_fails)
 {
+    ///arrange
+
     ///act
     char* humanReadable = hresult_to_string(malloc, NULL, TEST_HRESULT);
 

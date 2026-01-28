@@ -933,7 +933,7 @@ TEST_FUNCTION(FC_PACKAGE_with_1_sections_1_parameters_get_Settings_succeeds)
     ///act
     fabric_configuration_settings = obj->lpVtbl->get_Settings(obj);
 
-    ///act
+    ///assert
     ASSERT_IS_NOT_NULL(fabric_configuration_settings);
     ASSERT_IS_NOT_NULL(fabric_configuration_settings->Sections);
     ASSERT_ARE_EQUAL(int, 1, fabric_configuration_settings->Sections->Count);

@@ -44,6 +44,7 @@ TEST_FUNCTION_CLEANUP(method_cleanup)
 
 TEST_FUNCTION(sf_config_can_parse_all_optional_configs_present)
 {
+    // arrange
     char* argv[] =
     {
         CONFIGURATION_PACKAGE_NAME,
@@ -133,6 +134,7 @@ TEST_FUNCTION(sf_config_can_parse_all_optional_configs_present)
 
 TEST_FUNCTION(sf_config_can_parse_no_optional_configs_present)
 {
+    // arrange
     char* argv[] =
     {
         CONFIGURATION_PACKAGE_NAME,
