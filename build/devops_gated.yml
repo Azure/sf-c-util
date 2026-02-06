@@ -3,19 +3,16 @@ resources:
   repositories:
   - repository: self
     clean: true
-  - repository: c_build_tools
-    type: github
-    name: azure/c-build-tools
-    endpoint: github.com_azure
-    ref: d520809
 jobs:
-- template: /pipeline_templates/build_all_flavors.yml@c_build_tools
+# Use templates from the checked-out c-build-tools submodule (not external repo)
+- template: deps/c-build-tools/pipeline_templates/build_all_flavors.yml
   parameters:
     GBALLOC_LL_TYPE_VALUES: ["PASSTHROUGH", "JEMALLOC"]
+    ARCH_TYPE_VALUES: ["x64"]
 
-- template: /pipeline_templates/run_master_check.yml@c_build_tools
+- template: deps/c-build-tools/pipeline_templates/run_master_check.yml
 
-- template: /pipeline_templates/codeql3000_default.yml@c_build_tools
+- template: deps/c-build-tools/pipeline_templates/codeql3000_default.yml
 
 # Will be re-enabled at a later time
 #- job: includecheck
