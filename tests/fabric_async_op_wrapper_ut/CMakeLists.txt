@@ -1,4 +1,4 @@
-﻿#Copyright (c) Microsoft. All rights reserved.
+#Copyright (c) Microsoft. All rights reserved.
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 set(theseTestsName fabric_async_op_wrapper_ut)
@@ -32,4 +32,4 @@ testasyncoperation.h
 
 include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util debug FabricUUIDD optimized FabricUUID com_wrapper c_pal_reals sf_c_util)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_pal c_util debug FabricUUIDD optimized FabricUUID com_wrapper c_pal_reals sf_c_util)
