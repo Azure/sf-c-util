@@ -1,7 +1,9 @@
 #Copyright (C) Microsoft Corporation. All rights reserved.
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-add_subdirectory(reals)
+if(${build_reals})
+    add_subdirectory(reals)
+endif()
 
 # unit tests
 if(${run_unittests})
