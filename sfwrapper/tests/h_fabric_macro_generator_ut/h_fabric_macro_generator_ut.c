@@ -216,7 +216,12 @@ TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds)
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_013: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_015: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_010: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_E_ABORT)
+PARAMETERIZED_TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_retryable_error,
+    ARGS(HRESULT, retryable_error),
+    CASE((E_ABORT), with_E_ABORT),
+    CASE((FABRIC_E_GATEWAY_NOT_REACHABLE), with_FABRIC_E_GATEWAY_NOT_REACHABLE),
+    CASE((FABRIC_E_TIMEOUT), with_FABRIC_E_TIMEOUT),
+    CASE((FABRIC_E_OBJECT_CLOSED), with_FABRIC_E_OBJECT_CLOSED))
 {
     ///arrange
     STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
@@ -227,113 +232,8 @@ TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_E_ABO
     STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
         .SetReturn(TIME_START_OF_TIME);
     STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT))
-        .SetReturn(E_ABORT);
-    /*because of E_ABORT the object is recreated*/
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
-    STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
-        .SetReturn(TIME_START_OF_TIME + 100);
-    STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT));
-
-    ///act
-    HRESULT hr = H_FABRIC_API(DoSomethingAwesome)(result, "a", TIME_TIMEOUT);
-
-    ///assert
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    ///clean
-    H_FABRIC_HANDLE_DESTROY(IFabricZZZZ)(result);
-}
-
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_011: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE, FABRIC_E_TIMEOUT or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_013: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_015: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_010: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_FABRIC_E_GATEWAY_NOT_REACHABLE)
-{
-    ///arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    H_FABRIC_HANDLE(IFabricZZZZ) result = H_FABRIC_HANDLE_CREATE(IFabricZZZZ)(3, TIME_MS_BETWEEN_RETRIES); /*3 retries, 0.1 s between retries*/
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
-        .SetReturn(TIME_START_OF_TIME);
-    STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT))
-        .SetReturn(FABRIC_E_GATEWAY_NOT_REACHABLE);
-    /*because of E_ABORT the object is recreated*/
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
-    STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
-        .SetReturn(TIME_START_OF_TIME + 100);
-    STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT));
-
-    ///act
-    HRESULT hr = H_FABRIC_API(DoSomethingAwesome)(result, "a", TIME_TIMEOUT);
-
-    ///assert
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    ///clean
-    H_FABRIC_HANDLE_DESTROY(IFabricZZZZ)(result);
-}
-
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_011: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE, FABRIC_E_TIMEOUT or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_013: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_015: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_010: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_FABRIC_E_TIMEOUT)
-{
-    ///arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    H_FABRIC_HANDLE(IFabricZZZZ) result = H_FABRIC_HANDLE_CREATE(IFabricZZZZ)(3, TIME_MS_BETWEEN_RETRIES); /*3 retries, 0.1 s between retries*/
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
-        .SetReturn(TIME_START_OF_TIME);
-    STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT))
-        .SetReturn(FABRIC_E_TIMEOUT);
-    /*because of E_ABORT the object is recreated*/
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
-    STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
-        .SetReturn(TIME_START_OF_TIME + 100);
-    STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT));
-
-    ///act
-    HRESULT hr = H_FABRIC_API(DoSomethingAwesome)(result, "a", TIME_TIMEOUT);
-
-    ///assert
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    ///clean
-    H_FABRIC_HANDLE_DESTROY(IFabricZZZZ)(result);
-}
-
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_011: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE, FABRIC_E_TIMEOUT or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_013: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_015: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_02_010: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_FABRIC_E_OBJECT_CLOSED)
-{
-    ///arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    H_FABRIC_HANDLE(IFabricZZZZ) result = H_FABRIC_HANDLE_CREATE(IFabricZZZZ)(3, TIME_MS_BETWEEN_RETRIES); /*3 retries, 0.1 s between retries*/
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    STRICT_EXPECTED_CALL(timer_global_get_elapsed_ms())
-        .SetReturn(TIME_START_OF_TIME);
-    STRICT_EXPECTED_CALL(DoSomethingAwesome(IGNORED_ARG, "a", TIME_TIMEOUT))
-        .SetReturn(FABRIC_E_OBJECT_CLOSED);
-    /*because of FABRIC_E_OBJECT_CLOSED the object is recreated*/
+        .SetReturn(retryable_error);
+    /*because of retryable_error the object is recreated*/
     STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
     STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
     STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
@@ -652,7 +552,11 @@ TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_for_H_FABRIC_DEFINE_API_
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_006: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_008: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
 /*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_003: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_E_ABORT_for_H_FABRIC_DEFINE_API_NO_SF_TIMEOUT)
+PARAMETERIZED_TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_retryable_error_for_H_FABRIC_DEFINE_API_NO_SF_TIMEOUT,
+    ARGS(HRESULT, retryable_error),
+    CASE((E_ABORT), with_E_ABORT),
+    CASE((FABRIC_E_GATEWAY_NOT_REACHABLE), with_FABRIC_E_GATEWAY_NOT_REACHABLE),
+    CASE((FABRIC_E_OBJECT_CLOSED), with_FABRIC_E_OBJECT_CLOSED))
 {
     ///arrange
     STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
@@ -661,70 +565,8 @@ TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_E_ABO
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
 
     STRICT_EXPECTED_CALL(DoSomethingAwesomeNoSFTimeout(IGNORED_ARG, "a"))
-        .SetReturn(E_ABORT);
-    /*because of E_ABORT the object is recreated*/
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
-    STRICT_EXPECTED_CALL(DoSomethingAwesomeNoSFTimeout(IGNORED_ARG, "a"));
-
-    ///act
-    HRESULT hr = H_FABRIC_API(DoSomethingAwesomeNoSFTimeout)(result, "a");
-
-    ///assert
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    ///clean
-    H_FABRIC_HANDLE_DESTROY(IFabricZZZZ)(result);
-}
-
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_004: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_006: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_008: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_003: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_FABRIC_E_GATEWAY_NOT_REACHABLE_for_H_FABRIC_DEFINE_API_NO_SF_TIMEOUT)
-{
-    ///arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    H_FABRIC_HANDLE(IFabricZZZZ) result = H_FABRIC_HANDLE_CREATE(IFabricZZZZ)(3, TIME_MS_BETWEEN_RETRIES); /*3 retries, 0.1 s between retries*/
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    STRICT_EXPECTED_CALL(DoSomethingAwesomeNoSFTimeout(IGNORED_ARG, "a"))
-        .SetReturn(FABRIC_E_GATEWAY_NOT_REACHABLE);
-    /*because of E_ABORT the object is recreated*/
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
-    STRICT_EXPECTED_CALL(DoSomethingAwesomeNoSFTimeout(IGNORED_ARG, "a"));
-
-    ///act
-    HRESULT hr = H_FABRIC_API(DoSomethingAwesomeNoSFTimeout)(result, "a");
-
-    ///assert
-    ASSERT_IS_TRUE(SUCCEEDED(hr));
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    ///clean
-    H_FABRIC_HANDLE_DESTROY(IFabricZZZZ)(result);
-}
-
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_004: [ If the result is FABRIC_E_OBJECT_CLOSED, FABRIC_E_GATEWAY_NOT_REACHABLE or E_ABORT then H_FABRIC_API(IFABRIC_METHOD_NAME) shall create a new instance of IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_006: [ Otherwise H_FABRIC_API(IFABRIC_METHOD_NAME) shall release the existing instance and shall retry using new newly created IFABRIC_INTERFACE_NAME. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_008: [ H_FABRIC_API(IFABRIC_METHOD_NAME) shall sleep msBetweenRetries. ]*/
-/*Tests_SRS_H_FABRIC_MACRO_GENERATOR_01_003: [ If the call succeeds then H_FABRIC_API(IFABRIC_METHOD_NAME) shall succeed and return. ]*/
-TEST_FUNCTION(H_FABRIC_API_IFABRIC_METHOD_NAME_succeeds_after_1_retry_with_FABRIC_E_OBJECT_CLOSED_for_H_FABRIC_DEFINE_API_NO_SF_TIMEOUT)
-{
-    ///arrange
-    STRICT_EXPECTED_CALL(malloc(IGNORED_ARG));
-    STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
-    H_FABRIC_HANDLE(IFabricZZZZ) result = H_FABRIC_HANDLE_CREATE(IFabricZZZZ)(3, TIME_MS_BETWEEN_RETRIES); /*3 retries, 0.1 s between retries*/
-    ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
-
-    STRICT_EXPECTED_CALL(DoSomethingAwesomeNoSFTimeout(IGNORED_ARG, "a"))
-        .SetReturn(FABRIC_E_OBJECT_CLOSED);
-    /*because of FABRIC_E_OBJECT_CLOSED the object is recreated*/
+        .SetReturn(retryable_error);
+    /*because of retryable_error the object is recreated*/
     STRICT_EXPECTED_CALL(CREATE_IFABRICINSTANCE_NAME(IFabricZZZZ)(IGNORED_ARG));
     STRICT_EXPECTED_CALL(DoNothingRelease(IGNORED_ARG));
     STRICT_EXPECTED_CALL(ThreadAPI_Sleep(TIME_MS_BETWEEN_RETRIES));
