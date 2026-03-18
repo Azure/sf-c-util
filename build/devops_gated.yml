@@ -1,4 +1,7 @@
 name: $(BuildID)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+variables:
+- template: ../deps/c_build_tools_ref.yml
+
 resources:
   repositories:
   - repository: self
@@ -7,7 +10,7 @@ resources:
     type: github
     name: azure/c-build-tools
     endpoint: github.com_azure
-    ref: 44914dd2655b0f366e204003c80f59dea8fbb26a
+    ref: ${{ variables.c_build_tools_ref }}
 jobs:
 - template: /pipeline_templates/build_all_flavors.yml@c_build_tools
   parameters:
