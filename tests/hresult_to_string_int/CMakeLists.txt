@@ -7,4 +7,4 @@ set(${theseTestsName}_test_files
 ${theseTestsName}.c
 )
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS sf_c_util)
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_pal sf_c_util)

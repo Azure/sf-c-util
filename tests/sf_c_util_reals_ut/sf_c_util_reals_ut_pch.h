@@ -9,6 +9,7 @@
 #include <stddef.h>                   // for NULL
 
 #include "testrunnerswitcher.h"
+#include "c_pal/timed_test_suite.h"
 
 #define REGISTER_GLOBAL_MOCK_HOOK(original, real) \
     (original == real) ? (void)0 : (void)1;

@@ -1,4 +1,4 @@
-﻿#Copyright (c) Microsoft. All rights reserved.
+#Copyright (c) Microsoft. All rights reserved.
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 set(theseTestsName sf_c_util_reals_ut)
@@ -7,7 +7,7 @@ set(${theseTestsName}_test_files
     ${theseTestsName}.c
 )
 
-build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_util sf_c_util sf_c_util_reals
+build_test_artifacts(${theseTestsName} "tests/sf_c_util" ADDITIONAL_LIBS c_pal c_util sf_c_util sf_c_util_reals
     ENABLE_TEST_FILES_PRECOMPILED_HEADERS "${CMAKE_CURRENT_LIST_DIR}/sf_c_util_reals_ut_pch.h")
 
 if("${building}" STREQUAL "exe")

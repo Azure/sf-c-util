@@ -9,6 +9,7 @@
 
 #include "macro_utils/macro_utils.h"
 #include "testrunnerswitcher.h"
+#include "c_pal/timed_test_suite.h"
 
 #include "sf_c_util/hresult_to_string.h"
 
@@ -26,12 +27,12 @@ static const HRESULT TEST_HRESULT_E_POINTER = TEST_HRESULT_E_POINTER_DEFINE;
 
 BEGIN_TEST_SUITE(TEST_SUITE_NAME_FROM_CMAKE)
 
-TEST_SUITE_INITIALIZE(suite_init)
+TIMED_TEST_SUITE_INITIALIZE(suite_init, TIMED_TEST_DEFAULT_TIMEOUT_MS)
 {
     ASSERT_ARE_EQUAL(int, 0, gballoc_hl_init(NULL, NULL));
 }
 
-TEST_SUITE_CLEANUP(suite_cleanup)
+TIMED_TEST_SUITE_CLEANUP(suite_cleanup)
 {
     gballoc_hl_deinit();
 }
