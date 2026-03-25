@@ -90,9 +90,10 @@ Follow standard Azure C library SRS patterns for all modules:
 - **`deps/servicefabric/`**: Service Fabric SDK headers and IDL files
 
 ## External Dependencies
-**CRITICAL**: Follow coding standards in #file:../deps/c-build-tools/.github/general_coding_instructions.md.
+**CRITICAL**: Follow coding standards in #file:../deps/azure-messaging-ai-context/.github/general_coding_instructions.md.
 Leverage patterns from:
 - #file:../deps/c-build-tools/.github/copilot-instructions.md (CMake functions, pipeline templates, quality gates)
+- #file:../deps/azure-messaging-ai-context/.github/copilot-instructions.md (git conventions, terminal rules, agent skills)
 - #file:../deps/c-pal/.github/copilot-instructions.md (THANDLE, reference counting, platform abstraction)
 - #file:../deps/c-util/.github/copilot-instructions.md (RC_STRING, async operations, collections)
 - #file:../deps/c-logging/.github/copilot-instructions.md (structured logging, ETW support)
