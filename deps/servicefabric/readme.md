@@ -1,65 +1,51 @@
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-The .idls have been copied from `WindowsFabric\src\prod\src\idl\public` or from `WindowsFabric\src\prod\src\idl\internal` folders.
+# Service Fabric Dependencies
 
-The .h have been copies from `WindowsFabric\src\prod\src\prebuilt\sdk` or from `WindowsFabric\src\prod\src\prebuilt\internal` folders.
+## Current version
 
-The binary files (.lib) in this folder have been copied from \\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0
+**Service Fabric 11.0.0** (built April 9, 2025, commit 6a93a5b74a3eecf0e3f9b4ebc604485aaeb15693)
 
-[how_to](doc/how_to.md) contains more information on how to retrieve the path above.
+There is a task to update to a more recent SF version:
+https://msazure.visualstudio.com/One/_workitems/edit/37318440
 
-Debug files:
+## Source locations
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\InternalFabricUUID\InternalFabricUUID.lib"
+- IDL files: copied from `WindowsFabric\src\prod\src\idl\public` or `WindowsFabric\src\prod\src\idl\internal`
+- Headers: copied from `WindowsFabric\src\prod\src\prebuilt\sdk` or `WindowsFabric\src\prod\src\prebuilt\internal`
+- Binary files (.lib): copied from `\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0`
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\FabricUUID\FabricUUID.lib"
+[how_to](doc/how_to.md) contains more information on how to retrieve the paths above.
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\FabricRuntime\FabricRuntime.lib"
+## Directory layout
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-amd64\FabricClient\FabricClient.lib"
+```
+lib/
+  debug-amd64/     - x64 debug libs (FabricClient, FabricRuntime, FabricUUID, InternalFabricUUID)
+  debug-arm64/     - ARM64 debug libs (same set)
+  retail-amd64/    - x64 release libs (same set)
+  retail-arm64/    - ARM64 release libs (same set)
+inc/               - Public headers (fabricclient.h, fabricruntime.h, fabrictypes.h, etc.)
+idl/               - IDL definitions
+```
 
-Release files:
+## Binary source paths on reddog
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\InternalFabricUUID\InternalFabricUUID.lib"
+All from `\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0`:
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricUUID\FabricUUID.lib"
+| Directory | Reddog subfolder | Libraries |
+|-----------|-----------------|-----------|
+| debug-amd64 | `debug-amd64\<LibName>\<LibName>.lib` | FabricClient, FabricRuntime, FabricUUID, InternalFabricUUID |
+| debug-arm64 | `debug-arm64\<LibName>\<LibName>.lib` | FabricClient, FabricRuntime, FabricUUID, InternalFabricUUID |
+| retail-amd64 | `retail-amd64\<LibName>\<LibName>.lib` | FabricClient, FabricRuntime, FabricUUID, InternalFabricUUID |
+| retail-arm64 | `retail-arm64\<LibName>\<LibName>.lib` | FabricClient, FabricRuntime, FabricUUID, InternalFabricUUID |
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricRuntime\FabricRuntime.lib"
+## How to build from source (should this ever be needed)
 
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricClient\FabricClient.lib"
+1. In an admin cmd.exe (not the Visual Studio developer prompt), type `init.full.cmd` in the WindowsFabric repo root
+2. `build` for debug-amd64, or `build Release` for release-amd64
 
-ARM64 Debug files:
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\InternalFabricUUID\InternalFabricUUID.lib"
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\FabricUUID\FabricUUID.lib"
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\FabricRuntime\FabricRuntime.lib"
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\FabricClient\FabricClient.lib"
-
-ARM64 Release files:
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\InternalFabricUUID\InternalFabricUUID.lib"
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\FabricUUID\FabricUUID.lib"
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\FabricRuntime\FabricRuntime.lib"
-
-"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\FabricClient\FabricClient.lib"
-
-
-How to build (should this ever be needed):
-1) in an admin cmd.exe (not the Visual Studio developer prompt), type "init.full.cmd" when in WindowsFabric repo root
-2) type "build" to get the debug-amd64 target
-or
-2) type "build Release" to get the release-amd64 target
-
-More information for the future readers that might lose access to reddog or just want to build locally:
-
-Debug build took: Time Elapsed 00:39:44.46
-
-Release build took: 00:48:42.33
-
-CPU used was: Intel(R) Core(TM) i9-10900X CPU @ 3.70GHz
+Build times observed on Intel Core i9-10900X @ 3.70GHz:
+- Debug: ~40 minutes
+- Release: ~49 minutes
 
