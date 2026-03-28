@@ -28,6 +28,26 @@ Release files:
 
 "\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-amd64\FabricClient\FabricClient.lib"
 
+ARM64 Debug files:
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\InternalFabricUUID\InternalFabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\FabricUUID\FabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\FabricRuntime\FabricRuntime.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\debug-arm64\FabricClient\FabricClient.lib"
+
+ARM64 Release files:
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\InternalFabricUUID\InternalFabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\FabricUUID\FabricUUID.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\FabricRuntime\FabricRuntime.lib"
+
+"\\reddog\Builds\branches\git_windowsfabric_release_11_0\11.0.0\retail-arm64\FabricClient\FabricClient.lib"
+
 
 How to build (should this ever be needed):
 1) in an admin cmd.exe (not the Visual Studio developer prompt), type "init.full.cmd" when in WindowsFabric repo root

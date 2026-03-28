@@ -32,3 +32,17 @@ add_library(FabricUUIDInternalD STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUIDInternalD PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-amd64/InternalFabricUUID.lib)
 set_target_properties(FabricUUIDInternalD PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64|aarch64|AARCH64)$")
+
+    set_target_properties(FabricClient PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/retail-arm64/FabricClient.lib)
+    set_target_properties(FabricRuntime PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/retail-arm64/FabricRuntime.lib)
+    set_target_properties(FabricUUID PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/retail-arm64/FabricUUID.lib)
+    set_target_properties(FabricUUIDInternal PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/retail-arm64/InternalFabricUUID.lib)
+
+    set_target_properties(FabricClientD PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-arm64/FabricClient.lib)
+    set_target_properties(FabricRuntimeD PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-arm64/FabricRuntime.lib)
+    set_target_properties(FabricUUIDD PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-arm64/FabricUUID.lib)
+    set_target_properties(FabricUUIDInternalD PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-arm64/InternalFabricUUID.lib)
+
+endif()
+
