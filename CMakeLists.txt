@@ -161,7 +161,7 @@ set(sf_c_util_c_files
 )
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/deps/servicefabric/inc)
+include_directories($<TARGET_PROPERTY:FabricClient,INTERFACE_INCLUDE_DIRECTORIES>)
 
 FILE(GLOB sf_c_util_md_files "devdoc/*.md")
 SOURCE_GROUP(devdoc FILES ${sf_c_util_md_files})

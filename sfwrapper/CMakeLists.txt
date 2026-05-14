@@ -55,7 +55,7 @@ FILE(GLOB sf_wrapper_md_files "devdoc/*.md")
 SOURCE_GROUP(devdoc FILES ${sf_wrapper_md_files})
 
 add_library(sfwrapper ${sfwrapper_h_files} ${sfwrapper_c_files} ${sfwrapper_cpp_files} ${sf_wrapper_md_files})
-target_link_libraries(sfwrapper c_util debug FabricClientD optimized FabricClient debug FabricUUIDD optimized FabricUUID debug FabricRuntimeD optimized FabricRuntime sf_c_util)
+target_link_libraries(sfwrapper c_util FabricClient FabricUUID FabricRuntime sf_c_util)
 target_include_directories(sfwrapper PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inc)
 
 add_subdirectory(tests)

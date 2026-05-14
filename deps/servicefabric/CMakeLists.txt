@@ -1,52 +1,84 @@
 #Copyright (C) Microsoft Corporation. All rights reserved.
 
+# Service Fabric native libs/headers come from the ADO ServiceFabric feed
+# (https://msazure.pkgs.visualstudio.com/_packaging/ServiceFabric). The
+# package id is per-architecture and the pinned version is shared. See
+# packages.config in this directory.
+#
+# The SF team's CI publishes only retail flavors of these packages
+# (debug bits stopped being published mid-2024 for x64 and never existed
+# for ARM64). FabricClient.lib and FabricRuntime.lib are tiny import libs
+# (~4-25 KB) so debug vs retail is cosmetic; FabricUUID.lib and
+# InternalFabricUUID.lib are GUID tables so debug vs retail is also
+# cosmetic. Consumers should link the four targets unconditionally rather
+# than using the legacy debug X D / optimized X idiom.
+
+set(SF_NUGET_PKG_VERSION "11.0.2707-internal")
+
 if (CMAKE_GENERATOR_PLATFORM STREQUAL "ARM64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64|aarch64|AARCH64)$")
-    set(SF_RETAIL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/retail-arm64)
-    set(SF_DEBUG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-arm64)
+    set(SF_NUGET_PKG_ID "ServiceFabric.NativeLibsHeaders.retail.win-arm64")
 else()
-    set(SF_RETAIL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/retail-amd64)
-    set(SF_DEBUG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/debug-amd64)
+    set(SF_NUGET_PKG_ID "ServiceFabric.NativeLibsHeaders.retail")
 endif()
 
-# Retail (Release) targets
+set(SF_PACKAGES_DIR "${CMAKE_BINARY_DIR}/sf_packages")
+file(MAKE_DIRECTORY "${SF_PACKAGES_DIR}")
+
+find_program(NUGET_EXE NAMES nuget nuget.exe)
+if (NOT NUGET_EXE)
+    message(FATAL_ERROR
+        "nuget.exe not found on PATH. Install it (download from https://www.nuget.org/downloads "
+        "or 'choco install nuget.commandline') so the Service Fabric native libs can be "
+        "restored from the ADO ServiceFabric feed.")
+endif()
+
+set(SF_PACKAGES_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/packages.config")
+message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG}")
+execute_process(
+    COMMAND ${NUGET_EXE} restore ${SF_PACKAGES_CONFIG}
+        -PackagesDirectory ${SF_PACKAGES_DIR}
+        -ConfigFile ${CMAKE_SOURCE_DIR}/nuget.config
+        -NonInteractive
+    RESULT_VARIABLE _sf_restore_result
+    OUTPUT_VARIABLE _sf_restore_output
+    ERROR_VARIABLE _sf_restore_error)
+
+if (NOT _sf_restore_result EQUAL 0)
+    message(FATAL_ERROR
+        "Service Fabric NuGet restore failed (exit ${_sf_restore_result}):\n"
+        "stdout:\n${_sf_restore_output}\n"
+        "stderr:\n${_sf_restore_error}")
+endif()
+
+set(SF_PKG_ROOT "${SF_PACKAGES_DIR}/${SF_NUGET_PKG_ID}.${SF_NUGET_PKG_VERSION}")
+
+if (NOT EXISTS "${SF_PKG_ROOT}/lib/native/FabricClient.lib")
+    message(FATAL_ERROR
+        "Expected Service Fabric package was not restored at ${SF_PKG_ROOT}. "
+        "Check packages.config and the ServiceFabric feed authentication.")
+endif()
+
+set(SF_INC_DIRS
+    "${SF_PKG_ROOT}/content/native/prebuilt/sdk"
+    "${SF_PKG_ROOT}/content/native/prebuilt/internal")
+
 add_library(FabricClient STATIC IMPORTED GLOBAL)
 set_target_properties(FabricClient PROPERTIES
-    IMPORTED_LOCATION ${SF_RETAIL_DIR}/FabricClient.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+    IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/FabricClient.lib"
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
 
 add_library(FabricRuntime STATIC IMPORTED GLOBAL)
 set_target_properties(FabricRuntime PROPERTIES
-    IMPORTED_LOCATION ${SF_RETAIL_DIR}/FabricRuntime.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+    IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/FabricRuntime.lib"
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
 
 add_library(FabricUUID STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUID PROPERTIES
-    IMPORTED_LOCATION ${SF_RETAIL_DIR}/FabricUUID.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+    IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/FabricUUID.lib"
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
 
 add_library(FabricUUIDInternal STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUIDInternal PROPERTIES
-    IMPORTED_LOCATION ${SF_RETAIL_DIR}/InternalFabricUUID.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-
-# Debug targets
-add_library(FabricClientD STATIC IMPORTED GLOBAL)
-set_target_properties(FabricClientD PROPERTIES
-    IMPORTED_LOCATION ${SF_DEBUG_DIR}/FabricClient.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-
-add_library(FabricRuntimeD STATIC IMPORTED GLOBAL)
-set_target_properties(FabricRuntimeD PROPERTIES
-    IMPORTED_LOCATION ${SF_DEBUG_DIR}/FabricRuntime.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-
-add_library(FabricUUIDD STATIC IMPORTED GLOBAL)
-set_target_properties(FabricUUIDD PROPERTIES
-    IMPORTED_LOCATION ${SF_DEBUG_DIR}/FabricUUID.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-
-add_library(FabricUUIDInternalD STATIC IMPORTED GLOBAL)
-set_target_properties(FabricUUIDInternalD PROPERTIES
-    IMPORTED_LOCATION ${SF_DEBUG_DIR}/InternalFabricUUID.lib
-    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+    IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/InternalFabricUUID.lib"
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
 
