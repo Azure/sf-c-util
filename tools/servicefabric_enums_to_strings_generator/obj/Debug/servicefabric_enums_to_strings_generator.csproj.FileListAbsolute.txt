@@ -1,0 +1,7 @@
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\bin\Debug\servicefabric_enums_to_strings_generator.exe.config
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\bin\Debug\servicefabric_enums_to_strings_generator.exe
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\bin\Debug\servicefabric_enums_to_strings_generator.pdb
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\obj\Debug\servicefabric_enums_to_strings_generator.csproj.AssemblyReference.cache
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\obj\Debug\servicefabric_enums_to_strings_generator.csproj.CoreCompileInputs.cache
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\obj\Debug\servicefabric_enums_to_strings_generator.exe
+D:\r\sf-c-util\tools\servicefabric_enums_to_strings_generator\obj\Debug\servicefabric_enums_to_strings_generator.pdb
