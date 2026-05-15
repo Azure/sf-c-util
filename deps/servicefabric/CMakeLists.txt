@@ -96,6 +96,46 @@ if (NOT EXISTS "${SF_PKG_ROOT}/lib/native/FabricClient.lib")
         "Check packages.config and the ServiceFabric feed authentication.")
 endif()
 
+# Workaround for a bug in the SF-team-published NativeLibsHeaders.retail
+# 11.4.x packages: fabricclient.h declares two methods on the
+# IFabricQueryClient14Vtbl struct (BeginGetFailoverManagerManagerInformation
+# and EndGetFailoverManagerManagerInformation) using a malformed
+# function-pointer syntax. The function-pointer parens around
+# (STDMETHODCALLTYPE * <name>) are missing, and the implicit
+# IFabricQueryClient14 *This first parameter is also missing, so MSVC
+# rejects the whole struct with C2165/C2032 the moment fabricclient.h is
+# pulled in. Other vtable members and the C++ virtual declaration of the
+# same methods are well-formed; the bug appears to be a one-off MIDL/edit
+# regression that surfaced in 11.4.205-internal-rc and persists through
+# 11.4.268-internal. The bug is absent in 11.3.x and earlier.
+#
+# Patch the offending two lines in place after restore so the header
+# parses. sf-c-util does not call these methods (we only QI to
+# IFabricQueryClient10), so the patch is purely about getting the file
+# through cl.exe. Idempotent: after the first run the broken substring
+# is gone, subsequent configure runs find nothing to patch.
+#
+# TODO: drop this workaround once the SF team publishes a fixed package
+# (or we move to a CU that no longer has the bug).
+set(_sf_fabricclient_h "${SF_PKG_ROOT}/content/native/prebuilt/sdk/fabricclient.h")
+if (EXISTS "${_sf_fabricclient_h}")
+    file(READ "${_sf_fabricclient_h}" _sf_fabricclient_contents)
+    set(_sf_patched FALSE)
+    foreach (_sf_method IN ITEMS "BeginGetFailoverManagerManagerInformation" "EndGetFailoverManagerManagerInformation")
+        set(_sf_broken "        HRESULT STDMETHODCALLTYPE * ${_sf_method}(")
+        set(_sf_fixed  "        HRESULT(STDMETHODCALLTYPE * ${_sf_method})(IFabricQueryClient14 * This,")
+        string(FIND "${_sf_fabricclient_contents}" "${_sf_broken}" _sf_idx)
+        if (NOT _sf_idx EQUAL -1)
+            string(REPLACE "${_sf_broken}" "${_sf_fixed}" _sf_fabricclient_contents "${_sf_fabricclient_contents}")
+            set(_sf_patched TRUE)
+        endif()
+    endforeach()
+    if (_sf_patched)
+        message(STATUS "Patched SF-team bug in ${_sf_fabricclient_h} (IFabricQueryClient14 FailoverManagerManager methods)")
+        file(WRITE "${_sf_fabricclient_h}" "${_sf_fabricclient_contents}")
+    endif()
+endif()
+
 set(SF_INC_DIRS
     "${SF_PKG_ROOT}/content/native/prebuilt/sdk"
     "${SF_PKG_ROOT}/content/native/prebuilt/internal")
