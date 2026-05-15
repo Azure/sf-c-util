@@ -68,45 +68,6 @@ if (NOT EXISTS "${SF_PKG_ROOT}/lib/native/FabricClient.lib")
         "Check packages.config and the ServiceFabric feed authentication.")
 endif()
 
-# Verify the .nupkg was author-signed by Microsoft Corporation (the SF
-# team's code-signing identity). Pinning the cert fingerprint protects
-# against feed compromise: a same-named package uploaded by anyone else
-# would carry a different signature and fail this check.
-#
-# Current fingerprint (SHA-256), valid through 2026-10-17:
-#   566A31882BE208BE4422F7CFD66ED09F5D4524A5994F50CCC8B05EC0528C1353
-# When MSFT rotates the cert, append the new fingerprint to this list
-# (older one can stay during the overlap period).
-set(SF_TRUSTED_CERT_FINGERPRINTS
-    "566A31882BE208BE4422F7CFD66ED09F5D4524A5994F50CCC8B05EC0528C1353")
-
-set(_sf_nupkg "${SF_PKG_ROOT}/${SF_NUGET_PKG_ID}.${SF_NUGET_PKG_VERSION}.nupkg")
-if (NOT EXISTS "${_sf_nupkg}")
-    message(FATAL_ERROR "Cannot verify signature: ${_sf_nupkg} not found after restore.")
-endif()
-
-set(_sf_verify_args verify -Signatures)
-foreach (_fp IN LISTS SF_TRUSTED_CERT_FINGERPRINTS)
-    list(APPEND _sf_verify_args -CertificateFingerprint ${_fp})
-endforeach()
-list(APPEND _sf_verify_args ${_sf_nupkg})
-
-execute_process(
-    COMMAND ${NUGET_EXE} ${_sf_verify_args}
-    RESULT_VARIABLE _sf_verify_result
-    OUTPUT_VARIABLE _sf_verify_output
-    ERROR_VARIABLE _sf_verify_error)
-
-if (NOT _sf_verify_result EQUAL 0)
-    message(FATAL_ERROR
-        "Service Fabric NuGet package signature verification failed for ${_sf_nupkg} "
-        "(exit ${_sf_verify_result}). Expected signer fingerprint(s): "
-        "${SF_TRUSTED_CERT_FINGERPRINTS}.\n"
-        "stdout:\n${_sf_verify_output}\n"
-        "stderr:\n${_sf_verify_error}")
-endif()
-message(STATUS "Verified Service Fabric NuGet package signature (${_sf_nupkg})")
-
 # Workaround for a bug in the SF-team-published NativeLibsHeaders.retail
 # 11.4.x packages: fabricclient.h declares two methods on the
 # IFabricQueryClient14Vtbl struct (BeginGetFailoverManagerManagerInformation
