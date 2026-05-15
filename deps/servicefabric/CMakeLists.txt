@@ -13,7 +13,7 @@
 # cosmetic. Consumers should link the four targets unconditionally rather
 # than using the legacy debug X D / optimized X idiom.
 
-set(SF_NUGET_PKG_VERSION "11.0.2707-internal")
+set(SF_NUGET_PKG_VERSION "11.4.268-internal")
 
 if (CMAKE_GENERATOR_PLATFORM STREQUAL "ARM64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64|aarch64|AARCH64)$")
     set(SF_NUGET_PKG_ID "ServiceFabric.NativeLibsHeaders.retail.win-arm64")
