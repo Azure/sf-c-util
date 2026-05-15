@@ -13,14 +13,15 @@ namespace servicefabric_enums_to_strings_generator
 {
     class Program
     {
-        static void writeHeaderHeader(StreamWriter outputHeaderFile)
+        static void writeHeaderHeader(StreamWriter outputHeaderFile, string sourcePackage)
         {
             outputHeaderFile.Write(
-@"// Copyright (C) Microsoft Corporation. All rights reserved.
+$@"// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /*THIS FILE IS GENERATED, DO NOT EDIT BY HAND!!!*/
 /*generator is called ""servicefabric_enums_to_strings_generator""*/
+/*input fabrictypes.h was sourced from NuGet package: {sourcePackage}*/
 
 #ifndef SERVICEFABRIC_ENUMS_TO_STRINGS_H
 #define SERVICEFABRIC_ENUMS_TO_STRINGS_H
@@ -30,7 +31,7 @@ namespace servicefabric_enums_to_strings_generator
 
 #ifdef __cplusplus
 extern ""C""
-{
+{{
 #endif
 ");
         }
@@ -48,14 +49,15 @@ extern ""C""
 );
         }
 
-        static void writeSourceHeader(StreamWriter outputHeaderFile)
+        static void writeSourceHeader(StreamWriter outputHeaderFile, string sourcePackage)
         {
             outputHeaderFile.Write(
-@"// Copyright (C) Microsoft Corporation. All rights reserved.
+$@"// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /*THIS FILE IS GENERATED, DO NOT EDIT BY HAND!!!*/
 /*generator is called ""servicefabric_enums_to_strings_generator""*/
+/*input fabrictypes.h was sourced from NuGet package: {sourcePackage}*/
 
 #include <stddef.h>                          // for NULL, size_t
 
@@ -65,10 +67,10 @@ extern ""C""
 #include ""sf_c_util/servicefabric_enums_to_strings.h""
 
 typedef struct SF_ENUM_AND_STRING_TAG
-{
+{{
     int value;
     const char* valueAsString;
-} SF_ENUM_AND_STRING;
+}} SF_ENUM_AND_STRING;
 
 ");
         }
@@ -131,8 +133,11 @@ typedef struct SF_ENUM_AND_STRING_TAG
             var outputHeaderFile = File.CreateText(outputHeaderFileName);
             var outputSourceFile = File.CreateText(outputSourceFileName);
 
-            writeHeaderHeader(outputHeaderFile);
-            writeSourceHeader(outputSourceFile);
+            string sourcePackage = ResolveNuGetPackage(inputFileName);
+            Console.WriteLine($"Source package: {sourcePackage}");
+
+            writeHeaderHeader(outputHeaderFile, sourcePackage);
+            writeSourceHeader(outputSourceFile, sourcePackage);
 
             /*look for all enums*/
             var pattern = @"enum ([A-Z_a-z0-9]*)\r?\n\s*{\r?\n(([A-Z0-9a-z_\s]*=([A-Z_a-z0-9,(+) \t]*)\r?\n)*)\s*}\s*[A-Z_a-z0-9]*;";
@@ -199,6 +204,33 @@ $@"const char* MU_C3(MU_,{enumIdentifier},_ToString)({enumIdentifier} value)
                 return Path.GetDirectoryName(exePath);
             }
             return dir.FullName;
+        }
+
+        // Walk the absolute path of the input fabrictypes.h up to its root,
+        // looking for a directory whose name matches the SF native NuGet
+        // package convention "ServiceFabric.NativeLibsHeaders.retail[.win-arm64].<version>"
+        // and return "<id>.<version>" for the embedded comment line. If no
+        // match is found (e.g. the user pointed the tool at a non-NuGet
+        // copy of fabrictypes.h) we return "unknown" rather than fail - the
+        // generator should still produce usable output even if the source
+        // attribution is missing.
+        static string ResolveNuGetPackage(string inputFile)
+        {
+            string fullPath = Path.GetFullPath(inputFile);
+            DirectoryInfo dir = new DirectoryInfo(Path.GetDirectoryName(fullPath));
+            Regex pkgRegex = new Regex(
+                @"^(ServiceFabric\.NativeLibsHeaders\.retail(\.win-arm64)?)\.(.+)$",
+                RegexOptions.IgnoreCase);
+            while (dir != null)
+            {
+                Match m = pkgRegex.Match(dir.Name);
+                if (m.Success)
+                {
+                    return $"{m.Groups[1].Value}.{m.Groups[3].Value}";
+                }
+                dir = dir.Parent;
+            }
+            return "unknown";
         }
     }
 }
