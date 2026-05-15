@@ -37,33 +37,62 @@ endif()
 
 set(SF_PACKAGES_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/packages.config")
 
-# Find a nuget.config to drive feed resolution. We walk from the
-# packages.config directory up to the filesystem root looking for the
-# first nuget.config (case-insensitive on Windows). This works for both
-# the embedded build (sf-c-util as a submodule, where the parent repo
-# typically owns nuget.config at its root) and the standalone build
-# (sf-c-util built on its own, where the developer is expected to drop
-# a nuget.config into the source tree or rely on user/machine config).
-# If nothing is found we omit -ConfigFile and let nuget.exe fall back to
-# its standard discovery (%AppData%\NuGet\NuGet.Config etc.).
-set(_sf_search_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+# Pick a nuget.config to drive feed resolution. Precedence:
+#
+#   1. ${CMAKE_SOURCE_DIR}/nuget.config (the TOP-LEVEL project's config,
+#      regardless of how deeply this CMakeLists is nested). When
+#      sf-c-util is consumed as a submodule of a larger project (e.g.
+#      ebs), this means the parent project's nuget.config wins -
+#      consistent with the "single feed compliance" pattern where the
+#      parent repo controls all dependency sources via upstream-sources
+#      on its own feed.
+#
+#   2. Walk up from CMAKE_CURRENT_SOURCE_DIR looking for the first
+#      nuget.config. Catches the case where a parent project has its
+#      nuget.config somewhere other than its CMakeLists root, or where
+#      sf-c-util is itself the top-level project (standalone build, in
+#      which case CMAKE_SOURCE_DIR is sf-c-util's root and step 1
+#      already found sf-c-util's own nuget.config).
+#
+#   3. None found: omit -ConfigFile and let nuget.exe fall back to its
+#      standard discovery (%AppData%\NuGet\NuGet.Config etc.). This
+#      gives a meaningful "no source can serve this package" error
+#      rather than a silent restore failure.
 set(SF_NUGET_CONFIG "")
-while (TRUE)
-    foreach (_candidate IN ITEMS "nuget.config" "NuGet.config" "NuGet.Config")
-        if (EXISTS "${_sf_search_dir}/${_candidate}")
-            set(SF_NUGET_CONFIG "${_sf_search_dir}/${_candidate}")
+foreach (_candidate IN ITEMS "nuget.config" "NuGet.config" "NuGet.Config")
+    if (EXISTS "${CMAKE_SOURCE_DIR}/${_candidate}")
+        set(SF_NUGET_CONFIG "${CMAKE_SOURCE_DIR}/${_candidate}")
+        break()
+    endif()
+endforeach()
+if (NOT SF_NUGET_CONFIG)
+    set(_sf_search_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+    while (TRUE)
+        foreach (_candidate IN ITEMS "nuget.config" "NuGet.config" "NuGet.Config")
+            if (EXISTS "${_sf_search_dir}/${_candidate}")
+                set(SF_NUGET_CONFIG "${_sf_search_dir}/${_candidate}")
+                break()
+            endif()
+        endforeach()
+        if (SF_NUGET_CONFIG)
             break()
         endif()
-    endforeach()
-    if (SF_NUGET_CONFIG)
-        break()
-    endif()
-    get_filename_component(_sf_parent_dir "${_sf_search_dir}" DIRECTORY)
-    if (_sf_parent_dir STREQUAL _sf_search_dir)
-        break()
-    endif()
-    set(_sf_search_dir "${_sf_parent_dir}")
-endwhile()
+        get_filename_component(_sf_parent_dir "${_sf_search_dir}" DIRECTORY)
+        if (_sf_parent_dir STREQUAL _sf_search_dir)
+            break()
+        endif()
+        set(_sf_search_dir "${_sf_parent_dir}")
+    endwhile()
+endif()
+
+# Mirror the chosen nuget.config into the cmake build directory so any
+# downstream nuget restore step (e.g. msbuild /t:restore against the
+# generated csproj/.slnx files) finds it via cwd-based discovery
+# without needing an explicit -ConfigFile argument. This matches the
+# pattern ebs uses for its own packaged restores.
+if (SF_NUGET_CONFIG)
+    configure_file("${SF_NUGET_CONFIG}" "${CMAKE_BINARY_DIR}/nuget.config" COPYONLY)
+endif()
 
 set(_sf_restore_args restore ${SF_PACKAGES_CONFIG}
     -PackagesDirectory ${SF_PACKAGES_DIR}
