@@ -36,12 +36,47 @@ if (NOT NUGET_EXE)
 endif()
 
 set(SF_PACKAGES_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/packages.config")
-message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG}")
+
+# Find a nuget.config to drive feed resolution. We walk from the
+# packages.config directory up to the filesystem root looking for the
+# first nuget.config (case-insensitive on Windows). This works for both
+# the embedded build (sf-c-util as a submodule, where the parent repo
+# typically owns nuget.config at its root) and the standalone build
+# (sf-c-util built on its own, where the developer is expected to drop
+# a nuget.config into the source tree or rely on user/machine config).
+# If nothing is found we omit -ConfigFile and let nuget.exe fall back to
+# its standard discovery (%AppData%\NuGet\NuGet.Config etc.).
+set(_sf_search_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+set(SF_NUGET_CONFIG "")
+while (TRUE)
+    foreach (_candidate IN ITEMS "nuget.config" "NuGet.config" "NuGet.Config")
+        if (EXISTS "${_sf_search_dir}/${_candidate}")
+            set(SF_NUGET_CONFIG "${_sf_search_dir}/${_candidate}")
+            break()
+        endif()
+    endforeach()
+    if (SF_NUGET_CONFIG)
+        break()
+    endif()
+    get_filename_component(_sf_parent_dir "${_sf_search_dir}" DIRECTORY)
+    if (_sf_parent_dir STREQUAL _sf_search_dir)
+        break()
+    endif()
+    set(_sf_search_dir "${_sf_parent_dir}")
+endwhile()
+
+set(_sf_restore_args restore ${SF_PACKAGES_CONFIG}
+    -PackagesDirectory ${SF_PACKAGES_DIR}
+    -NonInteractive)
+if (SF_NUGET_CONFIG)
+    list(APPEND _sf_restore_args -ConfigFile ${SF_NUGET_CONFIG})
+    message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using ${SF_NUGET_CONFIG})")
+else()
+    message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using nuget.exe default config discovery)")
+endif()
+
 execute_process(
-    COMMAND ${NUGET_EXE} restore ${SF_PACKAGES_CONFIG}
-        -PackagesDirectory ${SF_PACKAGES_DIR}
-        -ConfigFile ${CMAKE_SOURCE_DIR}/nuget.config
-        -NonInteractive
+    COMMAND ${NUGET_EXE} ${_sf_restore_args}
     RESULT_VARIABLE _sf_restore_result
     OUTPUT_VARIABLE _sf_restore_output
     ERROR_VARIABLE _sf_restore_error)
