@@ -75,9 +75,56 @@ typedef struct SF_ENUM_AND_STRING_TAG
 
         static void Main(string[] args)
         {
-            var inputFileName =        @"..\..\..\..\deps\servicefabric\inc\fabrictypes.h";
-            var outputHeaderFileName = @"..\..\..\..\inc\sf_c_util\servicefabric_enums_to_strings.h";
-            var outputSourceFileName = @"..\..\..\..\src\servicefabric_enums_to_strings.c";
+            // Input: path to fabrictypes.h. With the NuGet migration the file
+            // no longer lives at a fixed relative path inside the repo; the
+            // caller passes its absolute or relative path explicitly. A typical
+            // value (after a CMake configure of sf-c-util) is something like
+            //   <cmake-build-dir>\sf_packages\ServiceFabric.NativeLibsHeaders.retail.<ver>\content\native\prebuilt\sdk\fabrictypes.h
+            // or, for an x64 ebs build:
+            //   D:\r\ebs_ut\sf_packages\ServiceFabric.NativeLibsHeaders.retail.<ver>\content\native\prebuilt\sdk\fabrictypes.h
+            // Set the path under Project Properties -> Debug -> Application
+            // arguments in Visual Studio so F5 keeps working.
+            if (args.Length < 1)
+            {
+                Console.Error.WriteLine(
+                    "usage: servicefabric_enums_to_strings_generator <fabrictypes.h> [<output-header>] [<output-source>]\n" +
+                    "\n" +
+                    "  <fabrictypes.h>  Absolute or relative path to the public Service Fabric\n" +
+                    "                   types header. Find it under your CMake build dir at\n" +
+                    "                   sf_packages\\ServiceFabric.NativeLibsHeaders.retail.<ver>\\\n" +
+                    "                   content\\native\\prebuilt\\sdk\\fabrictypes.h after the\n" +
+                    "                   NuGet restore step has run.\n" +
+                    "  <output-header>  Optional path for the generated header. Defaults to\n" +
+                    "                   <repo>\\inc\\sf_c_util\\servicefabric_enums_to_strings.h.\n" +
+                    "  <output-source>  Optional path for the generated source. Defaults to\n" +
+                    "                   <repo>\\src\\servicefabric_enums_to_strings.c.");
+                Environment.Exit(2);
+                return;
+            }
+
+            string inputFileName = args[0];
+            if (!File.Exists(inputFileName))
+            {
+                Console.Error.WriteLine($"Input file not found: {inputFileName}");
+                Environment.Exit(2);
+                return;
+            }
+
+            // Default output locations are computed from the exe's own
+            // location (walk up bin\<Config>\<framework>\ to the project dir,
+            // then up two more to the repo root) so the tool does not depend
+            // on cwd. Override via args[1] and args[2] if needed.
+            string repoRoot = ResolveRepoRoot();
+            string outputHeaderFileName = args.Length >= 2
+                ? args[1]
+                : Path.Combine(repoRoot, "inc", "sf_c_util", "servicefabric_enums_to_strings.h");
+            string outputSourceFileName = args.Length >= 3
+                ? args[2]
+                : Path.Combine(repoRoot, "src", "servicefabric_enums_to_strings.c");
+
+            Console.WriteLine($"Input:  {Path.GetFullPath(inputFileName)}");
+            Console.WriteLine($"Header: {Path.GetFullPath(outputHeaderFileName)}");
+            Console.WriteLine($"Source: {Path.GetFullPath(outputSourceFileName)}");
 
             var fileContent = File.ReadAllText(inputFileName);
 
@@ -134,6 +181,24 @@ $@"const char* MU_C3(MU_,{enumIdentifier},_ToString)({enumIdentifier} value)
             writeHeaderFooter(outputHeaderFile);
             outputHeaderFile.Close();
             outputSourceFile.Close();
+        }
+
+        // The exe lives at <repo>\tools\servicefabric_enums_to_strings_generator\bin\<Config>\
+        // (Debug or Release). Walk up four directories to get to <repo>. Falls
+        // back to the exe's own directory if the layout has been customized.
+        static string ResolveRepoRoot()
+        {
+            string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            DirectoryInfo dir = new DirectoryInfo(Path.GetDirectoryName(exePath));
+            for (int i = 0; i < 4 && dir != null; i++)
+            {
+                dir = dir.Parent;
+            }
+            if (dir == null)
+            {
+                return Path.GetDirectoryName(exePath);
+            }
+            return dir.FullName;
         }
     }
 }
