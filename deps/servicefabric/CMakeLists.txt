@@ -37,75 +37,35 @@ endif()
 
 set(SF_PACKAGES_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/packages.config")
 
-# Pick a nuget.config to drive feed resolution. Precedence:
+# Contract: the parent project (the one whose CMakeLists.txt invokes
+# add_subdirectory(deps/sf-c-util)) is responsible for placing its
+# nuget.config at ${CMAKE_BINARY_DIR}/nuget.config before this point,
+# typically via:
 #
-#   1. ${CMAKE_SOURCE_DIR}/nuget.config (the TOP-LEVEL project's config,
-#      regardless of how deeply this CMakeLists is nested). When
-#      sf-c-util is consumed as a submodule of a larger project (e.g.
-#      ebs), this means the parent project's nuget.config wins -
-#      consistent with the "single feed compliance" pattern where the
-#      parent repo controls all dependency sources via upstream-sources
-#      on its own feed.
+#   configure_file("${CMAKE_SOURCE_DIR}/nuget.config"
+#                  "${CMAKE_BINARY_DIR}/nuget.config" COPYONLY)
 #
-#   2. Walk up from CMAKE_CURRENT_SOURCE_DIR looking for the first
-#      nuget.config. Catches the case where a parent project has its
-#      nuget.config somewhere other than its CMakeLists root, or where
-#      sf-c-util is itself the top-level project (standalone build, in
-#      which case CMAKE_SOURCE_DIR is sf-c-util's root and step 1
-#      already found sf-c-util's own nuget.config).
-#
-#   3. None found: omit -ConfigFile and let nuget.exe fall back to its
-#      standard discovery (%AppData%\NuGet\NuGet.Config etc.). This
-#      gives a meaningful "no source can serve this package" error
-#      rather than a silent restore failure.
-set(SF_NUGET_CONFIG "")
-foreach (_candidate IN ITEMS "nuget.config" "NuGet.config" "NuGet.Config")
-    if (EXISTS "${CMAKE_SOURCE_DIR}/${_candidate}")
-        set(SF_NUGET_CONFIG "${CMAKE_SOURCE_DIR}/${_candidate}")
-        break()
-    endif()
-endforeach()
-if (NOT SF_NUGET_CONFIG)
-    set(_sf_search_dir "${CMAKE_CURRENT_SOURCE_DIR}")
-    while (TRUE)
-        foreach (_candidate IN ITEMS "nuget.config" "NuGet.config" "NuGet.Config")
-            if (EXISTS "${_sf_search_dir}/${_candidate}")
-                set(SF_NUGET_CONFIG "${_sf_search_dir}/${_candidate}")
-                break()
-            endif()
-        endforeach()
-        if (SF_NUGET_CONFIG)
-            break()
-        endif()
-        get_filename_component(_sf_parent_dir "${_sf_search_dir}" DIRECTORY)
-        if (_sf_parent_dir STREQUAL _sf_search_dir)
-            break()
-        endif()
-        set(_sf_search_dir "${_sf_parent_dir}")
-    endwhile()
+# The parent always wins/overwrites: even when sf-c-util ships its own
+# nuget.config (used for sf-c-util-standalone builds), a containing
+# project's config takes precedence so that the containing project owns
+# all feed configuration. nuget.exe finds the file via cwd-walk from
+# WORKING_DIRECTORY below, so no -ConfigFile argument is needed.
+if (NOT EXISTS "${CMAKE_BINARY_DIR}/nuget.config")
+    message(FATAL_ERROR
+        "deps/servicefabric requires a nuget.config at ${CMAKE_BINARY_DIR}/nuget.config "
+        "before add_subdirectory(deps/sf-c-util). Add the following to your top-level "
+        "CMakeLists.txt:\n"
+        "  configure_file(\"\${CMAKE_SOURCE_DIR}/nuget.config\" "
+        "\"\${CMAKE_BINARY_DIR}/nuget.config\" COPYONLY)")
 endif()
 
-# Mirror the chosen nuget.config into the cmake build directory so any
-# downstream nuget restore step (e.g. msbuild /t:restore against the
-# generated csproj/.slnx files) finds it via cwd-based discovery
-# without needing an explicit -ConfigFile argument. This matches the
-# pattern ebs uses for its own packaged restores.
-if (SF_NUGET_CONFIG)
-    configure_file("${SF_NUGET_CONFIG}" "${CMAKE_BINARY_DIR}/nuget.config" COPYONLY)
-endif()
-
-set(_sf_restore_args restore ${SF_PACKAGES_CONFIG}
-    -PackagesDirectory ${SF_PACKAGES_DIR}
-    -NonInteractive)
-if (SF_NUGET_CONFIG)
-    list(APPEND _sf_restore_args -ConfigFile ${SF_NUGET_CONFIG})
-    message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using ${SF_NUGET_CONFIG})")
-else()
-    message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using nuget.exe default config discovery)")
-endif()
+message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using ${CMAKE_BINARY_DIR}/nuget.config)")
 
 execute_process(
-    COMMAND ${NUGET_EXE} ${_sf_restore_args}
+    COMMAND ${NUGET_EXE} restore ${SF_PACKAGES_CONFIG}
+            -PackagesDirectory ${SF_PACKAGES_DIR}
+            -NonInteractive
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     RESULT_VARIABLE _sf_restore_result
     OUTPUT_VARIABLE _sf_restore_output
     ERROR_VARIABLE _sf_restore_error)

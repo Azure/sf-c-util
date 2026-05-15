@@ -92,6 +92,14 @@ set(run_unittests ${original_run_unittests})
 set(run_traceability ${original_run_traceability})
 set(run_reals_check ${original_run_reals_check})
 
+# Standalone-build only: place sf-c-util's own nuget.config at the
+# location deps/servicefabric expects. When sf-c-util is consumed as a
+# submodule, the containing parent project is responsible for this copy
+# (parent always wins/overwrites - see deps/servicefabric/CMakeLists.txt).
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/nuget.config" "${CMAKE_BINARY_DIR}/nuget.config" COPYONLY)
+endif()
+
 add_subdirectory(deps/servicefabric)
 
 if((CMAKE_GENERATOR MATCHES "Visual Studio") AND (${run_traceability}))
