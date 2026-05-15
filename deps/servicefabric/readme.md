@@ -45,6 +45,14 @@ The other 8 libs in `lib/native/` (`Common.lib`, `Replication.lib`, `FabricCommo
 
 The packages are off-label for us: the nuspec calls them "Service Fabric libs and header files for generating JNI in Service Fabric Java repository". They're the only published SF-team package that contains `InternalFabricUUID.lib`, which is why we picked them over the smaller `ServiceFabric.NativeSDK[.win-arm64]`.
 
+### Why `NativeLibsHeaders.retail` and not `ServiceFabric.NativeSDK`
+
+The SF feed publishes two parallel package families that both contain Fabric headers and libs. The cleaner-looking option was `ServiceFabric.NativeSDK[.win-arm64]` (~310 KB), which mirrors the official SDK MSI layout: just the 4 public SDK headers, the 4 public IDLs, and 3 of the libs (`FabricClient.lib`, `FabricRuntime.lib`, `FabricUUID.lib`).
+
+We can't use it because it deliberately excludes `InternalFabricUUID.lib`. That lib carries the GUID/IID table for SF's *internal* COM interfaces (the ones declared in `FabricRuntime_.h`, `FabricClient_.h`, etc. - note the trailing underscore), which the SF team treats as off-the-public-supportability-contract. EBS has one production code path - `bs2sf_replica_get_write_queue_state` in `block_storage_2_sf` - that has to QI from `IFabricReplicator` to `IFabricInternalReplicator` to read the replication queue saturation percentage that drives the write throttler's back-pressure FSM. There is no public equivalent of `IFabricInternalReplicator::GetReplicatorStatus` that returns synchronously from inside the replica's own process.
+
+So we pick the bigger `NativeLibsHeaders.retail` family because it's the only one of the two that ships `InternalFabricUUID.lib` and the matching internal headers (`fabricruntime_.h` etc., placed under `content/native/prebuilt/internal/`). The downside is the size (~33 MB per arch instead of ~310 KB) and that it's an off-label "JNI" package rather than the SF team's intended C++ SDK package - so it has no formal supportability contract. If the SF team ever publishes a properly-named native SDK NuGet that includes the internal libs, that would be the natural place to migrate to.
+
 ## Why no debug binaries
 
 The SF team only publishes retail flavors to NuGet. The `ServiceFabric.NativeLibsHeaders.debug` package was abandoned in 2024 and an ARM64 debug equivalent never existed. Debug-flavored libs are still produced internally and end up on the reddog drop (see [how_to.md](doc/how_to.md) for the manual pull procedure, kept around just in case), but they're not on any feed.
