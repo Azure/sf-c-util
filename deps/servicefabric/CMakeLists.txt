@@ -1,9 +1,12 @@
 #Copyright (C) Microsoft Corporation. All rights reserved.
 
-# Service Fabric native libs/headers come from the ADO ServiceFabric feed
-# (https://msazure.pkgs.visualstudio.com/_packaging/ServiceFabric). The
-# package id is per-architecture and the pinned version is shared. See
-# packages.config in this directory.
+# Service Fabric native libs/headers come from NuGet, restored at CMake
+# configure time. Packages are resolved through the consuming repo's
+# nuget.config (typically pointing at Azure-MessagingStore-Feed, which
+# has the SF team's ServiceFabric feed configured as an upstream
+# source). The package id is per-architecture and the pinned version is
+# shared. See packages.config in this directory and readme.md for full
+# rationale.
 #
 # The SF team's CI publishes only retail flavors of these packages
 # (debug bits stopped being published mid-2024 for x64 and never existed
