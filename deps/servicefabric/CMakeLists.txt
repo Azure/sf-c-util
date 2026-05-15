@@ -187,5 +187,19 @@ set_target_properties(FabricUUID PROPERTIES
 add_library(FabricUUIDInternal STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUIDInternal PROPERTIES
     IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/InternalFabricUUID.lib"
-    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}"
+    # InternalFabricUUID.lib in the SF NativeLibsHeaders.retail packages
+    # was compiled /MD against the release dynamic CRT and embeds a
+    # /DEFAULTLIB:MSVCRT directive. When a consumer is built /MDd
+    # (Debug) the linker sees both MSVCRT and MSVCRTD requested, raises
+    # LNK4098, and any consumer with /WX promotes that to LNK1218.
+    # Tell the linker to ignore MSVCRT default-lib requests in Debug;
+    # the consumer brings MSVCRTD in via its own /MDd compile flag.
+    # Release/RelWithDebInfo are unaffected (consumer is /MD = MSVCRT,
+    # matching what the lib asks for). The flag propagates to every
+    # consumer that link this target.
+    # TODO: remove once SF publishes a NativeLibsHeaders.debug variant
+    # for the win-arm64 / 11.4 line, or a NativeLibsHeaders.retail that
+    # stops shipping a /DEFAULTLIB:MSVCRT directive in the lib.
+    INTERFACE_LINK_OPTIONS "$<$<CONFIG:Debug>:/NODEFAULTLIB:MSVCRT>")
 
