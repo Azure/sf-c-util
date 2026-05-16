@@ -4,4 +4,5 @@
 [cC]make*/
 .vscode/*
 .vs/
+bin/
 *.orig

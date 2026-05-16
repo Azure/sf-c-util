@@ -20,19 +20,7 @@ endif()
 
 set(SF_PACKAGES_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/packages.config")
 
-# Contract: the parent project (the one whose CMakeLists.txt invokes
-# add_subdirectory(deps/sf-c-util)) is responsible for placing its
-# nuget.config at ${CMAKE_BINARY_DIR}/nuget.config before this point,
-# typically via:
-#
-#   configure_file("${CMAKE_SOURCE_DIR}/nuget.config"
-#                  "${CMAKE_BINARY_DIR}/nuget.config" COPYONLY)
-#
-# The parent always wins/overwrites: even when sf-c-util ships its own
-# nuget.config (used for sf-c-util-standalone builds), a containing
-# project's config takes precedence so that the containing project owns
-# all feed configuration. nuget.exe finds the file via cwd-walk from
-# WORKING_DIRECTORY below, so no -ConfigFile argument is needed.
+# Parent project must place its nuget.config at ${CMAKE_BINARY_DIR}/nuget.config before this point (parent always overwrites sf-c-util's).
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/nuget.config")
     message(FATAL_ERROR
         "deps/servicefabric requires a nuget.config at ${CMAKE_BINARY_DIR}/nuget.config "
