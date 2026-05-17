@@ -20,21 +20,24 @@ endif()
 
 set(SF_PACKAGES_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/packages.config")
 
-# Parent project must place its nuget.config at ${CMAKE_BINARY_DIR}/nuget.config before this point (parent always overwrites sf-c-util's).
-if (NOT EXISTS "${CMAKE_BINARY_DIR}/nuget.config")
-    message(FATAL_ERROR
-        "deps/servicefabric requires a nuget.config at ${CMAKE_BINARY_DIR}/nuget.config "
-        "before add_subdirectory(deps/sf-c-util). Add the following to your top-level "
-        "CMakeLists.txt:\n"
-        "  configure_file(\"\${CMAKE_SOURCE_DIR}/nuget.config\" "
-        "\"\${CMAKE_BINARY_DIR}/nuget.config\" COPYONLY)")
+# nuget.config used for the Service Fabric NuGet restore. Defaults to
+# sf-c-util's own (so standalone builds work without setup). A parent
+# project that wants its own to win can override before
+# add_subdirectory(deps/sf-c-util):
+#   set(SF_NUGET_CONFIG "${CMAKE_SOURCE_DIR}/nuget.config" CACHE FILEPATH "" FORCE)
+set(SF_NUGET_CONFIG "${CMAKE_CURRENT_LIST_DIR}/../../nuget.config"
+    CACHE FILEPATH "nuget.config used for the ServiceFabric NuGet restore")
+
+if (NOT EXISTS "${SF_NUGET_CONFIG}")
+    message(FATAL_ERROR "SF_NUGET_CONFIG points to a non-existent file: ${SF_NUGET_CONFIG}")
 endif()
 
-message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using ${CMAKE_BINARY_DIR}/nuget.config)")
+message(STATUS "Restoring Service Fabric NuGet packages from ${SF_PACKAGES_CONFIG} (using ${SF_NUGET_CONFIG})")
 
 execute_process(
     COMMAND ${NUGET_EXE} restore ${SF_PACKAGES_CONFIG}
             -PackagesDirectory ${SF_PACKAGES_DIR}
+            -ConfigFile ${SF_NUGET_CONFIG}
             -NonInteractive
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     RESULT_VARIABLE _sf_restore_result
