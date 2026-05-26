@@ -1,8 +1,9 @@
-﻿// Copyright (C) Microsoft Corporation. All rights reserved.
+// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /*THIS FILE IS GENERATED, DO NOT EDIT BY HAND!!!*/
 /*generator is called "servicefabric_enums_to_strings_generator"*/
+/*input fabrictypes.h was sourced from NuGet package: ServiceFabric.NativeLibsHeaders.retail.11.4.268-internal*/
 
 #ifndef SERVICEFABRIC_ENUMS_TO_STRINGS_H
 #define SERVICEFABRIC_ENUMS_TO_STRINGS_H
@@ -153,6 +154,11 @@ MU_DECLARE_ENUM_STRINGS(FABRIC_CODE_PACKAGE_EVENT_TYPE);
 MU_DECLARE_ENUM_STRINGS(FABRIC_SERVICE_HOST_UPGRADE_IMPACT);
 MU_DECLARE_ENUM_STRINGS(FABRIC_EXECUTION_POLICY_EXECUTION_TYPE);
 MU_DECLARE_ENUM_STRINGS(FABRIC_EXECUTION_POLICY_RESTART_POLICY);
+MU_DECLARE_ENUM_STRINGS(FABRIC_IMPACT_ACTION);
+MU_DECLARE_ENUM_STRINGS(FABRIC_IMPACT_TYPE);
+MU_DECLARE_ENUM_STRINGS(FABRIC_IMPACT_APPROVAL_STATUS);
+MU_DECLARE_ENUM_STRINGS(FABRIC_IMPACT_OPERATION_KIND);
+MU_DECLARE_ENUM_STRINGS(FABRIC_IMPACT_RECONFIGURATION_REASON);
 
 #ifdef __cplusplus
 }

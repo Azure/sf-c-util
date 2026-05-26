@@ -3,4 +3,8 @@
 
 [cC]make*/
 .vscode/*
+.vs/
+bin/
+obj/
+*.user
 *.orig
