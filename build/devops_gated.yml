@@ -30,12 +30,23 @@ jobs:
     GBALLOC_LL_TYPE_VALUES: ["PASSTHROUGH", "JEMALLOC"]
     pool_name_x64: ${{ parameters.pool_name_windows_x64 }}
     pool_name_arm64: ${{ parameters.pool_name_windows_arm64 }}
+    # Run NuGetAuthenticate + NuGetToolInstaller before cmake so the
+    # SF NuGet restore in deps/servicefabric/CMakeLists.txt can reach
+    # the auth-protected Azure-MessagingStore-Feed (which has the SF
+    # team's ServiceFabric feed configured as upstream). Without this
+    # nuget.exe restore returns 401 and the build fails.
+    setup_nuget: true
 
 - template: /pipeline_templates/run_master_check.yml@c_build_tools
 
 - template: /pipeline_templates/codeql3000_default.yml@c_build_tools
   parameters:
     pool_name: 'Azure-MessagingStore-Win-x64-Dadsv7-v03'
+    # Same reason as the build_all_flavors invocation above:
+    # cmake configure during the CodeQL build invokes nuget.exe restore
+    # in deps/servicefabric/CMakeLists.txt and needs credentials for
+    # the Azure-MessagingStore-Feed (otherwise 401).
+    setup_nuget: true
 
 # Will be re-enabled at a later time
 #- job: includecheck
