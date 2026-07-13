@@ -42,7 +42,7 @@ jobs:
 
 - template: /pipeline_templates/codeql3000_default.yml@c_build_tools
   parameters:
-    pool_name: 'Azure-MessagingStore-Win-x64-Dadsv7-v03'
+    pool_name: 'Azure-MessagingStore-Win-x64-Daldsv7-v07'
     # Same reason as the build_all_flavors invocation above:
     # cmake configure during the CodeQL build invokes nuget.exe restore
     # in deps/servicefabric/CMakeLists.txt and needs credentials for
