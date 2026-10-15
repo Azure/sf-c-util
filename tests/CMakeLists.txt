@@ -16,6 +16,7 @@ if(${run_unittests})
     build_test_folder(hresult_to_string_ut)
     build_test_folder(sf_service_config_ut)
     build_test_folder(sf_c_util_reals_ut)
+    build_test_folder(real_sf_service_config_ut)
 endif()
 
 # int tests

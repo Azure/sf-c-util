@@ -1,0 +1,23 @@
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#ifndef REAL_FC_PACKAGE_COM_H
+#define REAL_FC_PACKAGE_COM_H
+
+#include "macro_utils/macro_utils.h"
+
+#include "sf_c_util/fc_package.h"
+#include "sf_c_util/fc_package_com.h"
+
+/*the real COM wrapper is COM_WRAPPER_CREATE(real_FC_PACKAGE_HANDLE, ...)*/
+#define REGISTER_FABRIC_CONFIGURATION_PACKAGE_COM_GLOBAL_MOCK_HOOK() \
+    REGISTER_GLOBAL_MOCK_HOOK(COM_WRAPPER_TYPE_CREATE_FC_PACKAGE_HANDLE_IUnknown, COM_WRAPPER_TYPE_CREATE_real_FC_PACKAGE_HANDLE_IUnknown); \
+    REGISTER_GLOBAL_MOCK_HOOK(COM_WRAPPER_TYPE_CREATE_FC_PACKAGE_HANDLE_IFabricConfigurationPackage, COM_WRAPPER_TYPE_CREATE_real_FC_PACKAGE_HANDLE_IFabricConfigurationPackage); \
+    REGISTER_GLOBAL_MOCK_HOOK(COM_WRAPPER_TYPE_GET_WRAPPED_HANDLE_FC_PACKAGE_HANDLE_IUnknown, COM_WRAPPER_TYPE_GET_WRAPPED_HANDLE_real_FC_PACKAGE_HANDLE_IUnknown); \
+    REGISTER_GLOBAL_MOCK_HOOK(COM_WRAPPER_TYPE_GET_WRAPPED_HANDLE_FC_PACKAGE_HANDLE_IFabricConfigurationPackage, COM_WRAPPER_TYPE_GET_WRAPPED_HANDLE_real_FC_PACKAGE_HANDLE_IFabricConfigurationPackage);
+
+typedef struct FC_PACKAGE_TAG* real_FC_PACKAGE_HANDLE;
+
+DECLARE_COM_WRAPPER_OBJECT(real_FC_PACKAGE_HANDLE, FC_PACKAGE_HANDLE_INTERFACES);
+
+#endif //REAL_FC_PACKAGE_COM_H

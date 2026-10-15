@@ -28,6 +28,10 @@
 #include "real_fabric_string_list_result.h"
 #include "real_fc_erd_argc_argv.h"
 #include "real_fc_erdl_argc_argv.h"
+#include "real_fc_package_com.h"
+#include "real_fc_activation_context_com.h"
+#include "real_fabric_string_list_result_com.h"
+#include "real_configuration_reader.h"
 
 #include "sf_c_util/hresult_to_string.h"
 #include "sf_c_util/fc_parameter_argc_argv.h"
@@ -41,5 +45,9 @@
 #include "sf_c_util/fabric_string_list_result.h"
 #include "sf_c_util/fc_erd_argc_argv.h"
 #include "sf_c_util/fc_erdl_argc_argv.h"
+#include "sf_c_util/fc_package_com.h"
+#include "sf_c_util/fc_activation_context_com.h"
+#include "sf_c_util/fabric_string_list_result_com.h"
+#include "sf_c_util/configuration_reader.h"
 
 #endif // SF_C_UTIL_REALS_UT_PCH_H

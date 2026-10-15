@@ -15,6 +15,10 @@ set(sf_c_util_reals_c_files
     real_fabric_string_list_result.c
     real_fc_erd_argc_argv.c
     real_fc_erdl_argc_argv.c
+    real_fc_package_com.c
+    real_fc_activation_context_com.c
+    real_fabric_string_list_result_com.c
+    real_configuration_reader.c
 )
 
 set(sf_c_util_reals_h_files
@@ -53,6 +57,21 @@ set(sf_c_util_reals_h_files
 
     real_fc_erdl_argc_argv.h
     real_fc_erdl_argc_argv_renames.h
+
+    real_fc_package_com.h
+    real_fc_package_com_renames.h
+
+    real_fc_activation_context_com.h
+    real_fc_activation_context_com_renames.h
+
+    real_fabric_string_list_result_com.h
+    real_fabric_string_list_result_com_renames.h
+
+    real_configuration_reader.h
+    real_configuration_reader_renames.h
+
+    real_sf_service_config.h
+    real_sf_service_config_dependencies_renames.h
 )
 
 #self include this folder
