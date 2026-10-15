@@ -4,6 +4,7 @@
 /*note: "fc_erd_argc_argv" comes from "fabric configuration endpoint resource description" and was shortened because of the build system who is unhappy with such a long filename*/
 
 #include "real_gballoc_hl_renames.h"
+#include "real_string_utils_renames.h" // IWYU pragma: keep
 
 #include "real_common_argc_argv_renames.h" // IWYU pragma: keep
 
