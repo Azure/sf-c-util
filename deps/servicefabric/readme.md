@@ -4,7 +4,9 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
 ## Current version
 
-**Service Fabric 11.4.268-internal** (SF 11 CU4, runtime 11.4.205.1, currently deployed on EBS production clusters).
+Current is "as of 01 Nov 2026".
+
+**Service Fabric 11.9.121-internal**. 
 
 ## Source
 
