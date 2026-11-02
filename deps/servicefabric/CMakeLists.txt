@@ -76,12 +76,22 @@ set_target_properties(FabricRuntime PROPERTIES
 add_library(FabricUUID STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUID PROPERTIES
     IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/FabricUUID.lib"
-    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}"
+    # Starting with 11.9.121-internal (x64 and win-arm64) the objects in
+    # FabricUUID.lib and InternalFabricUUID.lib are compiled /Zi and point
+    # to *.StaticLibrary.compile.pdb, which no SF NuGet ships (11.8.121 and
+    # 12.0.997-internal-beta are /Z7 with embedded debug info). Linking with
+    # /DEBUG then raises LNK4099, which /WX promotes to LNK1218. The libs only
+    # hold GUID/IID data, so linking them without debug info loses nothing.
+    # Recheck the size of .debug$T with "dumpbin /headers" on each SF version
+    # bump; drop /IGNORE:4099 once both libs are /Z7 again.
+    INTERFACE_LINK_OPTIONS "/IGNORE:4099")
 
 add_library(FabricUUIDInternal STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUIDInternal PROPERTIES
     IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/InternalFabricUUID.lib"
     INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}"
+    # /IGNORE:4099: same reason as on FabricUUID above.
     # sf-c-util links the retail SF libs in every configuration (no debug
     # SF libs are used, see readme.md). InternalFabricUUID.lib was compiled
     # /MD against the release dynamic CRT and embeds a /DEFAULTLIB:MSVCRT
@@ -95,5 +105,5 @@ set_target_properties(FabricUUIDInternal PROPERTIES
     # consumer that links this target.
     # Recheck with "dumpbin /directives InternalFabricUUID.lib" on each SF
     # version bump; drop this option if the directive disappears.
-    INTERFACE_LINK_OPTIONS "$<$<CONFIG:Debug>:/NODEFAULTLIB:MSVCRT>")
+    INTERFACE_LINK_OPTIONS "/IGNORE:4099;$<$<CONFIG:Debug>:/NODEFAULTLIB:MSVCRT>")
 

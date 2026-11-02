@@ -66,7 +66,8 @@ This is fine for EBS:
 So all EBS configurations (Debug, RelWithDebInfo, Release) link the retail libs. The CMake target naming is also collapsed accordingly: there's only `FabricClient`, not `FabricClient` + `FabricClientD`. Consumers should link the four targets unconditionally rather than using the legacy `debug FabricXD optimized FabricX` idiom.
 
 The one cost is that `InternalFabricUUID.lib` embeds `/DEFAULTLIB:MSVCRT`, which conflicts with `/MDd` Debug consumers. `CMakeLists.txt` adds `/NODEFAULTLIB:MSVCRT` in Debug on the `FabricUUIDInternal` target to handle it. On each SF version bump, run `dumpbin /directives` on `InternalFabricUUID.lib` (x64 and win-arm64) and drop that option if the directive is gone (it is still present in 11.9.121-internal).
-## Runtime DLLs
+
+A second cost appeared in 11.9.121-internal: `FabricUUID.lib` and `InternalFabricUUID.lib` are compiled `/Zi` and point to `*.StaticLibrary.compile.pdb`, which no SF NuGet ships (11.8.121 and 12.0.997-internal-beta are `/Z7`). Linking with `/DEBUG` raises LNK4099, so `CMakeLists.txt` adds `/IGNORE:4099` on both targets. On each SF version bump, check `.debug$T` with `dumpbin /headers` (about 100 bytes = `/Zi` reference, several KB = `/Z7`) and drop the option once both libs are `/Z7` again.## Runtime DLLs
 
 Not in the NuGet package and not in this directory. `FabricClient.dll`, `FabricRuntime.dll`, `FabricCommon.dll` etc. are loaded from the host's installed Service Fabric runtime at process start. The pipeline templates that operate the cluster (in the EBS repo under `build/templates/setup_sf_runtime.yml` and friends) assume the agents already have the SF runtime installed.
 
