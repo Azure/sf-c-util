@@ -2,7 +2,7 @@
 
 # Service Fabric native libs/headers from NuGet. See readme.md.
 
-set(SF_NUGET_PKG_VERSION "11.4.268-internal")
+set(SF_NUGET_PKG_VERSION "11.9.121-internal")
 
 if (CMAKE_GENERATOR_PLATFORM STREQUAL "ARM64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64|aarch64|AARCH64)$")
     set(SF_NUGET_PKG_ID "ServiceFabric.NativeLibsHeaders.retail.win-arm64")
@@ -59,46 +59,6 @@ if (NOT EXISTS "${SF_PKG_ROOT}/lib/native/FabricClient.lib")
         "Check packages.config and the ServiceFabric feed authentication.")
 endif()
 
-# Workaround for a bug in the SF-team-published NativeLibsHeaders.retail
-# 11.4.x packages: fabricclient.h declares two methods on the
-# IFabricQueryClient14Vtbl struct (BeginGetFailoverManagerManagerInformation
-# and EndGetFailoverManagerManagerInformation) using a malformed
-# function-pointer syntax. The function-pointer parens around
-# (STDMETHODCALLTYPE * <name>) are missing, and the implicit
-# IFabricQueryClient14 *This first parameter is also missing, so MSVC
-# rejects the whole struct with C2165/C2032 the moment fabricclient.h is
-# pulled in. Other vtable members and the C++ virtual declaration of the
-# same methods are well-formed; the bug appears to be a one-off MIDL/edit
-# regression that surfaced in 11.4.205-internal-rc and persists through
-# 11.4.268-internal. The bug is absent in 11.3.x and earlier.
-#
-# Patch the offending two lines in place after restore so the header
-# parses. sf-c-util does not call these methods (we only QI to
-# IFabricQueryClient10), so the patch is purely about getting the file
-# through cl.exe. Idempotent: after the first run the broken substring
-# is gone, subsequent configure runs find nothing to patch.
-#
-# TODO: drop this workaround once the SF team publishes a fixed package
-# (or we move to a CU that no longer has the bug).
-set(_sf_fabricclient_h "${SF_PKG_ROOT}/content/native/prebuilt/sdk/fabricclient.h")
-if (EXISTS "${_sf_fabricclient_h}")
-    file(READ "${_sf_fabricclient_h}" _sf_fabricclient_contents)
-    set(_sf_patched FALSE)
-    foreach (_sf_method IN ITEMS "BeginGetFailoverManagerManagerInformation" "EndGetFailoverManagerManagerInformation")
-        set(_sf_broken "        HRESULT STDMETHODCALLTYPE * ${_sf_method}(")
-        set(_sf_fixed  "        HRESULT(STDMETHODCALLTYPE * ${_sf_method})(IFabricQueryClient14 * This,")
-        string(FIND "${_sf_fabricclient_contents}" "${_sf_broken}" _sf_idx)
-        if (NOT _sf_idx EQUAL -1)
-            string(REPLACE "${_sf_broken}" "${_sf_fixed}" _sf_fabricclient_contents "${_sf_fabricclient_contents}")
-            set(_sf_patched TRUE)
-        endif()
-    endforeach()
-    if (_sf_patched)
-        message(STATUS "Patched SF-team bug in ${_sf_fabricclient_h} (IFabricQueryClient14 FailoverManagerManager methods)")
-        file(WRITE "${_sf_fabricclient_h}" "${_sf_fabricclient_contents}")
-    endif()
-endif()
-
 set(SF_INC_DIRS
     "${SF_PKG_ROOT}/content/native/prebuilt/sdk"
     "${SF_PKG_ROOT}/content/native/prebuilt/internal")
@@ -116,24 +76,34 @@ set_target_properties(FabricRuntime PROPERTIES
 add_library(FabricUUID STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUID PROPERTIES
     IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/FabricUUID.lib"
-    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}")
+    INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}"
+    # Starting with 11.9.121-internal (x64 and win-arm64) the objects in
+    # FabricUUID.lib and InternalFabricUUID.lib are compiled /Zi and point
+    # to *.StaticLibrary.compile.pdb, which no SF NuGet ships (11.8.121 and
+    # 12.0.997-internal-beta are /Z7 with embedded debug info). Linking with
+    # /DEBUG then raises LNK4099, which /WX promotes to LNK1218. The libs only
+    # hold GUID/IID data, so linking them without debug info loses nothing.
+    # Recheck the size of .debug$T with "dumpbin /headers" on each SF version
+    # bump; drop /IGNORE:4099 once both libs are /Z7 again.
+    INTERFACE_LINK_OPTIONS "/IGNORE:4099")
 
 add_library(FabricUUIDInternal STATIC IMPORTED GLOBAL)
 set_target_properties(FabricUUIDInternal PROPERTIES
     IMPORTED_LOCATION "${SF_PKG_ROOT}/lib/native/InternalFabricUUID.lib"
     INTERFACE_INCLUDE_DIRECTORIES "${SF_INC_DIRS}"
-    # InternalFabricUUID.lib in the SF NativeLibsHeaders.retail packages
-    # was compiled /MD against the release dynamic CRT and embeds a
-    # /DEFAULTLIB:MSVCRT directive. When a consumer is built /MDd
-    # (Debug) the linker sees both MSVCRT and MSVCRTD requested, raises
-    # LNK4098, and any consumer with /WX promotes that to LNK1218.
-    # Tell the linker to ignore MSVCRT default-lib requests in Debug;
-    # the consumer brings MSVCRTD in via its own /MDd compile flag.
+    # /IGNORE:4099: same reason as on FabricUUID above.
+    # sf-c-util links the retail SF libs in every configuration (no debug
+    # SF libs are used, see readme.md). InternalFabricUUID.lib was compiled
+    # /MD against the release dynamic CRT and embeds a /DEFAULTLIB:MSVCRT
+    # directive (still present in 11.9.121-internal, x64 and win-arm64).
+    # When a consumer is built /MDd (Debug) the linker sees both MSVCRT and
+    # MSVCRTD requested, raises LNK4098, and any consumer with /WX promotes
+    # that to LNK1218. Tell the linker to ignore MSVCRT default-lib requests
+    # in Debug; the consumer brings MSVCRTD in via its own /MDd compile flag.
     # Release/RelWithDebInfo are unaffected (consumer is /MD = MSVCRT,
     # matching what the lib asks for). The flag propagates to every
-    # consumer that link this target.
-    # TODO: remove once SF publishes a NativeLibsHeaders.debug variant
-    # for the win-arm64 / 11.4 line, or a NativeLibsHeaders.retail that
-    # stops shipping a /DEFAULTLIB:MSVCRT directive in the lib.
-    INTERFACE_LINK_OPTIONS "$<$<CONFIG:Debug>:/NODEFAULTLIB:MSVCRT>")
+    # consumer that links this target.
+    # Recheck with "dumpbin /directives InternalFabricUUID.lib" on each SF
+    # version bump; drop this option if the directive disappears.
+    INTERFACE_LINK_OPTIONS "/IGNORE:4099;$<$<CONFIG:Debug>:/NODEFAULTLIB:MSVCRT>")
 
