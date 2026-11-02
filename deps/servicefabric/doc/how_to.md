@@ -1,5 +1,7 @@
 Copyright (C) Microsoft Corporation. All rights reserved.
 
+> **Historical.** sf-c-util no longer uses debug SF libs; it links the retail NuGet libs in every configuration (see [../readme.md](../readme.md)). This procedure is not needed for the build and is kept only as a record.
+
 This file contains the instructions on how to get binaries from SF build knowing a git version tag.
 
 v11.1.0 seems to be (21 Apr 2025) the most advanced. 

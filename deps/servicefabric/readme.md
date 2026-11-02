@@ -55,9 +55,9 @@ We can't use it because it deliberately excludes `InternalFabricUUID.lib`. That 
 
 So we pick the bigger `NativeLibsHeaders.retail` family because it's the only one of the two that ships `InternalFabricUUID.lib` and the matching internal headers (`fabricruntime_.h` etc., placed under `content/native/prebuilt/internal/`). The downside is the size (~33 MB per arch instead of ~310 KB) and that it's an off-label "JNI" package rather than the SF team's intended C++ SDK package - so it has no formal supportability contract. If the SF team ever publishes a properly-named native SDK NuGet that includes the internal libs, that would be the natural place to migrate to.
 
-## Why no debug binaries
+## Retail SF libs in every configuration
 
-The SF team only publishes retail flavors to NuGet. The `ServiceFabric.NativeLibsHeaders.debug` package was abandoned in 2024 and an ARM64 debug equivalent never existed. Debug-flavored libs are still produced internally and end up on the reddog drop (see [how_to.md](doc/how_to.md) for the manual pull procedure, kept around just in case), but they're not on any feed.
+We deliberately link the retail SF libs in every configuration and do not look for debug SF libs. The SF team only publishes retail flavors to NuGet: the `ServiceFabric.NativeLibsHeaders.debug` package was abandoned in 2024 (last version `10.1.1951-internal`) and an ARM64 debug equivalent never existed.
 
 This is fine for EBS:
 - `FabricClient.lib` and `FabricRuntime.lib` are tiny import libs (~4 KB and ~12 KB on x64). Their content is byte-identical between debug and retail builds.
@@ -65,6 +65,7 @@ This is fine for EBS:
 
 So all EBS configurations (Debug, RelWithDebInfo, Release) link the retail libs. The CMake target naming is also collapsed accordingly: there's only `FabricClient`, not `FabricClient` + `FabricClientD`. Consumers should link the four targets unconditionally rather than using the legacy `debug FabricXD optimized FabricX` idiom.
 
+The one cost is that `InternalFabricUUID.lib` embeds `/DEFAULTLIB:MSVCRT`, which conflicts with `/MDd` Debug consumers. `CMakeLists.txt` adds `/NODEFAULTLIB:MSVCRT` in Debug on the `FabricUUIDInternal` target to handle it. On each SF version bump, run `dumpbin /directives` on `InternalFabricUUID.lib` (x64 and win-arm64) and drop that option if the directive is gone (it is still present in 11.9.121-internal).
 ## Runtime DLLs
 
 Not in the NuGet package and not in this directory. `FabricClient.dll`, `FabricRuntime.dll`, `FabricCommon.dll` etc. are loaded from the host's installed Service Fabric runtime at process start. The pipeline templates that operate the cluster (in the EBS repo under `build/templates/setup_sf_runtime.yml` and friends) assume the agents already have the SF runtime installed.
