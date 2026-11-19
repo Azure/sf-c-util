@@ -433,23 +433,24 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 #define SF_SERVICE_CONFIG_IS_TYPE_SKIP_SKIP 0
 #define SF_SERVICE_CONFIG_IS_TYPE_SKIP(type) MU_IF(MU_C2(SF_SERVICE_CONFIG_IS_TYPE_SKIP_, type), 0, 1)
 
+// values is the name of the parameter of the generated _read_all_config_values function that receives the values read, handle provides the activation_context and the names
 #define SF_SERVICE_CONFIG_DO_READ_REQUIRED(handle, field_type, field_name) \
     MU_IF(SF_SERVICE_CONFIG_IS_TYPE_SKIP(field_type),, \
-        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), handle->field_name, error_occurred, 1) \
+        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), (values)->field_name, error_occurred, 1) \
     )
 #define SF_SERVICE_CONFIG_DO_READ_OPTIONAL(handle, field_type, field_name) \
     MU_IF(SF_SERVICE_CONFIG_IS_TYPE_SKIP(field_type),, \
-        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), handle->field_name, error_occurred, 0) \
+        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), (values)->field_name, error_occurred, 0) \
     )
 #define SF_SERVICE_CONFIG_DO_READ_EITHER(handle, field_type, field_name, is_required, no_logging) \
     MU_IF(SF_SERVICE_CONFIG_IS_TYPE_SKIP(field_type),, \
-        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), handle->field_name, error_occurred, is_required, no_logging) \
+        MU_C2(SF_SERVICE_CONFIG_DO_READ_, field_type)(handle, field_name, SF_SERVICE_CONFIG_PARAMETER_NAME(field_name), (values)->field_name, error_occurred, is_required, no_logging) \
     )
 
 #define SF_SERVICE_CONFIG_DO_READ(handle, config) SF_SERVICE_CONFIG_EXPAND_MACRO_HELPER(SF_SERVICE_CONFIG_DO_READ_EITHER, handle, SF_SERVICE_CONFIG_EXPAND_PARAM_WITH_REQUIRED_FLAG(config))
 
 #define SF_SERVICE_CONFIG_DEFINE_CREATE(name, sf_config_name, sf_parameters_section_name, ...) \
-    static int MU_C2(name, _read_all_config_values)(SF_SERVICE_CONFIG(name)* handle) \
+    static int MU_C2(name, _read_all_config_values)(const SF_SERVICE_CONFIG(name)* handle, SF_SERVICE_CONFIG(name)* values) \
     { \
         int result; \
         bool error_occurred = false; \
@@ -458,7 +459,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
         if (error_occurred) \
         { \
             /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
-            MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(handle); \
+            MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(values); \
             result = MU_FAILURE; \
         } \
         else \
@@ -499,7 +500,7 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
                 temp_config_obj->sf_config_name_string = sf_config_name; \
                 temp_config_obj->sf_parameters_section_name_string = sf_parameters_section_name; \
                 \
-                if (MU_C2(name, _read_all_config_values)(temp_config_obj) != 0) \
+                if (MU_C2(name, _read_all_config_values)(temp_config_obj, temp_config_obj) != 0) \
                 { \
                     /*Codes_SRS_SF_SERVICE_CONFIG_42_034: [ If there are any errors then SF_SERVICE_CONFIG_CREATE(name) shall fail and return NULL. ]*/ \
                 } \
@@ -634,14 +635,14 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Refresh function
 
-#define SF_SERVICE_CONFIG_MOVE_FIELD__Bool(handle, source, field_name) handle->field_name = source->field_name
-#define SF_SERVICE_CONFIG_MOVE_FIELD_double(handle, source, field_name) handle->field_name = source->field_name
-#define SF_SERVICE_CONFIG_MOVE_FIELD_uint8_t(handle, source, field_name) handle->field_name = source->field_name
-#define SF_SERVICE_CONFIG_MOVE_FIELD_uint32_t(handle, source, field_name) handle->field_name = source->field_name
-#define SF_SERVICE_CONFIG_MOVE_FIELD_uint64_t(handle, source, field_name) handle->field_name = source->field_name
-#define SF_SERVICE_CONFIG_MOVE_FIELD_char_ptr(handle, source, field_name) handle->field_name = source->field_name; source->field_name = NULL
-#define SF_SERVICE_CONFIG_MOVE_FIELD_wchar_ptr(handle, source, field_name) handle->field_name = source->field_name; source->field_name = NULL
-#define SF_SERVICE_CONFIG_MOVE_FIELD_thandle_rc_string(handle, source, field_name) THANDLE_INITIALIZE_MOVE(RC_STRING)(&handle->field_name, &source->field_name)
+#define SF_SERVICE_CONFIG_MOVE_FIELD__Bool(handle, source, field_name) do { (handle)->field_name = (source)->field_name; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_double(handle, source, field_name) do { (handle)->field_name = (source)->field_name; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_uint8_t(handle, source, field_name) do { (handle)->field_name = (source)->field_name; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_uint32_t(handle, source, field_name) do { (handle)->field_name = (source)->field_name; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_uint64_t(handle, source, field_name) do { (handle)->field_name = (source)->field_name; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_char_ptr(handle, source, field_name) do { (handle)->field_name = (source)->field_name; (source)->field_name = NULL; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_wchar_ptr(handle, source, field_name) do { (handle)->field_name = (source)->field_name; (source)->field_name = NULL; } while (0)
+#define SF_SERVICE_CONFIG_MOVE_FIELD_thandle_rc_string(handle, source, field_name) do { THANDLE_INITIALIZE_MOVE(RC_STRING)(&(handle)->field_name, &(source)->field_name); } while (0)
 
 // source is the name of the parameter of the generated _move_fields function, MU_FOR_EACH_1_KEEP_1 can only pass handle
 #define SF_SERVICE_CONFIG_DO_MOVE_FIELD(handle, field) \
@@ -667,11 +668,8 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             /*Codes_SRS_SF_SERVICE_CONFIG_88_010: [ SF_SERVICE_CONFIG_REFRESH(name) shall acquire the exclusive SRW lock by calling srw_lock_ll_acquire_exclusive. ]*/ \
             srw_lock_ll_acquire_exclusive(&handle_obj->lock); \
             SF_SERVICE_CONFIG(name) new_values = { 0 }; \
-            new_values.activation_context = handle_obj->activation_context; \
-            new_values.sf_config_name_string = handle_obj->sf_config_name_string; \
-            new_values.sf_parameters_section_name_string = handle_obj->sf_parameters_section_name_string; \
             /*Codes_SRS_SF_SERVICE_CONFIG_02_001: [ SF_SERVICE_CONFIG_REFRESH(name) shall read all configuration values from the activation_context into a temporary SF_SERVICE_CONFIG(name). ]*/ \
-            if (MU_C2(name, _read_all_config_values)(&new_values) != 0) \
+            if (MU_C2(name, _read_all_config_values)(handle_obj, &new_values) != 0) \
             { \
                 /*Codes_SRS_SF_SERVICE_CONFIG_02_002: [ If reading any configuration value fails then SF_SERVICE_CONFIG_REFRESH(name) shall keep the existing configuration values, release the exclusive SRW lock and return a non-zero value. ]*/ \
                 LogError("Failed to re-read configuration values (sf_config_name=%ls, sf_parameters_section_name=%ls), keeping the existing values", \
