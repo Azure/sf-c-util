@@ -634,7 +634,24 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
 
 // Refresh function
 
+#define SF_SERVICE_CONFIG_MOVE_FIELD__Bool(handle, source, field_name) handle->field_name = source->field_name
+#define SF_SERVICE_CONFIG_MOVE_FIELD_double(handle, source, field_name) handle->field_name = source->field_name
+#define SF_SERVICE_CONFIG_MOVE_FIELD_uint8_t(handle, source, field_name) handle->field_name = source->field_name
+#define SF_SERVICE_CONFIG_MOVE_FIELD_uint32_t(handle, source, field_name) handle->field_name = source->field_name
+#define SF_SERVICE_CONFIG_MOVE_FIELD_uint64_t(handle, source, field_name) handle->field_name = source->field_name
+#define SF_SERVICE_CONFIG_MOVE_FIELD_char_ptr(handle, source, field_name) handle->field_name = source->field_name; source->field_name = NULL
+#define SF_SERVICE_CONFIG_MOVE_FIELD_wchar_ptr(handle, source, field_name) handle->field_name = source->field_name; source->field_name = NULL
+#define SF_SERVICE_CONFIG_MOVE_FIELD_thandle_rc_string(handle, source, field_name) THANDLE_INITIALIZE_MOVE(RC_STRING)(&handle->field_name, &source->field_name)
+
+// source is the name of the parameter of the generated _move_fields function, MU_FOR_EACH_1_KEEP_1 can only pass handle
+#define SF_SERVICE_CONFIG_DO_MOVE_FIELD(handle, field) \
+    MU_C2(SF_SERVICE_CONFIG_MOVE_FIELD_, SF_SERVICE_CONFIG_FIELD_TYPE_FROM_FIELD(field))(handle, source, SF_SERVICE_CONFIG_FIELD_NAME_FROM_FIELD(field));
+
 #define SF_SERVICE_CONFIG_DEFINE_REFRESH(name, ...) \
+    static void MU_C2A(SF_SERVICE_CONFIG(name), _move_fields)(SF_SERVICE_CONFIG(name)* handle, SF_SERVICE_CONFIG(name)* source) \
+    { \
+        MU_FOR_EACH_1_KEEP_1(SF_SERVICE_CONFIG_DO_MOVE_FIELD, handle, __VA_ARGS__) \
+    } \
     int SF_SERVICE_CONFIG_REFRESH(name)(THANDLE(SF_SERVICE_CONFIG(name)) handle) \
     { \
         int result; \
@@ -649,17 +666,24 @@ typedef THANDLE(RC_STRING) thandle_rc_string;
             SF_SERVICE_CONFIG(name)* handle_obj = THANDLE_GET_T(SF_SERVICE_CONFIG(name))(handle); \
             /*Codes_SRS_SF_SERVICE_CONFIG_88_010: [ SF_SERVICE_CONFIG_REFRESH(name) shall acquire the exclusive SRW lock by calling srw_lock_ll_acquire_exclusive. ]*/ \
             srw_lock_ll_acquire_exclusive(&handle_obj->lock); \
-            /*Codes_SRS_SF_SERVICE_CONFIG_88_011: [ SF_SERVICE_CONFIG_REFRESH(name) shall clean up the existing configuration field values. ]*/ \
-            MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(handle_obj); \
-            /*Codes_SRS_SF_SERVICE_CONFIG_88_012: [ SF_SERVICE_CONFIG_REFRESH(name) shall re-read all configuration values from the activation_context. ]*/ \
-            if (MU_C2(name, _read_all_config_values)(handle_obj) != 0) \
+            SF_SERVICE_CONFIG(name) new_values = { 0 }; \
+            new_values.activation_context = handle_obj->activation_context; \
+            new_values.sf_config_name_string = handle_obj->sf_config_name_string; \
+            new_values.sf_parameters_section_name_string = handle_obj->sf_parameters_section_name_string; \
+            /*Codes_SRS_SF_SERVICE_CONFIG_02_001: [ SF_SERVICE_CONFIG_REFRESH(name) shall read all configuration values from the activation_context into a temporary SF_SERVICE_CONFIG(name). ]*/ \
+            if (MU_C2(name, _read_all_config_values)(&new_values) != 0) \
             { \
-                /*Codes_SRS_SF_SERVICE_CONFIG_88_013: [ If re-reading any configuration value fails, SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive lock and return a non-zero value. ]*/ \
-                LogError("Failed to re-read configuration values"); \
+                /*Codes_SRS_SF_SERVICE_CONFIG_02_002: [ If reading any configuration value fails then SF_SERVICE_CONFIG_REFRESH(name) shall keep the existing configuration values, release the exclusive SRW lock and return a non-zero value. ]*/ \
+                LogError("Failed to re-read configuration values (sf_config_name=%ls, sf_parameters_section_name=%ls), keeping the existing values", \
+                    handle_obj->sf_config_name_string, handle_obj->sf_parameters_section_name_string); \
                 result = MU_FAILURE; \
             } \
             else \
             { \
+                /*Codes_SRS_SF_SERVICE_CONFIG_88_011: [ SF_SERVICE_CONFIG_REFRESH(name) shall clean up the existing configuration field values. ]*/ \
+                MU_C2A(SF_SERVICE_CONFIG(name), _cleanup_fields)(handle_obj); \
+                /*Codes_SRS_SF_SERVICE_CONFIG_02_003: [ SF_SERVICE_CONFIG_REFRESH(name) shall move the values read into the handle. ]*/ \
+                MU_C2A(SF_SERVICE_CONFIG(name), _move_fields)(handle_obj, &new_values); \
                 /*Codes_SRS_SF_SERVICE_CONFIG_88_014: [ SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive SRW lock by calling srw_lock_ll_release_exclusive and return 0. ]*/ \
                 result = 0; \
             } \
