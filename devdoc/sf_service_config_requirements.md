@@ -332,16 +332,18 @@ Get the name of the function to refresh the configuration, e.g. `MY_configuratio
 int SF_SERVICE_CONFIG_REFRESH(name)(THANDLE(SF_SERVICE_CONFIG(name)) handle)
 ```
 
-The refresh function re-reads all configuration values from the Service Fabric activation context, updating the stored values. This allows configuration to be updated at runtime without recreating the config handle.
+The refresh function re-reads all configuration values from the Service Fabric activation context, updating the stored values. This allows configuration to be updated at runtime without recreating the config handle. The refresh is all or nothing: if any value cannot be read, the handle keeps all of its existing values.
 
 **SRS_SF_SERVICE_CONFIG_88_009: [** If `handle` is `NULL` then `SF_SERVICE_CONFIG_REFRESH(name)` shall fail and return a non-zero value. **]**
 
 **SRS_SF_SERVICE_CONFIG_88_010: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall acquire the exclusive SRW lock by calling `srw_lock_ll_acquire_exclusive`. **]**
 
+**SRS_SF_SERVICE_CONFIG_02_001: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall read all configuration values from the `activation_context` into a temporary `SF_SERVICE_CONFIG(name)`. **]**
+
+**SRS_SF_SERVICE_CONFIG_02_002: [** If reading any configuration value fails then `SF_SERVICE_CONFIG_REFRESH(name)` shall keep the existing configuration values, release the exclusive SRW lock and return a non-zero value. **]**
+
 **SRS_SF_SERVICE_CONFIG_88_011: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall clean up the existing configuration field values. **]**
 
-**SRS_SF_SERVICE_CONFIG_88_012: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall re-read all configuration values from the `activation_context`. **]**
-
-**SRS_SF_SERVICE_CONFIG_88_013: [** If re-reading any configuration value fails, `SF_SERVICE_CONFIG_REFRESH(name)` shall release the exclusive lock and return a non-zero value. **]**
+**SRS_SF_SERVICE_CONFIG_02_003: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall move the values read into the handle. **]**
 
 **SRS_SF_SERVICE_CONFIG_88_014: [** `SF_SERVICE_CONFIG_REFRESH(name)` shall release the exclusive SRW lock by calling `srw_lock_ll_release_exclusive` and return 0. **]**
