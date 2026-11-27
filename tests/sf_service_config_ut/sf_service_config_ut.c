@@ -8,7 +8,8 @@
 CTEST_DECLARE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING);
 CTEST_DEFINE_EQUALITY_ASSERTION_FUNCTIONS_FOR_TYPE(TEST_THANDLE_RC_STRING, );
 RC_STRING_TEST_DECL(
-    empty_string, ""
+    empty_string, "",
+    refreshed_string, "refreshed"
 )
 typedef THANDLE(RC_STRING) thandle_rc_string;
 static const wchar_t* expected_config_package_name = L"default_config";
@@ -1018,8 +1019,9 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_with_NULL_handle_fails)
 }
 
 /*Tests_SRS_SF_SERVICE_CONFIG_88_010: [ SF_SERVICE_CONFIG_REFRESH(name) shall acquire the exclusive SRW lock by calling srw_lock_ll_acquire_exclusive. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_02_001: [ SF_SERVICE_CONFIG_REFRESH(name) shall read all configuration values from the activation_context into a temporary SF_SERVICE_CONFIG(name). ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_88_011: [ SF_SERVICE_CONFIG_REFRESH(name) shall clean up the existing configuration field values. ]*/
-/*Tests_SRS_SF_SERVICE_CONFIG_88_012: [ SF_SERVICE_CONFIG_REFRESH(name) shall re-read all configuration values from the activation_context. ]*/
+/*Tests_SRS_SF_SERVICE_CONFIG_02_003: [ SF_SERVICE_CONFIG_REFRESH(name) shall move the values read into the handle. ]*/
 /*Tests_SRS_SF_SERVICE_CONFIG_88_014: [ SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive SRW lock by calling srw_lock_ll_release_exclusive and return 0. ]*/
 TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_succeeds)
 {
@@ -1029,10 +1031,17 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_succeeds)
     ASSERT_IS_NOT_NULL(config);
     umock_c_reset_all_calls();
 
+    TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(parameter_1) = 4242;
+    TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(string_option) = "refreshed";
+    THANDLE_ASSIGN(real_RC_STRING)(&TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(string_option_in_thandle).x, g.refreshed_string);
+
     STRICT_EXPECTED_CALL(srw_lock_ll_acquire_exclusive(IGNORED_ARG));
-    TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(my_config)();
-    // Re-read all configuration values
     MU_FOR_EACH_1_KEEP_1(TEST_SF_SERVICE_CONFIG_SETUP_EXPECTATION, my_config, MY_CONFIG_TEST_PARAMS);
+    TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(my_config)();
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE_MOVE(RC_STRING)(IGNORED_ARG, IGNORED_ARG)); // string_option_in_thandle
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE_MOVE(RC_STRING)(IGNORED_ARG, IGNORED_ARG)); // string_option_in_thandle_optional
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE_MOVE(RC_STRING)(IGNORED_ARG, IGNORED_ARG)); // a_secret
+    STRICT_EXPECTED_CALL(THANDLE_INITIALIZE_MOVE(RC_STRING)(IGNORED_ARG, IGNORED_ARG)); // another_secret
     STRICT_EXPECTED_CALL(srw_lock_ll_release_exclusive(IGNORED_ARG));
 
     // act
@@ -1041,26 +1050,31 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_succeeds)
     // assert
     ASSERT_ARE_EQUAL(int, 0, result);
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(uint64_t, 4242, SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config));
+    ASSERT_ARE_EQUAL(char_ptr, "refreshed", SF_SERVICE_CONFIG_GETTER(my_config, string_option)(config));
+    THANDLE(RC_STRING) string_option_in_thandle = SF_SERVICE_CONFIG_GETTER(my_config, string_option_in_thandle)(config);
+    ASSERT_ARE_EQUAL(TEST_THANDLE_RC_STRING, g.refreshed_string, string_option_in_thandle);
 
     // cleanup
+    THANDLE_ASSIGN(real_RC_STRING)(&string_option_in_thandle, NULL);
     THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
 }
 
-/*Tests_SRS_SF_SERVICE_CONFIG_88_013: [ If re-reading any configuration value fails, SF_SERVICE_CONFIG_REFRESH(name) shall release the exclusive lock and return a non-zero value. ]*/
-TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_re_read_fails_releases_lock_and_returns_failure)
+/*Tests_SRS_SF_SERVICE_CONFIG_02_002: [ If reading any configuration value fails then SF_SERVICE_CONFIG_REFRESH(name) shall keep the existing configuration values, release the exclusive SRW lock and return a non-zero value. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_first_read_fails_keeps_existing_values_and_fails)
 {
     // arrange
     TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
     THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
     ASSERT_IS_NOT_NULL(config);
+    uint64_t parameter_1_before = SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config);
+    const char* string_option_before = SF_SERVICE_CONFIG_GETTER(my_config, string_option)(config);
     umock_c_reset_all_calls();
 
     STRICT_EXPECTED_CALL(srw_lock_ll_acquire_exclusive(IGNORED_ARG));
-    TEST_SF_SERVICE_CONFIG_EXPECT_FREE_STRINGS(my_config)();
-    // Make the first config read fail
     STRICT_EXPECTED_CALL(configuration_reader_get_uint64_t(IGNORED_ARG, IGNORED_ARG, IGNORED_ARG, IGNORED_ARG, IGNORED_ARG))
         .SetReturn(MU_FAILURE);
-    // After failure, remaining thandle_rc_string fields still get initialized to NULL
+    // After failure, remaining thandle_rc_string fields of the temporary still get initialized to NULL
     STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // string_option_in_thandle
     STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // string_option_in_thandle_optional
     STRICT_EXPECTED_CALL(THANDLE_INITIALIZE(RC_STRING)(IGNORED_ARG, NULL)); // a_secret
@@ -1073,8 +1087,44 @@ TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_re_read_fails_releases_lock_and_ret
     // assert
     ASSERT_ARE_NOT_EQUAL(int, 0, result);
     ASSERT_ARE_EQUAL(char_ptr, umock_c_get_expected_calls(), umock_c_get_actual_calls());
+    ASSERT_ARE_EQUAL(uint64_t, parameter_1_before, SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config));
+    ASSERT_ARE_EQUAL(void_ptr, string_option_before, SF_SERVICE_CONFIG_GETTER(my_config, string_option)(config));
 
     // cleanup
+    THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
+}
+
+/*Tests_SRS_SF_SERVICE_CONFIG_02_002: [ If reading any configuration value fails then SF_SERVICE_CONFIG_REFRESH(name) shall keep the existing configuration values, release the exclusive SRW lock and return a non-zero value. ]*/
+TEST_FUNCTION(SF_SERVICE_CONFIG_REFRESH_when_a_late_read_fails_keeps_existing_values_and_fails)
+{
+    // arrange
+    TEST_SF_SERVICE_CONFIG_EXPECT_ALL_READ(my_config)();
+    THANDLE(SF_SERVICE_CONFIG(my_config)) config = SF_SERVICE_CONFIG_CREATE(my_config)(TEST_SF_SERVICE_CONFIG_ACTIVATION_CONTEXT(my_config));
+    ASSERT_IS_NOT_NULL(config);
+    uint64_t parameter_1_before = SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config);
+    const char* string_option_before = SF_SERVICE_CONFIG_GETTER(my_config, string_option)(config);
+    THANDLE(RC_STRING) string_option_in_thandle_before = SF_SERVICE_CONFIG_GETTER(my_config, string_option_in_thandle)(config);
+    umock_c_reset_all_calls();
+
+    // everything before a_secret_char_ptr is read into the temporary with new values, then the required a_secret_char_ptr is missing
+    TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(parameter_1) = 4242;
+    TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(string_option) = "refreshed";
+    THANDLE_ASSIGN(real_RC_STRING)(&TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(string_option_in_thandle).x, g.refreshed_string);
+    TEST_SF_SERVICE_CONFIG_VALUE_TO_RETURN(a_secret_char_ptr) = NULL;
+
+    // act
+    int result = SF_SERVICE_CONFIG_REFRESH(my_config)(config);
+
+    // assert
+    ASSERT_ARE_NOT_EQUAL(int, 0, result);
+    ASSERT_ARE_EQUAL(uint64_t, parameter_1_before, SF_SERVICE_CONFIG_GETTER(my_config, parameter_1)(config));
+    ASSERT_ARE_EQUAL(void_ptr, string_option_before, SF_SERVICE_CONFIG_GETTER(my_config, string_option)(config));
+    THANDLE(RC_STRING) string_option_in_thandle_after = SF_SERVICE_CONFIG_GETTER(my_config, string_option_in_thandle)(config);
+    ASSERT_ARE_EQUAL(void_ptr, string_option_in_thandle_before, string_option_in_thandle_after);
+
+    // cleanup
+    THANDLE_ASSIGN(real_RC_STRING)(&string_option_in_thandle_after, NULL);
+    THANDLE_ASSIGN(real_RC_STRING)(&string_option_in_thandle_before, NULL);
     THANDLE_ASSIGN(SF_SERVICE_CONFIG(my_config))(&config, NULL);
 }
 
